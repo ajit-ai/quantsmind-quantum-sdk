@@ -1,0 +1,80 @@
+# Changelog
+
+All notable changes to this project are documented here.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/)
+once it reaches 1.0.0 (see `docs/versioning-policy.md`).
+
+## [R0.2.0] - 2026-07-29
+
+### Added
+- Full Foundation Package specification at
+  `docs/foundation-specification/`: module descriptions for all 26
+  `foundation` modules; complete class specifications (attributes,
+  properties, behaviors, method contracts, private helpers, lifecycle,
+  events, exceptions, interfaces, validation, serialization, thread
+  safety, logging, metrics, tests, documentation) for `Entity`,
+  `System`, `State`, `Interaction`, and the 13 supporting concept
+  classes.
+- Nine new infrastructure module specs: `interfaces.py`,
+  `protocols.py`, `enums.py`, `validators.py`, `serializers.py`,
+  `factories.py`, `exceptions.py`, `constants.py`, `types.py`.
+- SDK-wide `EventType` catalog and `EventBus` contract
+  (`07-events.md`).
+- Full `QuantsMindError` exception hierarchy
+  (`06-exceptions-and-utilities.md`).
+- Cross-cutting validation and serialization strategy
+  (`08-validation-and-serialization-strategy.md`).
+- UML: package, class, sequence, and dependency diagrams in Mermaid
+  (`09-uml.md`).
+- Testing strategy: positive/negative/boundary/validation/
+  serialization/performance scenario catalog per class
+  (`10-testing-strategy.md`).
+- Documentation structure and completeness gate
+  (`11-documentation-structure.md`).
+- Foundation-package-specific implementation roadmap
+  (`12-roadmap.md`), sequencing R0.2.1–R0.2.7 and the first domain
+  consumer (`quantum`) at R0.3.0.
+- ADR 0002: Foundation Package Full Specification.
+
+### Notes
+Still specification-only — **no implementation code**. This release
+supersedes the bare `ABC` skeletons shipped in R0.1.0 with an
+implementable design suitable for another engineer or AI to build
+from directly.
+
+## [R0.1.0] - 2026-07-28
+
+### Added
+- Initial repository foundation: full directory structure per
+  `docs/architecture-overview.md`.
+- 26 top-level packages under `src/quantsmind/` with `__init__.py` and
+  `README.md` (Purpose / Responsibility / Dependencies / Future
+  Interfaces / Status / Testing).
+- Foundation ontology interfaces: `Entity`, `System`, `State`,
+  `Interaction`, `Identity`, `Property`, `Attribute`, `Relationship`,
+  `Behaviour`, `Constraint`, `Space`, `Time`, `Event`, `Observation`,
+  `Knowledge`, `Transformation`, `Lifecycle`.
+- Quantum domain interface skeletons: `Qubit`, `Circuit`, `Register`,
+  `Gate`, `Operator`, `Statevector`, `Hamiltonian`, `Measurement`,
+  `Noise`, `Provider`, `Backend`, `Runtime`, `Transpiler`.
+- Math sub-package skeletons: linear algebra, tensor algebra,
+  geometry, probability, statistics, calculus, optimization, graph
+  theory, complex numbers, numerical methods.
+- Documentation set: architecture overview, developer guide,
+  contribution guide, coding/naming standards, versioning policy,
+  release strategy, package dependency rules, API design principles,
+  documentation standards.
+- First Architecture Decision Record (ADR 0001: Foundation Ontology).
+- Testing scaffolding: `tests/{unit,integration,regression,performance}`
+  mirroring the source package tree.
+- DevOps scaffolding: GitHub Actions CI, Ruff, MyPy, pytest/coverage
+  config, pre-commit hooks.
+- Governance docs: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`,
+  `SECURITY.md`, `LICENSE` (Apache 2.0).
+
+### Notes
+This is an **architecture-only** release. No scientific, quantum, AI,
+optimization, or simulation algorithms are implemented. See
+`ROADMAP.md` for the implementation sequence.

@@ -1,0 +1,10 @@
+# Development dependencies for QuantsMind SDK.
+# Mirrors the [project.optional-dependencies].dev group in pyproject.toml.
+# Prefer `pip install -e ".[dev]"`; this file exists for tooling that
+# expects a flat requirements file (e.g. some CI caches, Dependabot).
+
+ruff>=0.6
+mypy>=1.11
+pytest>=8.3
+pytest-cov>=5.0
+pre-commit>=3.8

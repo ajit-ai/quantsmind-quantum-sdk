@@ -1,0 +1,298 @@
+"""
+Knowledge Constants Module
+
+This module provides constants for the Knowledge package.
+
+Purpose
+-------
+Define constant values for knowledge management operations.
+
+Responsibilities
+----------------
+- Define dataset constants
+- Define metadata constants
+- Define ontology constants
+- Define graph constants
+- Define provenance constants
+- Define reasoning constants
+- Define quality constants
+- Define search constants
+- Define transformation constants
+- Define evidence constants
+
+Dependencies
+------------
+typing (standard library)
+"""
+
+from __future__ import annotations
+
+from typing import Dict, List
+
+
+# Dataset constants
+DEFAULT_DATASET_VERSION = "1.0.0"
+MAX_DATASET_SIZE = 10**12  # 1 trillion records
+DEFAULT_BATCH_SIZE = 1000
+SUPPORTED_DATASET_FORMATS = ["csv", "json", "parquet", "feather", "hdf5", "pickle"]
+
+# Metadata constants
+MAX_METADATA_KEY_LENGTH = 256
+MAX_METADATA_VALUE_LENGTH = 10000
+MAX_TAGS_PER_ITEM = 100
+MAX_LABELS_PER_ITEM = 50
+
+# Ontology constants
+MAX_CONCEPT_DEPTH = 100
+MAX_RELATIONS_PER_CONCEPT = 1000
+DEFAULT_ONTOLOGY_VERSION = "1.0.0"
+SUPPORTED_ONTOLOGY_FORMATS = ["owl", "rdf", "ttl", "nt", "json-ld"]
+
+# Graph constants
+MAX_NODES = 10**8  # 100 million nodes
+MAX_EDGES = 10**9  # 1 billion edges
+MAX_GRAPH_DEPTH = 1000
+DEFAULT_GRAPH_WEIGHT = 1.0
+
+# Provenance constants
+MAX_PROVENANCE_CHAIN_LENGTH = 1000
+DEFAULT_PROVENANCE_RETENTION_DAYS = 365
+MAX_TRANSFORMATION_HISTORY = 10000
+
+# Reasoning constants
+MAX_INFERENCE_DEPTH = 100
+MAX_RULES = 10000
+DEFAULT_CONFIDENCE_THRESHOLD = 0.7
+MAX_EXPLANATION_LENGTH = 10000
+
+# Quality constants
+DEFAULT_QUALITY_THRESHOLD = 0.8
+QUALITY_CHECK_INTERVAL_SECONDS = 3600
+MAX_QUALITY_REPORT_SIZE = 10**6  # 1 MB
+
+# Search constants
+DEFAULT_SEARCH_LIMIT = 100
+MAX_SEARCH_LIMIT = 10000
+DEFAULT_SEARCH_TIMEOUT_SECONDS = 30
+MIN_SEARCH_SCORE = 0.0
+MAX_SEARCH_SCORE = 1.0
+
+# Transformation constants
+MAX_PIPELINE_STEPS = 100
+DEFAULT_TRANSFORMATION_TIMEOUT_SECONDS = 300
+MAX_TRANSFORMATION_MEMORY_MB = 1024
+
+# Evidence constants
+MAX_EVIDENCE_CHAIN_LENGTH = 100
+DEFAULT_EVIDENCE_CONFIDENCE = 0.5
+MAX_HYPOTHESES_PER_THEORY = 1000
+
+# Repository constants
+DEFAULT_REPOSITORY_CACHE_SIZE = 1000
+MAX_REPOSITORY_ITEMS = 10**7  # 10 million items
+DEFAULT_REPOSITORY_TIMEOUT_SECONDS = 60
+
+# Indexing constants
+DEFAULT_INDEX_BATCH_SIZE = 1000
+MAX_INDEX_SIZE = 10**9  # 1 billion documents
+DEFAULT_INDEX_REFRESH_INTERVAL_SECONDS = 60
+
+# Validation constants
+DEFAULT_VALIDATION_STRICTNESS = "strict"
+VALIDATION_STRICTNESS_LEVELS = ["strict", "moderate", "lenient"]
+MAX_VALIDATION_ERRORS = 1000
+
+# Serialization constants
+DEFAULT_SERIALIZATION_FORMAT = "json"
+MAX_SERIALIZED_SIZE = 10**9  # 1 GB
+SERIALIZATION_COMPRESSION_LEVELS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Versioning constants
+DEFAULT_VERSION = "1.0.0"
+MAX_VERSION_HISTORY = 100
+VERSION_INCREMENT_MAJOR = 1
+VERSION_INCREMENT_MINOR = 1
+VERSION_INCREMENT_PATCH = 1
+
+# Lifecycle constants
+LIFECYCLE_STAGES = [
+    "entity",
+    "state",
+    "interaction",
+    "observation",
+    "measurement",
+    "data",
+    "dataset",
+    "information",
+    "knowledge",
+    "reasoning",
+    "prediction",
+    "decision",
+    "action",
+    "evolution",
+]
+
+# Data source constants
+DEFAULT_DATA_SOURCE_TIMEOUT_SECONDS = 30
+MAX_DATA_SOURCE_RETRIES = 3
+DATA_SOURCE_RETRY_DELAY_SECONDS = 1
+
+# Observation constants
+DEFAULT_OBSERVATION_SESSION_TIMEOUT_SECONDS = 3600
+MAX_OBSERVATIONS_PER_SESSION = 100000
+DEFAULT_OBSERVATION_RETENTION_DAYS = 30
+
+# Measurement constants
+DEFAULT_MEASUREMENT_PRECISION = 6
+MAX_MEASUREMENT_HISTORY = 1000000
+DEFAULT_MEASUREMENT_CONFIDENCE = 0.95
+
+# Lineage constants
+MAX_LINEAGE_DEPTH = 1000
+DEFAULT_LINEAGE_RETENTION_DAYS = 365
+MAX_LINEAGE_BRANCHES = 100
+
+# Audit constants
+DEFAULT_AUDIT_RETENTION_DAYS = 730  # 2 years
+MAX_AUDIT_ENTRIES = 10**7  # 10 million entries
+AUDIT_LOG_LEVELS = ["debug", "info", "warning", "error", "critical"]
+
+# Cache constants
+DEFAULT_CACHE_TTL_SECONDS = 3600
+MAX_CACHE_SIZE = 10000
+CACHE_EVICTION_POLICY = "lru"
+
+# Security constants
+DEFAULT_ACCESS_CONTROL = "read-write"
+ACCESS_CONTROL_LEVELS = ["read-only", "read-write", "admin"]
+MAX_SESSION_DURATION_SECONDS = 86400  # 24 hours
+
+# Performance constants
+DEFAULT_THREAD_POOL_SIZE = 4
+MAX_CONCURRENT_OPERATIONS = 100
+DEFAULT_ASYNC_TIMEOUT_SECONDS = 120
+
+# Storage constants
+DEFAULT_STORAGE_CHUNK_SIZE = 1024 * 1024  # 1 MB
+MAX_STORAGE_PATH_LENGTH = 4096
+DEFAULT_STORAGE_COMPRESSION = True
+
+# Network constants
+DEFAULT_NETWORK_TIMEOUT_SECONDS = 30
+MAX_NETWORK_RETRIES = 5
+NETWORK_RETRY_BACKOFF_MULTIPLIER = 2
+
+# Export
+__all__ = [
+    # Dataset constants
+    "DEFAULT_DATASET_VERSION",
+    "MAX_DATASET_SIZE",
+    "DEFAULT_BATCH_SIZE",
+    "SUPPORTED_DATASET_FORMATS",
+    # Metadata constants
+    "MAX_METADATA_KEY_LENGTH",
+    "MAX_METADATA_VALUE_LENGTH",
+    "MAX_TAGS_PER_ITEM",
+    "MAX_LABELS_PER_ITEM",
+    # Ontology constants
+    "MAX_CONCEPT_DEPTH",
+    "MAX_RELATIONS_PER_CONCEPT",
+    "DEFAULT_ONTOLOGY_VERSION",
+    "SUPPORTED_ONTOLOGY_FORMATS",
+    # Graph constants
+    "MAX_NODES",
+    "MAX_EDGES",
+    "MAX_GRAPH_DEPTH",
+    "DEFAULT_GRAPH_WEIGHT",
+    # Provenance constants
+    "MAX_PROVENANCE_CHAIN_LENGTH",
+    "DEFAULT_PROVENANCE_RETENTION_DAYS",
+    "MAX_TRANSFORMATION_HISTORY",
+    # Reasoning constants
+    "MAX_INFERENCE_DEPTH",
+    "MAX_RULES",
+    "DEFAULT_CONFIDENCE_THRESHOLD",
+    "MAX_EXPLANATION_LENGTH",
+    # Quality constants
+    "DEFAULT_QUALITY_THRESHOLD",
+    "QUALITY_CHECK_INTERVAL_SECONDS",
+    "MAX_QUALITY_REPORT_SIZE",
+    # Search constants
+    "DEFAULT_SEARCH_LIMIT",
+    "MAX_SEARCH_LIMIT",
+    "DEFAULT_SEARCH_TIMEOUT_SECONDS",
+    "MIN_SEARCH_SCORE",
+    "MAX_SEARCH_SCORE",
+    # Transformation constants
+    "MAX_PIPELINE_STEPS",
+    "DEFAULT_TRANSFORMATION_TIMEOUT_SECONDS",
+    "MAX_TRANSFORMATION_MEMORY_MB",
+    # Evidence constants
+    "MAX_EVIDENCE_CHAIN_LENGTH",
+    "DEFAULT_EVIDENCE_CONFIDENCE",
+    "MAX_HYPOTHESES_PER_THEORY",
+    # Repository constants
+    "DEFAULT_REPOSITORY_CACHE_SIZE",
+    "MAX_REPOSITORY_ITEMS",
+    "DEFAULT_REPOSITORY_TIMEOUT_SECONDS",
+    # Indexing constants
+    "DEFAULT_INDEX_BATCH_SIZE",
+    "MAX_INDEX_SIZE",
+    "DEFAULT_INDEX_REFRESH_INTERVAL_SECONDS",
+    # Validation constants
+    "DEFAULT_VALIDATION_STRICTNESS",
+    "VALIDATION_STRICTNESS_LEVELS",
+    "MAX_VALIDATION_ERRORS",
+    # Serialization constants
+    "DEFAULT_SERIALIZATION_FORMAT",
+    "MAX_SERIALIZED_SIZE",
+    "SERIALIZATION_COMPRESSION_LEVELS",
+    # Versioning constants
+    "DEFAULT_VERSION",
+    "MAX_VERSION_HISTORY",
+    "VERSION_INCREMENT_MAJOR",
+    "VERSION_INCREMENT_MINOR",
+    "VERSION_INCREMENT_PATCH",
+    # Lifecycle constants
+    "LIFECYCLE_STAGES",
+    # Data source constants
+    "DEFAULT_DATA_SOURCE_TIMEOUT_SECONDS",
+    "MAX_DATA_SOURCE_RETRIES",
+    "DATA_SOURCE_RETRY_DELAY_SECONDS",
+    # Observation constants
+    "DEFAULT_OBSERVATION_SESSION_TIMEOUT_SECONDS",
+    "MAX_OBSERVATIONS_PER_SESSION",
+    "DEFAULT_OBSERVATION_RETENTION_DAYS",
+    # Measurement constants
+    "DEFAULT_MEASUREMENT_PRECISION",
+    "MAX_MEASUREMENT_HISTORY",
+    "DEFAULT_MEASUREMENT_CONFIDENCE",
+    # Lineage constants
+    "MAX_LINEAGE_DEPTH",
+    "DEFAULT_LINEAGE_RETENTION_DAYS",
+    "MAX_LINEAGE_BRANCHES",
+    # Audit constants
+    "DEFAULT_AUDIT_RETENTION_DAYS",
+    "MAX_AUDIT_ENTRIES",
+    "AUDIT_LOG_LEVELS",
+    # Cache constants
+    "DEFAULT_CACHE_TTL_SECONDS",
+    "MAX_CACHE_SIZE",
+    "CACHE_EVICTION_POLICY",
+    # Security constants
+    "DEFAULT_ACCESS_CONTROL",
+    "ACCESS_CONTROL_LEVELS",
+    "MAX_SESSION_DURATION_SECONDS",
+    # Performance constants
+    "DEFAULT_THREAD_POOL_SIZE",
+    "MAX_CONCURRENT_OPERATIONS",
+    "DEFAULT_ASYNC_TIMEOUT_SECONDS",
+    # Storage constants
+    "DEFAULT_STORAGE_CHUNK_SIZE",
+    "MAX_STORAGE_PATH_LENGTH",
+    "DEFAULT_STORAGE_COMPRESSION",
+    # Network constants
+    "DEFAULT_NETWORK_TIMEOUT_SECONDS",
+    "MAX_NETWORK_RETRIES",
+    "NETWORK_RETRY_BACKOFF_MULTIPLIER",
+]
