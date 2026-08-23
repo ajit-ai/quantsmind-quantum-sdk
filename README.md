@@ -66,6 +66,10 @@ See `docs/architecture-overview.md` for the full layering model and
 | `providers` | Vendor-independent hardware/cloud/simulator backend contracts |
 | `simulation` | Generic System-evolution-over-time contracts |
 | `math` | Linear algebra, tensors, geometry, probability, statistics, calculus, optimization primitives, graph theory, complex numbers, numerical methods |
+| `algebra` | Polynomial/matrix/vector/tensor engines |
+| `calculus` | Differentiation, integration, ODE solvers |
+| `numerical` | Root finding, interpolation, curve fitting, error analysis |
+| `statistics` | Probability & distribution engines, statistical analysis |
 | `optimization` | Objective/constraint/solver contracts |
 | `quantum` | Qubit, Circuit, Gate, Operator, Hamiltonian, ... |
 | `physics` | Physical systems domain model |
@@ -75,6 +79,10 @@ See `docs/architecture-overview.md` for the full layering model and
 | `cosmology` | Universe-scale structure/evolution domain model |
 | `finance` | Quantitative finance domain model |
 | `ai` | AI/ML domain model |
+| `ai_reasoning` | AI-assisted mathematical reasoning agents |
+| `ml_math` | Loss/activation functions, feature transforms |
+| `scientific` | Units, constants, coordinates, measurements |
+| `knowledge` | Knowledge graphs, provenance, ontologies |
 | `visualization` | Rendering-agnostic visualization contracts |
 | `datasets` | Dataset discovery/loading contracts |
 | `plugins` | Third-party extension mechanism |
@@ -85,6 +93,7 @@ See `docs/architecture-overview.md` for the full layering model and
 | `io` | File/stream/network I/O contracts |
 | `security` | Auth, credentials, secrets contracts |
 | `telemetry` | Metrics, tracing, observability contracts |
+| `api` | Optional REST API layer (requires `[api]` extra) |
 
 ## Installation (future)
 

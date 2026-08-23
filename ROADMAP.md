@@ -6,7 +6,7 @@ implements one layer at a time, on a stable foundation.
 
 ## R0.1.0 — Architecture Foundation (this release)
 - Complete repository structure
-- All package skeletons (`__init__.py`, `README.md`) for 26 packages
+- All package skeletons (`__init__.py`, `README.md`) for 34 packages
 - Foundation ontology interfaces (Entity, System, State, Interaction, ...)
 - Quantum domain interface skeletons
 - Math sub-package skeletons
