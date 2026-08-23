@@ -73,10 +73,7 @@ class FoundationError(QuantsMindError):
             details: Optional dictionary with additional error context
             error_code: Optional machine-readable error code
         """
-        self.message = message
-        self.details = details or {}
-        self.error_code = error_code
-        super().__init__(self.message)
+        super().__init__(message, details=details, error_code=error_code)
 
     def __str__(self) -> str:
         """Return string representation of the exception."""
