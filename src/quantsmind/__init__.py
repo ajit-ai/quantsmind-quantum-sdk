@@ -5,243 +5,250 @@ A comprehensive mathematical intelligence SDK for scientific computing, optimiza
 statistics, machine learning mathematics, financial mathematics, quantum mathematics,
 AI-assisted reasoning, and simulation.
 
-Version: R0.2.0
+Version: R0.1.0
+
+This package uses lazy attribute access (PEP 562): no subpackage is imported until
+one of its public names is first accessed. This keeps ``import quantsmind`` fast
+and dependency-free — optional integrations such as ``quantsmind.api`` only require
+their third-party dependencies when actually used.
 """
 
 from __future__ import annotations
 
-__version__ = "R0.2.0"
+from typing import TYPE_CHECKING, Any
 
-# Core mathematical framework
-# AI mathematical reasoning engine
-from quantsmind.ai_reasoning import (
-    AlgorithmAdvisor,
-    FormulaGenerator,
-    MathReasoningAgent,
-    ProofAssistant,
-)
+__version__ = "0.1.0"
 
-# Algebra engine
-from quantsmind.algebra import Matrix, Polynomial, PolynomialSolver, SparseMatrix, Tensor, Vector
+if TYPE_CHECKING:  # pragma: no cover - static-analysis surface only
+    from quantsmind.ai_reasoning import (
+        AlgorithmAdvisor,
+        FormulaGenerator,
+        MathReasoningAgent,
+        ProofAssistant,
+    )
+    from quantsmind.algebra import (
+        Matrix,
+        Polynomial,
+        PolynomialSolver,
+        SparseMatrix,
+        Tensor,
+        Vector,
+    )
+    from quantsmind.api import (
+        APIResponse,
+        HealthResponse,
+        MatrixEndpoints,
+        MatrixRequest,
+        OptimizationEndpoints,
+        OptimizationRequest,
+        PolynomialEndpoints,
+        PolynomialRequest,
+        SimulationEndpoints,
+        SimulationRequest,
+    )
+    from quantsmind.calculus import Differentiator, Integrator, ODESolver
+    from quantsmind.core import (
+        Equation,
+        Expression,
+        ExpressionEngine,
+        Formula,
+        MathObject,
+        Parameter,
+        Variable,
+    )
+    from quantsmind.finance.math import (
+        MonteCarloFinanceSimulator,
+        OptionPricer,
+        PortfolioMath,
+        RiskEngine,
+    )
+    from quantsmind.ml_math import (
+        ActivationFunction,
+        CrossEntropyLoss,
+        FeatureTransformer,
+        HingeLoss,
+        HuberLoss,
+        LeakyReLU,
+        LossFunction,
+        MAELoss,
+        MSELoss,
+        Normalization,
+        OneHotEncoder,
+        PolynomialFeatures,
+        ReLU,
+        Sigmoid,
+        Softmax,
+        Standardization,
+        Tanh,
+    )
+    from quantsmind.optimization import (
+        AdamOptimizer,
+        BayesianOptimizer,
+        EvolutionaryOptimizer,
+        GeneticAlgorithm,
+        GradientDescent,
+        GradientOptimizer,
+        LBFGSOptimizer,
+        NewtonMethod,
+        ParticleSwarmOptimizer,
+        SimulatedAnnealing,
+    )
+    from quantsmind.quantum.math import QuantumMatrix, QuantumOperatorMath, QuantumStateMath
+    from quantsmind.simulation import Experiment, SimulationEngine, SimulationResult, Simulator
+    from quantsmind.statistics import (
+        BetaDistribution,
+        BinomialDistribution,
+        DistributionEngine,
+        ExponentialDistribution,
+        GammaDistribution,
+        NormalDistribution,
+        PoissonDistribution,
+        ProbabilityEngine,
+        StatisticalAnalyzer,
+    )
+    from quantsmind.visualization import Plotter
 
-# API layer
-from quantsmind.api import (
-    APIResponse,
-    HealthResponse,
-    MatrixEndpoints,
-    MatrixRequest,
-    OptimizationEndpoints,
-    OptimizationRequest,
-    PolynomialEndpoints,
-    PolynomialRequest,
-    SimulationEndpoints,
-    SimulationRequest,
-    router,
-)
-
-# Calculus engine
-from quantsmind.calculus import Differentiator, Integrator, ODESolver
-from quantsmind.core import (
-    Equation,
-    Expression,
-    ExpressionEngine,
-    Formula,
-    MathObject,
-    Parameter,
-    Variable,
-)
-
-# Financial mathematics engine
-from quantsmind.finance.math import (
-    MonteCarloFinanceSimulator,
-    OptionPricer,
-    PortfolioMath,
-    RiskEngine,
-)
-
-# Machine learning mathematics engine
-from quantsmind.ml_math import (
-    ActivationFunction,
-    FeatureTransformer,
-    LeakyReLU,
-    LossFunction,
-    MAELoss,
-    MSELoss,
-    Normalization,
-    OneHotEncoder,
-    PolynomialFeatures,
-    ReLU,
-    Sigmoid,
-    Softmax,
-    Standardization,
-    Tanh,
-)
-
-# Numerical computing engine
-from quantsmind.numerical import (
-    approximation,
-    curve_fit,
-    error_analysis,
-    extrapolation,
-    interpolation,
-    root_finding,
-)
-
-# Optimization framework
-from quantsmind.optimization import (
-    AdamOptimizer,
-    BayesianOptimizer,
-    EvolutionaryOptimizer,
-    GeneticAlgorithm,
-    GradientDescent,
-    GradientOptimizer,
-    LBFGSOptimizer,
-    NewtonMethod,
-    ParticleSwarmOptimizer,
-    SimulatedAnnealing,
-)
-
-# Quantum mathematics engine
-from quantsmind.quantum.math import QuantumMatrix, QuantumOperatorMath, QuantumStateMath
-
-# Simulation framework
-from quantsmind.simulation import Experiment, SimulationEngine, SimulationResult, Simulator
-
-# Statistics and probability engine
-from quantsmind.statistics import (
-    BetaDistribution,
-    BinomialDistribution,
-    DistributionEngine,
-    ExponentialDistribution,
-    GammaDistribution,
-    NormalDistribution,
-    PoissonDistribution,
-    ProbabilityEngine,
-    StatisticalAnalyzer,
-)
-
-# Utils
-from quantsmind.utils import (
-    chunk_list,
-    clamp,
-    flatten_list,
-    format_number,
-    is_close,
-    safe_division,
-    unique_preserve_order,
-    validate_type,
-)
-
-# Visualization
-from quantsmind.visualization import Plotter
+# Public name -> (source module, attribute). Resolved lazily on first access.
+_LAZY_ATTRS: dict[str, tuple[str, str]] = {
+    # Core
+    "MathObject": ("quantsmind.core", "MathObject"),
+    "Expression": ("quantsmind.core", "Expression"),
+    "Formula": ("quantsmind.core", "Formula"),
+    "Equation": ("quantsmind.core", "Equation"),
+    "Variable": ("quantsmind.core", "Variable"),
+    "Parameter": ("quantsmind.core", "Parameter"),
+    "ExpressionEngine": ("quantsmind.core", "ExpressionEngine"),
+    # Algebra
+    "Polynomial": ("quantsmind.algebra", "Polynomial"),
+    "PolynomialSolver": ("quantsmind.algebra", "PolynomialSolver"),
+    "Matrix": ("quantsmind.algebra", "Matrix"),
+    "Vector": ("quantsmind.algebra", "Vector"),
+    "Tensor": ("quantsmind.algebra", "Tensor"),
+    "SparseMatrix": ("quantsmind.algebra", "SparseMatrix"),
+    # Calculus
+    "Differentiator": ("quantsmind.calculus", "Differentiator"),
+    "Integrator": ("quantsmind.calculus", "Integrator"),
+    "ODESolver": ("quantsmind.calculus", "ODESolver"),
+    # Optimization
+    "GradientOptimizer": ("quantsmind.optimization", "GradientOptimizer"),
+    "GradientDescent": ("quantsmind.optimization", "GradientDescent"),
+    "AdamOptimizer": ("quantsmind.optimization", "AdamOptimizer"),
+    "NewtonMethod": ("quantsmind.optimization", "NewtonMethod"),
+    "EvolutionaryOptimizer": ("quantsmind.optimization", "EvolutionaryOptimizer"),
+    "GeneticAlgorithm": ("quantsmind.optimization", "GeneticAlgorithm"),
+    "ParticleSwarmOptimizer": ("quantsmind.optimization", "ParticleSwarmOptimizer"),
+    "LBFGSOptimizer": ("quantsmind.optimization", "LBFGSOptimizer"),
+    "BayesianOptimizer": ("quantsmind.optimization", "BayesianOptimizer"),
+    "SimulatedAnnealing": ("quantsmind.optimization", "SimulatedAnnealing"),
+    # Numerical (function groups exposed by quantsmind.numerical)
+    "root_finding": ("quantsmind.numerical", "root_finding"),
+    "interpolation": ("quantsmind.numerical", "interpolation"),
+    "extrapolation": ("quantsmind.numerical", "extrapolation"),
+    "curve_fit": ("quantsmind.numerical", "curve_fit"),
+    "approximation": ("quantsmind.numerical", "approximation"),
+    "error_analysis": ("quantsmind.numerical", "error_analysis"),
+    # Statistics
+    "ProbabilityEngine": ("quantsmind.statistics", "ProbabilityEngine"),
+    "StatisticalAnalyzer": ("quantsmind.statistics", "StatisticalAnalyzer"),
+    "DistributionEngine": ("quantsmind.statistics", "DistributionEngine"),
+    "NormalDistribution": ("quantsmind.statistics", "NormalDistribution"),
+    "BinomialDistribution": ("quantsmind.statistics", "BinomialDistribution"),
+    "PoissonDistribution": ("quantsmind.statistics", "PoissonDistribution"),
+    "GammaDistribution": ("quantsmind.statistics", "GammaDistribution"),
+    "BetaDistribution": ("quantsmind.statistics", "BetaDistribution"),
+    "ExponentialDistribution": ("quantsmind.statistics", "ExponentialDistribution"),
+    # ML math
+    "LossFunction": ("quantsmind.ml_math", "LossFunction"),
+    "MSELoss": ("quantsmind.ml_math", "MSELoss"),
+    "MAELoss": ("quantsmind.ml_math", "MAELoss"),
+    "CrossEntropyLoss": ("quantsmind.ml_math", "CrossEntropyLoss"),
+    "HingeLoss": ("quantsmind.ml_math", "HingeLoss"),
+    "HuberLoss": ("quantsmind.ml_math", "HuberLoss"),
+    "ActivationFunction": ("quantsmind.ml_math", "ActivationFunction"),
+    "ReLU": ("quantsmind.ml_math", "ReLU"),
+    "Sigmoid": ("quantsmind.ml_math", "Sigmoid"),
+    "Tanh": ("quantsmind.ml_math", "Tanh"),
+    "Softmax": ("quantsmind.ml_math", "Softmax"),
+    "LeakyReLU": ("quantsmind.ml_math", "LeakyReLU"),
+    "FeatureTransformer": ("quantsmind.ml_math", "FeatureTransformer"),
+    "Normalization": ("quantsmind.ml_math", "Normalization"),
+    "Standardization": ("quantsmind.ml_math", "Standardization"),
+    "OneHotEncoder": ("quantsmind.ml_math", "OneHotEncoder"),
+    "PolynomialFeatures": ("quantsmind.ml_math", "PolynomialFeatures"),
+    # Finance
+    "PortfolioMath": ("quantsmind.finance.math", "PortfolioMath"),
+    "RiskEngine": ("quantsmind.finance.math", "RiskEngine"),
+    "OptionPricer": ("quantsmind.finance.math", "OptionPricer"),
+    "MonteCarloFinanceSimulator": ("quantsmind.finance.math", "MonteCarloFinanceSimulator"),
+    # Quantum math
+    "QuantumMatrix": ("quantsmind.quantum.math", "QuantumMatrix"),
+    "QuantumStateMath": ("quantsmind.quantum.math", "QuantumStateMath"),
+    "QuantumOperatorMath": ("quantsmind.quantum.math", "QuantumOperatorMath"),
+    # AI reasoning
+    "MathReasoningAgent": ("quantsmind.ai_reasoning", "MathReasoningAgent"),
+    "FormulaGenerator": ("quantsmind.ai_reasoning", "FormulaGenerator"),
+    "ProofAssistant": ("quantsmind.ai_reasoning", "ProofAssistant"),
+    "AlgorithmAdvisor": ("quantsmind.ai_reasoning", "AlgorithmAdvisor"),
+    # Simulation
+    "SimulationEngine": ("quantsmind.simulation", "SimulationEngine"),
+    "Simulator": ("quantsmind.simulation", "Simulator"),
+    "SimulationResult": ("quantsmind.simulation", "SimulationResult"),
+    "Experiment": ("quantsmind.simulation", "Experiment"),
+    # Visualization
+    "Plotter": ("quantsmind.visualization", "Plotter"),
+    # API (requires the optional ``api`` extra: pydantic)
+    "PolynomialRequest": ("quantsmind.api", "PolynomialRequest"),
+    "MatrixRequest": ("quantsmind.api", "MatrixRequest"),
+    "OptimizationRequest": ("quantsmind.api", "OptimizationRequest"),
+    "SimulationRequest": ("quantsmind.api", "SimulationRequest"),
+    "APIResponse": ("quantsmind.api", "APIResponse"),
+    "HealthResponse": ("quantsmind.api", "HealthResponse"),
+    "router": ("quantsmind.api", "router"),
+    "PolynomialEndpoints": ("quantsmind.api", "PolynomialEndpoints"),
+    "MatrixEndpoints": ("quantsmind.api", "MatrixEndpoints"),
+    "OptimizationEndpoints": ("quantsmind.api", "OptimizationEndpoints"),
+    "SimulationEndpoints": ("quantsmind.api", "SimulationEndpoints"),
+    # Utils
+    "validate_type": ("quantsmind.utils", "validate_type"),
+    "clamp": ("quantsmind.utils", "clamp"),
+    "safe_division": ("quantsmind.utils", "safe_division"),
+    "format_number": ("quantsmind.utils", "format_number"),
+    "is_close": ("quantsmind.utils", "is_close"),
+    "chunk_list": ("quantsmind.utils", "chunk_list"),
+    "flatten_list": ("quantsmind.utils", "flatten_list"),
+    "unique_preserve_order": ("quantsmind.utils", "unique_preserve_order"),
+}
 
 __all__ = [
     "__version__",
-    # Core
-    "MathObject",
-    "Expression",
-    "Formula",
-    "Equation",
-    "Variable",
-    "Parameter",
-    "ExpressionEngine",
-    # Algebra
-    "Polynomial",
-    "PolynomialSolver",
-    "Matrix",
-    "Vector",
-    "Tensor",
-    "SparseMatrix",
-    # Calculus
-    "Differentiator",
-    "Integrator",
-    "ODESolver",
-    # Optimization
-    "GradientOptimizer",
-    "GradientDescent",
-    "AdamOptimizer",
-    "NewtonMethod",
-    "EvolutionaryOptimizer",
-    "GeneticAlgorithm",
-    "ParticleSwarmOptimizer",
-    "LBFGSOptimizer",
-    "BayesianOptimizer",
-    "SimulatedAnnealing",
-    # Numerical
-    "root_finding",
-    "interpolation",
-    "extrapolation",
-    "curve_fit",
-    "approximation",
-    "error_analysis",
-    # Statistics
-    "ProbabilityEngine",
-    "StatisticalAnalyzer",
-    "DistributionEngine",
-    "NormalDistribution",
-    "BinomialDistribution",
-    "PoissonDistribution",
-    "GammaDistribution",
-    "BetaDistribution",
-    "ExponentialDistribution",
-    # ML Math
-    "LossFunction",
-    "MSELoss",
-    "MAELoss",
-    "CrossEntropyLoss",
-    "HingeLoss",
-    "HuberLoss",
-    "ActivationFunction",
-    "ReLU",
-    "Sigmoid",
-    "Tanh",
-    "Softmax",
-    "LeakyReLU",
-    "FeatureTransformer",
-    "Normalization",
-    "Standardization",
-    "OneHotEncoder",
-    "PolynomialFeatures",
-    # Finance
-    "PortfolioMath",
-    "RiskEngine",
-    "OptionPricer",
-    "MonteCarloFinanceSimulator",
-    # Quantum Math
-    "QuantumMatrix",
-    "QuantumStateMath",
-    "QuantumOperatorMath",
-    # AI Reasoning
-    "MathReasoningAgent",
-    "FormulaGenerator",
-    "ProofAssistant",
-    "AlgorithmAdvisor",
-    # Simulation
-    "SimulationEngine",
-    "Simulator",
-    "SimulationResult",
-    "Experiment",
-    # Visualization
-    "Plotter",
-    # API
-    "PolynomialRequest",
-    "MatrixRequest",
-    "OptimizationRequest",
-    "SimulationRequest",
-    "APIResponse",
-    "HealthResponse",
-    "router",
-    "PolynomialEndpoints",
-    "MatrixEndpoints",
-    "OptimizationEndpoints",
-    "SimulationEndpoints",
-    # Utils
-    "validate_type",
-    "clamp",
-    "safe_division",
-    "format_number",
-    "is_close",
-    "chunk_list",
-    "flatten_list",
-    "unique_preserve_order",
+    *_LAZY_ATTRS,
 ]
+
+
+def __getattr__(name: str) -> Any:
+    """Resolve public names lazily (PEP 562).
+
+    Args:
+        name: Public attribute name listed in ``_LAZY_ATTRS``.
+
+    Returns:
+        The resolved object from its source subpackage.
+
+    Raises:
+        AttributeError: If ``name`` is not part of the public surface.
+    """
+    target = _LAZY_ATTRS.get(name)
+    if target is None:
+        msg = f"module {__name__!r} has no attribute {name!r}"
+        raise AttributeError(msg)
+    import importlib
+
+    module_name, attr_name = target
+    value = getattr(importlib.import_module(module_name), attr_name)
+    globals()[name] = value  # cache so subsequent lookups skip resolution
+    return value
+
+
+def __dir__() -> list[str]:
+    """Expose lazy names to :func:`dir` and IDE completion."""
+    return sorted({*globals(), *_LAZY_ATTRS})

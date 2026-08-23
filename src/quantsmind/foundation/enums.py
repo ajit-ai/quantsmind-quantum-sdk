@@ -41,6 +41,113 @@ from __future__ import annotations
 from enum import Enum, auto
 
 
+class EntityType(Enum):
+    """Enumeration of entity types.
+
+    Classifies entities within the universal ontology so that systems can
+    reason about, group, and validate their participants.
+
+    Attributes:
+        GENERIC: Entity with no specialized classification (default)
+        PHYSICAL: Entity with a classical physical manifestation
+        QUANTUM: Entity governed by quantum mechanics
+        ABSTRACT: Conceptual/mathematical entity without physical form
+        COMPOSITE: Entity composed of other entities
+        VIRTUAL: Simulated or software-defined entity
+
+    Example:
+        >>> entity_type = EntityType.QUANTUM
+        >>> if entity_type == EntityType.QUANTUM:
+        ...     print("Entity follows quantum evolution")
+    """
+
+    GENERIC = auto()
+    PHYSICAL = auto()
+    QUANTUM = auto()
+    ABSTRACT = auto()
+    COMPOSITE = auto()
+    VIRTUAL = auto()
+
+
+class SystemType(Enum):
+    """Enumeration of system types.
+
+    Classifies systems within the universal ontology.
+
+    Attributes:
+        GENERIC: System with no specialized classification (default)
+        PHYSICAL: Classical physical system
+        QUANTUM: Quantum mechanical system
+        BIOLOGICAL: Biological system
+        SOCIAL: Social or economic system
+        HYBRID: Mixed discrete/continuous system
+
+    Example:
+        >>> system_type = SystemType.QUANTUM
+        >>> if system_type == SystemType.QUANTUM:
+        ...     print("System evolves unitarily")
+    """
+
+    GENERIC = auto()
+    PHYSICAL = auto()
+    QUANTUM = auto()
+    BIOLOGICAL = auto()
+    SOCIAL = auto()
+    HYBRID = auto()
+
+
+class InteractionType(Enum):
+    """Enumeration of interaction types.
+
+    Classifies how entities interact within a system.
+
+    Attributes:
+        GENERIC: Unspecified interaction (default)
+        COLLISION: Physical collision between entities
+        FIELD: Mediation via a field
+        EXCHANGE: Exchange of particles, messages, or values
+        CONSTRAINT: Interaction mediated by a constraint
+        OBSERVATION: Measurement-style interaction
+
+    Example:
+        >>> interaction_type = InteractionType.COLLISION
+        >>> if interaction_type == InteractionType.COLLISION:
+        ...     print("Entities exchange momentum")
+    """
+
+    GENERIC = auto()
+    COLLISION = auto()
+    FIELD = auto()
+    EXCHANGE = auto()
+    CONSTRAINT = auto()
+    OBSERVATION = auto()
+
+
+class ObservationType(Enum):
+    """Enumeration of observation types.
+
+    Classifies the manner in which observations are performed.
+
+    Attributes:
+        GENERIC: Unspecified observation (default)
+        MEASUREMENT: Quantitative measurement
+        COUNTING: Discrete counting observation
+        CLASSIFICATION: Categorical assignment
+        CONTINUOUS_MONITOR: Ongoing time-series observation
+
+    Example:
+        >>> observation_type = ObservationType.MEASUREMENT
+        >>> if observation_type == ObservationType.MEASUREMENT:
+        ...     print("Quantitative measurement recorded")
+    """
+
+    GENERIC = auto()
+    MEASUREMENT = auto()
+    COUNTING = auto()
+    CLASSIFICATION = auto()
+    CONTINUOUS_MONITOR = auto()
+
+
 class LifecycleStage(Enum):
     """Enumeration of entity lifecycle stages.
 
@@ -67,10 +174,12 @@ class LifecycleStage(Enum):
     INITIALIZED = auto()
     VALIDATED = auto()
     ACTIVATED = auto()
+    EVOLVING = auto()
     SUSPENDED = auto()
     DEACTIVATED = auto()
     ARCHIVED = auto()
     DESTROYED = auto()
+    DISPOSED = auto()
 
     def can_transition_to(self, target: LifecycleStage) -> bool:
         """Check if transition to target stage is valid.
@@ -401,6 +510,8 @@ class KnowledgeType(Enum):
     RULE = auto()
     FACT = auto()
     HEURISTIC = auto()
+    DESCRIPTIVE = auto()
+    PREDICTIVE = auto()
 
 
 class TransformationType(Enum):
@@ -424,6 +535,7 @@ class TransformationType(Enum):
     LINEAR = auto()
     NONLINEAR = auto()
     STOCHASTIC = auto()
+    COMPOSED = auto()
     CUSTOM = auto()
 
 
@@ -553,6 +665,10 @@ class ConstraintType(Enum):
 
 # Export all enums
 __all__ = [
+    "EntityType",
+    "SystemType",
+    "InteractionType",
+    "ObservationType",
     "LifecycleStage",
     "ConstraintSeverity",
     "RelationshipType",

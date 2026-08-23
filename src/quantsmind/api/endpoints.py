@@ -66,7 +66,7 @@ async def health_check() -> HealthResponse:
     )
 
 
-@router.post("/polynomial", url="/polynomial", response_model=APIResponse)
+@router.post("/polynomial", response_model=APIResponse)
 async def polynomial_operation(request: PolynomialRequest) -> APIResponse:
     """Polynomial operation endpoint.
 
@@ -93,10 +93,10 @@ async def polynomial_operation(request: PolynomialRequest) -> APIResponse:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
-        )
+        ) from e
 
 
-@router.post("/matrix", url="/matrix", response_model=APIResponse)
+@router.post("/matrix", response_model=APIResponse)
 async def matrix_operation(request: MatrixRequest) -> APIResponse:
     """Matrix operation endpoint.
 
@@ -123,10 +123,10 @@ async def matrix_operation(request: MatrixRequest) -> APIResponse:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
-        )
+        ) from e
 
 
-@router.post("/optimization", url="/optimization", response_model=APIResponse)
+@router.post("/optimization", response_model=APIResponse)
 async def optimization_operation(request: OptimizationRequest) -> APIResponse:
     """Optimization operation endpoint.
 
@@ -153,10 +153,10 @@ async def optimization_operation(request: OptimizationRequest) -> APIResponse:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
-        )
+        ) from e
 
 
-@router.post("/simulation", url="/simulation", response_model=APIResponse)
+@router.post("/simulation", response_model=APIResponse)
 async def simulation_operation(request: SimulationRequest) -> APIResponse:
     """Simulation operation endpoint.
 
@@ -183,7 +183,7 @@ async def simulation_operation(request: SimulationRequest) -> APIResponse:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
-        )
+        ) from e
 
 
 class PolynomialEndpoints:
@@ -313,3 +313,4 @@ __all__ = [
     "OptimizationEndpoints",
     "SimulationEndpoints",
 ]
+

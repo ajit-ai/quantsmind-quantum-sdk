@@ -30,6 +30,9 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+api = [
+    "pydantic>=2",
+]
 dev = [
     "ruff>=0.6",
     "mypy>=1.11",
@@ -58,6 +61,11 @@ ignore = []
 
 [tool.ruff.lint.isort]
 known-first-party = ["quantsmind"]
+
+[tool.ruff.lint.per-file-ignores]
+# Top-level __init__ re-declares its public API lazily via PEP 562; the
+# TYPE_CHECKING imports exist purely as the static-analysis surface.
+"src/quantsmind/__init__.py" = ["F401"]
 
 [tool.mypy]
 python_version = "3.13"

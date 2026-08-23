@@ -57,8 +57,8 @@ class EventBus:
 
     Example:
         >>> bus = EventBus()
-        >>> bus.subscribe(EventType.TASK_STARTED, lambda event: print(event))
-        >>> bus.publish(Event(EventType.TASK_STARTED, {"task_id": "task_123"}))
+        >>> bus.subscribe(EventType.ENTITY_CREATED, lambda event: print(event))
+        >>> bus.publish(Event(EventType.ENTITY_CREATED, {"task_id": "task_123"}))
     """
 
     def __init__(self, queue_size: int = DEFAULT_EVENT_QUEUE_SIZE) -> None:
@@ -110,7 +110,7 @@ class EventBus:
             callback: Callback function
 
         Example:
-            >>> bus.subscribe(EventType.TASK_STARTED, lambda event: print(event))
+            >>> bus.subscribe(EventType.ENTITY_CREATED, lambda event: print(event))
         """
         with self._lock:
             if event_type not in self._subscribers:
@@ -129,7 +129,7 @@ class EventBus:
             True if unsubscribed, False otherwise
 
         Example:
-            >>> unsubscribed = bus.unsubscribe(EventType.TASK_STARTED, callback)
+            >>> unsubscribed = bus.unsubscribe(EventType.ENTITY_CREATED, callback)
         """
         with self._lock:
             if event_type in self._subscribers:
@@ -149,7 +149,7 @@ class EventBus:
             EventError: If queue is full
 
         Example:
-            >>> bus.publish(Event(EventType.TASK_STARTED, {"task_id": "task_123"}))
+            >>> bus.publish(Event(EventType.ENTITY_CREATED, {"task_id": "task_123"}))
         """
         try:
             self._event_queue.put(event, timeout=DEFAULT_EVENT_TIMEOUT)
@@ -164,7 +164,7 @@ class EventBus:
             event: Event to publish
 
         Example:
-            >>> bus.publish_sync(Event(EventType.TASK_STARTED, {"task_id": "task_123"}))
+            >>> bus.publish_sync(Event(EventType.ENTITY_CREATED, {"task_id": "task_123"}))
         """
         self._dispatch_event(event)
 

@@ -53,7 +53,7 @@ class Event:
         _metadata: Event metadata
 
     Example:
-        >>> event = Event(EventType.TASK_STARTED, {"task_id": "task_123"})
+        >>> event = Event(EventType.ENTITY_CREATED, {"task_id": "task_123"})
         >>> event.payload["task_id"]
     """
 
@@ -71,7 +71,7 @@ class Event:
             event_id: Optional event identifier
 
         Example:
-            >>> event = Event(EventType.TASK_STARTED, {"task_id": "task_123"})
+            >>> event = Event(EventType.ENTITY_CREATED, {"task_id": "task_123"})
         """
         self._event_id = event_id or str(uuid.uuid4())
         self._event_type = event_type

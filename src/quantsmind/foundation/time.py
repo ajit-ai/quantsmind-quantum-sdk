@@ -82,7 +82,7 @@ class Time(Serializable, Validatable):
         _metadata: Additional metadata
 
     Example:
-        >>> time = Time(time_type=EventType.CONTINUOUS)
+        >>> time = Time(time_type=TimeType.CONTINUOUS)
         >>> print(f"Time: {time.value}")
     """
 

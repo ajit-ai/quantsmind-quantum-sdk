@@ -38,10 +38,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from quantsmind.exceptions import QuantsMindError
+
 
 # Base Foundation Exception
-# This will inherit from QuantsMindError when the exceptions package is implemented
-class FoundationError(Exception):
+class FoundationError(QuantsMindError):
     """Base exception for all Foundation package errors.
 
     This exception serves as the root of the foundation exception hierarchy.
@@ -95,6 +96,17 @@ class FoundationError(Exception):
             "details": self.details,
             "error_code": self.error_code,
         }
+
+
+# Type-related Exceptions
+class FoundationTypeError(FoundationError):
+    """Raised when a value has an unexpected type in foundation operations.
+
+    This occurs when arguments, attributes, or state components do not
+    match their declared foundation types.
+    """
+
+    pass
 
 
 # Entity-related Exceptions
@@ -276,6 +288,16 @@ class ObservationError(EntityError):
     pass
 
 
+class InvalidObservationError(ObservationError):
+    """Raised when an observation is invalid.
+
+    This can occur when the observation's target, quality metadata, or
+    recorded value violates observation invariants.
+    """
+
+    pass
+
+
 # System-related Exceptions
 class SystemError(FoundationError):
     """Base exception for system-related errors.
@@ -311,6 +333,16 @@ class EntityNotFoundError(SystemError):
 
     This occurs when trying to get, modify, or remove an entity that
     does not exist in the system.
+    """
+
+    pass
+
+
+class InvalidSystemError(SystemError):
+    """Raised when a system is invalid for the requested operation.
+
+    This can occur when the system's configuration is malformed, its
+    composition violates invariants, or it is used before initialization.
     """
 
     pass
@@ -697,6 +729,16 @@ class InvalidTransformationError(TransformationError):
     pass
 
 
+class TransformationExecutionError(TransformationError):
+    """Raised when a transformation fails during execution.
+
+    This occurs when the transformation itself is valid but its execution
+    raises an unexpected runtime error.
+    """
+
+    pass
+
+
 class TransformationApplicationError(TransformationError):
     """Raised when transformation application fails.
 
@@ -1050,11 +1092,15 @@ __all__ = [
     "SerializationError",
     "DeserializationError",
     "InvalidDataError",
+    "FoundationTypeError",
     "UnsupportedFormatError",
     "IncompatibleVersionError",
     # Interface
     "InterfaceError",
     "InterfaceNotImplementedError",
+    "InvalidSystemError",
+    "InvalidObservationError",
+    "TransformationExecutionError",
     "InterfaceMethodError",
     # Factory
     "FactoryError",

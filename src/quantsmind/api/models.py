@@ -30,7 +30,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class PolynomialRequest(BaseModel):
@@ -49,8 +49,9 @@ class PolynomialRequest(BaseModel):
     operation: str = Field(..., description="Operation to perform")
     x: float | None = Field(None, description="Evaluation point")
 
-    @validator("operation")
-    def validate_operation(self, v: str) -> str:
+    @field_validator("operation")
+    @classmethod
+    def validate_operation(cls, v: str) -> str:
         """Validate operation type.
 
         Args:
@@ -84,8 +85,9 @@ class MatrixRequest(BaseModel):
     operation: str = Field(..., description="Operation to perform")
     other_data: list[list[float]] | None = Field(None, description="Other matrix data")
 
-    @validator("operation")
-    def validate_operation(self, v: str) -> str:
+    @field_validator("operation")
+    @classmethod
+    def validate_operation(cls, v: str) -> str:
         """Validate operation type.
 
         Args:
@@ -114,17 +116,22 @@ class OptimizationRequest(BaseModel):
         parameters: Additional parameters
 
     Example:
-        >>> request = OptimizationRequest(function="x**2", method="gradient_descent", initial_point=1.0)
+        >>> request = OptimizationRequest(
+        ...     function="x**2", method="gradient_descent", initial_point=1.0
+        ... )
     """
 
     function: str = Field(..., description="Objective function")
     method: str = Field(..., description="Optimization method")
     initial_point: float | None = Field(None, description="Initial point")
     bounds: list[float] | None = Field(None, description="Optimization bounds")
-    parameters: dict[str, Any] | None = Field(default_factory=dict, description="Additional parameters")
+    parameters: dict[str, Any] | None = Field(
+        default_factory=dict, description="Additional parameters"
+    )
 
-    @validator("method")
-    def validate_method(self, v: str) -> str:
+    @field_validator("method")
+    @classmethod
+    def validate_method(cls, v: str) -> str:
         """Validate optimization method.
 
         Args:
@@ -151,15 +158,18 @@ class SimulationRequest(BaseModel):
         steps: Number of simulation steps
 
     Example:
-        >>> request = SimulationRequest(simulator_name="my_sim", parameters={"param": 1.0}, steps=100)
+        >>> request = SimulationRequest(
+        ...     simulator_name="my_sim", parameters={"param": 1.0}, steps=100
+        ... )
     """
 
     simulator_name: str = Field(..., description="Name of simulator")
     parameters: dict[str, Any] = Field(..., description="Simulation parameters")
     steps: int | None = Field(1, description="Number of simulation steps")
 
-    @validator("steps")
-    def validate_steps(self, v: int) -> int:
+    @field_validator("steps")
+    @classmethod
+    def validate_steps(cls, v: int) -> int:
         """Validate number of steps.
 
         Args:
@@ -220,3 +230,4 @@ __all__ = [
     "APIResponse",
     "HealthResponse",
 ]
+

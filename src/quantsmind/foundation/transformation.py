@@ -241,7 +241,7 @@ class Transformation(Serializable, Validatable):
         return Transformation(
             name=f"{self._name}_then_{other._name}",
             rule=composed_rule,
-            transformation_type=TransformationType.COMPOSED,  # type: ignore[attr-defined]
+            transformation_type=TransformationType.COMPOSED,
         )
 
     # Serializable interface implementation

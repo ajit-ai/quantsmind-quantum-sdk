@@ -83,13 +83,13 @@ class Event(Serializable, Validatable):
         _metadata: Additional metadata
 
     Example:
-        >>> event = Event(event_type=EventType.STATE_CHANGE, data={"old": 1, "new": 2})
+        >>> event = Event(event_type=EventType.STATE_CHANGED, data={"old": 1, "new": 2})
         >>> print(f"Event: {event.event_type} at {event.timestamp}")
     """
 
     def __init__(
         self,
-        event_type: EventType = EventType.STATE_CHANGE,
+        event_type: EventType = EventType.STATE_CHANGED,
         timestamp: datetime | None = None,
         data: dict[str, Any] | None = None,
         metadata: MetadataDict | None = None,
@@ -103,7 +103,7 @@ class Event(Serializable, Validatable):
             metadata: Optional metadata dictionary
 
         Example:
-            >>> event = Event(event_type=EventType.STATE_CHANGE, data={"old": 1, "new": 2})
+            >>> event = Event(event_type=EventType.STATE_CHANGED, data={"old": 1, "new": 2})
         """
         self._id: str = str(uuid.uuid4())
         self._event_type: EventType = event_type

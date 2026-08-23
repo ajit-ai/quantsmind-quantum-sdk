@@ -280,7 +280,7 @@ class KnowledgeFactory:
             Transformer object
 
         Example:
-            >>> transformer = factory.create_transformer(TransformationType.MAPPING)
+            >>> transformer = factory.create_transformer(TransformationType.LINEAR)
         """
         from quantsmind.knowledge.transformation.transformation import Transformation
 

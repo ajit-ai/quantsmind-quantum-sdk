@@ -70,7 +70,7 @@ class Transformation:
             metadata: Transformation metadata
 
         Example:
-            >>> transformation = Transformation("trans_001", "normalize", TransformationType.NORMALIZATION)
+            >>> transformation = Transformation("trans_001", "normalize", TransformationType.CUSTOM)
         """
         if not transformation_id:
             raise TransformationError("Transformation ID cannot be empty", {"transformation_id": transformation_id})
