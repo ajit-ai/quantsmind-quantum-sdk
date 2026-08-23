@@ -17,7 +17,14 @@ Modules
 
 from __future__ import annotations
 
-from quantsmind.ml_math.activation_functions import ActivationFunction, LeakyReLU, ReLU, Sigmoid, Softmax, Tanh
+from quantsmind.ml_math.activation_functions import (
+    ActivationFunction,
+    LeakyReLU,
+    ReLU,
+    Sigmoid,
+    Softmax,
+    Tanh,
+)
 from quantsmind.ml_math.feature_transformation import (
     FeatureTransformer,
     Normalization,
@@ -25,7 +32,14 @@ from quantsmind.ml_math.feature_transformation import (
     PolynomialFeatures,
     Standardization,
 )
-from quantsmind.ml_math.loss_functions import CrossEntropyLoss, HingeLoss, HuberLoss, LossFunction, MAELoss, MSELoss
+from quantsmind.ml_math.loss_functions import (
+    CrossEntropyLoss,
+    HingeLoss,
+    HuberLoss,
+    LossFunction,
+    MAELoss,
+    MSELoss,
+)
 
 __all__: list[str] = [
     "LossFunction",

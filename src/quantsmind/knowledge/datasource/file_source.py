@@ -27,7 +27,7 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.enums import DataSourceType
@@ -56,8 +56,8 @@ class FileSource(DataSource):
         file_path: str,
         file_format: str = "csv",
         encoding: str = "utf-8",
-        config: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        config: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a FileSource.
 
@@ -166,15 +166,15 @@ class FileSource(DataSource):
 
         if self._file_format == "csv":
             import csv
-            with open(path, "r", encoding=self._encoding) as f:
+            with open(path, encoding=self._encoding) as f:
                 reader = csv.DictReader(f)
                 return list(reader)
         elif self._file_format == "json":
             import json
-            with open(path, "r", encoding=self._encoding) as f:
+            with open(path, encoding=self._encoding) as f:
                 return json.load(f)
         else:
-            with open(path, "r", encoding=self._encoding) as f:
+            with open(path, encoding=self._encoding) as f:
                 return f.read()
 
     def write(self, data: Any) -> bool:
@@ -246,7 +246,7 @@ class FileSource(DataSource):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

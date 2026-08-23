@@ -25,10 +25,10 @@ quantsmind.quantum.state.quantum_state (quantum state module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.enums import StateType
+from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.types import QubitIndex, ValidationResult
 from quantsmind.quantum.state.quantum_state import QuantumState
 
@@ -52,7 +52,7 @@ class BasisState(QuantumState):
         self,
         num_qubits: int,
         basis_string: str = "0",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BasisState.
 
@@ -163,7 +163,7 @@ class BasisState(QuantumState):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -24,9 +24,8 @@ quantsmind.quantum.algorithms.exceptions (quantum exceptions)
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.quantum.algorithms.enums import StateType
 from quantsmind.quantum.algorithms.exceptions import SerializationError
 
 

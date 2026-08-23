@@ -23,7 +23,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.exceptions import MeasurementError
 from quantsmind.scientific.types import ToleranceValue
@@ -48,7 +48,7 @@ class Tolerance:
         self,
         value: ToleranceValue,
         tolerance_type: str = "absolute",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Tolerance.
 
@@ -95,7 +95,7 @@ class Tolerance:
         return self._type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the tolerance metadata.
 
         Returns:
@@ -106,7 +106,7 @@ class Tolerance:
         """
         return self._metadata.copy()
 
-    def get_range(self, nominal: float) -> Tuple[float, float]:
+    def get_range(self, nominal: float) -> tuple[float, float]:
         """Get the tolerance range for a nominal value.
 
         Args:
@@ -182,7 +182,7 @@ class Tolerance:
         else:  # relative
             return abs(deviation) <= self._value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

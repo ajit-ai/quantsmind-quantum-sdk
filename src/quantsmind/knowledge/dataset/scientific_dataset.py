@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -59,10 +59,10 @@ class ScientificDataset(Dataset):
     def __init__(
         self,
         name: str,
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-        units: Optional[Dict[str, str]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
+        units: dict[str, str] | None = None,
     ) -> None:
         """Initialize a ScientificDataset.
 
@@ -83,13 +83,13 @@ class ScientificDataset(Dataset):
             data=data,
             metadata=metadata,
         )
-        self._measurements: List[MeasurementData] = []
-        self._observations: List[ObservationData] = []
+        self._measurements: list[MeasurementData] = []
+        self._observations: list[ObservationData] = []
         self._units = units or {}
-        self._uncertainties: Dict[str, float] = {}
+        self._uncertainties: dict[str, float] = {}
 
     @property
-    def measurements(self) -> List[MeasurementData]:
+    def measurements(self) -> list[MeasurementData]:
         """Get the measurements.
 
         Returns:
@@ -101,7 +101,7 @@ class ScientificDataset(Dataset):
         return self._measurements.copy()
 
     @property
-    def observations(self) -> List[ObservationData]:
+    def observations(self) -> list[ObservationData]:
         """Get the observations.
 
         Returns:
@@ -113,7 +113,7 @@ class ScientificDataset(Dataset):
         return self._observations.copy()
 
     @property
-    def units(self) -> Dict[str, str]:
+    def units(self) -> dict[str, str]:
         """Get the units.
 
         Returns:
@@ -125,7 +125,7 @@ class ScientificDataset(Dataset):
         return self._units.copy()
 
     @property
-    def uncertainties(self) -> Dict[str, float]:
+    def uncertainties(self) -> dict[str, float]:
         """Get the uncertainties.
 
         Returns:
@@ -157,7 +157,7 @@ class ScientificDataset(Dataset):
         self._measurements.append(measurement)
         self._updated_at = self._updated_at
 
-    def add_measurements(self, measurements: List[MeasurementData]) -> None:
+    def add_measurements(self, measurements: list[MeasurementData]) -> None:
         """Add multiple measurements to the dataset.
 
         Args:
@@ -188,7 +188,7 @@ class ScientificDataset(Dataset):
         self._observations.append(observation)
         self._updated_at = self._updated_at
 
-    def add_observations(self, observations: List[ObservationData]) -> None:
+    def add_observations(self, observations: list[ObservationData]) -> None:
         """Add multiple observations to the dataset.
 
         Args:
@@ -224,7 +224,7 @@ class ScientificDataset(Dataset):
         """
         self._uncertainties[field] = uncertainty
 
-    def get_measurements_by_field(self, field: str) -> List[MeasurementData]:
+    def get_measurements_by_field(self, field: str) -> list[MeasurementData]:
         """Get measurements for a specific field.
 
         Args:
@@ -238,7 +238,7 @@ class ScientificDataset(Dataset):
         """
         return [m for m in self._measurements if field in m]
 
-    def get_observations_by_time_range(self, start: str, end: str) -> List[ObservationData]:
+    def get_observations_by_time_range(self, start: str, end: str) -> list[ObservationData]:
         """Get observations within a time range.
 
         Args:
@@ -257,7 +257,7 @@ class ScientificDataset(Dataset):
             if start <= obs.get("timestamp", "") <= end
         ]
 
-    def calculate_statistics(self, field: str) -> Dict[str, float]:
+    def calculate_statistics(self, field: str) -> dict[str, float]:
         """Calculate statistics for a field.
 
         Args:
@@ -308,7 +308,7 @@ class ScientificDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

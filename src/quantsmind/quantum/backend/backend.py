@@ -24,7 +24,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import BackendType
 from quantsmind.quantum.algorithms.exceptions import BackendError
@@ -55,8 +55,8 @@ class QuantumBackend(IQuantumBackend):
         name: str,
         backend_type: BackendType,
         num_qubits: int,
-        configuration: Optional[BackendConfig] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        configuration: BackendConfig | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumBackend.
 
@@ -131,7 +131,7 @@ class QuantumBackend(IQuantumBackend):
         return self._configuration.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the backend metadata.
 
         Returns:
@@ -153,7 +153,7 @@ class QuantumBackend(IQuantumBackend):
         """
         self._configuration.update(config)
 
-    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> Dict[str, Any]:
+    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> dict[str, Any]:
         """Run a circuit on the backend.
 
         Args:
@@ -197,7 +197,7 @@ class QuantumBackend(IQuantumBackend):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

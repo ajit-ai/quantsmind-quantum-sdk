@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.enums import PrecisionType
 from quantsmind.scientific.exceptions import MeasurementError
@@ -50,7 +50,7 @@ class Precision:
         self,
         value: int,
         precision_type: PrecisionType = PrecisionType.DOUBLE,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Precision.
 
@@ -94,7 +94,7 @@ class Precision:
         return self._type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the precision metadata.
 
         Returns:
@@ -143,7 +143,7 @@ class Precision:
         if value == 0:
             return 0.0
         
-        from math import log10, floor
+        from math import floor, log10
         
         magnitude = floor(log10(abs(value)))
         scale = 10 ** (sig_figs - magnitude - 1)
@@ -185,7 +185,7 @@ class Precision:
         formatted = self.format(value)
         return len(formatted.replace(".", "").replace("-", "").lstrip("0")) <= self._value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

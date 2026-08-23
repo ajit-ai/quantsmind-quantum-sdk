@@ -28,10 +28,8 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import Any, Dict, List, Optional
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
-from quantsmind.runtime.exceptions import ConfigurationError, ValidationError
+from quantsmind.runtime.exceptions import ValidationError
 from quantsmind.runtime.types import ConfigDict, ConfigValue
 
 logger = logging.getLogger(__name__)
@@ -54,7 +52,7 @@ class Configuration:
         >>> value = config.get("timeout")
     """
 
-    def __init__(self, defaults: Optional[ConfigDict] = None) -> None:
+    def __init__(self, defaults: ConfigDict | None = None) -> None:
         """Initialize a Configuration.
 
         Args:
@@ -65,7 +63,7 @@ class Configuration:
         """
         self._config: ConfigDict = {}
         self._defaults = defaults or {}
-        self._validators: Dict[str, List[callable]] = {}
+        self._validators: dict[str, list[callable]] = {}
         self._overrides: ConfigDict = {}
         logger.debug("Created configuration manager")
 
@@ -103,7 +101,7 @@ class Configuration:
         self._config[key] = value
         logger.debug(f"Set configuration: {key}")
 
-    def get(self, key: str, default: Optional[ConfigValue] = None) -> ConfigValue:
+    def get(self, key: str, default: ConfigValue | None = None) -> ConfigValue:
         """Get a configuration value.
 
         Args:

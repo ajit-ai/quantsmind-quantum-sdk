@@ -30,13 +30,12 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ResourceType
-from quantsmind.runtime.exceptions import ResourceAllocationError, ResourceError
+from quantsmind.runtime.exceptions import ResourceError
 from quantsmind.runtime.resource import Resource
-from quantsmind.runtime.types import ResourceAmount, ResourceCapacity, ResourceID
+from quantsmind.runtime.types import ResourceAmount, ResourceID
 
 logger = logging.getLogger(__name__)
 
@@ -63,8 +62,8 @@ class ResourceManager:
         Example:
             >>> manager = ResourceManager()
         """
-        self._resources: Dict[ResourceID, Resource] = {}
-        self._allocations: Dict[str, Dict[ResourceID, ResourceAmount]] = {}
+        self._resources: dict[ResourceID, Resource] = {}
+        self._allocations: dict[str, dict[ResourceID, ResourceAmount]] = {}
         self._lock = threading.Lock()
         logger.debug("Created resource manager")
 
@@ -117,7 +116,7 @@ class ResourceManager:
                 return True
         return False
 
-    def get_resource(self, resource_id: ResourceID) -> Optional[Resource]:
+    def get_resource(self, resource_id: ResourceID) -> Resource | None:
         """Get a resource by ID.
 
         Args:
@@ -132,7 +131,7 @@ class ResourceManager:
         with self._lock:
             return self._resources.get(resource_id)
 
-    def get_resources_by_type(self, resource_type: ResourceType) -> List[Resource]:
+    def get_resources_by_type(self, resource_type: ResourceType) -> list[Resource]:
         """Get resources by type.
 
         Args:
@@ -241,7 +240,7 @@ class ResourceManager:
             
             return (total_allocated / total_capacity) * 100.0
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get resource manager status.
 
         Returns:

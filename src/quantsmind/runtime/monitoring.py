@@ -28,11 +28,9 @@ from __future__ import annotations
 
 import logging
 import threading
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
-
-from quantsmind.runtime.constants import DEFAULT_METRICS_INTERVAL
-from quantsmind.runtime.types import MetricDict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -78,8 +76,8 @@ class HealthCheck:
         """
         self._name = name
         self._check_func = check_func
-        self._last_result: Optional[Dict[str, Any]] = None
-        self._last_check: Optional[datetime] = None
+        self._last_result: dict[str, Any] | None = None
+        self._last_check: datetime | None = None
 
     @property
     def name(self) -> str:
@@ -93,7 +91,7 @@ class HealthCheck:
         """
         return self._name
 
-    def execute(self) -> Dict[str, Any]:
+    def execute(self) -> dict[str, Any]:
         """Execute the health check.
 
         Returns:
@@ -136,8 +134,8 @@ class MonitoringService:
         Example:
             >>> monitoring = MonitoringService()
         """
-        self._health_checks: Dict[str, HealthCheck] = {}
-        self._alerts: List[Dict[str, Any]] = []
+        self._health_checks: dict[str, HealthCheck] = {}
+        self._alerts: list[dict[str, Any]] = []
         self._lock = threading.Lock()
         logger.debug("Created monitoring service")
 
@@ -185,7 +183,7 @@ class MonitoringService:
                 return True
         return False
 
-    def execute_health_check(self, name: str) -> Optional[Dict[str, Any]]:
+    def execute_health_check(self, name: str) -> dict[str, Any] | None:
         """Execute a specific health check.
 
         Args:
@@ -203,7 +201,7 @@ class MonitoringService:
                 return health_check.execute()
         return None
 
-    def execute_all_health_checks(self) -> Dict[str, Dict[str, Any]]:
+    def execute_all_health_checks(self) -> dict[str, dict[str, Any]]:
         """Execute all health checks.
 
         Returns:
@@ -241,7 +239,7 @@ class MonitoringService:
         else:
             return HealthStatus.DEGRADED
 
-    def create_alert(self, level: str, message: str, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def create_alert(self, level: str, message: str, metadata: dict[str, Any] | None = None) -> None:
         """Create an alert.
 
         Args:
@@ -261,7 +259,7 @@ class MonitoringService:
             })
         logger.warning(f"Alert created: {level} - {message}")
 
-    def get_alerts(self, level: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_alerts(self, level: str | None = None) -> list[dict[str, Any]]:
         """Get alerts.
 
         Args:
@@ -288,7 +286,7 @@ class MonitoringService:
             self._alerts.clear()
         logger.debug("Cleared all alerts")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get monitoring status.
 
         Returns:

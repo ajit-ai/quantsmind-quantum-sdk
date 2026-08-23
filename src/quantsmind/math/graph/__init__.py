@@ -62,7 +62,7 @@ class Node:
         >>> node = Node("A", data={"label": "City A"})
     """
 
-    def __init__(self, node_id: Any, data: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, node_id: Any, data: dict[str, Any] | None = None) -> None:
         """Initialize a Node.
 
         Args:
@@ -89,7 +89,7 @@ class Node:
         return self._id
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the node data.
 
         Returns:
@@ -174,8 +174,8 @@ class Edge:
         self,
         source: Node,
         target: Node,
-        weight: Optional[float] = None,
-        data: Optional[Dict[str, Any]] = None
+        weight: float | None = None,
+        data: dict[str, Any] | None = None
     ) -> None:
         """Initialize an Edge.
 
@@ -219,7 +219,7 @@ class Edge:
         return self._target
 
     @property
-    def weight(self) -> Optional[float]:
+    def weight(self) -> float | None:
         """Get the edge weight.
 
         Returns:
@@ -231,7 +231,7 @@ class Edge:
         return self._weight
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the edge data.
 
         Returns:
@@ -324,8 +324,8 @@ class Graph:
         Example:
             >>> graph = Graph(directed=False)
         """
-        self._nodes: Dict[Any, Node] = {}
-        self._edges: List[Edge] = []
+        self._nodes: dict[Any, Node] = {}
+        self._edges: list[Edge] = []
         self._directed = directed
         logger.debug(f"Created {'directed' if directed else 'undirected'} graph")
 
@@ -396,7 +396,7 @@ class Graph:
         self._edges.append(edge)
         logger.debug(f"Added edge: {edge.source.id} -> {edge.target.id}")
 
-    def get_node(self, node_id: Any) -> Optional[Node]:
+    def get_node(self, node_id: Any) -> Node | None:
         """Get a node by ID.
 
         Args:
@@ -410,7 +410,7 @@ class Graph:
         """
         return self._nodes.get(node_id)
 
-    def get_neighbors(self, node_id: Any) -> List[Node]:
+    def get_neighbors(self, node_id: Any) -> list[Node]:
         """Get neighbors of a node.
 
         Args:
@@ -529,7 +529,7 @@ class WeightedGraph(Graph):
             raise GraphError("Weighted graph requires edges with weights")
         super().add_edge(edge)
 
-    def get_edge_weight(self, source_id: Any, target_id: Any) -> Optional[float]:
+    def get_edge_weight(self, source_id: Any, target_id: Any) -> float | None:
         """Get the weight of an edge.
 
         Args:

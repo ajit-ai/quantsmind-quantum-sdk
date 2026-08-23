@@ -25,16 +25,14 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
 from quantsmind.knowledge.interfaces import IOntology
 from quantsmind.knowledge.types import (
     ConceptID,
-    ConceptName,
     OntologyID,
-    RelationID,
     RelationType,
     ValidationResult,
 )
@@ -62,7 +60,7 @@ class Ontology(IOntology):
         self,
         name: str,
         ontology_type: OntologyType = OntologyType.CONCEPT,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Ontology.
 
@@ -77,8 +75,8 @@ class Ontology(IOntology):
         self._id: OntologyID = name
         self._name = name
         self._ontology_type = ontology_type
-        self._concepts: Dict[ConceptID, Dict[str, Any]] = {}
-        self._relations: List[tuple[str, RelationType, str]] = []
+        self._concepts: dict[ConceptID, dict[str, Any]] = {}
+        self._relations: list[tuple[str, RelationType, str]] = []
         self._metadata = metadata or {}
 
     @property
@@ -118,7 +116,7 @@ class Ontology(IOntology):
         return self._ontology_type
 
     @property
-    def concepts(self) -> Dict[ConceptID, Dict[str, Any]]:
+    def concepts(self) -> dict[ConceptID, dict[str, Any]]:
         """Get the concepts.
 
         Returns:
@@ -130,7 +128,7 @@ class Ontology(IOntology):
         return self._concepts.copy()
 
     @property
-    def relations(self) -> List[tuple[str, RelationType, str]]:
+    def relations(self) -> list[tuple[str, RelationType, str]]:
         """Get the relations.
 
         Returns:
@@ -142,7 +140,7 @@ class Ontology(IOntology):
         return self._relations.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the ontology metadata.
 
         Returns:
@@ -153,7 +151,7 @@ class Ontology(IOntology):
         """
         return self._metadata.copy()
 
-    def add_concept(self, concept_id: ConceptID, concept_data: Dict[str, Any]) -> None:
+    def add_concept(self, concept_id: ConceptID, concept_data: dict[str, Any]) -> None:
         """Add a concept to the ontology.
 
         Args:
@@ -190,7 +188,7 @@ class Ontology(IOntology):
             return True
         return False
 
-    def get_concept(self, concept_id: ConceptID) -> Optional[Dict[str, Any]]:
+    def get_concept(self, concept_id: ConceptID) -> dict[str, Any] | None:
         """Get a concept from the ontology.
 
         Args:
@@ -242,7 +240,7 @@ class Ontology(IOntology):
             return True
         return False
 
-    def get_relations(self, concept_id: ConceptID) -> List[tuple[RelationType, str]]:
+    def get_relations(self, concept_id: ConceptID) -> list[tuple[RelationType, str]]:
         """Get relations for a concept.
 
         Args:
@@ -260,7 +258,7 @@ class Ontology(IOntology):
                 result.append((relation, target))
         return result
 
-    def get_incoming_relations(self, concept_id: ConceptID) -> List[tuple[str, RelationType]]:
+    def get_incoming_relations(self, concept_id: ConceptID) -> list[tuple[str, RelationType]]:
         """Get incoming relations for a concept.
 
         Args:
@@ -278,7 +276,7 @@ class Ontology(IOntology):
                 result.append((source, relation))
         return result
 
-    def traverse(self, start: str, max_depth: int = 3) -> List[str]:
+    def traverse(self, start: str, max_depth: int = 3) -> list[str]:
         """Traverse the ontology.
 
         Args:
@@ -305,13 +303,13 @@ class Ontology(IOntology):
 
             visited.add(current)
 
-            for relation, target in self.get_relations(current):
+            for _relation, target in self.get_relations(current):
                 if target not in visited:
                     queue.append((target, depth + 1))
 
         return list(visited)
 
-    def get_sub_concepts(self, concept_id: ConceptID) -> List[str]:
+    def get_sub_concepts(self, concept_id: ConceptID) -> list[str]:
         """Get sub-concepts (children) of a concept.
 
         Args:
@@ -329,7 +327,7 @@ class Ontology(IOntology):
                 result.append(source)
         return result
 
-    def get_super_concepts(self, concept_id: ConceptID) -> List[str]:
+    def get_super_concepts(self, concept_id: ConceptID) -> list[str]:
         """Get super-concepts (parents) of a concept.
 
         Args:
@@ -367,7 +365,7 @@ class Ontology(IOntology):
             errors.append("Ontology must have at least one concept")
 
         # Validate relations
-        for source, relation, target in self._relations:
+        for source, _relation, target in self._relations:
             if source not in self._concepts:
                 errors.append(f"Relation source '{source}' not found in concepts")
 
@@ -376,7 +374,7 @@ class Ontology(IOntology):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -25,7 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
 from quantsmind.knowledge.exceptions import ReasoningError
@@ -56,8 +57,8 @@ class ExplanationEngine(IReasoner):
         engine_id: str,
         name: str,
         reasoning_type: ReasoningType = ReasoningType.EXPLANATION,
-        explanation_function: Optional[Callable[[Dict[str, Any]], Dict[str, Any]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        explanation_function: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ExplanationEngine.
 
@@ -80,7 +81,7 @@ class ExplanationEngine(IReasoner):
         self._id = engine_id
         self._name = name
         self._reasoning_type = reasoning_type
-        self._explanations: Dict[str, Dict[str, Any]] = {}
+        self._explanations: dict[str, dict[str, Any]] = {}
         self._explanation_function = explanation_function
         self._metadata = metadata or {}
 
@@ -121,7 +122,7 @@ class ExplanationEngine(IReasoner):
         return self._reasoning_type
 
     @property
-    def explanations(self) -> Dict[str, Dict[str, Any]]:
+    def explanations(self) -> dict[str, dict[str, Any]]:
         """Get the stored explanations.
 
         Returns:
@@ -133,7 +134,7 @@ class ExplanationEngine(IReasoner):
         return self._explanations.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the explanation engine metadata.
 
         Returns:
@@ -174,7 +175,7 @@ class ExplanationEngine(IReasoner):
             return True
         return False
 
-    def explain(self, reasoning_result: Dict[str, Any]) -> Dict[str, Any]:
+    def explain(self, reasoning_result: dict[str, Any]) -> dict[str, Any]:
         """Generate an explanation for a reasoning result.
 
         Args:
@@ -200,7 +201,7 @@ class ExplanationEngine(IReasoner):
             "evidence": reasoning_result.get("evidence", []),
         }
 
-    def reason(self, query: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, query: dict[str, Any]) -> dict[str, Any]:
         """Generate explanation for a query.
 
         Args:
@@ -214,7 +215,7 @@ class ExplanationEngine(IReasoner):
         """
         return self.explain(query)
 
-    def get_explanation(self, explanation_id: str) -> Optional[Dict[str, Any]]:
+    def get_explanation(self, explanation_id: str) -> dict[str, Any] | None:
         """Get a stored explanation.
 
         Args:
@@ -228,7 +229,7 @@ class ExplanationEngine(IReasoner):
         """
         return self._explanations.get(explanation_id)
 
-    def trace_reasoning(self, reasoning_steps: List[str]) -> Dict[str, Any]:
+    def trace_reasoning(self, reasoning_steps: list[str]) -> dict[str, Any]:
         """Trace the reasoning process.
 
         Args:
@@ -265,7 +266,7 @@ class ExplanationEngine(IReasoner):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

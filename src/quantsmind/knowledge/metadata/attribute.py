@@ -25,10 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import MetadataType
 from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.types import Attribute
 
@@ -55,8 +53,8 @@ class Attribute:
         name: str,
         value: Any,
         attribute_type: str = "string",
-        default: Optional[Any] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        default: Any | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Attribute.
 
@@ -116,7 +114,7 @@ class Attribute:
         return self._attribute_type
 
     @property
-    def default_value(self) -> Optional[Any]:
+    def default_value(self) -> Any | None:
         """Get the default value.
 
         Returns:
@@ -128,7 +126,7 @@ class Attribute:
         return self._default_value
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the attribute metadata.
 
         Returns:
@@ -171,7 +169,7 @@ class Attribute:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -213,7 +211,7 @@ class AttributeSet:
         >>> attrset.add_attribute(Attribute("color", "red"))
     """
 
-    def __init__(self, attributes: Optional[list[Attribute]] = None) -> None:
+    def __init__(self, attributes: list[Attribute] | None = None) -> None:
         """Initialize an AttributeSet.
 
         Args:
@@ -222,7 +220,7 @@ class AttributeSet:
         Example:
             >>> attrset = AttributeSet()
         """
-        self._attributes: Dict[str, Attribute] = {}
+        self._attributes: dict[str, Attribute] = {}
         if attributes:
             for attr in attributes:
                 self.add_attribute(attr)
@@ -255,7 +253,7 @@ class AttributeSet:
             return True
         return False
 
-    def get_attribute(self, name: str) -> Optional[Attribute]:
+    def get_attribute(self, name: str) -> Attribute | None:
         """Get an attribute by name.
 
         Args:
@@ -314,7 +312,7 @@ class AttributeSet:
         """
         return len(self._attributes)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

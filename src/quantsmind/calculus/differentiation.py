@@ -29,8 +29,8 @@ quantsmind.algebra.polynomial (Polynomial)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
-import math
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.algebra.polynomial import Polynomial
 
@@ -56,7 +56,7 @@ class Differentiator:
         self,
         method: str = "numerical",
         h: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Differentiator.
 
@@ -147,8 +147,8 @@ class Differentiator:
 
     def partial_derivative(
         self,
-        func: Callable[[List[float]], float],
-        x: List[float],
+        func: Callable[[list[float]], float],
+        x: list[float],
         var_index: int,
     ) -> float:
         """Compute a partial derivative.
@@ -176,9 +176,9 @@ class Differentiator:
 
     def gradient(
         self,
-        func: Callable[[List[float]], float],
-        x: List[float],
-    ) -> List[float]:
+        func: Callable[[list[float]], float],
+        x: list[float],
+    ) -> list[float]:
         """Compute the gradient vector.
 
         Args:
@@ -195,9 +195,9 @@ class Differentiator:
 
     def jacobian(
         self,
-        func: Callable[[List[float]], List[float]],
-        x: List[float],
-    ) -> List[List[float]]:
+        func: Callable[[list[float]], list[float]],
+        x: list[float],
+    ) -> list[list[float]]:
         """Compute the Jacobian matrix.
 
         Args:
@@ -213,12 +213,12 @@ class Differentiator:
         # Evaluate function to get output dimension
         f_x = func(x)
         output_dim = len(f_x)
-        input_dim = len(x)
+        len(x)
 
         jacobian = []
         for i in range(output_dim):
             # Compute gradient of i-th component function
-            def component_func(x_vals: List[float]) -> float:
+            def component_func(x_vals: list[float]) -> float:
                 return func(x_vals)[i]
 
             grad = self.gradient(component_func, x)
@@ -228,9 +228,9 @@ class Differentiator:
 
     def hessian(
         self,
-        func: Callable[[List[float]], float],
-        x: List[float],
-    ) -> List[List[float]]:
+        func: Callable[[list[float]], float],
+        x: list[float],
+    ) -> list[list[float]]:
         """Compute the Hessian matrix.
 
         Args:
@@ -249,7 +249,7 @@ class Differentiator:
         for i in range(n):
             for j in range(n):
                 # Compute second partial derivative
-                def partial_func(x_vals: List[float]) -> float:
+                def partial_func(x_vals: list[float]) -> float:
                     return self.partial_derivative(func, x_vals, i)
 
                 hessian[i][j] = self.partial_derivative(partial_func, x, j)

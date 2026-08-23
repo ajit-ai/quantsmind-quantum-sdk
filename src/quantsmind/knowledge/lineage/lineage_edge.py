@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import LineageError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -59,7 +58,7 @@ class LineageEdge:
         target: str,
         edge_type: str = "derived_from",
         weight: float = 1.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LineageEdge.
 
@@ -167,7 +166,7 @@ class LineageEdge:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the edge metadata.
 
         Returns:
@@ -239,7 +238,7 @@ class LineageEdge:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

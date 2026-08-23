@@ -43,15 +43,11 @@ from __future__ import annotations
 
 import logging
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_RELATIONSHIP_TYPE
 from quantsmind.foundation.enums import RelationshipType
 from quantsmind.foundation.exceptions import (
-    CycleError,
     InvalidRelationshipError,
-    RelationshipError,
-    RelationshipNotFoundError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
@@ -60,7 +56,6 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     EntityID,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -99,10 +94,10 @@ class Relationship(Serializable, Validatable):
     def __init__(
         self,
         relationship_type: RelationshipType = RelationshipType.DIRECTED,
-        source: Optional[EntityID] = None,
-        target: Optional[EntityID] = None,
-        weight: Optional[float] = None,
-        metadata: Optional[MetadataDict] = None,
+        source: EntityID | None = None,
+        target: EntityID | None = None,
+        weight: float | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Relationship.
 
@@ -125,9 +120,9 @@ class Relationship(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._relationship_type: RelationshipType = relationship_type
-        self._source: Optional[EntityID] = source
-        self._target: Optional[EntityID] = target
-        self._weight: Optional[float] = weight
+        self._source: EntityID | None = source
+        self._target: EntityID | None = target
+        self._weight: float | None = weight
         self._metadata: MetadataDict = metadata or {}
 
         self._validate_endpoints()
@@ -170,7 +165,7 @@ class Relationship(Serializable, Validatable):
         return self._relationship_type
 
     @property
-    def source(self) -> Optional[EntityID]:
+    def source(self) -> EntityID | None:
         """Get the source entity ID.
 
         Returns:
@@ -182,7 +177,7 @@ class Relationship(Serializable, Validatable):
         return self._source
 
     @property
-    def target(self) -> Optional[EntityID]:
+    def target(self) -> EntityID | None:
         """Get the target entity ID.
 
         Returns:
@@ -194,7 +189,7 @@ class Relationship(Serializable, Validatable):
         return self._target
 
     @property
-    def weight(self) -> Optional[float]:
+    def weight(self) -> float | None:
         """Get the relationship weight.
 
         Returns:
@@ -302,7 +297,7 @@ class Relationship(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Relationship":
+    def deserialize(cls, data: bytes, format: str = "json") -> Relationship:
         """Deserialize the relationship from bytes.
 
         Args:

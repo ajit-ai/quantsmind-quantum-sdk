@@ -26,10 +26,9 @@ quantsmind.runtime.exceptions (runtime exceptions)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.runtime.exceptions import ValidationError
-from quantsmind.runtime.types import ValidationResult, ValidationErrors
+from quantsmind.runtime.types import ValidationErrors, ValidationResult
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +43,7 @@ class RuntimeValidator:
         >>> is_valid, errors = validator.validate_config({"timeout": 300.0})
     """
 
-    def validate_config(self, config: Dict[str, Any]) -> ValidationResult:
+    def validate_config(self, config: dict[str, Any]) -> ValidationResult:
         """Validate configuration.
 
         Args:

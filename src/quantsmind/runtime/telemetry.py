@@ -28,7 +28,6 @@ from __future__ import annotations
 import logging
 import threading
 from datetime import datetime
-from typing import Any, Dict, List, Optional
 
 from quantsmind.runtime.constants import DEFAULT_METRICS_RETENTION
 from quantsmind.runtime.types import TelemetryData, TelemetryPoint
@@ -60,7 +59,7 @@ class TelemetryCollector:
         Example:
             >>> collector = TelemetryCollector()
         """
-        self._telemetry_points: List[TelemetryPoint] = []
+        self._telemetry_points: list[TelemetryPoint] = []
         self._retention = retention
         self._lock = threading.Lock()
         logger.debug("Created telemetry collector")
@@ -92,7 +91,7 @@ class TelemetryCollector:
             self._telemetry_points.append(point)
             self._cleanup_old_points()
 
-    def record_batch(self, data_points: List[TelemetryData]) -> None:
+    def record_batch(self, data_points: list[TelemetryData]) -> None:
         """Record multiple telemetry points.
 
         Args:
@@ -107,7 +106,7 @@ class TelemetryCollector:
                 self._telemetry_points.append(point)
             self._cleanup_old_points()
 
-    def get_points(self, limit: int = 1000) -> List[TelemetryPoint]:
+    def get_points(self, limit: int = 1000) -> list[TelemetryPoint]:
         """Get telemetry points.
 
         Args:
@@ -122,7 +121,7 @@ class TelemetryCollector:
         with self._lock:
             return self._telemetry_points[-limit:]
 
-    def get_points_since(self, since: datetime) -> List[TelemetryPoint]:
+    def get_points_since(self, since: datetime) -> list[TelemetryPoint]:
         """Get telemetry points since a timestamp.
 
         Args:

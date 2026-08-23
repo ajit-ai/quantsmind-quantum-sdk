@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -57,11 +57,11 @@ class TensorDataset(Dataset):
     def __init__(
         self,
         name: str,
-        shape: Optional[Tuple[int, ...]] = None,
+        shape: tuple[int, ...] | None = None,
         dtype: str = "float",
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a TensorDataset.
 
@@ -86,10 +86,10 @@ class TensorDataset(Dataset):
         self._shape = shape
         self._dtype = dtype
         self._dimensions = len(shape) if shape else 0
-        self._tensors: List[Dict[str, Any]] = []
+        self._tensors: list[dict[str, Any]] = []
 
     @property
-    def shape(self) -> Optional[Tuple[int, ...]]:
+    def shape(self) -> tuple[int, ...] | None:
         """Get the tensor shape.
 
         Returns:
@@ -125,7 +125,7 @@ class TensorDataset(Dataset):
         return self._dimensions
 
     @property
-    def tensors(self) -> List[Dict[str, Any]]:
+    def tensors(self) -> list[dict[str, Any]]:
         """Get the tensors.
 
         Returns:
@@ -136,7 +136,7 @@ class TensorDataset(Dataset):
         """
         return self._tensors.copy()
 
-    def add_tensor(self, tensor: Dict[str, Any]) -> None:
+    def add_tensor(self, tensor: dict[str, Any]) -> None:
         """Add a tensor to the dataset.
 
         Args:
@@ -156,17 +156,16 @@ class TensorDataset(Dataset):
             raise DatasetError("Tensor must have data", {"tensor": tensor})
 
         # Validate shape if specified
-        if self._shape:
-            if not self._validate_shape(tensor_data, self._shape):
-                raise DatasetError(
-                    f"Tensor shape does not match expected shape {self._shape}",
-                    {"expected": self._shape, "actual": self._get_shape(tensor_data)},
-                )
+        if self._shape and not self._validate_shape(tensor_data, self._shape):
+            raise DatasetError(
+                f"Tensor shape does not match expected shape {self._shape}",
+                {"expected": self._shape, "actual": self._get_shape(tensor_data)},
+            )
 
         self._tensors.append(tensor)
         self._updated_at = self._updated_at
 
-    def add_tensors(self, tensors: List[Dict[str, Any]]) -> None:
+    def add_tensors(self, tensors: list[dict[str, Any]]) -> None:
         """Add multiple tensors to the dataset.
 
         Args:
@@ -178,7 +177,7 @@ class TensorDataset(Dataset):
         for tensor in tensors:
             self.add_tensor(tensor)
 
-    def _validate_shape(self, data: Any, expected_shape: Tuple[int, ...]) -> bool:
+    def _validate_shape(self, data: Any, expected_shape: tuple[int, ...]) -> bool:
         """Validate tensor shape.
 
         Args:
@@ -194,7 +193,7 @@ class TensorDataset(Dataset):
         actual_shape = self._get_shape(data)
         return actual_shape == expected_shape
 
-    def _get_shape(self, data: Any) -> Tuple[int, ...]:
+    def _get_shape(self, data: Any) -> tuple[int, ...]:
         """Get shape of tensor data.
 
         Args:
@@ -220,7 +219,7 @@ class TensorDataset(Dataset):
 
         return tuple(shape)
 
-    def get_tensor_by_index(self, index: int) -> Optional[Dict[str, Any]]:
+    def get_tensor_by_index(self, index: int) -> dict[str, Any] | None:
         """Get tensor by index.
 
         Args:
@@ -236,7 +235,7 @@ class TensorDataset(Dataset):
             return self._tensors[index]
         return None
 
-    def get_tensors_by_shape(self, shape: Tuple[int, ...]) -> List[Dict[str, Any]]:
+    def get_tensors_by_shape(self, shape: tuple[int, ...]) -> list[dict[str, Any]]:
         """Get tensors with specific shape.
 
         Args:
@@ -253,7 +252,7 @@ class TensorDataset(Dataset):
             if self._get_shape(tensor.get("data", [])) == shape
         ]
 
-    def concatenate_tensors(self, axis: int = 0) -> Optional[List[Any]]:
+    def concatenate_tensors(self, axis: int = 0) -> list[Any] | None:
         """Concatenate all tensors along an axis.
 
         Args:
@@ -275,7 +274,7 @@ class TensorDataset(Dataset):
 
         return result
 
-    def calculate_tensor_statistics(self, tensor_index: int) -> Dict[str, float]:
+    def calculate_tensor_statistics(self, tensor_index: int) -> dict[str, float]:
         """Calculate statistics for a tensor.
 
         Args:
@@ -312,7 +311,7 @@ class TensorDataset(Dataset):
             "max": max(numeric_values),
         }
 
-    def _flatten_tensor(self, data: Any) -> List[Any]:
+    def _flatten_tensor(self, data: Any) -> list[Any]:
         """Flatten nested tensor data.
 
         Args:
@@ -364,7 +363,7 @@ class TensorDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

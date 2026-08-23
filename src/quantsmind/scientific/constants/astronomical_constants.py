@@ -23,10 +23,8 @@ quantsmind.scientific.constants.physical_constants (physical constants)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
-
 from quantsmind.scientific.constants.physical_constants import ConstantDefinition
-from quantsmind.scientific.types import ConstantName, ConstantValue
+from quantsmind.scientific.types import ConstantName
 
 
 class AstronomicalConstants:
@@ -48,7 +46,7 @@ class AstronomicalConstants:
         Example:
             >>> constants = AstronomicalConstants()
         """
-        self._constants: Dict[ConstantName, ConstantDefinition] = {}
+        self._constants: dict[ConstantName, ConstantDefinition] = {}
         self._initialize_constants()
 
     def _initialize_constants(self) -> None:
@@ -155,7 +153,7 @@ class AstronomicalConstants:
             "Age of the universe"
         )
 
-    def get_constant(self, name: ConstantName) -> Optional[ConstantDefinition]:
+    def get_constant(self, name: ConstantName) -> ConstantDefinition | None:
         """Get a constant by name.
 
         Args:
@@ -169,7 +167,7 @@ class AstronomicalConstants:
         """
         return self._constants.get(name)
 
-    def get_all_constants(self) -> Dict[ConstantName, ConstantDefinition]:
+    def get_all_constants(self) -> dict[ConstantName, ConstantDefinition]:
         """Get all constants.
 
         Returns:

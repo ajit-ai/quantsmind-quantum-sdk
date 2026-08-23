@@ -23,7 +23,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -48,8 +48,8 @@ class QuantumOperator:
         self,
         name: str,
         num_qubits: int,
-        matrix: Optional[List[List[complex]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        matrix: list[list[complex]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumOperator.
 
@@ -98,7 +98,7 @@ class QuantumOperator:
         return self._num_qubits
 
     @property
-    def matrix(self) -> List[List[complex]]:
+    def matrix(self) -> list[list[complex]]:
         """Get the operator matrix.
 
         Returns:
@@ -110,7 +110,7 @@ class QuantumOperator:
         return [row.copy() for row in self._matrix] if self._matrix else []
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the operator metadata.
 
         Returns:
@@ -121,7 +121,7 @@ class QuantumOperator:
         """
         return self._metadata.copy()
 
-    def set_matrix(self, matrix: List[List[complex]]) -> None:
+    def set_matrix(self, matrix: list[list[complex]]) -> None:
         """Set the operator matrix.
 
         Args:
@@ -188,7 +188,7 @@ class QuantumOperator:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

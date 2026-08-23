@@ -24,7 +24,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import IndexType
 from quantsmind.knowledge.exceptions import IndexError
@@ -55,7 +55,7 @@ class Index:
         name: str,
         index_type: IndexType,
         field: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Index.
 
@@ -82,7 +82,7 @@ class Index:
         self._name = name
         self._index_type = index_type
         self._field = field
-        self._index_data: Dict[str, List[str]] = {}
+        self._index_data: dict[str, list[str]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -134,7 +134,7 @@ class Index:
         return self._field
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the index metadata.
 
         Returns:
@@ -145,7 +145,7 @@ class Index:
         """
         return self._metadata.copy()
 
-    def add(self, entity_id: str, data: Dict[str, Any]) -> None:
+    def add(self, entity_id: str, data: dict[str, Any]) -> None:
         """Add an entity to the index.
 
         Args:
@@ -164,7 +164,7 @@ class Index:
         if entity_id not in self._index_data[key]:
             self._index_data[key].append(entity_id)
 
-    def remove(self, entity_id: str, data: Dict[str, Any]) -> None:
+    def remove(self, entity_id: str, data: dict[str, Any]) -> None:
         """Remove an entity from the index.
 
         Args:
@@ -183,7 +183,7 @@ class Index:
             if not self._index_data[key]:
                 del self._index_data[key]
 
-    def search(self, value: Any) -> List[str]:
+    def search(self, value: Any) -> list[str]:
         """Search for entities by value.
 
         Args:
@@ -198,7 +198,7 @@ class Index:
         key = str(value)
         return self._index_data.get(key, []).copy()
 
-    def get_all_keys(self) -> List[str]:
+    def get_all_keys(self) -> list[str]:
         """Get all indexed keys.
 
         Returns:
@@ -242,7 +242,7 @@ class Index:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

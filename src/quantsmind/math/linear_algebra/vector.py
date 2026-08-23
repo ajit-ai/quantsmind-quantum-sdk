@@ -40,22 +40,21 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-import math
-from typing import Any, List, Union
+from typing import Any
 
 from quantsmind.math.exceptions import (
     DimensionError,
     DivisionByZeroError,
-    IndexError as MathIndexError,
-    InvalidOperationError,
 )
-from quantsmind.math.types import Scalar, Vector as VectorType
+from quantsmind.math.exceptions import (
+    IndexError as MathIndexError,
+)
+from quantsmind.math.types import Scalar
 from quantsmind.math.utilities import (
     angle_between,
     distance,
     dot_product,
     magnitude,
-    normalize,
     project,
 )
 from quantsmind.math.validation import validate_vector
@@ -84,7 +83,7 @@ class Vector:
         >>> print(f"Magnitude: {v.magnitude()}")
     """
 
-    def __init__(self, data: List[Scalar]) -> None:
+    def __init__(self, data: list[Scalar]) -> None:
         """Initialize a Vector.
 
         Args:
@@ -100,7 +99,7 @@ class Vector:
         if not is_valid:
             raise ValueError(f"Invalid vector data: {errors}")
 
-        self._data: List[Scalar] = list(data)
+        self._data: list[Scalar] = list(data)
         self._dimension: int = len(self._data)
         logger.debug(f"Created vector of dimension {self._dimension}")
 
@@ -117,7 +116,7 @@ class Vector:
         return self._dimension
 
     @property
-    def data(self) -> List[Scalar]:
+    def data(self) -> list[Scalar]:
         """Get the vector data.
 
         Returns:
@@ -213,7 +212,7 @@ class Vector:
             return False
         if self._dimension != other._dimension:
             return False
-        return all(abs(a - b) < 1e-10 for a, b in zip(self._data, other._data))
+        return all(abs(a - b) < 1e-10 for a, b in zip(self._data, other._data, strict=False))
 
     def __hash__(self) -> int:
         """Return hash.
@@ -243,7 +242,7 @@ class Vector:
         """
         if self._dimension != other._dimension:
             raise DimensionError(f"Dimension mismatch: {self._dimension} vs {other._dimension}")
-        return Vector([a + b for a, b in zip(self._data, other._data)])
+        return Vector([a + b for a, b in zip(self._data, other._data, strict=False)])
 
     def __sub__(self, other: Vector) -> Vector:
         """Subtract two vectors.
@@ -262,7 +261,7 @@ class Vector:
         """
         if self._dimension != other._dimension:
             raise DimensionError(f"Dimension mismatch: {self._dimension} vs {other._dimension}")
-        return Vector([a - b for a, b in zip(self._data, other._data)])
+        return Vector([a - b for a, b in zip(self._data, other._data, strict=False)])
 
     def __mul__(self, scalar: Scalar) -> Vector:
         """Multiply vector by scalar.
@@ -441,7 +440,7 @@ class Vector:
             raise DimensionError(f"Dimension mismatch: {self._dimension} vs {other._dimension}")
         return Vector(project(self._data, other._data))
 
-    def to_list(self) -> List[Scalar]:
+    def to_list(self) -> list[Scalar]:
         """Convert vector to list.
 
         Returns:
@@ -474,7 +473,7 @@ class BasisVector(Vector):
         >>> e1 = BasisVector([1.0, 0.0, 0.0])
     """
 
-    def __init__(self, data: List[Scalar], index: int = 0) -> None:
+    def __init__(self, data: list[Scalar], index: int = 0) -> None:
         """Initialize a BasisVector.
 
         Args:
@@ -509,7 +508,7 @@ class UnitVector(Vector):
         >>> u = UnitVector([1.0, 0.0, 0.0])
     """
 
-    def __init__(self, data: List[Scalar]) -> None:
+    def __init__(self, data: list[Scalar]) -> None:
         """Initialize a UnitVector.
 
         Args:
@@ -546,7 +545,7 @@ class CoordinateVector(Vector):
         >>> coord = CoordinateVector([1.0, 2.0, 3.0])
     """
 
-    def __init__(self, data: List[Scalar], coordinate_system: str = "cartesian") -> None:
+    def __init__(self, data: list[Scalar], coordinate_system: str = "cartesian") -> None:
         """Initialize a CoordinateVector.
 
         Args:

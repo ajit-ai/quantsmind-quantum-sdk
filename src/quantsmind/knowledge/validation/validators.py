@@ -24,7 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import ValidationType
 from quantsmind.knowledge.exceptions import ValidationError
@@ -54,9 +55,9 @@ class Validator:
         validator_id: str,
         name: str,
         validation_type: ValidationType,
-        validate_function: Optional[Callable[[Any], ValidationResult]] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        validate_function: Callable[[Any], ValidationResult] | None = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Validator.
 
@@ -121,7 +122,7 @@ class Validator:
         return self._validation_type
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the validator parameters.
 
         Returns:
@@ -133,7 +134,7 @@ class Validator:
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the validator metadata.
 
         Returns:
@@ -188,7 +189,7 @@ class Validator:
         # Default validation
         return (True, [])
 
-    def validate_all(self, data_list: List[Any]) -> Dict[str, ValidationResult]:
+    def validate_all(self, data_list: list[Any]) -> dict[str, ValidationResult]:
         """Validate multiple data items.
 
         Args:
@@ -224,7 +225,7 @@ class Validator:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -272,7 +273,7 @@ class ValidatorRegistry:
         Example:
             >>> registry = ValidatorRegistry()
         """
-        self._validators: Dict[str, Validator] = {}
+        self._validators: dict[str, Validator] = {}
 
     def register(self, validator: Validator) -> None:
         """Register a validator.
@@ -302,7 +303,7 @@ class ValidatorRegistry:
             return True
         return False
 
-    def get(self, validator_id: str) -> Optional[Validator]:
+    def get(self, validator_id: str) -> Validator | None:
         """Get a validator by ID.
 
         Args:
@@ -316,7 +317,7 @@ class ValidatorRegistry:
         """
         return self._validators.get(validator_id)
 
-    def get_by_type(self, validation_type: ValidationType) -> List[Validator]:
+    def get_by_type(self, validation_type: ValidationType) -> list[Validator]:
         """Get validators by type.
 
         Args:
@@ -330,7 +331,7 @@ class ValidatorRegistry:
         """
         return [v for v in self._validators.values() if v.validation_type == validation_type]
 
-    def list_all(self) -> List[Validator]:
+    def list_all(self) -> list[Validator]:
         """List all registered validators.
 
         Returns:
@@ -352,7 +353,7 @@ class ValidatorRegistry:
         """
         return len(self._validators)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

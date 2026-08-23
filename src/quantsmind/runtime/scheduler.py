@@ -32,10 +32,9 @@ from __future__ import annotations
 import logging
 import queue
 import threading
-from typing import Any, Dict, List, Optional
 
 from quantsmind.runtime.constants import DEFAULT_MAX_QUEUE_SIZE
-from quantsmind.runtime.enums import ExecutionState, TaskPriority
+from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import TaskError
 from quantsmind.runtime.task import Task
 from quantsmind.runtime.types import TaskID
@@ -71,7 +70,7 @@ class Scheduler:
         """
         self._queue: queue.PriorityQueue = queue.PriorityQueue(maxsize=max_queue_size)
         self._max_queue_size = max_queue_size
-        self._scheduled_tasks: Dict[TaskID, Task] = {}
+        self._scheduled_tasks: dict[TaskID, Task] = {}
         self._lock = threading.Lock()
         self._running = False
         logger.debug(f"Created scheduler with max_queue_size={max_queue_size}")
@@ -158,7 +157,7 @@ class Scheduler:
                 return True
         return False
 
-    def get_next(self) -> Optional[Task]:
+    def get_next(self) -> Task | None:
         """Get the next task to execute.
 
         Returns:
@@ -178,7 +177,7 @@ class Scheduler:
         except queue.Empty:
             return None
 
-    def peek(self) -> Optional[Task]:
+    def peek(self) -> Task | None:
         """Peek at the next task without removing it.
 
         Returns:

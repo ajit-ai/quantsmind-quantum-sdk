@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import SearchType
 from quantsmind.knowledge.exceptions import SearchError
@@ -54,7 +54,7 @@ class GraphSearch(ISearchEngine):
         self,
         search_id: str,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GraphSearch.
 
@@ -75,8 +75,8 @@ class GraphSearch(ISearchEngine):
         self._id = search_id
         self._name = name
         self._search_type = SearchType.GRAPH
-        self._graph: Dict[str, Dict[str, Any]] = {}
-        self._edges: List[tuple[str, str]] = []
+        self._graph: dict[str, dict[str, Any]] = {}
+        self._edges: list[tuple[str, str]] = []
         self._metadata = metadata or {}
 
     @property
@@ -116,7 +116,7 @@ class GraphSearch(ISearchEngine):
         return self._search_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the search engine metadata.
 
         Returns:
@@ -127,7 +127,7 @@ class GraphSearch(ISearchEngine):
         """
         return self._metadata.copy()
 
-    def add_node(self, node_id: str, data: Dict[str, Any]) -> None:
+    def add_node(self, node_id: str, data: dict[str, Any]) -> None:
         """Add a node to the graph.
 
         Args:
@@ -151,7 +151,7 @@ class GraphSearch(ISearchEngine):
         """
         self._edges.append((source, target))
 
-    def index_document(self, doc_id: str, document: Dict[str, Any]) -> None:
+    def index_document(self, doc_id: str, document: dict[str, Any]) -> None:
         """Index a document as a node.
 
         Args:
@@ -182,7 +182,7 @@ class GraphSearch(ISearchEngine):
             return True
         return False
 
-    def search(self, query: str, top_k: int = 10) -> List[SearchResult]:
+    def search(self, query: str, top_k: int = 10) -> list[SearchResult]:
         """Search for nodes matching the query.
 
         Args:
@@ -201,7 +201,7 @@ class GraphSearch(ISearchEngine):
         for node_id, data in self._graph.items():
             score = 0.0
             # Simple text matching
-            for field, value in data.items():
+            for _field, value in data.items():
                 if isinstance(value, str) and query_lower in value.lower():
                     score += 1.0
 
@@ -212,7 +212,7 @@ class GraphSearch(ISearchEngine):
         results.sort(key=lambda r: r.score, reverse=True)
         return results[:top_k]
 
-    def search_neighbors(self, node_id: str, depth: int = 1) -> List[str]:
+    def search_neighbors(self, node_id: str, depth: int = 1) -> list[str]:
         """Search for neighbors of a node.
 
         Args:
@@ -243,7 +243,7 @@ class GraphSearch(ISearchEngine):
 
         return list(neighbors)
 
-    def search_path(self, source: str, target: str) -> Optional[List[str]]:
+    def search_path(self, source: str, target: str) -> list[str] | None:
         """Search for a path between two nodes.
 
         Args:
@@ -298,7 +298,7 @@ class GraphSearch(ISearchEngine):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

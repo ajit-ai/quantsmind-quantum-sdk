@@ -32,11 +32,10 @@ quantsmind.core.equation (Equation)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from quantsmind.core.equation import Equation
 from quantsmind.core.expression import Expression
-from quantsmind.core.formula import Formula
 
 
 class ExpressionEngine:
@@ -59,7 +58,7 @@ class ExpressionEngine:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ExpressionEngine.
 
@@ -71,7 +70,7 @@ class ExpressionEngine:
             >>> engine = ExpressionEngine()
         """
         self._name = name
-        self._cache: Dict[str, Expression] = {}
+        self._cache: dict[str, Expression] = {}
         self._metadata = metadata or {}
 
     @property
@@ -219,7 +218,7 @@ class ExpressionEngine:
         """
         return expression.integrate(variable)
 
-    def solve(self, equation: Equation, variable: str, **kwargs: Any) -> List[float]:
+    def solve(self, equation: Equation, variable: str, **kwargs: Any) -> list[float]:
         """Solve an equation for a variable.
 
         Args:
@@ -243,7 +242,7 @@ class ExpressionEngine:
         """
         self._cache.clear()
 
-    def get_cached_expression(self, expression_str: str) -> Optional[Expression]:
+    def get_cached_expression(self, expression_str: str) -> Expression | None:
         """Get a cached expression if available.
 
         Args:

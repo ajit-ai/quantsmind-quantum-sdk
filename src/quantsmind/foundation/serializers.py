@@ -39,16 +39,15 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.foundation.exceptions import SerializationError
 from quantsmind.foundation.interfaces import Serializable
-from quantsmind.foundation.types import SerializedData
 
 logger = logging.getLogger(__name__)
 
 
-def to_json(obj: Any, indent: Optional[int] = None) -> str:
+def to_json(obj: Any, indent: int | None = None) -> str:
     """Convert an object to JSON string.
 
     Args:
@@ -91,7 +90,7 @@ def from_json(json_str: str) -> Any:
         raise SerializationError(f"Failed to deserialize from JSON: {e}") from e
 
 
-def serialize_to_dict(obj: Serializable) -> Dict[str, Any]:
+def serialize_to_dict(obj: Serializable) -> dict[str, Any]:
     """Serialize a Serializable object to a dictionary.
 
     Args:
@@ -113,7 +112,7 @@ def serialize_to_dict(obj: Serializable) -> Dict[str, Any]:
         raise SerializationError(f"Failed to serialize to dict: {e}") from e
 
 
-def deserialize_from_dict(cls: type, data: Dict[str, Any]) -> Any:
+def deserialize_from_dict(cls: type, data: dict[str, Any]) -> Any:
     """Deserialize an object from a dictionary.
 
     Args:

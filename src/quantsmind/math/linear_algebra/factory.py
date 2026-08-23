@@ -35,11 +35,10 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import List, Optional, Union
 
 from quantsmind.math.linear_algebra.matrix import (
-    DiagonalMatrix,
     DenseMatrix,
+    DiagonalMatrix,
     IdentityMatrix,
     Matrix,
     OrthogonalMatrix,
@@ -61,7 +60,7 @@ class MatrixFactory:
         >>> matrix = factory.create_identity(3)
     """
 
-    def create_matrix(self, data: List[List[Scalar]]) -> Matrix:
+    def create_matrix(self, data: list[list[Scalar]]) -> Matrix:
         """Create a generic Matrix instance.
 
         Args:
@@ -75,7 +74,7 @@ class MatrixFactory:
         """
         return Matrix(data)
 
-    def create_dense_matrix(self, data: List[List[Scalar]]) -> DenseMatrix:
+    def create_dense_matrix(self, data: list[list[Scalar]]) -> DenseMatrix:
         """Create a DenseMatrix instance.
 
         Args:
@@ -89,7 +88,7 @@ class MatrixFactory:
         """
         return DenseMatrix(data)
 
-    def create_sparse_matrix(self, data: List[List[Scalar]]) -> SparseMatrix:
+    def create_sparse_matrix(self, data: list[list[Scalar]]) -> SparseMatrix:
         """Create a SparseMatrix instance.
 
         Args:
@@ -117,7 +116,7 @@ class MatrixFactory:
         """
         return IdentityMatrix(size)
 
-    def create_diagonal(self, diagonal: List[Scalar]) -> DiagonalMatrix:
+    def create_diagonal(self, diagonal: list[Scalar]) -> DiagonalMatrix:
         """Create a DiagonalMatrix instance.
 
         Args:
@@ -131,7 +130,7 @@ class MatrixFactory:
         """
         return DiagonalMatrix(diagonal)
 
-    def create_symmetric(self, data: List[List[Scalar]]) -> SymmetricMatrix:
+    def create_symmetric(self, data: list[list[Scalar]]) -> SymmetricMatrix:
         """Create a SymmetricMatrix instance.
 
         Args:
@@ -148,7 +147,7 @@ class MatrixFactory:
         """
         return SymmetricMatrix(data)
 
-    def create_orthogonal(self, data: List[List[Scalar]]) -> OrthogonalMatrix:
+    def create_orthogonal(self, data: list[list[Scalar]]) -> OrthogonalMatrix:
         """Create an OrthogonalMatrix instance.
 
         Args:
@@ -233,7 +232,7 @@ class MatrixFactory:
         data = [[random.uniform(min_val, max_val) for _ in range(cols)] for _ in range(rows)]
         return Matrix(data)
 
-    def create_from_diagonal(self, diagonal: List[Scalar]) -> Matrix:
+    def create_from_diagonal(self, diagonal: list[Scalar]) -> Matrix:
         """Create a matrix from diagonal elements.
 
         Args:
@@ -247,7 +246,7 @@ class MatrixFactory:
         """
         return self.create_diagonal(diagonal)
 
-    def create_block(self, blocks: List[List[Matrix]]) -> Matrix:
+    def create_block(self, blocks: list[list[Matrix]]) -> Matrix:
         """Create a block matrix from submatrices.
 
         Args:

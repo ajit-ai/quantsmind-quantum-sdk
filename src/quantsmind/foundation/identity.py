@@ -46,7 +46,7 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.foundation.constants import (
     ERROR_INVALID_IDENTITY,
@@ -55,9 +55,6 @@ from quantsmind.foundation.constants import (
     METADATA_SOURCE_KEY,
 )
 from quantsmind.foundation.exceptions import (
-    DuplicateIdentityError,
-    IdentityError,
-    IdentityNotFoundError,
     InvalidIdentityError,
 )
 from quantsmind.foundation.interfaces import (
@@ -96,9 +93,9 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
 
     def __init__(
         self,
-        identity_id: Optional[EntityID] = None,
-        namespace: Optional[str] = None,
-        metadata: Optional[MetadataDict] = None,
+        identity_id: EntityID | None = None,
+        namespace: str | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize an Identity.
 
@@ -117,7 +114,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
             >>> identity = Identity()  # Auto-generates UUID
         """
         self._id: EntityID = identity_id or str(uuid.uuid4())
-        self._namespace: Optional[str] = namespace
+        self._namespace: str | None = namespace
         self._metadata: MetadataDict = metadata or {}
         self._created_at: datetime = datetime.utcnow()
 
@@ -135,9 +132,9 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
     @classmethod
     def create(
         cls,
-        namespace: Optional[str] = None,
-        metadata: Optional[MetadataDict] = None,
-    ) -> "Identity":
+        namespace: str | None = None,
+        metadata: MetadataDict | None = None,
+    ) -> Identity:
         """Create a new Identity with auto-generated UUID.
 
         Args:
@@ -153,7 +150,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return cls(namespace=namespace, metadata=metadata)
 
     @classmethod
-    def from_string(cls, identity_string: str) -> "Identity":
+    def from_string(cls, identity_string: str) -> Identity:
         """Create an Identity from a string.
 
         Args:
@@ -234,7 +231,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return self._id
 
     @property
-    def namespace(self) -> Optional[str]:
+    def namespace(self) -> str | None:
         """Get the namespace.
 
         Returns:
@@ -334,7 +331,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         are_equal = self._id == other._id
         similarity = 1.0 if are_equal else 0.0
 
-        differences: Dict[str, Any] = {}
+        differences: dict[str, Any] = {}
         if not are_equal:
             differences["id"] = (self._id, other._id)
         if self._namespace != other._namespace:
@@ -435,7 +432,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Identity":
+    def deserialize(cls, data: bytes, format: str = "json") -> Identity:
         """Deserialize the identity from bytes.
 
         Args:
@@ -595,7 +592,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         """
         return hash(self._id)
 
-    def __copy__(self) -> "Identity":
+    def __copy__(self) -> Identity:
         """Create a shallow copy of the identity.
 
         Returns:
@@ -611,7 +608,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
             metadata=self._metadata.copy(),
         )
 
-    def __deepcopy__(self, memo: Dict[int, Any]) -> "Identity":
+    def __deepcopy__(self, memo: dict[int, Any]) -> Identity:
         """Create a deep copy of the identity.
 
         Args:

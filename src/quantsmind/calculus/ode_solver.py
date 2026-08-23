@@ -25,7 +25,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
 
 class ODESolver:
@@ -50,7 +51,7 @@ class ODESolver:
         method: str = "runge_kutta",
         step_size: float = 0.01,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ODESolver.
 
@@ -109,8 +110,8 @@ class ODESolver:
         self,
         func: Callable[[float, float], float],
         y0: float,
-        t_span: Tuple[float, float],
-    ) -> Tuple[List[float], List[float]]:
+        t_span: tuple[float, float],
+    ) -> tuple[list[float], list[float]]:
         """Solve an ODE.
 
         Args:
@@ -137,8 +138,8 @@ class ODESolver:
         self,
         func: Callable[[float, float], float],
         y0: float,
-        t_span: Tuple[float, float],
-    ) -> Tuple[List[float], List[float]]:
+        t_span: tuple[float, float],
+    ) -> tuple[list[float], list[float]]:
         """Euler method.
 
         Args:
@@ -170,8 +171,8 @@ class ODESolver:
         self,
         func: Callable[[float, float], float],
         y0: float,
-        t_span: Tuple[float, float],
-    ) -> Tuple[List[float], List[float]]:
+        t_span: tuple[float, float],
+    ) -> tuple[list[float], list[float]]:
         """Runge-Kutta 4th order method.
 
         Args:
@@ -209,8 +210,8 @@ class ODESolver:
         self,
         func: Callable[[float, float], float],
         y0: float,
-        t_span: Tuple[float, float],
-    ) -> Tuple[List[float], List[float]]:
+        t_span: tuple[float, float],
+    ) -> tuple[list[float], list[float]]:
         """Adaptive step size method.
 
         Args:
@@ -283,10 +284,10 @@ class ODESolver:
 
     def solve_system(
         self,
-        func: Callable[[float, List[float]], List[float]],
-        y0: List[float],
-        t_span: Tuple[float, float],
-    ) -> Tuple[List[float], List[List[float]]]:
+        func: Callable[[float, list[float]], list[float]],
+        y0: list[float],
+        t_span: tuple[float, float],
+    ) -> tuple[list[float], list[list[float]]]:
         """Solve a system of ODEs.
 
         Args:

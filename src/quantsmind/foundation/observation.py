@@ -45,13 +45,11 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_OBSERVATION_TYPE
 from quantsmind.foundation.enums import ObservationType
 from quantsmind.foundation.exceptions import (
     InvalidObservationError,
-    ObservationError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
@@ -59,7 +57,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -94,10 +91,10 @@ class Observation(Serializable, Validatable):
     def __init__(
         self,
         observation_type: ObservationType = ObservationType.MEASUREMENT,
-        value: Optional[Any] = None,
-        timestamp: Optional[datetime] = None,
-        uncertainty: Optional[float] = None,
-        metadata: Optional[MetadataDict] = None,
+        value: Any | None = None,
+        timestamp: datetime | None = None,
+        uncertainty: float | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize an Observation.
 
@@ -114,8 +111,8 @@ class Observation(Serializable, Validatable):
         self._id: str = str(uuid.uuid4())
         self._observation_type: ObservationType = observation_type
         self._timestamp: datetime = timestamp or datetime.utcnow()
-        self._value: Optional[Any] = value
-        self._uncertainty: Optional[float] = uncertainty
+        self._value: Any | None = value
+        self._uncertainty: float | None = uncertainty
         self._metadata: MetadataDict = metadata or {}
 
         logger.debug(f"Created observation: {observation_type.value} at {self._timestamp}")
@@ -157,7 +154,7 @@ class Observation(Serializable, Validatable):
         return self._timestamp
 
     @property
-    def value(self) -> Optional[Any]:
+    def value(self) -> Any | None:
         """Get the observed value.
 
         Returns:
@@ -169,7 +166,7 @@ class Observation(Serializable, Validatable):
         return self._value
 
     @property
-    def uncertainty(self) -> Optional[float]:
+    def uncertainty(self) -> float | None:
         """Get the uncertainty value.
 
         Returns:
@@ -261,7 +258,7 @@ class Observation(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Observation":
+    def deserialize(cls, data: bytes, format: str = "json") -> Observation:
         """Deserialize the observation from bytes.
 
         Args:

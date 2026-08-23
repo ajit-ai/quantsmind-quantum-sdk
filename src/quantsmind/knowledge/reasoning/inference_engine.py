@@ -25,7 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
 from quantsmind.knowledge.exceptions import ReasoningError
@@ -57,8 +58,8 @@ class InferenceEngine(IReasoner):
         engine_id: str,
         name: str,
         reasoning_type: ReasoningType,
-        inference_function: Optional[Callable[[Dict[str, Any], List[Dict[str, Any]]], Dict[str, Any]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        inference_function: Callable[[dict[str, Any], list[dict[str, Any]]], dict[str, Any]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an InferenceEngine.
 
@@ -81,8 +82,8 @@ class InferenceEngine(IReasoner):
         self._id = engine_id
         self._name = name
         self._reasoning_type = reasoning_type
-        self._rules: List[Dict[str, Any]] = []
-        self._facts: Dict[str, Any] = {}
+        self._rules: list[dict[str, Any]] = []
+        self._facts: dict[str, Any] = {}
         self._inference_function = inference_function
         self._metadata = metadata or {}
 
@@ -123,7 +124,7 @@ class InferenceEngine(IReasoner):
         return self._reasoning_type
 
     @property
-    def rules(self) -> List[Dict[str, Any]]:
+    def rules(self) -> list[dict[str, Any]]:
         """Get the inference rules.
 
         Returns:
@@ -135,7 +136,7 @@ class InferenceEngine(IReasoner):
         return self._rules.copy()
 
     @property
-    def facts(self) -> Dict[str, Any]:
+    def facts(self) -> dict[str, Any]:
         """Get the known facts.
 
         Returns:
@@ -147,7 +148,7 @@ class InferenceEngine(IReasoner):
         return self._facts.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the inference engine metadata.
 
         Returns:
@@ -158,7 +159,7 @@ class InferenceEngine(IReasoner):
         """
         return self._metadata.copy()
 
-    def add_rule(self, rule: Dict[str, Any]) -> None:
+    def add_rule(self, rule: dict[str, Any]) -> None:
         """Add an inference rule.
 
         Args:
@@ -244,7 +245,7 @@ class InferenceEngine(IReasoner):
         """
         return self.remove_fact(knowledge_id)
 
-    def reason(self, query: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, query: dict[str, Any]) -> dict[str, Any]:
         """Perform inference on a query.
 
         Args:
@@ -270,7 +271,7 @@ class InferenceEngine(IReasoner):
             "reasoning_steps": ["match_facts", "apply_rules", "derive_conclusion"],
         }
 
-    def forward_chain(self, goal: str) -> List[str]:
+    def forward_chain(self, goal: str) -> list[str]:
         """Perform forward chaining inference.
 
         Args:
@@ -285,12 +286,11 @@ class InferenceEngine(IReasoner):
         derived = []
         # Placeholder implementation
         for rule in self._rules:
-            if "if" in rule and "then" in rule:
-                if rule["if"] in self._facts.values():
-                    derived.append(rule["then"])
+            if "if" in rule and "then" in rule and rule["if"] in self._facts.values():
+                derived.append(rule["then"])
         return derived
 
-    def backward_chain(self, goal: str) -> List[str]:
+    def backward_chain(self, goal: str) -> list[str]:
         """Perform backward chaining inference.
 
         Args:
@@ -305,9 +305,8 @@ class InferenceEngine(IReasoner):
         required = []
         # Placeholder implementation
         for rule in self._rules:
-            if "then" in rule and rule["then"] == goal:
-                if "if" in rule:
-                    required.append(rule["if"])
+            if "then" in rule and rule["then"] == goal and "if" in rule:
+                required.append(rule["if"])
         return required
 
     def validate(self) -> ValidationResult:
@@ -329,7 +328,7 @@ class InferenceEngine(IReasoner):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

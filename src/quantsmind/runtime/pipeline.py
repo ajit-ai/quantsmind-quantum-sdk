@@ -32,12 +32,12 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState, TaskPriority
-from quantsmind.runtime.exceptions import PipelineError, ValidationError
-from quantsmind.runtime.types import ConfigDict, ExecutionResult, PipelineID, WorkflowID
+from quantsmind.runtime.exceptions import PipelineError
+from quantsmind.runtime.types import ExecutionResult, PipelineID, WorkflowID
 from quantsmind.runtime.workflow import Workflow
 
 logger = logging.getLogger(__name__)
@@ -71,8 +71,8 @@ class Pipeline:
         self,
         name: str,
         priority: TaskPriority = TaskPriority.NORMAL,
-        dependencies: Optional[List[PipelineID]] = None,
-        pipeline_id: Optional[PipelineID] = None,
+        dependencies: list[PipelineID] | None = None,
+        pipeline_id: PipelineID | None = None,
     ) -> None:
         """Initialize a Pipeline.
 
@@ -87,15 +87,15 @@ class Pipeline:
         """
         self._pipeline_id = pipeline_id or str(uuid.uuid4())
         self._name = name
-        self._stages: List[Workflow] = []
+        self._stages: list[Workflow] = []
         self._state = ExecutionState.CREATED
         self._priority = priority
         self._dependencies = dependencies or []
-        self._results: Dict[str, ExecutionResult] = {}
+        self._results: dict[str, ExecutionResult] = {}
         self._created_at = datetime.utcnow()
-        self._started_at: Optional[datetime] = None
-        self._completed_at: Optional[datetime] = None
-        self._metadata: Dict[str, Any] = {
+        self._started_at: datetime | None = None
+        self._completed_at: datetime | None = None
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created pipeline: {self._pipeline_id}")
@@ -149,7 +149,7 @@ class Pipeline:
         return self._priority
 
     @property
-    def dependencies(self) -> List[PipelineID]:
+    def dependencies(self) -> list[PipelineID]:
         """Get the pipeline dependencies.
 
         Returns:
@@ -209,7 +209,7 @@ class Pipeline:
         self._stages = [stage for stage in self._stages if stage.workflow_id != workflow_id]
         logger.debug(f"Removed stage from pipeline: {workflow_id}")
 
-    def get_stage(self, index: int) -> Optional[Workflow]:
+    def get_stage(self, index: int) -> Workflow | None:
         """Get a stage by index.
 
         Args:
@@ -225,7 +225,7 @@ class Pipeline:
             return self._stages[index]
         return None
 
-    def get_stages(self) -> List[Workflow]:
+    def get_stages(self) -> list[Workflow]:
         """Get all stages.
 
         Returns:
@@ -236,7 +236,7 @@ class Pipeline:
         """
         return self._stages.copy()
 
-    def validate(self) -> Tuple[bool, List[str]]:
+    def validate(self) -> Tuple[bool, list[str]]:
         """Validate the pipeline.
 
         Returns:
@@ -260,7 +260,7 @@ class Pipeline:
 
         return (len(errors) == 0, errors)
 
-    def execute(self) -> Dict[str, ExecutionResult]:
+    def execute(self) -> dict[str, ExecutionResult]:
         """Execute the pipeline.
 
         Returns:
@@ -339,7 +339,7 @@ class Pipeline:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert pipeline to dictionary.
 
         Returns:

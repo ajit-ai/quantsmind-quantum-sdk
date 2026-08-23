@@ -26,7 +26,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 
 class Plotter:
@@ -48,9 +48,9 @@ class Plotter:
     def __init__(
         self,
         name: str = "default",
-        figure_size: Tuple[float, float] = (8, 6),
+        figure_size: tuple[float, float] = (8, 6),
         style: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Plotter.
 
@@ -82,13 +82,13 @@ class Plotter:
 
     def line_plot(
         self,
-        x: List[float],
-        y: List[float],
+        x: list[float],
+        y: list[float],
         title: str = "",
         xlabel: str = "x",
         ylabel: str = "y",
         color: str = "blue",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a line plot.
 
         Args:
@@ -120,14 +120,14 @@ class Plotter:
 
     def scatter_plot(
         self,
-        x: List[float],
-        y: List[float],
+        x: list[float],
+        y: list[float],
         title: str = "",
         xlabel: str = "x",
         ylabel: str = "y",
         color: str = "blue",
         marker: str = "o",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a scatter plot.
 
         Args:
@@ -161,13 +161,13 @@ class Plotter:
 
     def histogram(
         self,
-        data: List[float],
+        data: list[float],
         bins: int = 10,
         title: str = "",
         xlabel: str = "Value",
         ylabel: str = "Frequency",
         color: str = "blue",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a histogram.
 
         Args:
@@ -199,13 +199,13 @@ class Plotter:
 
     def bar_plot(
         self,
-        categories: List[str],
-        values: List[float],
+        categories: list[str],
+        values: list[float],
         title: str = "",
         xlabel: str = "Category",
         ylabel: str = "Value",
         color: str = "blue",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a bar plot.
 
         Args:
@@ -237,14 +237,14 @@ class Plotter:
 
     def surface_plot(
         self,
-        x: List[List[float]],
-        y: List[List[float]],
-        z: List[List[float]],
+        x: list[list[float]],
+        y: list[list[float]],
+        z: list[list[float]],
         title: str = "",
         xlabel: str = "x",
         ylabel: str = "y",
         zlabel: str = "z",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a 3D surface plot.
 
         Args:
@@ -278,13 +278,13 @@ class Plotter:
 
     def contour_plot(
         self,
-        x: List[List[float]],
-        y: List[List[float]],
-        z: List[List[float]],
+        x: list[list[float]],
+        y: list[list[float]],
+        z: list[list[float]],
         title: str = "",
         xlabel: str = "x",
         ylabel: str = "y",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a contour plot.
 
         Args:
@@ -316,10 +316,10 @@ class Plotter:
 
     def multi_plot(
         self,
-        plots: List[Dict[str, Any]],
+        plots: list[dict[str, Any]],
         rows: int = 1,
         cols: int = 1,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a multi-panel plot.
 
         Args:
@@ -345,10 +345,10 @@ class Plotter:
 
     def export_plot(
         self,
-        plot_data: Dict[str, Any],
+        plot_data: dict[str, Any],
         filename: str,
         format: str = "png",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Export a plot to a file.
 
         Args:

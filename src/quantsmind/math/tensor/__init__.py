@@ -42,9 +42,11 @@ from typing import Any, List, Tuple, Union
 
 from quantsmind.math.exceptions import (
     DimensionError,
-    IndexError as MathIndexError,
     InvalidOperationError,
     ShapeError,
+)
+from quantsmind.math.exceptions import (
+    IndexError as MathIndexError,
 )
 from quantsmind.math.types import Scalar, Shape, TensorShape
 
@@ -226,7 +228,7 @@ class Tensor:
         """
         if isinstance(a, (int, float, complex)):
             return a + b
-        return [self._add_data(ai, bi) for ai, bi in zip(a, b)]
+        return [self._add_data(ai, bi) for ai, bi in zip(a, b, strict=False)]
 
     def __sub__(self, other: Tensor) -> Tensor:
         """Subtract two tensors.
@@ -259,7 +261,7 @@ class Tensor:
         """
         if isinstance(a, (int, float, complex)):
             return a - b
-        return [self._sub_data(ai, bi) for ai, bi in zip(a, b)]
+        return [self._sub_data(ai, bi) for ai, bi in zip(a, b, strict=False)]
 
     def __mul__(self, scalar: Scalar) -> Tensor:
         """Multiply tensor by scalar.
@@ -323,7 +325,7 @@ class Tensor:
             raise ShapeError(f"Cannot reshape {self._shape} to {new_shape}")
         return Tensor(self._unflatten(flat, new_shape))
 
-    def _flatten(self, data: Any) -> List[Scalar]:
+    def _flatten(self, data: Any) -> list[Scalar]:
         """Flatten nested data to a list.
 
         Args:
@@ -339,7 +341,7 @@ class Tensor:
             result.extend(self._flatten(item))
         return result
 
-    def _unflatten(self, flat: List[Scalar], shape: Shape) -> Any:
+    def _unflatten(self, flat: list[Scalar], shape: Shape) -> Any:
         """Unflatten a list to nested data.
 
         Args:
@@ -370,7 +372,7 @@ class Tensor:
             size *= dim
         return size
 
-    def transpose(self, axes: Tuple[int, ...] | None = None) -> Tensor:
+    def transpose(self, axes: tuple[int, ...] | None = None) -> Tensor:
         """Transpose the tensor.
 
         Args:
@@ -388,7 +390,7 @@ class Tensor:
             raise ShapeError(f"Number of axes must match rank: {len(axes)} vs {self.rank}")
         return Tensor(self._transpose_data(self._data, axes))
 
-    def _transpose_data(self, data: Any, axes: Tuple[int, ...]) -> Any:
+    def _transpose_data(self, data: Any, axes: tuple[int, ...]) -> Any:
         """Recursively transpose nested data.
 
         Args:

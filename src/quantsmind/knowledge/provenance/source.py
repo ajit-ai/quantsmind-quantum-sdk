@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import SourceID, ValidationResult
 
@@ -55,7 +54,7 @@ class Source:
         source_id: SourceID,
         source_type: str,
         location: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Source.
 
@@ -129,7 +128,7 @@ class Source:
         return self._accessed_at
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the source metadata.
 
         Returns:
@@ -179,7 +178,7 @@ class Source:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -227,7 +226,7 @@ class SourceRegistry:
         Example:
             >>> registry = SourceRegistry()
         """
-        self._sources: Dict[SourceID, Source] = {}
+        self._sources: dict[SourceID, Source] = {}
 
     def register(self, source: Source) -> None:
         """Register a source.
@@ -257,7 +256,7 @@ class SourceRegistry:
             return True
         return False
 
-    def get(self, source_id: SourceID) -> Optional[Source]:
+    def get(self, source_id: SourceID) -> Source | None:
         """Get a source by ID.
 
         Args:
@@ -307,7 +306,7 @@ class SourceRegistry:
         """
         return len(self._sources)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

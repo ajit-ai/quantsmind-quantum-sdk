@@ -25,7 +25,7 @@ quantsmind.quantum.provider.provider (provider module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import ProviderType
 from quantsmind.quantum.algorithms.exceptions import ProviderError
@@ -51,7 +51,7 @@ class ProviderFactory:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ProviderFactory.
 
@@ -94,8 +94,8 @@ class ProviderFactory:
         self,
         name: str,
         provider_type: ProviderType,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create a provider instance.
 
@@ -118,8 +118,8 @@ class ProviderFactory:
 
     def create_ibm_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create an IBM provider.
 
@@ -137,8 +137,8 @@ class ProviderFactory:
 
     def create_google_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create a Google provider.
 
@@ -156,8 +156,8 @@ class ProviderFactory:
 
     def create_aws_braket_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create an AWS Braket provider.
 
@@ -175,8 +175,8 @@ class ProviderFactory:
 
     def create_azure_quantum_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create an Azure Quantum provider.
 
@@ -194,8 +194,8 @@ class ProviderFactory:
 
     def create_ionq_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create an IonQ provider.
 
@@ -213,8 +213,8 @@ class ProviderFactory:
 
     def create_rigetti_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create a Rigetti provider.
 
@@ -232,8 +232,8 @@ class ProviderFactory:
 
     def create_quantinuum_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create a Quantinuum provider.
 
@@ -251,8 +251,8 @@ class ProviderFactory:
 
     def create_xanadu_provider(
         self,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: dict[str, Any] | None = None,
     ) -> QuantumProvider:
         """Create a Xanadu provider.
 
@@ -287,7 +287,7 @@ class ProviderFactory:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

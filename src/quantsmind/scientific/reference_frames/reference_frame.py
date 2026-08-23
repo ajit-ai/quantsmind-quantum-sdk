@@ -24,9 +24,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.scientific.exceptions import ReferenceFrameError
 from quantsmind.scientific.interfaces import IReferenceFrame
 from quantsmind.scientific.types import FrameID, FrameTransform
 
@@ -52,7 +51,7 @@ class ReferenceFrame(IReferenceFrame):
         frame_id: FrameID,
         name: str,
         description: str = "",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ReferenceFrame.
 
@@ -107,7 +106,7 @@ class ReferenceFrame(IReferenceFrame):
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the frame metadata.
 
         Returns:
@@ -146,7 +145,7 @@ class ReferenceFrame(IReferenceFrame):
         """
         raise NotImplementedError("Subclasses must implement transform_to()")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

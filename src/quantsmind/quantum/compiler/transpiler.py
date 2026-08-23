@@ -26,10 +26,9 @@ quantsmind.quantum.circuit.circuit (circuit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CompilerError
-from quantsmind.quantum.algorithms.interfaces import IQuantumBackend
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.backend.backend import QuantumBackend
 from quantsmind.quantum.circuit.circuit import QuantumCircuit
@@ -55,9 +54,9 @@ class Transpiler:
     def __init__(
         self,
         name: str,
-        target: Optional[QuantumBackend] = None,
+        target: QuantumBackend | None = None,
         optimization_level: int = 2,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Transpiler.
 
@@ -94,7 +93,7 @@ class Transpiler:
         return self._name
 
     @property
-    def target(self) -> Optional[QuantumBackend]:
+    def target(self) -> QuantumBackend | None:
         """Get the target backend.
 
         Returns:
@@ -118,7 +117,7 @@ class Transpiler:
         return self._optimization_level
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the transpiler metadata.
 
         Returns:
@@ -154,7 +153,7 @@ class Transpiler:
 
         self._optimization_level = level
 
-    def transpile(self, circuit: QuantumCircuit, backend: Optional[QuantumBackend] = None) -> QuantumCircuit:
+    def transpile(self, circuit: QuantumCircuit, backend: QuantumBackend | None = None) -> QuantumCircuit:
         """Transpile a circuit for a backend.
 
         Args:
@@ -176,7 +175,7 @@ class Transpiler:
         transpiled = QuantumCircuit(f"{circuit.name}_transpiled", circuit.num_qubits, circuit.metadata.copy())
         
         # Copy gates (placeholder - actual transpilation would decompose gates)
-        for gate, qubits in zip(circuit.gates, circuit._qubit_indices):
+        for gate, qubits in zip(circuit.gates, circuit._qubit_indices, strict=False):
             transpiled.add_gate(gate, qubits)
         
         return transpiled
@@ -200,7 +199,7 @@ class Transpiler:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

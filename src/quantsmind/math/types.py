@@ -34,7 +34,8 @@ Future Extensions
 
 from __future__ import annotations
 
-from typing import Any, Callable, List, Tuple, Union
+from collections.abc import Callable
+from typing import Any, Union
 
 # Scalar types
 Scalar = Union[int, float, complex]
@@ -44,27 +45,27 @@ Float = float
 Complex = complex
 
 # Vector types
-Vector = List[Scalar]
-RealVector = List[Real]
-ComplexVector = List[Complex]
+Vector = list[Scalar]
+RealVector = list[Real]
+ComplexVector = list[Complex]
 
 # Matrix types
-Matrix = List[List[Scalar]]
-RealMatrix = List[List[Real]]
-ComplexMatrix = List[List[Complex]]
+Matrix = list[list[Scalar]]
+RealMatrix = list[list[Real]]
+ComplexMatrix = list[list[Complex]]
 
 # Tensor types
-Tensor = List[Any]
-TensorShape = Tuple[int, ...]
+Tensor = list[Any]
+TensorShape = tuple[int, ...]
 
 # Shape types
-Shape = Tuple[int, ...]
+Shape = tuple[int, ...]
 Dimension = int
-Dimensions = Tuple[int, ...]
+Dimensions = tuple[int, ...]
 
 # Index types
 Index = int
-Indices = Tuple[int, ...]
+Indices = tuple[int, ...]
 Slice = slice
 
 # Function types
@@ -82,13 +83,13 @@ ConstraintFunction = Callable[[Vector], bool]
 
 # Graph types
 Node = Any
-Edge = Tuple[Node, Node]
+Edge = tuple[Node, Node]
 AdjacencyMatrix = Matrix
 
 # Geometry types
-Point = Tuple[float, ...]
-Line = Tuple[Point, Point]
-Plane = Tuple[Point, Point, Point]
+Point = tuple[float, ...]
+Line = tuple[Point, Point]
+Plane = tuple[Point, Point, Point]
 
 # Numerical types
 Tolerance = float
@@ -96,21 +97,21 @@ IterationLimit = int
 ConvergenceCriterion = Callable[[Scalar], bool]
 
 # Result types
-ValidationResult = Tuple[bool, List[str]]
-SerializationResult = Tuple[bool, str]
+ValidationResult = tuple[bool, list[str]]
+SerializationResult = tuple[bool, str]
 
 # Coordinate types
-CartesianCoordinate = Tuple[float, float, float]
-PolarCoordinate = Tuple[float, float]
-SphericalCoordinate = Tuple[float, float, float]
+CartesianCoordinate = tuple[float, float, float]
+PolarCoordinate = tuple[float, float]
+SphericalCoordinate = tuple[float, float, float]
 
 # Complex number representations
-ComplexCartesian = Tuple[float, float]
-ComplexPolar = Tuple[float, float]
+ComplexCartesian = tuple[float, float]
+ComplexPolar = tuple[float, float]
 
 # Statistical types
-Sample = List[Scalar]
-Population = List[Scalar]
+Sample = list[Scalar]
+Population = list[Scalar]
 Statistic = Callable[[Sample], Scalar]
 
 # Transform types

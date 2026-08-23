@@ -24,7 +24,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import GateError
 from quantsmind.quantum.algorithms.interfaces import IQuantumGate
@@ -53,8 +53,8 @@ class QuantumGate(IQuantumGate):
         name: str,
         gate_type: str,
         num_qubits: int,
-        parameters: Optional[GateParameters] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: GateParameters | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumGate.
 
@@ -78,7 +78,7 @@ class QuantumGate(IQuantumGate):
         self._gate_type = gate_type
         self._num_qubits = num_qubits
         self._parameters = parameters or {}
-        self._matrix: Optional[List[List[complex]]] = None
+        self._matrix: list[list[complex]] | None = None
         self._metadata = metadata or {}
 
     @property
@@ -130,7 +130,7 @@ class QuantumGate(IQuantumGate):
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the gate metadata.
 
         Returns:
@@ -141,7 +141,7 @@ class QuantumGate(IQuantumGate):
         """
         return self._metadata.copy()
 
-    def set_matrix(self, matrix: List[List[complex]]) -> None:
+    def set_matrix(self, matrix: list[list[complex]]) -> None:
         """Set the unitary matrix.
 
         Args:
@@ -172,7 +172,7 @@ class QuantumGate(IQuantumGate):
         """
         self._parameters[key] = value
 
-    def get_matrix(self) -> List[List[complex]]:
+    def get_matrix(self) -> list[list[complex]]:
         """Get the unitary matrix representation.
 
         Returns:
@@ -185,7 +185,7 @@ class QuantumGate(IQuantumGate):
             raise GateError("Gate matrix not set", {"name": self._name})
         return [row.copy() for row in self._matrix]
 
-    def get_parameter(self, key: str, default: Optional[float] = None) -> Optional[float]:
+    def get_parameter(self, key: str, default: float | None = None) -> float | None:
         """Get a parameter.
 
         Args:
@@ -226,7 +226,7 @@ class QuantumGate(IQuantumGate):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -23,8 +23,6 @@ quantsmind.scientific.exceptions (scientific exceptions)
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
 from quantsmind.scientific.dimensions.dimension import Dimension
 from quantsmind.scientific.exceptions import DimensionError
 from quantsmind.scientific.types import DimensionVector
@@ -49,7 +47,7 @@ class DimensionalAnalysis:
         Example:
             >>> analysis = DimensionalAnalysis()
         """
-        self._dimensions: Dict[str, Dimension] = {}
+        self._dimensions: dict[str, Dimension] = {}
         self._initialize_base_dimensions()
 
     def _initialize_base_dimensions(self) -> None:
@@ -91,7 +89,7 @@ class DimensionalAnalysis:
         self._dimensions[name] = dimension
         return dimension
 
-    def get_dimension(self, name: str) -> Optional[Dimension]:
+    def get_dimension(self, name: str) -> Dimension | None:
         """Get a dimension by name.
 
         Args:
@@ -185,7 +183,7 @@ class DimensionalAnalysis:
         Example:
             >>> simplified = analysis.simplify_dimension((2, 1, -2, 0, 0, 0, 0))
         """
-        for name, dimension in self._dimensions.items():
+        for _name, dimension in self._dimensions.items():
             if dimension.vector == vector:
                 return dimension
         
@@ -208,7 +206,7 @@ class DimensionalAnalysis:
         symbols = ["L", "M", "T", "Θ", "I", "N", "J"]
         parts = []
         
-        for i, (symbol, power) in enumerate(zip(symbols, vector)):
+        for _i, (symbol, power) in enumerate(zip(symbols, vector, strict=False)):
             if power != 0:
                 if power == 1:
                     parts.append(symbol)
@@ -217,7 +215,7 @@ class DimensionalAnalysis:
         
         return "·".join(parts) if parts else "dimensionless"
 
-    def analyze_equation(self, left: Dimension, right: Dimension) -> Tuple[bool, str]:
+    def analyze_equation(self, left: Dimension, right: Dimension) -> tuple[bool, str]:
         """Analyze dimensional consistency of an equation.
 
         Args:
@@ -237,7 +235,7 @@ class DimensionalAnalysis:
             right_formula = self.get_dimensional_formula(right)
             return False, f"Dimensions inconsistent: {left_formula} ≠ {right_formula}"
 
-    def get_all_dimensions(self) -> Dict[str, Dimension]:
+    def get_all_dimensions(self) -> dict[str, Dimension]:
         """Get all registered dimensions.
 
         Returns:

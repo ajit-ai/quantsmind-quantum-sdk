@@ -163,7 +163,7 @@ class Transformable(Protocol):
         """
         ...
 
-    def from_cartesian(self, coords: CoordinateTriple) -> "Transformable":
+    def from_cartesian(self, coords: CoordinateTriple) -> Transformable:
         """Transform from Cartesian coordinates.
 
         Args:
@@ -202,7 +202,7 @@ class Serializable(Protocol):
         ...
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Serializable":
+    def from_dict(cls, data: dict) -> Serializable:
         """Create from dictionary.
 
         Args:

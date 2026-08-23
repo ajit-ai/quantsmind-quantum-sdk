@@ -27,7 +27,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 
 class KnowledgeError(Exception):
@@ -43,7 +43,7 @@ class KnowledgeError(Exception):
         >>> raise KnowledgeError("Knowledge operation failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a KnowledgeError.
 
         Args:
@@ -80,7 +80,7 @@ class DatasetError(KnowledgeError):
         >>> raise DatasetError("Dataset not found", {"dataset_id": "ds_001"})
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a DatasetError.
 
         Args:
@@ -102,7 +102,7 @@ class MetadataError(KnowledgeError):
         >>> raise MetadataError("Invalid metadata format")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a MetadataError.
 
         Args:
@@ -124,7 +124,7 @@ class OntologyError(KnowledgeError):
         >>> raise OntologyError("Concept not found in ontology")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize an OntologyError.
 
         Args:
@@ -146,7 +146,7 @@ class GraphError(KnowledgeError):
         >>> raise GraphError("Graph traversal failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a GraphError.
 
         Args:
@@ -168,7 +168,7 @@ class ProvenanceError(KnowledgeError):
         >>> raise ProvenanceError("Provenance chain broken")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a ProvenanceError.
 
         Args:
@@ -190,7 +190,7 @@ class ReasoningError(KnowledgeError):
         >>> raise ReasoningError("Inference failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a ReasoningError.
 
         Args:
@@ -212,7 +212,7 @@ class RepositoryError(KnowledgeError):
         >>> raise RepositoryError("Knowledge item not found")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a RepositoryError.
 
         Args:
@@ -234,7 +234,7 @@ class ValidationError(KnowledgeError):
         >>> raise ValidationError("Schema validation failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a ValidationError.
 
         Args:
@@ -256,7 +256,7 @@ class SerializationError(KnowledgeError):
         >>> raise SerializationError("JSON serialization failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a SerializationError.
 
         Args:
@@ -278,7 +278,7 @@ class SearchError(KnowledgeError):
         >>> raise SearchError("Search query invalid")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a SearchError.
 
         Args:
@@ -300,7 +300,7 @@ class TransformationError(KnowledgeError):
         >>> raise TransformationError("Data transformation failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a TransformationError.
 
         Args:
@@ -322,7 +322,7 @@ class EvidenceError(KnowledgeError):
         >>> raise EvidenceError("Evidence chain invalid")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize an EvidenceError.
 
         Args:
@@ -344,7 +344,7 @@ class LineageError(KnowledgeError):
         >>> raise LineageError("Lineage tracking failed")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a LineageError.
 
         Args:
@@ -366,7 +366,7 @@ class QualityError(KnowledgeError):
         >>> raise QualityError("Quality rule violation")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a QualityError.
 
         Args:
@@ -388,7 +388,7 @@ class VersionError(KnowledgeError):
         >>> raise VersionError("Version conflict")
     """
 
-    def __init__(self, message: str, context: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a VersionError.
 
         Args:

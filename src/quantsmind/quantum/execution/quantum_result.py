@@ -24,7 +24,7 @@ quantsmind.quantum.execution.execution_context (execution context module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import ExecutionError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -51,9 +51,9 @@ class QuantumResult:
         self,
         job_id: str,
         context: ExecutionContext,
-        counts: Dict[str, int],
-        state: Optional[Any] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        counts: dict[str, int],
+        state: Any | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumResult.
 
@@ -107,7 +107,7 @@ class QuantumResult:
         return self._context
 
     @property
-    def counts(self) -> Dict[str, int]:
+    def counts(self) -> dict[str, int]:
         """Get the measurement counts.
 
         Returns:
@@ -119,7 +119,7 @@ class QuantumResult:
         return self._counts.copy()
 
     @property
-    def state(self) -> Optional[Any]:
+    def state(self) -> Any | None:
         """Get the final state.
 
         Returns:
@@ -131,7 +131,7 @@ class QuantumResult:
         return self._state
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the result metadata.
 
         Returns:
@@ -153,7 +153,7 @@ class QuantumResult:
         """
         return sum(self._counts.values())
 
-    def get_probabilities(self) -> Dict[str, float]:
+    def get_probabilities(self) -> dict[str, float]:
         """Get the measurement probabilities.
 
         Returns:
@@ -221,7 +221,7 @@ class QuantumResult:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

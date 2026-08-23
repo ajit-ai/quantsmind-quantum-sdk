@@ -25,7 +25,7 @@ quantsmind.scientific.units.base_unit (base unit)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.exceptions import MeasurementError
 from quantsmind.scientific.interfaces import IMeasurement, IUnit
@@ -55,7 +55,7 @@ class Measurement(IMeasurement):
         uncertainty: UncertaintyValue,
         unit: IUnit,
         confidence: ConfidenceLevel = 0.95,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Measurement.
 
@@ -130,7 +130,7 @@ class Measurement(IMeasurement):
         return self._confidence
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the measurement metadata.
 
         Returns:
@@ -183,7 +183,7 @@ class Measurement(IMeasurement):
         lower, upper = self.range
         return lower <= value <= upper
 
-    def convert_to(self, target_unit: IUnit) -> "Measurement":
+    def convert_to(self, target_unit: IUnit) -> Measurement:
         """Convert to a different unit.
 
         Args:
@@ -217,7 +217,7 @@ class Measurement(IMeasurement):
 
         return Measurement(converted_value, converted_uncertainty, target_unit, self._confidence, self._metadata)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

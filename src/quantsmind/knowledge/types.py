@@ -29,8 +29,9 @@ uuid (standard library)
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Union
 from uuid import UUID
 
 # Dataset types
@@ -39,14 +40,14 @@ DatasetName = str
 DatasetVersion = str
 DatasetSize = int
 RecordCount = int
-DatasetData = Union[List[Dict[str, Any]], Dict[str, Any]]
-DatasetSchema = Dict[str, Any]
+DatasetData = Union[list[dict[str, Any]], dict[str, Any]]
+DatasetSchema = dict[str, Any]
 
 # Metadata types
 MetadataID = Union[str, UUID]
 MetadataKey = str
 MetadataValue = Any
-MetadataDict = Dict[MetadataKey, MetadataValue]
+MetadataDict = dict[MetadataKey, MetadataValue]
 Tag = str
 Label = str
 Annotation = str
@@ -67,10 +68,10 @@ RelationType = str
 GraphID = Union[str, UUID]
 NodeID = Union[str, UUID]
 EdgeID = Union[str, UUID]
-NodeData = Dict[str, Any]
-EdgeData = Dict[str, Any]
-AdjacencyList = Dict[NodeID, List[Tuple[NodeID, EdgeData]]]
-Path = List[NodeID]
+NodeData = dict[str, Any]
+EdgeData = dict[str, Any]
+AdjacencyList = dict[NodeID, list[tuple[NodeID, EdgeData]]]
+Path = list[NodeID]
 
 # Provenance types
 ProvenanceID = Union[str, UUID]
@@ -80,30 +81,30 @@ ExperimentID = Union[str, UUID]
 WorkflowID = Union[str, UUID]
 HistoryID = Union[str, UUID]
 AuditID = Union[str, UUID]
-ProvenanceChain = List[Dict[str, Any]]
+ProvenanceChain = list[dict[str, Any]]
 
 # Lineage types
 LineageID = Union[str, UUID]
 LineageNodeID = Union[str, UUID]
 LineageEdgeID = Union[str, UUID]
-LineageGraph = Dict[LineageNodeID, List[LineageNodeID]]
+LineageGraph = dict[LineageNodeID, list[LineageNodeID]]
 
 # Observation types
 ObservationID = Union[str, UUID]
 ObservationSessionID = Union[str, UUID]
-ObservationData = Dict[str, Any]
+ObservationData = dict[str, Any]
 ObservationTimestamp = datetime
 
 # Measurement types
 MeasurementID = Union[str, UUID]
 MeasurementValue = Union[int, float]
 MeasurementUnit = str
-MeasurementData = Dict[str, Any]
+MeasurementData = dict[str, Any]
 
 # Quality types
 QualityRuleID = Union[str, UUID]
 QualityScore = float
-QualityReport = Dict[str, Any]
+QualityReport = dict[str, Any]
 
 # Transformation types
 TransformationID = Union[str, UUID]
@@ -113,27 +114,27 @@ ConverterFunction = Callable[[Any], Any]
 
 # Indexing types
 IndexID = Union[str, UUID]
-IndexKey = Union[str, Tuple[str, ...]]
+IndexKey = Union[str, tuple[str, ...]]
 IndexValue = Any
-IndexData = Dict[IndexKey, IndexValue]
+IndexData = dict[IndexKey, IndexValue]
 
 # Search types
 SearchQuery = str
-SearchResults = List[Dict[str, Any]]
+SearchResults = list[dict[str, Any]]
 SearchScore = float
-SearchFilter = Dict[str, Any]
+SearchFilter = dict[str, Any]
 
 # Repository types
 RepositoryID = Union[str, UUID]
 KnowledgeItemID = Union[str, UUID]
-KnowledgeItemData = Dict[str, Any]
+KnowledgeItemData = dict[str, Any]
 
 # Reasoning types
 ReasoningID = Union[str, UUID]
 InferenceID = Union[str, UUID]
 RuleID = Union[str, UUID]
 Explanation = str
-Prediction = Dict[str, Any]
+Prediction = dict[str, Any]
 Confidence = float
 
 # Evidence types
@@ -142,53 +143,53 @@ HypothesisID = Union[str, UUID]
 TheoryID = Union[str, UUID]
 LawID = Union[str, UUID]
 FactID = Union[str, UUID]
-EvidenceChain = List[EvidenceID]
+EvidenceChain = list[EvidenceID]
 
 # Validation types
-ValidationResult = Tuple[bool, List[str]]
+ValidationResult = tuple[bool, list[str]]
 ValidationRule = Callable[[Any], ValidationResult]
-ValidationReport = Dict[str, Any]
+ValidationReport = dict[str, Any]
 
 # Serialization types
-SerializedData = Union[str, bytes, Dict[str, Any]]
-SerializationOptions = Dict[str, Any]
+SerializedData = Union[str, bytes, dict[str, Any]]
+SerializationOptions = dict[str, Any]
 
 # Versioning types
 Version = str
 VersionID = Union[str, UUID]
-VersionMetadata = Dict[str, Any]
+VersionMetadata = dict[str, Any]
 
 # Data source types
 DataSourceID = Union[str, UUID]
-DataSourceConfig = Dict[str, Any]
+DataSourceConfig = dict[str, Any]
 DataSourceConnection = Any
 
 # General knowledge types
 KnowledgeID = Union[str, UUID]
-KnowledgeData = Dict[str, Any]
-KnowledgeGraph = Dict[NodeID, List[Tuple[NodeID, EdgeData]]]
+KnowledgeData = dict[str, Any]
+KnowledgeGraph = dict[NodeID, list[tuple[NodeID, EdgeData]]]
 KnowledgeMetadata = MetadataDict
 
 # Lifecycle types
 LifecycleStage = str
 LifecycleState = str
-LifecycleTransition = Tuple[LifecycleStage, LifecycleStage]
+LifecycleTransition = tuple[LifecycleStage, LifecycleStage]
 
 # Entity types
 EntityID = Union[str, UUID]
 EntityType = str
-EntityData = Dict[str, Any]
+EntityData = dict[str, Any]
 EntityState = str
 
 # State types
 StateID = Union[str, UUID]
-StateData = Dict[str, Any]
-StateTransition = Tuple[StateID, StateID]
+StateData = dict[str, Any]
+StateTransition = tuple[StateID, StateID]
 
 # Interaction types
 InteractionID = Union[str, UUID]
 InteractionType = str
-InteractionData = Dict[str, Any]
+InteractionData = dict[str, Any]
 
 # Data types
 DataID = Union[str, UUID]
@@ -197,7 +198,7 @@ DataValue = Any
 
 # Information types
 InformationID = Union[str, UUID]
-InformationData = Dict[str, Any]
+InformationData = dict[str, Any]
 
 # Knowledge types
 KnowledgeType = str
@@ -205,17 +206,17 @@ KnowledgeContent = Any
 
 # Decision types
 DecisionID = Union[str, UUID]
-DecisionData = Dict[str, Any]
+DecisionData = dict[str, Any]
 DecisionOutcome = str
 
 # Action types
 ActionID = Union[str, UUID]
 ActionType = str
-ActionData = Dict[str, Any]
+ActionData = dict[str, Any]
 
 # Evolution types
 EvolutionID = Union[str, UUID]
-EvolutionData = Dict[str, Any]
+EvolutionData = dict[str, Any]
 
 # Export
 __all__ = [

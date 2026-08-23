@@ -37,27 +37,19 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any
 
-from quantsmind.math.exceptions import (
-    DimensionError,
-    DivisionByZeroError,
-    ProbabilityError,
-    ShapeError,
-    ValueError as MathValueError,
-)
 from quantsmind.math.types import (
     Matrix,
     Scalar,
     Shape,
-    TensorShape,
     Vector,
 )
 
 logger = logging.getLogger(__name__)
 
 
-def validate_scalar(value: Any) -> Tuple[bool, List[str]]:
+def validate_scalar(value: Any) -> tuple[bool, list[str]]:
     """Validate that a value is a scalar.
 
     Args:
@@ -74,7 +66,7 @@ def validate_scalar(value: Any) -> Tuple[bool, List[str]]:
     return (False, [f"Expected scalar, got {type(value).__name__}"])
 
 
-def validate_vector(vector: Vector) -> Tuple[bool, List[str]]:
+def validate_vector(vector: Vector) -> tuple[bool, list[str]]:
     """Validate that a value is a valid vector.
 
     Args:
@@ -99,7 +91,7 @@ def validate_vector(vector: Vector) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_matrix(matrix: Matrix) -> Tuple[bool, List[str]]:
+def validate_matrix(matrix: Matrix) -> tuple[bool, list[str]]:
     """Validate that a value is a valid matrix.
 
     Args:
@@ -137,7 +129,7 @@ def validate_matrix(matrix: Matrix) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_shape(shape: Shape, expected: Shape) -> Tuple[bool, List[str]]:
+def validate_shape(shape: Shape, expected: Shape) -> tuple[bool, list[str]]:
     """Validate that a shape matches the expected shape.
 
     Args:
@@ -155,7 +147,7 @@ def validate_shape(shape: Shape, expected: Shape) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_dimensions_compatible(shape1: Shape, shape2: Shape) -> Tuple[bool, List[str]]:
+def validate_dimensions_compatible(shape1: Shape, shape2: Shape) -> tuple[bool, list[str]]:
     """Validate that two shapes are compatible for operations.
 
     Args:
@@ -177,7 +169,7 @@ def validate_dimensions_compatible(shape1: Shape, shape2: Shape) -> Tuple[bool, 
     return (True, [])
 
 
-def validate_probability(value: float) -> Tuple[bool, List[str]]:
+def validate_probability(value: float) -> tuple[bool, list[str]]:
     """Validate that a value is a valid probability.
 
     Args:
@@ -198,7 +190,7 @@ def validate_probability(value: float) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_non_zero(value: Scalar, tolerance: float = 1e-10) -> Tuple[bool, List[str]]:
+def validate_non_zero(value: Scalar, tolerance: float = 1e-10) -> tuple[bool, list[str]]:
     """Validate that a value is non-zero within tolerance.
 
     Args:
@@ -216,7 +208,7 @@ def validate_non_zero(value: Scalar, tolerance: float = 1e-10) -> Tuple[bool, Li
     return (True, [])
 
 
-def validate_positive(value: Scalar) -> Tuple[bool, List[str]]:
+def validate_positive(value: Scalar) -> tuple[bool, list[str]]:
     """Validate that a value is positive.
 
     Args:
@@ -237,7 +229,7 @@ def validate_positive(value: Scalar) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_non_negative(value: Scalar) -> Tuple[bool, List[str]]:
+def validate_non_negative(value: Scalar) -> tuple[bool, list[str]]:
     """Validate that a value is non-negative.
 
     Args:
@@ -258,7 +250,7 @@ def validate_non_negative(value: Scalar) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_square_matrix(matrix: Matrix) -> Tuple[bool, List[str]]:
+def validate_square_matrix(matrix: Matrix) -> tuple[bool, list[str]]:
     """Validate that a matrix is square.
 
     Args:
@@ -283,7 +275,7 @@ def validate_square_matrix(matrix: Matrix) -> Tuple[bool, List[str]]:
     return (True, [])
 
 
-def validate_symmetric_matrix(matrix: Matrix, tolerance: float = 1e-10) -> Tuple[bool, List[str]]:
+def validate_symmetric_matrix(matrix: Matrix, tolerance: float = 1e-10) -> tuple[bool, list[str]]:
     """Validate that a matrix is symmetric.
 
     Args:
@@ -309,7 +301,7 @@ def validate_symmetric_matrix(matrix: Matrix, tolerance: float = 1e-10) -> Tuple
     return (True, [])
 
 
-def validate_orthogonal_matrix(matrix: Matrix, tolerance: float = 1e-10) -> Tuple[bool, List[str]]:
+def validate_orthogonal_matrix(matrix: Matrix, tolerance: float = 1e-10) -> tuple[bool, list[str]]:
     """Validate that a matrix is orthogonal.
 
     Args:
@@ -350,7 +342,7 @@ class Validator:
         ...         return validate_positive(value)
     """
 
-    def validate(self, value: Any) -> Tuple[bool, List[str]]:
+    def validate(self, value: Any) -> tuple[bool, list[str]]:
         """Validate a value.
 
         Args:
@@ -364,7 +356,7 @@ class Validator:
         """
         raise NotImplementedError("Subclasses must implement validate method")
 
-    def __call__(self, value: Any) -> Tuple[bool, List[str]]:
+    def __call__(self, value: Any) -> tuple[bool, list[str]]:
         """Make the validator callable.
 
         Args:

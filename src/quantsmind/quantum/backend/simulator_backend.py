@@ -25,7 +25,7 @@ quantsmind.quantum.backend.backend (backend module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import BackendType
 from quantsmind.quantum.algorithms.exceptions import BackendError
@@ -56,8 +56,8 @@ class SimulatorBackend(QuantumBackend):
         name: str,
         num_qubits: int,
         simulator_type: str = "statevector",
-        configuration: Optional[BackendConfig] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        configuration: BackendConfig | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimulatorBackend.
 
@@ -101,7 +101,7 @@ class SimulatorBackend(QuantumBackend):
 
         self._simulator_type = simulator_type
 
-    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> Dict[str, Any]:
+    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> dict[str, Any]:
         """Run a circuit on the simulator.
 
         Args:
@@ -144,7 +144,7 @@ class SimulatorBackend(QuantumBackend):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

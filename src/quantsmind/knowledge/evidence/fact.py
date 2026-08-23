@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -59,7 +58,7 @@ class Fact:
         source: str,
         verification_status: str = "verified",
         confidence: float = 1.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Fact.
 
@@ -90,7 +89,7 @@ class Fact:
         self._statement = statement
         self._source = source
         self._verification_status = verification_status
-        self._evidence: List[str] = []
+        self._evidence: list[str] = []
         self._confidence = confidence
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
@@ -144,7 +143,7 @@ class Fact:
         return self._verification_status
 
     @property
-    def evidence(self) -> List[str]:
+    def evidence(self) -> list[str]:
         """Get the supporting evidence.
 
         Returns:
@@ -180,7 +179,7 @@ class Fact:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the fact metadata.
 
         Returns:
@@ -268,7 +267,7 @@ class Fact:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

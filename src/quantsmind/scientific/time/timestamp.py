@@ -25,12 +25,11 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
 from quantsmind.scientific.interfaces import ITime
-from quantsmind.scientific.types import TimestampValue
 
 
 class Timestamp(ITime):
@@ -51,8 +50,8 @@ class Timestamp(ITime):
     def __init__(
         self,
         value: datetime,
-        tz: Optional[timezone] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        tz: timezone | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Timestamp.
 
@@ -65,7 +64,7 @@ class Timestamp(ITime):
             >>> ts = Timestamp(datetime.utcnow())
         """
         self._value = value
-        self._timezone = tz or timezone.utc
+        self._timezone = tz or UTC
         self._metadata = metadata or {}
 
     @property
@@ -105,7 +104,7 @@ class Timestamp(ITime):
         return self._timezone
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the timestamp metadata.
 
         Returns:
@@ -153,7 +152,7 @@ class Timestamp(ITime):
         else:
             raise TimeError(f"Conversion to {target_type} not supported", time_value=str(target_type))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

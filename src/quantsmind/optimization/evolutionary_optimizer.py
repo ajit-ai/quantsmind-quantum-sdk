@@ -28,9 +28,9 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import random
-import math
+from collections.abc import Callable
+from typing import Any
 
 
 class EvolutionaryOptimizer:
@@ -56,7 +56,7 @@ class EvolutionaryOptimizer:
         population_size: int = 50,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an EvolutionaryOptimizer.
 
@@ -103,8 +103,8 @@ class EvolutionaryOptimizer:
     def optimize(
         self,
         func: Callable[[float], float],
-        bounds: Tuple[float, float],
-    ) -> Tuple[float, List[float]]:
+        bounds: tuple[float, float],
+    ) -> tuple[float, list[float]]:
         """Optimize a function.
 
         Args:
@@ -154,7 +154,7 @@ class GeneticAlgorithm(EvolutionaryOptimizer):
         elite_size: int = 2,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GeneticAlgorithm.
 
@@ -178,8 +178,8 @@ class GeneticAlgorithm(EvolutionaryOptimizer):
     def optimize(
         self,
         func: Callable[[float], float],
-        bounds: Tuple[float, float],
-    ) -> Tuple[float, List[float]]:
+        bounds: tuple[float, float],
+    ) -> tuple[float, list[float]]:
         """Optimize using genetic algorithm.
 
         Args:
@@ -233,10 +233,10 @@ class GeneticAlgorithm(EvolutionaryOptimizer):
 
     def _tournament_selection(
         self,
-        population: List[float],
-        fitness: List[float],
+        population: list[float],
+        fitness: list[float],
         tournament_size: int = 3,
-    ) -> List[float]:
+    ) -> list[float]:
         """Tournament selection.
 
         Args:
@@ -257,9 +257,9 @@ class GeneticAlgorithm(EvolutionaryOptimizer):
 
     def _crossover(
         self,
-        population: List[float],
-        bounds: Tuple[float, float],
-    ) -> List[float]:
+        population: list[float],
+        bounds: tuple[float, float],
+    ) -> list[float]:
         """Crossover operation.
 
         Args:
@@ -290,9 +290,9 @@ class GeneticAlgorithm(EvolutionaryOptimizer):
 
     def _mutate(
         self,
-        population: List[float],
-        bounds: Tuple[float, float],
-    ) -> List[float]:
+        population: list[float],
+        bounds: tuple[float, float],
+    ) -> list[float]:
         """Mutation operation.
 
         Args:
@@ -334,7 +334,7 @@ class ParticleSwarmOptimizer(EvolutionaryOptimizer):
         c2: float = 1.5,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ParticleSwarmOptimizer.
 
@@ -358,8 +358,8 @@ class ParticleSwarmOptimizer(EvolutionaryOptimizer):
     def optimize(
         self,
         func: Callable[[float], float],
-        bounds: Tuple[float, float],
-    ) -> Tuple[float, List[float]]:
+        bounds: tuple[float, float],
+    ) -> tuple[float, list[float]]:
         """Optimize using particle swarm optimization.
 
         Args:

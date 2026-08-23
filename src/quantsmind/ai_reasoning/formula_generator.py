@@ -25,7 +25,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class FormulaGenerator:
@@ -47,7 +47,7 @@ class FormulaGenerator:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a FormulaGenerator.
 
@@ -59,8 +59,8 @@ class FormulaGenerator:
             >>> generator = FormulaGenerator()
         """
         self._name = name
-        self._formula_templates: Dict[str, str] = {}
-        self._generation_history: List[Dict[str, Any]] = []
+        self._formula_templates: dict[str, str] = {}
+        self._generation_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -78,7 +78,7 @@ class FormulaGenerator:
     def generate_formula(
         self,
         formula_type: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
     ) -> str:
         """Generate a mathematical formula.
 
@@ -106,7 +106,7 @@ class FormulaGenerator:
     def _build_formula(
         self,
         formula_type: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
     ) -> str:
         """Build a formula from type and parameters.
 
@@ -130,7 +130,7 @@ class FormulaGenerator:
 
         return formulas.get(formula_type, "Unknown formula type")
 
-    def _quadratic_formula(self, params: Dict[str, Any]) -> str:
+    def _quadratic_formula(self, params: dict[str, Any]) -> str:
         """Build quadratic formula.
 
         Args:
@@ -148,7 +148,7 @@ class FormulaGenerator:
 
         return f"{a}*x^2 + {b}*x + {c} = 0"
 
-    def _linear_formula(self, params: Dict[str, Any]) -> str:
+    def _linear_formula(self, params: dict[str, Any]) -> str:
         """Build linear formula.
 
         Args:
@@ -165,7 +165,7 @@ class FormulaGenerator:
 
         return f"y = {m}*x + {b}"
 
-    def _circle_formula(self, params: Dict[str, Any]) -> str:
+    def _circle_formula(self, params: dict[str, Any]) -> str:
         """Build circle formula.
 
         Args:
@@ -183,7 +183,7 @@ class FormulaGenerator:
 
         return f"(x - {h})^2 + (y - {k})^2 = {r}^2"
 
-    def _sphere_formula(self, params: Dict[str, Any]) -> str:
+    def _sphere_formula(self, params: dict[str, Any]) -> str:
         """Build sphere formula.
 
         Args:
@@ -202,7 +202,7 @@ class FormulaGenerator:
 
         return f"(x - {h})^2 + (y - {k})^2 + (z - {l})^2 = {r}^2"
 
-    def _gaussian_formula(self, params: Dict[str, Any]) -> str:
+    def _gaussian_formula(self, params: dict[str, Any]) -> str:
         """Build Gaussian formula.
 
         Args:
@@ -219,7 +219,7 @@ class FormulaGenerator:
 
         return f"(1/({sigma}*sqrt(2*pi))) * exp(-((x - {mu})^2)/(2*{sigma}^2))"
 
-    def suggest_formula_pattern(self, problem: str) -> List[str]:
+    def suggest_formula_pattern(self, problem: str) -> list[str]:
         """Suggest formula patterns for a problem.
 
         Args:
@@ -246,7 +246,7 @@ class FormulaGenerator:
 
         return ["general"]
 
-    def validate_formula(self, formula: str) -> Dict[str, Any]:
+    def validate_formula(self, formula: str) -> dict[str, Any]:
         """Validate a formula.
 
         Args:
@@ -297,7 +297,7 @@ class FormulaGenerator:
 
         return latex
 
-    def get_generation_history(self) -> List[Dict[str, Any]]:
+    def get_generation_history(self) -> list[dict[str, Any]]:
         """Get the generation history.
 
         Returns:

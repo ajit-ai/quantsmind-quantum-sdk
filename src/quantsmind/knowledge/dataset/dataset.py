@@ -29,21 +29,19 @@ quantsmind.knowledge.metadata (metadata)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-from uuid import UUID, uuid4
+from typing import Any
+from uuid import uuid4
 
 from quantsmind.knowledge.enums import DatasetType
-from quantsmind.knowledge.exceptions import DatasetError, ValidationError
+from quantsmind.knowledge.exceptions import DatasetError
 from quantsmind.knowledge.interfaces import IDataset
+from quantsmind.knowledge.metadata.metadata import KnowledgeMetadata
 from quantsmind.knowledge.types import (
     DatasetData,
     DatasetID,
     DatasetSchema,
-    DatasetSize,
-    RecordCount,
     ValidationResult,
 )
-from quantsmind.knowledge.metadata.metadata import KnowledgeMetadata
 
 
 class Dataset(IDataset):
@@ -70,9 +68,9 @@ class Dataset(IDataset):
         self,
         name: str,
         dataset_type: DatasetType = DatasetType.STRUCTURED,
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Dataset.
 
@@ -165,9 +163,7 @@ class Dataset(IDataset):
         Example:
             >>> size = dataset.size
         """
-        if isinstance(self._data, list):
-            return len(self._data)
-        elif isinstance(self._data, dict):
+        if isinstance(self._data, (list, dict)):
             return len(self._data)
         return 0
 
@@ -207,7 +203,7 @@ class Dataset(IDataset):
         """
         return self._updated_at
 
-    def add_record(self, record: Dict[str, Any]) -> None:
+    def add_record(self, record: dict[str, Any]) -> None:
         """Add a record to the dataset.
 
         Args:
@@ -230,7 +226,7 @@ class Dataset(IDataset):
 
         self._updated_at = datetime.utcnow()
 
-    def add_records(self, records: List[Dict[str, Any]]) -> None:
+    def add_records(self, records: list[dict[str, Any]]) -> None:
         """Add multiple records to the dataset.
 
         Args:
@@ -242,7 +238,7 @@ class Dataset(IDataset):
         for record in records:
             self.add_record(record)
 
-    def get_record(self, record_id: str) -> Optional[Dict[str, Any]]:
+    def get_record(self, record_id: str) -> dict[str, Any] | None:
         """Get a record from the dataset.
 
         Args:
@@ -262,7 +258,7 @@ class Dataset(IDataset):
             return self._data.get(record_id)
         return None
 
-    def query(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def query(self, query: dict[str, Any]) -> list[dict[str, Any]]:
         """Query the dataset.
 
         Args:
@@ -288,7 +284,7 @@ class Dataset(IDataset):
 
         return results
 
-    def filter(self, predicate: callable) -> List[Dict[str, Any]]:
+    def filter(self, predicate: callable) -> list[dict[str, Any]]:
         """Filter dataset records.
 
         Args:
@@ -303,7 +299,7 @@ class Dataset(IDataset):
         data_list = self._data if isinstance(self._data, list) else list(self._data.values())
         return [record for record in data_list if predicate(record)]
 
-    def sort(self, key: str, reverse: bool = False) -> List[Dict[str, Any]]:
+    def sort(self, key: str, reverse: bool = False) -> list[dict[str, Any]]:
         """Sort dataset records.
 
         Args:
@@ -341,7 +337,7 @@ class Dataset(IDataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

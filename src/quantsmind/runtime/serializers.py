@@ -28,7 +28,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.exceptions import ConfigurationError
 from quantsmind.runtime.types import SerializationFormat
@@ -118,7 +118,7 @@ class Serializer:
     def serialize(
         self,
         data: Any,
-        format: Optional[SerializationFormat] = None,
+        format: SerializationFormat | None = None,
         **kwargs: Any
     ) -> str:
         """Serialize data to specified format.
@@ -147,7 +147,7 @@ class Serializer:
     def deserialize(
         self,
         data: str,
-        format: Optional[SerializationFormat] = None,
+        format: SerializationFormat | None = None,
         **kwargs: Any
     ) -> Any:
         """Deserialize data from specified format.

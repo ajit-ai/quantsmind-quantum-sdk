@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import LineageError
 from quantsmind.knowledge.types import (
     LineageData,
@@ -56,7 +55,7 @@ class Lineage:
         self,
         lineage_id: LineageID,
         root: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Lineage.
 
@@ -76,8 +75,8 @@ class Lineage:
 
         self._id = lineage_id
         self._root = root
-        self._nodes: Dict[str, LineageData] = {}
-        self._edges: List[tuple[str, str]] = []
+        self._nodes: dict[str, LineageData] = {}
+        self._edges: list[tuple[str, str]] = []
         self._metadata = metadata or {}
 
     @property
@@ -105,7 +104,7 @@ class Lineage:
         return self._root
 
     @property
-    def nodes(self) -> Dict[str, LineageData]:
+    def nodes(self) -> dict[str, LineageData]:
         """Get the lineage nodes.
 
         Returns:
@@ -117,7 +116,7 @@ class Lineage:
         return self._nodes.copy()
 
     @property
-    def edges(self) -> List[tuple[str, str]]:
+    def edges(self) -> list[tuple[str, str]]:
         """Get the lineage edges.
 
         Returns:
@@ -129,7 +128,7 @@ class Lineage:
         return self._edges.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the lineage metadata.
 
         Returns:
@@ -140,7 +139,7 @@ class Lineage:
         """
         return self._metadata.copy()
 
-    def add_node(self, node_id: str, data: Optional[LineageData] = None) -> None:
+    def add_node(self, node_id: str, data: LineageData | None = None) -> None:
         """Add a node to the lineage.
 
         Args:
@@ -210,7 +209,7 @@ class Lineage:
             return True
         return False
 
-    def get_ancestors(self, node_id: str) -> List[str]:
+    def get_ancestors(self, node_id: str) -> list[str]:
         """Get ancestors of a node.
 
         Args:
@@ -239,7 +238,7 @@ class Lineage:
 
         return ancestors
 
-    def get_descendants(self, node_id: str) -> List[str]:
+    def get_descendants(self, node_id: str) -> list[str]:
         """Get descendants of a node.
 
         Args:
@@ -268,7 +267,7 @@ class Lineage:
 
         return descendants
 
-    def get_path(self, source: str, target: str) -> Optional[List[str]]:
+    def get_path(self, source: str, target: str) -> list[str] | None:
         """Get the path between two nodes.
 
         Args:
@@ -304,7 +303,7 @@ class Lineage:
 
         return None
 
-    def trace_to_root(self, node_id: str) -> List[str]:
+    def trace_to_root(self, node_id: str) -> list[str]:
         """Trace a node to the root.
 
         Args:
@@ -348,7 +347,7 @@ class Lineage:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

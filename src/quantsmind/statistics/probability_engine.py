@@ -25,8 +25,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class ProbabilityEngine:
@@ -49,7 +49,7 @@ class ProbabilityEngine:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ProbabilityEngine.
 
@@ -61,8 +61,8 @@ class ProbabilityEngine:
             >>> engine = ProbabilityEngine()
         """
         self._name = name
-        self._events: Dict[str, float] = {}
-        self._conditional_probs: Dict[Tuple[str, str], float] = {}
+        self._events: dict[str, float] = {}
+        self._conditional_probs: dict[tuple[str, str], float] = {}
         self._metadata = metadata or {}
 
     @property
@@ -232,7 +232,7 @@ class ProbabilityEngine:
         """
         return self.joint_probability(*events)
 
-    def expected_value(self, outcomes: List[float], probabilities: List[float]) -> float:
+    def expected_value(self, outcomes: list[float], probabilities: list[float]) -> float:
         """Compute expected value.
 
         Args:
@@ -251,9 +251,9 @@ class ProbabilityEngine:
         if abs(sum(probabilities) - 1.0) > 1e-6:
             raise ValueError("Probabilities must sum to 1")
 
-        return sum(o * p for o, p in zip(outcomes, probabilities))
+        return sum(o * p for o, p in zip(outcomes, probabilities, strict=False))
 
-    def variance(self, outcomes: List[float], probabilities: List[float]) -> float:
+    def variance(self, outcomes: list[float], probabilities: list[float]) -> float:
         """Compute variance.
 
         Args:
@@ -267,9 +267,9 @@ class ProbabilityEngine:
             >>> var = engine.variance([1, 2, 3], [0.3, 0.5, 0.2])
         """
         ev = self.expected_value(outcomes, probabilities)
-        return sum(p * (o - ev) ** 2 for o, p in zip(outcomes, probabilities))
+        return sum(p * (o - ev) ** 2 for o, p in zip(outcomes, probabilities, strict=False))
 
-    def standard_deviation(self, outcomes: List[float], probabilities: List[float]) -> float:
+    def standard_deviation(self, outcomes: list[float], probabilities: list[float]) -> float:
         """Compute standard deviation.
 
         Args:

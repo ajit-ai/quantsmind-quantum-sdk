@@ -36,7 +36,8 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import List, Optional, Tuple, Union
 
 from quantsmind.math.exceptions import ConvergenceError, OptimizationError
 from quantsmind.math.types import ObjectiveFunction, Scalar, Vector
@@ -152,7 +153,7 @@ class SearchSpace:
         >>> space = SearchSpace([(-10.0, 10.0), (-10.0, 10.0)])
     """
 
-    def __init__(self, bounds: List[Tuple[float, float]]) -> None:
+    def __init__(self, bounds: list[tuple[float, float]]) -> None:
         """Initialize a SearchSpace.
 
         Args:
@@ -166,7 +167,7 @@ class SearchSpace:
         logger.debug(f"Created search space with {self._dimension} dimensions")
 
     @property
-    def bounds(self) -> List[Tuple[float, float]]:
+    def bounds(self) -> list[tuple[float, float]]:
         """Get the bounds.
 
         Returns:
@@ -255,9 +256,9 @@ class Optimizer:
         self,
         objective: ObjectiveFunction,
         search_space: SearchSpace,
-        initial_point: Optional[Vector] = None,
-        constraints: Optional[List[Constraint]] = None
-    ) -> Tuple[Vector, Scalar]:
+        initial_point: Vector | None = None,
+        constraints: list[Constraint] | None = None
+    ) -> tuple[Vector, Scalar]:
         """Minimize an objective function using gradient descent.
 
         Args:
@@ -276,10 +277,7 @@ class Optimizer:
             >>> optimizer = Optimizer()
             >>> result = optimizer.minimize(obj, space)
         """
-        if initial_point is None:
-            x = search_space.random_point()
-        else:
-            x = initial_point.copy()
+        x = search_space.random_point() if initial_point is None else initial_point.copy()
 
         if constraints is None:
             constraints = []

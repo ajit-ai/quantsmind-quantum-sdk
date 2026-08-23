@@ -24,7 +24,7 @@ quantsmind.quantum.qubit.qubit (qubit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import QubitError
 from quantsmind.quantum.algorithms.types import QubitIndex, ValidationResult
@@ -50,7 +50,7 @@ class QubitRegister:
         self,
         name: str,
         size: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QubitRegister.
 
@@ -69,7 +69,7 @@ class QubitRegister:
             raise QubitError("Register size must be positive", {"size": size})
 
         self._name = name
-        self._qubits: List[Qubit] = []
+        self._qubits: list[Qubit] = []
         self._size = size
         self._metadata = metadata or {}
 
@@ -98,7 +98,7 @@ class QubitRegister:
         return self._size
 
     @property
-    def qubits(self) -> List[Qubit]:
+    def qubits(self) -> list[Qubit]:
         """Get the qubits in the register.
 
         Returns:
@@ -110,7 +110,7 @@ class QubitRegister:
         return self._qubits.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the register metadata.
 
         Returns:
@@ -161,7 +161,7 @@ class QubitRegister:
                 return True
         return False
 
-    def get_qubit(self, index: QubitIndex) -> Optional[Qubit]:
+    def get_qubit(self, index: QubitIndex) -> Qubit | None:
         """Get a qubit by index.
 
         Args:
@@ -236,7 +236,7 @@ class QubitRegister:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

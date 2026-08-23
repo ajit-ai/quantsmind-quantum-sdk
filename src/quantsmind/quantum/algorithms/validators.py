@@ -25,7 +25,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.constants import (
     MAX_GATE_COUNT,
@@ -36,7 +36,6 @@ from quantsmind.quantum.algorithms.constants import (
     MIN_SHOTS,
 )
 from quantsmind.quantum.algorithms.enums import GateType
-from quantsmind.quantum.algorithms.exceptions import ValidationError
 from quantsmind.quantum.algorithms.types import QubitIndex, ValidationResult
 
 
@@ -213,7 +212,7 @@ class GateValidator(QuantumValidator):
 
         return (len(errors) == 0, errors)
 
-    def validate_gate_parameters(self, parameters: Dict[str, Any], gate_type: GateType) -> ValidationResult:
+    def validate_gate_parameters(self, parameters: dict[str, Any], gate_type: GateType) -> ValidationResult:
         """Validate gate parameters.
 
         Args:
@@ -277,7 +276,7 @@ class CircuitValidator(QuantumValidator):
 
         return (len(errors) == 0, errors)
 
-    def validate_gate_application(self, gate: Any, qubits: List[int], circuit_num_qubits: int) -> ValidationResult:
+    def validate_gate_application(self, gate: Any, qubits: list[int], circuit_num_qubits: int) -> ValidationResult:
         """Validate gate application to qubits.
 
         Args:
@@ -445,7 +444,7 @@ class MeasurementValidator(QuantumValidator):
 
         return (len(errors) == 0, errors)
 
-    def validate_measurement_qubits(self, qubits: List[int], circuit_num_qubits: int) -> ValidationResult:
+    def validate_measurement_qubits(self, qubits: list[int], circuit_num_qubits: int) -> ValidationResult:
         """Validate measurement qubits.
 
         Args:

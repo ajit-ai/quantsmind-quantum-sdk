@@ -24,7 +24,7 @@ quantsmind.quantum.operator.operator (operator module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -54,7 +54,7 @@ class Hamiltonian(QuantumOperator):
         self,
         name: str,
         num_qubits: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Hamiltonian.
 
@@ -67,12 +67,12 @@ class Hamiltonian(QuantumOperator):
             >>> hamiltonian = Hamiltonian("ising", 2)
         """
         super().__init__(name, num_qubits, metadata=metadata)
-        self._terms: List[QuantumOperator] = []
-        self._coefficients: List[float] = []
-        self._qubit_indices: List[List[int]] = []
+        self._terms: list[QuantumOperator] = []
+        self._coefficients: list[float] = []
+        self._qubit_indices: list[list[int]] = []
 
     @property
-    def terms(self) -> List[QuantumOperator]:
+    def terms(self) -> list[QuantumOperator]:
         """Get the Hamiltonian terms.
 
         Returns:
@@ -84,7 +84,7 @@ class Hamiltonian(QuantumOperator):
         return self._terms.copy()
 
     @property
-    def coefficients(self) -> List[float]:
+    def coefficients(self) -> list[float]:
         """Get the term coefficients.
 
         Returns:
@@ -95,7 +95,7 @@ class Hamiltonian(QuantumOperator):
         """
         return self._coefficients.copy()
 
-    def add_term(self, operator: QuantumOperator, coefficient: float, qubits: List[int]) -> None:
+    def add_term(self, operator: QuantumOperator, coefficient: float, qubits: list[int]) -> None:
         """Add a term to the Hamiltonian.
 
         Args:
@@ -139,7 +139,7 @@ class Hamiltonian(QuantumOperator):
             return True
         return False
 
-    def get_term(self, index: int) -> Optional[tuple[QuantumOperator, float, List[int]]]:
+    def get_term(self, index: int) -> tuple[QuantumOperator, float, list[int]] | None:
         """Get a term by index.
 
         Args:
@@ -192,13 +192,13 @@ class Hamiltonian(QuantumOperator):
         errors.extend(base_errors)
 
         # Validate all terms
-        for i, (term, coeff, qubits) in enumerate(zip(self._terms, self._coefficients, self._qubit_indices)):
+        for i, (term, _coeff, _qubits) in enumerate(zip(self._terms, self._coefficients, self._qubit_indices, strict=False)):
             is_valid, term_errors = term.validate()
             errors.extend([f"Term {i}: {err}" for err in term_errors])
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -211,7 +211,7 @@ class Hamiltonian(QuantumOperator):
         data["term_count"] = len(self._terms)
         data["terms"] = [
             {"operator": term.name, "coefficient": coeff, "qubits": qubits}
-            for term, coeff, qubits in zip(self._terms, self._coefficients, self._qubit_indices)
+            for term, coeff, qubits in zip(self._terms, self._coefficients, self._qubit_indices, strict=False)
         ]
         return data
 

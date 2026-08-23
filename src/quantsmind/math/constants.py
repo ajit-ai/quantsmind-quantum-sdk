@@ -37,7 +37,6 @@ from __future__ import annotations
 import math
 from typing import Final
 
-
 # Fundamental constants
 PI: Final[float] = math.pi  # π ≈ 3.141592653589793
 E: Final[float] = math.e  # e ≈ 2.718281828459045

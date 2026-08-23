@@ -25,7 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import SearchType
 from quantsmind.knowledge.exceptions import SearchError
@@ -55,8 +56,8 @@ class SimilaritySearch(ISearchEngine):
         self,
         search_id: str,
         name: str,
-        similarity_function: Optional[Callable[[Any, Any], float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        similarity_function: Callable[[Any, Any], float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimilaritySearch.
 
@@ -79,7 +80,7 @@ class SimilaritySearch(ISearchEngine):
         self._name = name
         self._search_type = SearchType.SIMILARITY
         self._similarity_function = similarity_function
-        self._documents: Dict[str, Dict[str, Any]] = {}
+        self._documents: dict[str, dict[str, Any]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -119,7 +120,7 @@ class SimilaritySearch(ISearchEngine):
         return self._search_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the search engine metadata.
 
         Returns:
@@ -141,7 +142,7 @@ class SimilaritySearch(ISearchEngine):
         """
         self._similarity_function = similarity_function
 
-    def index_document(self, doc_id: str, document: Dict[str, Any]) -> None:
+    def index_document(self, doc_id: str, document: dict[str, Any]) -> None:
         """Index a document for similarity search.
 
         Args:
@@ -170,7 +171,7 @@ class SimilaritySearch(ISearchEngine):
             return True
         return False
 
-    def search(self, query: Any, top_k: int = 10) -> List[SearchResult]:
+    def search(self, query: Any, top_k: int = 10) -> list[SearchResult]:
         """Search for similar documents.
 
         Args:
@@ -192,7 +193,7 @@ class SimilaritySearch(ISearchEngine):
             try:
                 similarity = self._similarity_function(query, document)
                 results.append(SearchResult(doc_id, similarity, document))
-            except Exception as e:
+            except Exception:
                 # Skip documents that cause errors in similarity calculation
                 continue
 
@@ -200,7 +201,7 @@ class SimilaritySearch(ISearchEngine):
         results.sort(key=lambda r: r.score, reverse=True)
         return results[:top_k]
 
-    def search_by_field(self, query: Any, field: str, top_k: int = 10) -> List[SearchResult]:
+    def search_by_field(self, query: Any, field: str, top_k: int = 10) -> list[SearchResult]:
         """Search for similar documents by a specific field.
 
         Args:
@@ -226,7 +227,7 @@ class SimilaritySearch(ISearchEngine):
             try:
                 similarity = self._similarity_function(query, document[field])
                 results.append(SearchResult(doc_id, similarity, document))
-            except Exception as e:
+            except Exception:
                 # Skip documents that cause errors in similarity calculation
                 continue
 
@@ -253,7 +254,7 @@ class SimilaritySearch(ISearchEngine):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

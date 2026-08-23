@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -58,10 +57,10 @@ class Hypothesis:
         hypothesis_id: str,
         name: str,
         description: str,
-        premises: List[str],
+        premises: list[str],
         conclusion: str,
         status: str = "proposed",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Hypothesis.
 
@@ -98,7 +97,7 @@ class Hypothesis:
         self._premises = premises
         self._conclusion = conclusion
         self._status = status
-        self._evidence: List[str] = []
+        self._evidence: list[str] = []
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
 
@@ -139,7 +138,7 @@ class Hypothesis:
         return self._description
 
     @property
-    def premises(self) -> List[str]:
+    def premises(self) -> list[str]:
         """Get the supporting premises.
 
         Returns:
@@ -175,7 +174,7 @@ class Hypothesis:
         return self._status
 
     @property
-    def evidence(self) -> List[str]:
+    def evidence(self) -> list[str]:
         """Get the supporting evidence IDs.
 
         Returns:
@@ -199,7 +198,7 @@ class Hypothesis:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the hypothesis metadata.
 
         Returns:
@@ -305,7 +304,7 @@ class Hypothesis:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

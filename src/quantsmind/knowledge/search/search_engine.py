@@ -25,10 +25,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import SearchType
-from quantsmind.knowledge.exceptions import SearchError
 from quantsmind.knowledge.interfaces import ISearchEngine
 from quantsmind.knowledge.types import SearchResult, ValidationResult
 
@@ -55,7 +54,7 @@ class SearchEngine(ISearchEngine):
         engine_id: str,
         name: str,
         search_type: SearchType,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SearchEngine.
 
@@ -71,7 +70,7 @@ class SearchEngine(ISearchEngine):
         self._id = engine_id
         self._name = name
         self._search_type = search_type
-        self._index: Dict[str, Any] = {}
+        self._index: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -111,7 +110,7 @@ class SearchEngine(ISearchEngine):
         return self._search_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the search engine metadata.
 
         Returns:
@@ -122,7 +121,7 @@ class SearchEngine(ISearchEngine):
         """
         return self._metadata.copy()
 
-    def index_document(self, doc_id: str, document: Dict[str, Any]) -> None:
+    def index_document(self, doc_id: str, document: dict[str, Any]) -> None:
         """Index a document for search.
 
         Args:
@@ -151,7 +150,7 @@ class SearchEngine(ISearchEngine):
             return True
         return False
 
-    def search(self, query: str, top_k: int = 10) -> List[SearchResult]:
+    def search(self, query: str, top_k: int = 10) -> list[SearchResult]:
         """Search for documents.
 
         Args:
@@ -170,7 +169,7 @@ class SearchEngine(ISearchEngine):
         for doc_id, document in self._index.items():
             score = 0.0
             # Simple text matching (placeholder implementation)
-            for field, value in document.items():
+            for _field, value in document.items():
                 if isinstance(value, str) and query_lower in value.lower():
                     score += 1.0
 
@@ -200,7 +199,7 @@ class SearchEngine(ISearchEngine):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

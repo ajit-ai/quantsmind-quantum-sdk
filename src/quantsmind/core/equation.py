@@ -27,7 +27,7 @@ quantsmind.core.expression (Expression)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from quantsmind.core.expression import Expression
 from quantsmind.core.math_object import MathObject
@@ -58,8 +58,8 @@ class Equation(MathObject):
         name: str,
         left_hand: Expression,
         right_hand: Expression,
-        solutions: Optional[List[float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        solutions: list[float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Equation.
 
@@ -103,7 +103,7 @@ class Equation(MathObject):
         return self._right_hand
 
     @property
-    def solutions(self) -> List[float]:
+    def solutions(self) -> list[float]:
         """Get the known solutions.
 
         Returns:
@@ -145,7 +145,7 @@ class Equation(MathObject):
         left_value, right_value = self.evaluate(**kwargs)
         return abs(left_value - right_value) < 1e-9
 
-    def solve(self, variable: str, **kwargs: Any) -> List[float]:
+    def solve(self, variable: str, **kwargs: Any) -> list[float]:
         """Solve the equation for a variable.
 
         Args:
@@ -211,7 +211,7 @@ class Equation(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the equation.
 
         Returns:

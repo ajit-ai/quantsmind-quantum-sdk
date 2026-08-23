@@ -30,12 +30,10 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ResourceType
-from quantsmind.runtime.exceptions import ResourceError
 from quantsmind.runtime.types import ResourceAmount, ResourceCapacity, ResourceID
 
 logger = logging.getLogger(__name__)
@@ -63,7 +61,7 @@ class Resource:
         self,
         resource_type: ResourceType,
         capacity: ResourceCapacity,
-        resource_id: Optional[ResourceID] = None,
+        resource_id: ResourceID | None = None,
     ) -> None:
         """Initialize a Resource.
 
@@ -80,7 +78,7 @@ class Resource:
         self._capacity = capacity
         self._allocated: ResourceAmount = 0.0
         self._available: ResourceAmount = capacity
-        self._metadata: Dict[str, Any] = {
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created resource: {self._resource_id} of type {resource_type.value}")
@@ -239,7 +237,7 @@ class Resource:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert resource to dictionary.
 
         Returns:

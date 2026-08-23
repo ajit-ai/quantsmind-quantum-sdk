@@ -25,10 +25,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from datetime import datetime
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -54,7 +53,7 @@ class Freshness:
         check_id: str,
         max_age: int,
         timestamp_field: str = "timestamp",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Freshness.
 
@@ -115,7 +114,7 @@ class Freshness:
         return self._timestamp_field
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the check metadata.
 
         Returns:
@@ -150,7 +149,7 @@ class Freshness:
         """
         self._timestamp_field = field
 
-    def check(self, data: Dict[str, Any]) -> ValidationResult:
+    def check(self, data: dict[str, Any]) -> ValidationResult:
         """Check data freshness.
 
         Args:
@@ -190,7 +189,7 @@ class Freshness:
 
         return (len(errors) == 0, errors)
 
-    def get_age(self, data: Dict[str, Any]) -> Optional[float]:
+    def get_age(self, data: dict[str, Any]) -> float | None:
         """Get the age of the data.
 
         Args:
@@ -219,7 +218,7 @@ class Freshness:
         except Exception:
             return None
 
-    def get_freshness_score(self, data: Dict[str, Any]) -> float:
+    def get_freshness_score(self, data: dict[str, Any]) -> float:
         """Get freshness score.
 
         Args:
@@ -259,7 +258,7 @@ class Freshness:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

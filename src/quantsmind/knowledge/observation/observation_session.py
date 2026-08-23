@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ObservationError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -57,7 +56,7 @@ class ObservationSession:
         session_id: str,
         name: str,
         observer: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ObservationSession.
 
@@ -82,9 +81,9 @@ class ObservationSession:
         self._id = session_id
         self._name = name
         self._observer = observer
-        self._start_time: Optional[datetime] = None
-        self._end_time: Optional[datetime] = None
-        self._observation_ids: List[str] = []
+        self._start_time: datetime | None = None
+        self._end_time: datetime | None = None
+        self._observation_ids: list[str] = []
         self._metadata = metadata or {}
 
     @property
@@ -124,7 +123,7 @@ class ObservationSession:
         return self._observer
 
     @property
-    def start_time(self) -> Optional[datetime]:
+    def start_time(self) -> datetime | None:
         """Get the start timestamp.
 
         Returns:
@@ -136,7 +135,7 @@ class ObservationSession:
         return self._start_time
 
     @property
-    def end_time(self) -> Optional[datetime]:
+    def end_time(self) -> datetime | None:
         """Get the end timestamp.
 
         Returns:
@@ -148,7 +147,7 @@ class ObservationSession:
         return self._end_time
 
     @property
-    def observation_ids(self) -> List[str]:
+    def observation_ids(self) -> list[str]:
         """Get the observation IDs.
 
         Returns:
@@ -160,7 +159,7 @@ class ObservationSession:
         return self._observation_ids.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the session metadata.
 
         Returns:
@@ -215,7 +214,7 @@ class ObservationSession:
             return True
         return False
 
-    def get_duration(self) -> Optional[float]:
+    def get_duration(self) -> float | None:
         """Get the session duration in seconds.
 
         Returns:
@@ -273,7 +272,7 @@ class ObservationSession:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

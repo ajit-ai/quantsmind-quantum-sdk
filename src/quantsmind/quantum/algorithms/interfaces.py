@@ -24,7 +24,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import (
     BackendType,
@@ -37,11 +37,9 @@ from quantsmind.quantum.algorithms.types import (
     BackendConfig,
     CompilerConfig,
     DensityMatrix,
-    GateParameters,
     JobResult,
     MeasurementBasis,
     MeasurementResult,
-    NoiseConfig,
     ProviderConfig,
     QubitIndex,
     QubitIndices,
@@ -239,7 +237,7 @@ class IQuantumCircuit(ABC):
         pass
 
     @abstractmethod
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -505,7 +503,7 @@ class IQuantumProvider(ABC):
         pass
 
     @abstractmethod
-    def get_backends(self) -> List[IQuantumBackend]:
+    def get_backends(self) -> list[IQuantumBackend]:
         """Get available backends.
 
         Returns:
@@ -517,7 +515,7 @@ class IQuantumProvider(ABC):
         pass
 
     @abstractmethod
-    def get_backend(self, name: str) -> Optional[IQuantumBackend]:
+    def get_backend(self, name: str) -> IQuantumBackend | None:
         """Get a specific backend.
 
         Args:
@@ -532,7 +530,7 @@ class IQuantumProvider(ABC):
         pass
 
     @abstractmethod
-    def authenticate(self, credentials: Dict[str, Any]) -> bool:
+    def authenticate(self, credentials: dict[str, Any]) -> bool:
         """Authenticate with the provider.
 
         Args:
@@ -665,7 +663,7 @@ class IQuantumJob(ABC):
         pass
 
     @abstractmethod
-    def result(self) -> Optional[JobResult]:
+    def result(self) -> JobResult | None:
         """Get the job result.
 
         Returns:
@@ -677,7 +675,7 @@ class IQuantumJob(ABC):
         pass
 
     @abstractmethod
-    def wait(self, timeout: Optional[int] = None) -> JobResult:
+    def wait(self, timeout: int | None = None) -> JobResult:
         """Wait for the job to complete.
 
         Args:

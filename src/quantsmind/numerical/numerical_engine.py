@@ -24,8 +24,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import math
+from collections.abc import Callable
 
 
 def root_finding(
@@ -185,8 +185,8 @@ def _secant(
 
 
 def interpolation(
-    x_data: List[float],
-    y_data: List[float],
+    x_data: list[float],
+    y_data: list[float],
     x: float,
     method: str = "linear",
 ) -> float:
@@ -218,8 +218,8 @@ def interpolation(
 
 
 def _linear_interpolation(
-    x_data: List[float],
-    y_data: List[float],
+    x_data: list[float],
+    y_data: list[float],
     x: float,
 ) -> float:
     """Linear interpolation.
@@ -247,8 +247,8 @@ def _linear_interpolation(
 
 
 def _polynomial_interpolation(
-    x_data: List[float],
-    y_data: List[float],
+    x_data: list[float],
+    y_data: list[float],
     x: float,
 ) -> float:
     """Lagrange polynomial interpolation.
@@ -275,8 +275,8 @@ def _polynomial_interpolation(
 
 
 def _spline_interpolation(
-    x_data: List[float],
-    y_data: List[float],
+    x_data: list[float],
+    y_data: list[float],
     x: float,
 ) -> float:
     """Cubic spline interpolation (simplified).
@@ -295,8 +295,8 @@ def _spline_interpolation(
 
 
 def extrapolation(
-    x_data: List[float],
-    y_data: List[float],
+    x_data: list[float],
+    y_data: list[float],
     x: float,
     method: str = "linear",
 ) -> float:
@@ -327,13 +327,13 @@ def extrapolation(
 
 
 def curve_fit(
-    x_data: List[float],
-    y_data: List[float],
-    model: Callable[[float, List[float]], float],
-    initial_params: List[float],
+    x_data: list[float],
+    y_data: list[float],
+    model: Callable[[float, list[float]], float],
+    initial_params: list[float],
     tolerance: float = 1e-6,
     max_iterations: int = 1000,
-) -> Tuple[List[float], List[float]]:
+) -> tuple[list[float], list[float]]:
     """Fit a model to data using least squares.
 
     Args:
@@ -365,7 +365,7 @@ def curve_fit(
             params_plus = params.copy()
             params_plus[j] += h
             residuals_plus = [y_data[i] - model(x_data[i], params_plus) for i in range(len(x_data))]
-            grad_j = sum((rp - r) ** 2 for rp, r in zip(residuals_plus, residuals)) / h
+            grad_j = sum((rp - r) ** 2 for rp, r in zip(residuals_plus, residuals, strict=False)) / h
             gradient.append(grad_j)
 
         # Update parameters
@@ -373,7 +373,7 @@ def curve_fit(
         new_params = [params[j] - learning_rate * gradient[j] for j in range(len(params))]
 
         # Check convergence
-        if max(abs(np - p) for np, p in zip(new_params, params)) < tolerance:
+        if max(abs(np - p) for np, p in zip(new_params, params, strict=False)) < tolerance:
             params = new_params
             break
 
@@ -386,7 +386,7 @@ def curve_fit(
 def approximation(
     func: Callable[[float], float],
     degree: int,
-    bounds: Tuple[float, float],
+    bounds: tuple[float, float],
     method: str = "polynomial",
 ) -> Callable[[float], float]:
     """Create an approximation of a function.
@@ -415,7 +415,7 @@ def approximation(
 def _polynomial_approximation(
     func: Callable[[float], float],
     degree: int,
-    bounds: Tuple[float, float],
+    bounds: tuple[float, float],
 ) -> Callable[[float], float]:
     """Polynomial approximation using least squares.
 
@@ -432,7 +432,7 @@ def _polynomial_approximation(
     # Sample points
     n_samples = degree + 10
     x_samples = [a + (b - a) * i / (n_samples - 1) for i in range(n_samples)]
-    y_samples = [func(x) for x in x_samples]
+    [func(x) for x in x_samples]
 
     # Solve least squares (simplified - real implementation would use numpy.linalg.lstsq)
     # For now, return original function as placeholder
@@ -442,7 +442,7 @@ def _polynomial_approximation(
 def _chebyshev_approximation(
     func: Callable[[float], float],
     degree: int,
-    bounds: Tuple[float, float],
+    bounds: tuple[float, float],
 ) -> Callable[[float], float]:
     """Chebyshev polynomial approximation.
 
@@ -459,9 +459,9 @@ def _chebyshev_approximation(
 
 
 def error_analysis(
-    exact: List[float],
-    approximate: List[float],
-) -> Dict[str, float]:
+    exact: list[float],
+    approximate: list[float],
+) -> dict[str, float]:
     """Analyze numerical errors.
 
     Args:
@@ -480,10 +480,10 @@ def error_analysis(
     n = len(exact)
 
     # Absolute errors
-    abs_errors = [abs(e - a) for e, a in zip(exact, approximate)]
+    abs_errors = [abs(e - a) for e, a in zip(exact, approximate, strict=False)]
 
     # Relative errors
-    rel_errors = [abs(e - a) / (abs(e) + 1e-10) for e, a in zip(exact, approximate)]
+    rel_errors = [abs(e - a) / (abs(e) + 1e-10) for e, a in zip(exact, approximate, strict=False)]
 
     # Mean absolute error
     mae = sum(abs_errors) / n

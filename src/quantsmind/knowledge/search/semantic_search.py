@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import SearchType
 from quantsmind.knowledge.exceptions import SearchError
@@ -56,7 +56,7 @@ class SemanticSearch(ISearchEngine):
         search_id: str,
         name: str,
         dimension: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SemanticSearch.
 
@@ -82,8 +82,8 @@ class SemanticSearch(ISearchEngine):
         self._name = name
         self._search_type = SearchType.SEMANTIC
         self._dimension = dimension
-        self._embeddings: Dict[str, List[float]] = {}
-        self._documents: Dict[str, Dict[str, Any]] = {}
+        self._embeddings: dict[str, list[float]] = {}
+        self._documents: dict[str, dict[str, Any]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -135,7 +135,7 @@ class SemanticSearch(ISearchEngine):
         return self._dimension
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the search engine metadata.
 
         Returns:
@@ -146,7 +146,7 @@ class SemanticSearch(ISearchEngine):
         """
         return self._metadata.copy()
 
-    def index_document(self, doc_id: str, document: Dict[str, Any]) -> None:
+    def index_document(self, doc_id: str, document: dict[str, Any]) -> None:
         """Index a document for semantic search.
 
         Args:
@@ -184,7 +184,7 @@ class SemanticSearch(ISearchEngine):
             return True
         return False
 
-    def search(self, query_embedding: List[float], top_k: int = 10) -> List[SearchResult]:
+    def search(self, query_embedding: list[float], top_k: int = 10) -> list[SearchResult]:
         """Search for similar documents.
 
         Args:
@@ -210,7 +210,7 @@ class SemanticSearch(ISearchEngine):
         results.sort(key=lambda r: r.score, reverse=True)
         return results[:top_k]
 
-    def _cosine_similarity(self, embedding1: List[float], embedding2: List[float]) -> float:
+    def _cosine_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:
         """Calculate cosine similarity between two embeddings.
 
         Args:
@@ -226,7 +226,7 @@ class SemanticSearch(ISearchEngine):
         if len(embedding1) != len(embedding2):
             return 0.0
 
-        dot_product = sum(a * b for a, b in zip(embedding1, embedding2))
+        dot_product = sum(a * b for a, b in zip(embedding1, embedding2, strict=False))
         magnitude1 = sum(a * a for a in embedding1) ** 0.5
         magnitude2 = sum(b * b for b in embedding2) ** 0.5
 
@@ -257,7 +257,7 @@ class SemanticSearch(ISearchEngine):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

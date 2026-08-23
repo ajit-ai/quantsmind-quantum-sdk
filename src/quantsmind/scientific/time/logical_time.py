@@ -24,7 +24,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from datetime import UTC
+from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
 from quantsmind.scientific.interfaces import ITime
@@ -47,7 +48,7 @@ class LogicalTime(ITime):
     def __init__(
         self,
         value: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LogicalTime.
 
@@ -89,7 +90,7 @@ class LogicalTime(ITime):
         return self._value
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the logical time metadata.
 
         Returns:
@@ -132,13 +133,14 @@ class LogicalTime(ITime):
             from quantsmind.scientific.time.simulation_time import SimulationTime
             return SimulationTime(float(self._value))
         elif target_type == "physical":
+            from datetime import datetime
+
             from quantsmind.scientific.time.timestamp import Timestamp
-            from datetime import datetime, timezone
-            return Timestamp(datetime.fromtimestamp(float(self._value), timezone.utc))
+            return Timestamp(datetime.fromtimestamp(float(self._value), UTC))
         else:
             raise TimeError(f"Conversion to {target_type} not supported", time_value=str(target_type))
 
-    def increment(self, delta: int = 1) -> "LogicalTime":
+    def increment(self, delta: int = 1) -> LogicalTime:
         """Increment logical time.
 
         Args:
@@ -153,7 +155,7 @@ class LogicalTime(ITime):
         new_value = self._value + delta
         return LogicalTime(new_value, self._metadata)
 
-    def decrement(self, delta: int = 1) -> "LogicalTime":
+    def decrement(self, delta: int = 1) -> LogicalTime:
         """Decrement logical time.
 
         Args:
@@ -173,7 +175,7 @@ class LogicalTime(ITime):
             raise TimeError("Logical time cannot be negative", time_value=str(new_value))
         return LogicalTime(new_value, self._metadata)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

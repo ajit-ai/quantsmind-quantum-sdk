@@ -24,7 +24,7 @@ quantsmind.quantum.provider.provider (provider module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import ProviderError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -49,7 +49,7 @@ class ProviderRegistry:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ProviderRegistry.
 
@@ -61,7 +61,7 @@ class ProviderRegistry:
             >>> registry = ProviderRegistry()
         """
         self._name = name
-        self._providers: Dict[str, QuantumProvider] = {}
+        self._providers: dict[str, QuantumProvider] = {}
         self._metadata = metadata or {}
 
     @property
@@ -77,7 +77,7 @@ class ProviderRegistry:
         return self._name
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the registry metadata.
 
         Returns:
@@ -122,7 +122,7 @@ class ProviderRegistry:
             return True
         return False
 
-    def get_provider(self, name: str) -> Optional[QuantumProvider]:
+    def get_provider(self, name: str) -> QuantumProvider | None:
         """Get a provider by name.
 
         Args:
@@ -136,7 +136,7 @@ class ProviderRegistry:
         """
         return self._providers.get(name)
 
-    def list_providers(self) -> List[str]:
+    def list_providers(self) -> list[str]:
         """List all registered provider names.
 
         Returns:
@@ -187,7 +187,7 @@ class ProviderRegistry:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

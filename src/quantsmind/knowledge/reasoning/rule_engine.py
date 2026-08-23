@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
 from quantsmind.knowledge.exceptions import ReasoningError
@@ -56,7 +56,7 @@ class RuleEngine(IReasoner):
         engine_id: str,
         name: str,
         reasoning_type: ReasoningType = ReasoningType.RULE_BASED,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a RuleEngine.
 
@@ -78,8 +78,8 @@ class RuleEngine(IReasoner):
         self._id = engine_id
         self._name = name
         self._reasoning_type = reasoning_type
-        self._rules: List[Dict[str, Any]] = []
-        self._rule_executions: List[Dict[str, Any]] = []
+        self._rules: list[dict[str, Any]] = []
+        self._rule_executions: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -119,7 +119,7 @@ class RuleEngine(IReasoner):
         return self._reasoning_type
 
     @property
-    def rules(self) -> List[Dict[str, Any]]:
+    def rules(self) -> list[dict[str, Any]]:
         """Get the rules.
 
         Returns:
@@ -131,7 +131,7 @@ class RuleEngine(IReasoner):
         return self._rules.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the rule engine metadata.
 
         Returns:
@@ -142,7 +142,7 @@ class RuleEngine(IReasoner):
         """
         return self._metadata.copy()
 
-    def add_rule(self, rule: Dict[str, Any]) -> None:
+    def add_rule(self, rule: dict[str, Any]) -> None:
         """Add a rule to the engine.
 
         Args:
@@ -205,7 +205,7 @@ class RuleEngine(IReasoner):
                 return True
         return False
 
-    def reason(self, query: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, query: dict[str, Any]) -> dict[str, Any]:
         """Execute rules on the query.
 
         Args:
@@ -238,7 +238,7 @@ class RuleEngine(IReasoner):
                             "input": query,
                             "output": result,
                         })
-                except Exception as e:
+                except Exception:
                     # Skip rules that cause errors
                     continue
 
@@ -248,7 +248,7 @@ class RuleEngine(IReasoner):
             "rule_count": len(executed_rules),
         }
 
-    def execute_all(self, data: Any) -> List[Any]:
+    def execute_all(self, data: Any) -> list[Any]:
         """Execute all applicable rules on data.
 
         Args:
@@ -263,7 +263,7 @@ class RuleEngine(IReasoner):
         result = self.reason(data)
         return result.get("results", [])
 
-    def get_execution_history(self) -> List[Dict[str, Any]]:
+    def get_execution_history(self) -> list[dict[str, Any]]:
         """Get the rule execution history.
 
         Returns:
@@ -308,7 +308,7 @@ class RuleEngine(IReasoner):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

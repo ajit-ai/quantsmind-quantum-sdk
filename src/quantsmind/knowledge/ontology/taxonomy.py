@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
 from quantsmind.knowledge.types import TaxonomyID, ValidationResult
 
@@ -53,9 +52,9 @@ class Taxonomy:
         self,
         taxonomy_id: TaxonomyID,
         name: str,
-        root: Optional[str] = None,
-        description: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        root: str | None = None,
+        description: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Taxonomy.
 
@@ -78,7 +77,7 @@ class Taxonomy:
         self._id = taxonomy_id
         self._name = name
         self._root = root
-        self._levels: List[List[str]] = []
+        self._levels: list[list[str]] = []
         self._description = description
         self._metadata = metadata or {}
 
@@ -107,7 +106,7 @@ class Taxonomy:
         return self._name
 
     @property
-    def root(self) -> Optional[str]:
+    def root(self) -> str | None:
         """Get the root concept ID.
 
         Returns:
@@ -119,7 +118,7 @@ class Taxonomy:
         return self._root
 
     @property
-    def levels(self) -> List[List[str]]:
+    def levels(self) -> list[list[str]]:
         """Get the taxonomy levels.
 
         Returns:
@@ -131,7 +130,7 @@ class Taxonomy:
         return [level.copy() for level in self._levels]
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the taxonomy description.
 
         Returns:
@@ -143,7 +142,7 @@ class Taxonomy:
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the taxonomy metadata.
 
         Returns:
@@ -165,7 +164,7 @@ class Taxonomy:
         """
         self._root = root
 
-    def add_level(self, level: List[str]) -> None:
+    def add_level(self, level: list[str]) -> None:
         """Add a level to the taxonomy.
 
         Args:
@@ -176,7 +175,7 @@ class Taxonomy:
         """
         self._levels.append(level)
 
-    def get_level(self, level_index: int) -> Optional[List[str]]:
+    def get_level(self, level_index: int) -> list[str] | None:
         """Get a specific level.
 
         Args:
@@ -203,7 +202,7 @@ class Taxonomy:
         """
         return len(self._levels)
 
-    def get_concept_level(self, concept_id: str) -> Optional[int]:
+    def get_concept_level(self, concept_id: str) -> int | None:
         """Get the level of a concept.
 
         Args:
@@ -220,7 +219,7 @@ class Taxonomy:
                 return i
         return None
 
-    def get_parent(self, concept_id: str) -> Optional[str]:
+    def get_parent(self, concept_id: str) -> str | None:
         """Get the parent of a concept.
 
         Args:
@@ -241,7 +240,7 @@ class Taxonomy:
         # This is a simplified implementation - real implementation would track parent-child relationships
         return parent_level[0] if parent_level else None
 
-    def get_children(self, concept_id: str) -> List[str]:
+    def get_children(self, concept_id: str) -> list[str]:
         """Get the children of a concept.
 
         Args:
@@ -282,7 +281,7 @@ class Taxonomy:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

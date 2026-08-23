@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.enums import DataSourceType
@@ -56,10 +56,10 @@ class APISource(DataSource):
         api_type: str,
         base_url: str,
         endpoint: str = "",
-        headers: Optional[Dict[str, str]] = None,
-        auth: Optional[Dict[str, str]] = None,
-        config: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        headers: dict[str, str] | None = None,
+        auth: dict[str, str] | None = None,
+        config: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an APISource.
 
@@ -131,7 +131,7 @@ class APISource(DataSource):
         return self._endpoint
 
     @property
-    def headers(self) -> Dict[str, str]:
+    def headers(self) -> dict[str, str]:
         """Get the headers.
 
         Returns:
@@ -143,7 +143,7 @@ class APISource(DataSource):
         return self._headers.copy()
 
     @property
-    def auth(self) -> Dict[str, str]:
+    def auth(self) -> dict[str, str]:
         """Get the authentication credentials.
 
         Returns:
@@ -175,7 +175,7 @@ class APISource(DataSource):
         }
         return True
 
-    def get(self, params: Optional[Dict[str, Any]] = None) -> Any:
+    def get(self, params: dict[str, Any] | None = None) -> Any:
         """Perform GET request.
 
         Args:
@@ -279,7 +279,7 @@ class APISource(DataSource):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

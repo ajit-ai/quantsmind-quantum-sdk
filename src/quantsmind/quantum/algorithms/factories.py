@@ -22,7 +22,7 @@ quantsmind.quantum.algorithms.exceptions (quantum exceptions)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Type
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import GateType, StateType
 from quantsmind.quantum.algorithms.exceptions import QuantumError
@@ -44,10 +44,10 @@ class QuantumFactory:
         Example:
             >>> factory = QuantumFactory()
         """
-        self._gate_registry: Dict[str, Type[Any]] = {}
-        self._state_registry: Dict[str, Type[Any]] = {}
+        self._gate_registry: dict[str, type[Any]] = {}
+        self._state_registry: dict[str, type[Any]] = {}
 
-    def register_gate(self, name: str, gate_class: Type[Any]) -> None:
+    def register_gate(self, name: str, gate_class: type[Any]) -> None:
         """Register a gate class.
 
         Args:
@@ -59,7 +59,7 @@ class QuantumFactory:
         """
         self._gate_registry[name] = gate_class
 
-    def register_state(self, name: str, state_class: Type[Any]) -> None:
+    def register_state(self, name: str, state_class: type[Any]) -> None:
         """Register a state class.
 
         Args:
@@ -111,7 +111,7 @@ class QuantumFactory:
         state_class = self._state_registry[name]
         return state_class(state_type=state_type, **kwargs)
 
-    def list_gates(self) -> List[str]:
+    def list_gates(self) -> list[str]:
         """List registered gates.
 
         Returns:
@@ -122,7 +122,7 @@ class QuantumFactory:
         """
         return list(self._gate_registry.keys())
 
-    def list_states(self) -> List[str]:
+    def list_states(self) -> list[str]:
         """List registered states.
 
         Returns:

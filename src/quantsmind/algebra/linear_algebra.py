@@ -29,8 +29,8 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple, Union
 import math
+from typing import Any
 
 from quantsmind.core.math_object import MathObject
 
@@ -56,8 +56,8 @@ class Matrix(MathObject):
     def __init__(
         self,
         name: str,
-        data: List[List[float]],
-        metadata: Optional[Dict[str, Any]] = None,
+        data: list[list[float]],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Matrix.
 
@@ -75,7 +75,7 @@ class Matrix(MathObject):
         self._cols = len(data[0]) if data else 0
 
     @property
-    def data(self) -> List[List[float]]:
+    def data(self) -> list[list[float]]:
         """Get the matrix data.
 
         Returns:
@@ -111,7 +111,7 @@ class Matrix(MathObject):
         return self._cols
 
     @property
-    def shape(self) -> Tuple[int, int]:
+    def shape(self) -> tuple[int, int]:
         """Get the matrix shape.
 
         Returns:
@@ -161,7 +161,7 @@ class Matrix(MathObject):
         """
         self._data[i][j] = value
 
-    def add(self, other: "Matrix") -> "Matrix":
+    def add(self, other: Matrix) -> Matrix:
         """Add another matrix.
 
         Args:
@@ -182,7 +182,7 @@ class Matrix(MathObject):
         ]
         return Matrix(f"{self._name}_plus_{other._name}", result_data)
 
-    def subtract(self, other: "Matrix") -> "Matrix":
+    def subtract(self, other: Matrix) -> Matrix:
         """Subtract another matrix.
 
         Args:
@@ -203,7 +203,7 @@ class Matrix(MathObject):
         ]
         return Matrix(f"{self._name}_minus_{other._name}", result_data)
 
-    def multiply(self, other: Union["Matrix", float]) -> "Matrix":
+    def multiply(self, other: Matrix | float) -> Matrix:
         """Multiply by another matrix or scalar.
 
         Args:
@@ -236,7 +236,7 @@ class Matrix(MathObject):
             ]
             return Matrix(f"{self._name}_times_{other._name}", result_data)
 
-    def transpose(self) -> "Matrix":
+    def transpose(self) -> Matrix:
         """Transpose the matrix.
 
         Returns:
@@ -276,7 +276,7 @@ class Matrix(MathObject):
                 det += sign * self._data[0][j] * minor.determinant()
             return det
 
-    def _minor(self, i: int, j: int) -> "Matrix":
+    def _minor(self, i: int, j: int) -> Matrix:
         """Get the minor matrix.
 
         Args:
@@ -292,7 +292,7 @@ class Matrix(MathObject):
         ]
         return Matrix("minor", minor_data)
 
-    def inverse(self) -> "Matrix":
+    def inverse(self) -> Matrix:
         """Compute the inverse.
 
         Returns:
@@ -349,7 +349,7 @@ class Matrix(MathObject):
 
         return sum(self._data[i][i] for i in range(self._rows))
 
-    def eigenvalues(self) -> List[complex]:
+    def eigenvalues(self) -> list[complex]:
         """Compute eigenvalues.
 
         Returns:
@@ -361,7 +361,7 @@ class Matrix(MathObject):
         # Placeholder - real implementation would use QR algorithm or similar
         return []
 
-    def eigenvectors(self) -> List[List[float]]:
+    def eigenvectors(self) -> list[list[float]]:
         """Compute eigenvectors.
 
         Returns:
@@ -373,7 +373,7 @@ class Matrix(MathObject):
         # Placeholder - real implementation would use eigenvalue decomposition
         return []
 
-    def svd(self) -> Tuple["Matrix", "Matrix", "Matrix"]:
+    def svd(self) -> tuple[Matrix, Matrix, Matrix]:
         """Compute singular value decomposition.
 
         Returns:
@@ -385,7 +385,7 @@ class Matrix(MathObject):
         # Placeholder - real implementation would use SVD algorithm
         return (Matrix("U", []), Matrix("S", []), Matrix("V", []))
 
-    def lu_decomposition(self) -> Tuple["Matrix", "Matrix"]:
+    def lu_decomposition(self) -> tuple[Matrix, Matrix]:
         """Compute LU decomposition.
 
         Returns:
@@ -397,7 +397,7 @@ class Matrix(MathObject):
         # Placeholder - real implementation would use Doolittle algorithm
         return (Matrix("L", []), Matrix("U", []))
 
-    def qr_decomposition(self) -> Tuple["Matrix", "Matrix"]:
+    def qr_decomposition(self) -> tuple[Matrix, Matrix]:
         """Compute QR decomposition.
 
         Returns:
@@ -434,7 +434,7 @@ class Matrix(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the matrix.
 
         Returns:
@@ -481,8 +481,8 @@ class Vector(MathObject):
     def __init__(
         self,
         name: str,
-        data: List[float],
-        metadata: Optional[Dict[str, Any]] = None,
+        data: list[float],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Vector.
 
@@ -499,7 +499,7 @@ class Vector(MathObject):
         self._size = len(data)
 
     @property
-    def data(self) -> List[float]:
+    def data(self) -> list[float]:
         """Get the vector data.
 
         Returns:
@@ -548,7 +548,7 @@ class Vector(MathObject):
         """
         self._data[i] = value
 
-    def add(self, other: "Vector") -> "Vector":
+    def add(self, other: Vector) -> Vector:
         """Add another vector.
 
         Args:
@@ -566,7 +566,7 @@ class Vector(MathObject):
         result_data = [self._data[i] + other.data[i] for i in range(self._size)]
         return Vector(f"{self._name}_plus_{other._name}", result_data)
 
-    def subtract(self, other: "Vector") -> "Vector":
+    def subtract(self, other: Vector) -> Vector:
         """Subtract another vector.
 
         Args:
@@ -584,7 +584,7 @@ class Vector(MathObject):
         result_data = [self._data[i] - other.data[i] for i in range(self._size)]
         return Vector(f"{self._name}_minus_{other._name}", result_data)
 
-    def multiply(self, scalar: float) -> "Vector":
+    def multiply(self, scalar: float) -> Vector:
         """Multiply by a scalar.
 
         Args:
@@ -599,7 +599,7 @@ class Vector(MathObject):
         result_data = [self._data[i] * scalar for i in range(self._size)]
         return Vector(f"{self._name}_scaled", result_data)
 
-    def dot(self, other: "Vector") -> float:
+    def dot(self, other: Vector) -> float:
         """Compute dot product with another vector.
 
         Args:
@@ -627,7 +627,7 @@ class Vector(MathObject):
         """
         return math.sqrt(sum(x**2 for x in self._data))
 
-    def normalize(self) -> "Vector":
+    def normalize(self) -> Vector:
         """Normalize the vector.
 
         Returns:
@@ -672,7 +672,7 @@ class Vector(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the vector.
 
         Returns:
@@ -717,8 +717,8 @@ class Tensor(MathObject):
     def __init__(
         self,
         name: str,
-        data: List[Any],
-        metadata: Optional[Dict[str, Any]] = None,
+        data: list[Any],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Tensor.
 
@@ -734,7 +734,7 @@ class Tensor(MathObject):
         self._data = data
         self._shape = self._compute_shape(data)
 
-    def _compute_shape(self, data: List[Any]) -> Tuple[int, ...]:
+    def _compute_shape(self, data: list[Any]) -> tuple[int, ...]:
         """Compute the shape of nested data.
 
         Args:
@@ -754,7 +754,7 @@ class Tensor(MathObject):
         return tuple(shape)
 
     @property
-    def data(self) -> List[Any]:
+    def data(self) -> list[Any]:
         """Get the tensor data.
 
         Returns:
@@ -766,7 +766,7 @@ class Tensor(MathObject):
         return self._data
 
     @property
-    def shape(self) -> Tuple[int, ...]:
+    def shape(self) -> tuple[int, ...]:
         """Get the tensor shape.
 
         Returns:
@@ -809,7 +809,7 @@ class Tensor(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the tensor.
 
         Returns:
@@ -858,7 +858,7 @@ class SparseMatrix(MathObject):
         name: str,
         rows: int,
         cols: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SparseMatrix.
 
@@ -874,7 +874,7 @@ class SparseMatrix(MathObject):
         super().__init__(name, metadata)
         self._rows = rows
         self._cols = cols
-        self._data: Dict[Tuple[int, int], float] = {}
+        self._data: dict[tuple[int, int], float] = {}
 
     @property
     def rows(self) -> int:
@@ -901,7 +901,7 @@ class SparseMatrix(MathObject):
         return self._cols
 
     @property
-    def shape(self) -> Tuple[int, int]:
+    def shape(self) -> tuple[int, int]:
         """Get the matrix shape.
 
         Returns:
@@ -991,7 +991,7 @@ class SparseMatrix(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the sparse matrix.
 
         Returns:

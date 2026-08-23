@@ -25,7 +25,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class ProofAssistant:
@@ -47,7 +47,7 @@ class ProofAssistant:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ProofAssistant.
 
@@ -59,8 +59,8 @@ class ProofAssistant:
             >>> assistant = ProofAssistant()
         """
         self._name = name
-        self._proof_templates: Dict[str, List[str]] = {}
-        self._proof_history: List[Dict[str, Any]] = []
+        self._proof_templates: dict[str, list[str]] = {}
+        self._proof_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -78,8 +78,8 @@ class ProofAssistant:
     def generate_proof_outline(
         self,
         statement: str,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Generate a proof outline.
 
         Args:
@@ -136,8 +136,8 @@ class ProofAssistant:
         self,
         proof_type: str,
         statement: str,
-        context: Optional[Dict[str, Any]],
-    ) -> List[Dict[str, str]]:
+        context: dict[str, Any] | None,
+    ) -> list[dict[str, str]]:
         """Generate proof steps based on type.
 
         Args:
@@ -225,7 +225,7 @@ class ProofAssistant:
 
         return steps
 
-    def _compute_proof_confidence(self, steps: List[Dict[str, str]]) -> float:
+    def _compute_proof_confidence(self, steps: list[dict[str, str]]) -> float:
         """Compute confidence in the proof outline.
 
         Args:
@@ -239,7 +239,7 @@ class ProofAssistant:
         """
         return 0.7
 
-    def suggest_proof_strategy(self, statement: str) -> List[str]:
+    def suggest_proof_strategy(self, statement: str) -> list[str]:
         """Suggest proof strategies for a statement.
 
         Args:
@@ -275,7 +275,7 @@ class ProofAssistant:
 
         return strategies
 
-    def validate_proof_step(self, step: Dict[str, str]) -> Dict[str, Any]:
+    def validate_proof_step(self, step: dict[str, str]) -> dict[str, Any]:
         """Validate a proof step.
 
         Args:
@@ -301,7 +301,7 @@ class ProofAssistant:
 
         return validation
 
-    def get_proof_history(self) -> List[Dict[str, Any]]:
+    def get_proof_history(self) -> list[dict[str, Any]]:
         """Get the proof history.
 
         Returns:

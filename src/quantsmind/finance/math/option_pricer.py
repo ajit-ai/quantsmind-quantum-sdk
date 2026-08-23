@@ -25,8 +25,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class OptionPricer:
@@ -48,7 +48,7 @@ class OptionPricer:
         self,
         risk_free_rate: float = 0.05,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an OptionPricer.
 

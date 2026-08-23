@@ -24,7 +24,7 @@ quantsmind.quantum.circuit.instruction (instruction module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -50,7 +50,7 @@ class Operation:
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Operation.
 
@@ -65,7 +65,7 @@ class Operation:
             raise CircuitError("Operation name cannot be empty", {"name": name})
 
         self._name = name
-        self._instructions: List[Instruction] = []
+        self._instructions: list[Instruction] = []
         self._metadata = metadata or {}
 
     @property
@@ -81,7 +81,7 @@ class Operation:
         return self._name
 
     @property
-    def instructions(self) -> List[Instruction]:
+    def instructions(self) -> list[Instruction]:
         """Get the instructions.
 
         Returns:
@@ -93,7 +93,7 @@ class Operation:
         return self._instructions.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the operation metadata.
 
         Returns:
@@ -135,7 +135,7 @@ class Operation:
             return True
         return False
 
-    def get_instruction(self, index: int) -> Optional[Instruction]:
+    def get_instruction(self, index: int) -> Instruction | None:
         """Get an instruction by index.
 
         Args:
@@ -195,7 +195,7 @@ class Operation:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

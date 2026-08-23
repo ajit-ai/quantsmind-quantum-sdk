@@ -52,41 +52,22 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.foundation.attribute import Attribute
-from quantsmind.foundation.behaviour import Behaviour
 from quantsmind.foundation.constraint import Constraint
 from quantsmind.foundation.entity import Entity
 from quantsmind.foundation.enums import (
-    BehaviourType,
     ConstraintSeverity,
     ConstraintType,
     EntityType,
-    EventType,
-    InteractionType,
-    KnowledgeType,
-    LifecycleStage,
-    ObservationType,
     RelationshipType,
-    SpaceType,
     SystemType,
-    TimeType,
-    TransformationType,
 )
-from quantsmind.foundation.event import Event
-from quantsmind.foundation.identity import Identity
-from quantsmind.foundation.interaction import Interaction
-from quantsmind.foundation.knowledge import Knowledge
-from quantsmind.foundation.lifecycle import Lifecycle
-from quantsmind.foundation.observation import Observation
 from quantsmind.foundation.property import Property
 from quantsmind.foundation.relationship import Relationship
-from quantsmind.foundation.space import Space
 from quantsmind.foundation.state import State
 from quantsmind.foundation.system import System
-from quantsmind.foundation.time import Time
-from quantsmind.foundation.transformation import Transformation
 
 logger = logging.getLogger(__name__)
 
@@ -104,8 +85,8 @@ class EntityFactory:
     def create_entity(
         self,
         entity_type: EntityType = EntityType.GENERIC,
-        properties: Optional[Dict[str, Property]] = None,
-        state: Optional[State] = None,
+        properties: dict[str, Property] | None = None,
+        state: State | None = None,
     ) -> Entity:
         """Create an Entity instance.
 
@@ -128,8 +109,8 @@ class EntityFactory:
 
     def create_physical_entity(
         self,
-        properties: Optional[Dict[str, Property]] = None,
-        state: Optional[State] = None,
+        properties: dict[str, Property] | None = None,
+        state: State | None = None,
     ) -> Entity:
         """Create a physical entity.
 
@@ -151,8 +132,8 @@ class EntityFactory:
 
     def create_quantum_entity(
         self,
-        properties: Optional[Dict[str, Property]] = None,
-        state: Optional[State] = None,
+        properties: dict[str, Property] | None = None,
+        state: State | None = None,
     ) -> Entity:
         """Create a quantum entity.
 
@@ -186,9 +167,9 @@ class SystemFactory:
     def create_system(
         self,
         system_type: SystemType = SystemType.GENERIC,
-        entities: Optional[Dict[str, Any]] = None,
-        relationships: Optional[List[Relationship]] = None,
-        state: Optional[State] = None,
+        entities: dict[str, Any] | None = None,
+        relationships: list[Relationship] | None = None,
+        state: State | None = None,
     ) -> System:
         """Create a System instance.
 
@@ -213,9 +194,9 @@ class SystemFactory:
 
     def create_physical_system(
         self,
-        entities: Optional[Dict[str, Any]] = None,
-        relationships: Optional[List[Relationship]] = None,
-        state: Optional[State] = None,
+        entities: dict[str, Any] | None = None,
+        relationships: list[Relationship] | None = None,
+        state: State | None = None,
     ) -> System:
         """Create a physical system.
 
@@ -248,7 +229,7 @@ class StateFactory:
         >>> state = factory.create_state({"position": [1.0, 2.0]})
     """
 
-    def create_state(self, data: Optional[Dict[str, Any]] = None) -> State:
+    def create_state(self, data: dict[str, Any] | None = None) -> State:
         """Create a State instance.
 
         Args:
@@ -287,9 +268,9 @@ class RelationshipFactory:
     def create_relationship(
         self,
         relationship_type: RelationshipType = RelationshipType.DIRECTED,
-        source: Optional[str] = None,
-        target: Optional[str] = None,
-        weight: Optional[float] = None,
+        source: str | None = None,
+        target: str | None = None,
+        weight: float | None = None,
     ) -> Relationship:
         """Create a Relationship instance.
 
@@ -316,7 +297,7 @@ class RelationshipFactory:
         self,
         source: str,
         target: str,
-        weight: Optional[float] = None,
+        weight: float | None = None,
     ) -> Relationship:
         """Create a directed relationship.
 
@@ -342,7 +323,7 @@ class RelationshipFactory:
         self,
         entity1: str,
         entity2: str,
-        weight: Optional[float] = None,
+        weight: float | None = None,
     ) -> Relationship:
         """Create an undirected relationship.
 
@@ -378,7 +359,7 @@ class ConstraintFactory:
     def create_constraint(
         self,
         name: str,
-        rule: Callable[[Dict[str, Any]], Any],
+        rule: Callable[[dict[str, Any]], Any],
         constraint_type: ConstraintType = ConstraintType.CUSTOM,
         severity: ConstraintSeverity = ConstraintSeverity.ERROR,
     ) -> Constraint:
@@ -406,7 +387,7 @@ class ConstraintFactory:
     def create_error_constraint(
         self,
         name: str,
-        rule: Callable[[Dict[str, Any]], Any],
+        rule: Callable[[dict[str, Any]], Any],
     ) -> Constraint:
         """Create an error-level constraint.
 
@@ -429,7 +410,7 @@ class ConstraintFactory:
     def create_warning_constraint(
         self,
         name: str,
-        rule: Callable[[Dict[str, Any]], Any],
+        rule: Callable[[dict[str, Any]], Any],
     ) -> Constraint:
         """Create a warning-level constraint.
 

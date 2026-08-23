@@ -24,9 +24,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.knowledge.enums import TransformationType
 from quantsmind.knowledge.exceptions import TransformationError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -55,8 +55,8 @@ class Converter:
         name: str,
         source_type: str,
         target_type: str,
-        convert_function: Optional[Callable[[Any], Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        convert_function: Callable[[Any], Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Converter.
 
@@ -139,7 +139,7 @@ class Converter:
         return self._target_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the converter metadata.
 
         Returns:
@@ -234,7 +234,7 @@ class Converter:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -282,7 +282,7 @@ class ConverterRegistry:
         Example:
             >>> registry = ConverterRegistry()
         """
-        self._converters: Dict[str, Converter] = {}
+        self._converters: dict[str, Converter] = {}
 
     def register(self, converter: Converter) -> None:
         """Register a converter.
@@ -312,7 +312,7 @@ class ConverterRegistry:
             return True
         return False
 
-    def get(self, converter_id: str) -> Optional[Converter]:
+    def get(self, converter_id: str) -> Converter | None:
         """Get a converter by ID.
 
         Args:
@@ -326,7 +326,7 @@ class ConverterRegistry:
         """
         return self._converters.get(converter_id)
 
-    def get_by_types(self, source_type: str, target_type: str) -> Optional[Converter]:
+    def get_by_types(self, source_type: str, target_type: str) -> Converter | None:
         """Get a converter by source and target types.
 
         Args:
@@ -366,7 +366,7 @@ class ConverterRegistry:
         """
         return len(self._converters)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

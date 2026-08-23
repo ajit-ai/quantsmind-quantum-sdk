@@ -24,11 +24,11 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IDimension, IUnit
 from quantsmind.scientific.quantities.quantity import Quantity
-from quantsmind.scientific.types import QuantityTensor, QuantityValue
+from quantsmind.scientific.types import QuantityTensor
 
 
 class TensorQuantity(Quantity):
@@ -52,7 +52,7 @@ class TensorQuantity(Quantity):
         value: QuantityTensor,
         unit: IUnit,
         dimension: IDimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a TensorQuantity.
 
@@ -103,7 +103,7 @@ class TensorQuantity(Quantity):
         """
         return 2
 
-    def transpose(self) -> "TensorQuantity":
+    def transpose(self) -> TensorQuantity:
         """Transpose the tensor.
 
         Returns:
@@ -118,7 +118,7 @@ class TensorQuantity(Quantity):
         ]
         return TensorQuantity(transposed_value, self._unit, self._dimension, self._metadata)
 
-    def add(self, other: "TensorQuantity") -> "TensorQuantity":
+    def add(self, other: TensorQuantity) -> TensorQuantity:
         """Add tensors.
 
         Args:
@@ -142,7 +142,7 @@ class TensorQuantity(Quantity):
         ]
         return TensorQuantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def subtract(self, other: "TensorQuantity") -> "TensorQuantity":
+    def subtract(self, other: TensorQuantity) -> TensorQuantity:
         """Subtract tensors.
 
         Args:
@@ -166,7 +166,7 @@ class TensorQuantity(Quantity):
         ]
         return TensorQuantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def scale(self, scalar: float) -> "TensorQuantity":
+    def scale(self, scalar: float) -> TensorQuantity:
         """Scale the tensor.
 
         Args:
@@ -208,7 +208,7 @@ class TensorQuantity(Quantity):
         rows, cols = self.shape
         return rows == cols
 
-    def __add__(self, other: "TensorQuantity") -> "TensorQuantity":
+    def __add__(self, other: TensorQuantity) -> TensorQuantity:
         """Add tensors.
 
         Args:
@@ -222,7 +222,7 @@ class TensorQuantity(Quantity):
         """
         return self.add(other)
 
-    def __sub__(self, other: "TensorQuantity") -> "TensorQuantity":
+    def __sub__(self, other: TensorQuantity) -> TensorQuantity:
         """Subtract tensors.
 
         Args:
@@ -236,7 +236,7 @@ class TensorQuantity(Quantity):
         """
         return self.subtract(other)
 
-    def __mul__(self, scalar: float) -> "TensorQuantity":
+    def __mul__(self, scalar: float) -> TensorQuantity:
         """Multiply by scalar.
 
         Args:
@@ -250,7 +250,7 @@ class TensorQuantity(Quantity):
         """
         return self.scale(scalar)
 
-    def __rmul__(self, scalar: float) -> "TensorQuantity":
+    def __rmul__(self, scalar: float) -> TensorQuantity:
         """Multiply by scalar (right side).
 
         Args:

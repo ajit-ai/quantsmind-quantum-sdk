@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IDimension, IUnit
 from quantsmind.scientific.quantities.quantity import Quantity
@@ -52,7 +52,7 @@ class ScalarQuantity(Quantity):
         value: QuantityValue,
         unit: IUnit,
         dimension: IDimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ScalarQuantity.
 
@@ -67,7 +67,7 @@ class ScalarQuantity(Quantity):
         """
         super().__init__(value, unit, dimension, metadata)
 
-    def abs(self) -> "ScalarQuantity":
+    def abs(self) -> ScalarQuantity:
         """Get absolute value.
 
         Returns:
@@ -78,7 +78,7 @@ class ScalarQuantity(Quantity):
         """
         return ScalarQuantity(abs(self._value), self._unit, self._dimension, self._metadata)
 
-    def negate(self) -> "ScalarQuantity":
+    def negate(self) -> ScalarQuantity:
         """Negate the scalar.
 
         Returns:
@@ -89,7 +89,7 @@ class ScalarQuantity(Quantity):
         """
         return ScalarQuantity(-self._value, self._unit, self._dimension, self._metadata)
 
-    def power(self, exponent: float) -> "ScalarQuantity":
+    def power(self, exponent: float) -> ScalarQuantity:
         """Raise scalar to a power.
 
         Args:
@@ -105,7 +105,7 @@ class ScalarQuantity(Quantity):
         result_dimension = self._dimension.power(int(exponent))
         return ScalarQuantity(result_value, self._unit, result_dimension, self._metadata)
 
-    def sqrt(self) -> "ScalarQuantity":
+    def sqrt(self) -> ScalarQuantity:
         """Calculate square root.
 
         Returns:
@@ -116,7 +116,7 @@ class ScalarQuantity(Quantity):
         """
         return self.power(0.5)
 
-    def __add__(self, other: ScalarQuantity) -> "ScalarQuantity":
+    def __add__(self, other: ScalarQuantity) -> ScalarQuantity:
         """Add scalars.
 
         Args:
@@ -130,7 +130,7 @@ class ScalarQuantity(Quantity):
         """
         return self.add(other)
 
-    def __sub__(self, other: ScalarQuantity) -> "ScalarQuantity":
+    def __sub__(self, other: ScalarQuantity) -> ScalarQuantity:
         """Subtract scalars.
 
         Args:
@@ -144,7 +144,7 @@ class ScalarQuantity(Quantity):
         """
         return self.subtract(other)
 
-    def __mul__(self, other: ScalarQuantity) -> "ScalarQuantity":
+    def __mul__(self, other: ScalarQuantity) -> ScalarQuantity:
         """Multiply scalars.
 
         Args:
@@ -158,7 +158,7 @@ class ScalarQuantity(Quantity):
         """
         return self.multiply(other)
 
-    def __truediv__(self, other: ScalarQuantity) -> "ScalarQuantity":
+    def __truediv__(self, other: ScalarQuantity) -> ScalarQuantity:
         """Divide scalars.
 
         Args:
@@ -172,7 +172,7 @@ class ScalarQuantity(Quantity):
         """
         return self.divide(other)
 
-    def __neg__(self) -> "ScalarQuantity":
+    def __neg__(self) -> ScalarQuantity:
         """Negate scalar.
 
         Returns:
@@ -183,7 +183,7 @@ class ScalarQuantity(Quantity):
         """
         return self.negate()
 
-    def __abs__(self) -> "ScalarQuantity":
+    def __abs__(self) -> ScalarQuantity:
         """Absolute value.
 
         Returns:

@@ -30,9 +30,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Any, Callable, Dict, Optional
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import TaskError
 from quantsmind.runtime.task import Task
@@ -68,9 +66,9 @@ class Executor:
             >>> executor = Executor(max_workers=4)
         """
         self._max_workers = max_workers
-        self._active_tasks: Dict[TaskID, Task] = {}
-        self._completed_tasks: Dict[TaskID, Task] = {}
-        self._failed_tasks: Dict[TaskID, Task] = {}
+        self._active_tasks: dict[TaskID, Task] = {}
+        self._completed_tasks: dict[TaskID, Task] = {}
+        self._failed_tasks: dict[TaskID, Task] = {}
         self._lock = threading.Lock()
         logger.debug(f"Created executor with max_workers={max_workers}")
 
@@ -125,7 +123,7 @@ class Executor:
         with self._lock:
             return len(self._failed_tasks)
 
-    def execute(self, task: Task, callback: Optional[Callback] = None) -> ExecutionResult:
+    def execute(self, task: Task, callback: Callback | None = None) -> ExecutionResult:
         """Execute a task.
 
         Args:
@@ -157,14 +155,14 @@ class Executor:
                 callback(result)
 
             return result
-        except Exception as e:
+        except Exception:
             with self._lock:
                 if task.task_id in self._active_tasks:
                     del self._active_tasks[task.task_id]
                 self._failed_tasks[task.task_id] = task
             raise
 
-    def execute_async(self, task: Task, callback: Optional[Callback] = None) -> None:
+    def execute_async(self, task: Task, callback: Callback | None = None) -> None:
         """Execute a task asynchronously.
 
         Args:
@@ -177,7 +175,7 @@ class Executor:
         def _execute():
             try:
                 self.execute(task, callback)
-            except Exception as e:
+            except Exception:
                 logger.error(f"Async execution failed: {task.task_id}", exc_info=True)
 
         thread = threading.Thread(target=_execute)
@@ -203,7 +201,7 @@ class Executor:
                 return True
         return False
 
-    def get_task_status(self, task_id: TaskID) -> Optional[ExecutionState]:
+    def get_task_status(self, task_id: TaskID) -> ExecutionState | None:
         """Get task status.
 
         Args:

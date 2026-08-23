@@ -15,7 +15,14 @@ Modules
 
 from __future__ import annotations
 
-from quantsmind.numerical.numerical_engine import approximation, curve_fit, error_analysis, extrapolation, interpolation, root_finding
+from quantsmind.numerical.numerical_engine import (
+    approximation,
+    curve_fit,
+    error_analysis,
+    extrapolation,
+    interpolation,
+    root_finding,
+)
 
 __all__: list[str] = [
     "root_finding",

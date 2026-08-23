@@ -31,8 +31,8 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Union
 import math
+from typing import Any
 
 from quantsmind.core.math_object import MathObject
 
@@ -57,9 +57,9 @@ class Polynomial(MathObject):
     def __init__(
         self,
         name: str,
-        coefficients: List[float],
+        coefficients: list[float],
         variable: str = "x",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Polynomial.
 
@@ -77,7 +77,7 @@ class Polynomial(MathObject):
         self._variable = variable
 
     @property
-    def coefficients(self) -> List[float]:
+    def coefficients(self) -> list[float]:
         """Get the coefficients.
 
         Returns:
@@ -132,7 +132,7 @@ class Polynomial(MathObject):
             result += coeff * (x ** i)
         return result
 
-    def derivative(self) -> "Polynomial":
+    def derivative(self) -> Polynomial:
         """Compute the derivative of the polynomial.
 
         Returns:
@@ -147,7 +147,7 @@ class Polynomial(MathObject):
         deriv_coeffs = [i * self._coefficients[i] for i in range(1, len(self._coefficients))]
         return Polynomial(f"{self._name}_deriv", deriv_coeffs, self._variable)
 
-    def integral(self, constant: float = 0.0) -> "Polynomial":
+    def integral(self, constant: float = 0.0) -> Polynomial:
         """Compute the integral of the polynomial.
 
         Args:
@@ -162,7 +162,7 @@ class Polynomial(MathObject):
         integral_coeffs = [constant] + [self._coefficients[i] / (i + 1) for i in range(len(self._coefficients))]
         return Polynomial(f"{self._name}_integral", integral_coeffs, self._variable)
 
-    def add(self, other: "Polynomial") -> "Polynomial":
+    def add(self, other: Polynomial) -> Polynomial:
         """Add another polynomial.
 
         Args:
@@ -182,7 +182,7 @@ class Polynomial(MathObject):
             result_coeffs.append(coeff)
         return Polynomial(f"{self._name}_plus_{other._name}", result_coeffs, self._variable)
 
-    def subtract(self, other: "Polynomial") -> "Polynomial":
+    def subtract(self, other: Polynomial) -> Polynomial:
         """Subtract another polynomial.
 
         Args:
@@ -202,7 +202,7 @@ class Polynomial(MathObject):
             result_coeffs.append(coeff)
         return Polynomial(f"{self._name}_minus_{other._name}", result_coeffs, self._variable)
 
-    def multiply(self, other: "Polynomial") -> "Polynomial":
+    def multiply(self, other: Polynomial) -> Polynomial:
         """Multiply by another polynomial.
 
         Args:
@@ -221,7 +221,7 @@ class Polynomial(MathObject):
                 result_coeffs[i + j] += coeff1 * coeff2
         return Polynomial(f"{self._name}_times_{other._name}", result_coeffs, self._variable)
 
-    def scale(self, factor: float) -> "Polynomial":
+    def scale(self, factor: float) -> Polynomial:
         """Scale the polynomial by a factor.
 
         Args:
@@ -236,7 +236,7 @@ class Polynomial(MathObject):
         scaled_coeffs = [coeff * factor for coeff in self._coefficients]
         return Polynomial(f"{self._name}_scaled", scaled_coeffs, self._variable)
 
-    def roots(self) -> List[complex]:
+    def roots(self) -> list[complex]:
         """Find the roots of the polynomial.
 
         Returns:
@@ -269,7 +269,7 @@ class Polynomial(MathObject):
             # Real implementation would use numpy's roots or similar
             return []
 
-    def factor(self) -> List["Polynomial"]:
+    def factor(self) -> list[Polynomial]:
         """Factor the polynomial.
 
         Returns:
@@ -281,7 +281,7 @@ class Polynomial(MathObject):
         # Placeholder - actual factoring requires symbolic computation
         return [self.clone()]
 
-    def expand(self) -> "Polynomial":
+    def expand(self) -> Polynomial:
         """Expand the polynomial (already in expanded form).
 
         Returns:
@@ -312,7 +312,7 @@ class Polynomial(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the polynomial.
 
         Returns:
@@ -387,7 +387,7 @@ class PolynomialSolver:
         """
         return self._polynomial
 
-    def solve(self) -> List[complex]:
+    def solve(self) -> list[complex]:
         """Solve the polynomial equation.
 
         Returns:
@@ -427,7 +427,7 @@ class PolynomialSolver:
 
         return x
 
-    def find_real_roots(self) -> List[float]:
+    def find_real_roots(self) -> list[float]:
         """Find only real roots.
 
         Returns:

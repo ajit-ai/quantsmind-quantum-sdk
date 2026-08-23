@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import MeasurementError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -49,7 +48,7 @@ class MeasurementRepository:
     def __init__(
         self,
         repository_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MeasurementRepository.
 
@@ -64,7 +63,7 @@ class MeasurementRepository:
             raise MeasurementError("Repository ID cannot be empty", {"repository_id": repository_id})
 
         self._id = repository_id
-        self._measurements: Dict[str, Any] = {}
+        self._measurements: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -80,7 +79,7 @@ class MeasurementRepository:
         return self._id
 
     @property
-    def measurements(self) -> Dict[str, Any]:
+    def measurements(self) -> dict[str, Any]:
         """Get the measurements.
 
         Returns:
@@ -92,7 +91,7 @@ class MeasurementRepository:
         return self._measurements.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the repository metadata.
 
         Returns:
@@ -133,7 +132,7 @@ class MeasurementRepository:
             return True
         return False
 
-    def get_measurement(self, measurement_id: str) -> Optional[Any]:
+    def get_measurement(self, measurement_id: str) -> Any | None:
         """Get a measurement from the repository.
 
         Args:
@@ -147,7 +146,7 @@ class MeasurementRepository:
         """
         return self._measurements.get(measurement_id)
 
-    def get_measurements_by_target(self, target: str) -> List[Any]:
+    def get_measurements_by_target(self, target: str) -> list[Any]:
         """Get measurements by target.
 
         Args:
@@ -161,7 +160,7 @@ class MeasurementRepository:
         """
         return [meas for meas in self._measurements.values() if getattr(meas, 'target', None) == target]
 
-    def get_measurements_by_quantity(self, quantity: str) -> List[Any]:
+    def get_measurements_by_quantity(self, quantity: str) -> list[Any]:
         """Get measurements by quantity.
 
         Args:
@@ -175,7 +174,7 @@ class MeasurementRepository:
         """
         return [meas for meas in self._measurements.values() if getattr(meas, 'quantity', None) == quantity]
 
-    def get_measurements_by_unit(self, unit: str) -> List[Any]:
+    def get_measurements_by_unit(self, unit: str) -> list[Any]:
         """Get measurements by unit.
 
         Args:
@@ -189,7 +188,7 @@ class MeasurementRepository:
         """
         return [meas for meas in self._measurements.values() if getattr(meas, 'unit', None) == unit]
 
-    def get_measurements_by_measurer(self, measurer: str) -> List[Any]:
+    def get_measurements_by_measurer(self, measurer: str) -> list[Any]:
         """Get measurements by measurer.
 
         Args:
@@ -203,7 +202,7 @@ class MeasurementRepository:
         """
         return [meas for meas in self._measurements.values() if getattr(meas, 'measurer', None) == measurer]
 
-    def get_measurements_by_time_range(self, start: str, end: str) -> List[Any]:
+    def get_measurements_by_time_range(self, start: str, end: str) -> list[Any]:
         """Get measurements within a time range.
 
         Args:
@@ -226,7 +225,7 @@ class MeasurementRepository:
             if start_dt <= getattr(meas, 'timestamp', datetime.min) <= end_dt
         ]
 
-    def calculate_statistics(self, quantity: str) -> Dict[str, float]:
+    def calculate_statistics(self, quantity: str) -> dict[str, float]:
         """Calculate statistics for measurements of a quantity.
 
         Args:
@@ -280,7 +279,7 @@ class MeasurementRepository:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

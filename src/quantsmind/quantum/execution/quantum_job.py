@@ -26,7 +26,7 @@ quantsmind.quantum.execution.execution_context (execution context module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import JobStatus
 from quantsmind.quantum.algorithms.exceptions import ExecutionError
@@ -56,7 +56,7 @@ class QuantumJob(IQuantumJob):
         self,
         job_id: str,
         context: ExecutionContext,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumJob.
 
@@ -77,7 +77,7 @@ class QuantumJob(IQuantumJob):
         self._job_id = job_id
         self._context = context
         self._status = JobStatus.INITIALIZING
-        self._result: Optional[JobResult] = None
+        self._result: JobResult | None = None
         self._metadata = metadata or {}
 
     @property
@@ -117,7 +117,7 @@ class QuantumJob(IQuantumJob):
         return self._status
 
     @property
-    def result(self) -> Optional[JobResult]:
+    def result(self) -> JobResult | None:
         """Get the job result.
 
         Returns:
@@ -129,7 +129,7 @@ class QuantumJob(IQuantumJob):
         return self._result
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the job metadata.
 
         Returns:
@@ -177,7 +177,7 @@ class QuantumJob(IQuantumJob):
             return True
         return False
 
-    def wait(self, timeout: Optional[int] = None) -> JobResult:
+    def wait(self, timeout: int | None = None) -> JobResult:
         """Wait for the job to complete.
 
         Args:
@@ -225,7 +225,7 @@ class QuantumJob(IQuantumJob):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

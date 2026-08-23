@@ -30,11 +30,9 @@ from __future__ import annotations
 import logging
 import threading
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Type
+from typing import Any
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.exceptions import ValidationError
-from quantsmind.runtime.types import PluginID, PluginVersion
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +58,8 @@ class RuntimeRegistry:
         Example:
             >>> registry = RuntimeRegistry()
         """
-        self._components: Dict[str, Any] = {}
-        self._metadata: Dict[str, Dict[str, Any]] = {}
+        self._components: dict[str, Any] = {}
+        self._metadata: dict[str, dict[str, Any]] = {}
         self._lock = threading.Lock()
         logger.debug("Created runtime registry")
 
@@ -83,7 +81,7 @@ class RuntimeRegistry:
         name: str,
         component: Any,
         version: str = "1.0.0",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Register a component.
 
@@ -131,7 +129,7 @@ class RuntimeRegistry:
                 return True
         return False
 
-    def get(self, name: str) -> Optional[Any]:
+    def get(self, name: str) -> Any | None:
         """Get a component by name.
 
         Args:
@@ -162,7 +160,7 @@ class RuntimeRegistry:
         with self._lock:
             return name in self._components
 
-    def get_metadata(self, name: str) -> Optional[Dict[str, Any]]:
+    def get_metadata(self, name: str) -> dict[str, Any] | None:
         """Get component metadata.
 
         Args:
@@ -177,7 +175,7 @@ class RuntimeRegistry:
         with self._lock:
             return self._metadata.get(name)
 
-    def list_components(self) -> List[str]:
+    def list_components(self) -> list[str]:
         """List all registered components.
 
         Returns:
@@ -189,7 +187,7 @@ class RuntimeRegistry:
         with self._lock:
             return list(self._components.keys())
 
-    def get_by_version(self, version: str) -> List[str]:
+    def get_by_version(self, version: str) -> list[str]:
         """Get components by version.
 
         Args:
@@ -208,7 +206,7 @@ class RuntimeRegistry:
                 if meta.get("version") == version
             ]
 
-    def search(self, query: str) -> List[str]:
+    def search(self, query: str) -> list[str]:
         """Search for components.
 
         Args:
@@ -221,7 +219,7 @@ class RuntimeRegistry:
             >>> components = registry.search("my")
         """
         with self._lock:
-            return [name for name in self._components.keys() if query.lower() in name.lower()]
+            return [name for name in self._components if query.lower() in name.lower()]
 
     def clear(self) -> None:
         """Clear the registry.
@@ -234,7 +232,7 @@ class RuntimeRegistry:
             self._metadata.clear()
         logger.info("Registry cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get registry status.
 
         Returns:

@@ -42,15 +42,17 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_DIMENSION, DEFAULT_SPACE_TYPE, MAX_DIMENSION, MIN_DIMENSION
+from quantsmind.foundation.constants import (
+    DEFAULT_DIMENSION,
+    MAX_DIMENSION,
+    MIN_DIMENSION,
+)
 from quantsmind.foundation.enums import SpaceType
 from quantsmind.foundation.exceptions import (
     CoordinateError,
-    DimensionError,
     InvalidSpaceError,
-    SpaceError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
@@ -59,7 +61,6 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     Coordinate,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -94,9 +95,9 @@ class Space(Serializable, Validatable):
         self,
         dimension: int = DEFAULT_DIMENSION,
         space_type: SpaceType = SpaceType.EUCLIDEAN,
-        origin: Optional[Coordinate] = None,
-        basis: Optional[List[Coordinate]] = None,
-        metadata: Optional[MetadataDict] = None,
+        origin: Coordinate | None = None,
+        basis: list[Coordinate] | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Space.
 
@@ -117,13 +118,13 @@ class Space(Serializable, Validatable):
         self._dimension: int = dimension
         self._space_type: SpaceType = space_type
         self._origin: Coordinate = origin or [0.0] * dimension
-        self._basis: List[Coordinate] = basis or self._default_basis()
+        self._basis: list[Coordinate] = basis or self._default_basis()
         self._metadata: MetadataDict = metadata or {}
 
         self._validate_dimension()
         logger.debug(f"Created {space_type.value} space with {dimension} dimensions")
 
-    def _default_basis(self) -> List[Coordinate]:
+    def _default_basis(self) -> list[Coordinate]:
         """Create default orthonormal basis.
 
         Returns:
@@ -185,7 +186,7 @@ class Space(Serializable, Validatable):
         return self._origin.copy()
 
     @property
-    def basis(self) -> List[Coordinate]:
+    def basis(self) -> list[Coordinate]:
         """Get the basis vectors.
 
         Returns:
@@ -225,7 +226,7 @@ class Space(Serializable, Validatable):
         self._origin = origin.copy()
         logger.debug(f"Updated space origin: {origin}")
 
-    def set_basis(self, basis: List[Coordinate]) -> None:
+    def set_basis(self, basis: list[Coordinate]) -> None:
         """Set the basis vectors.
 
         Args:
@@ -243,7 +244,7 @@ class Space(Serializable, Validatable):
             if len(vec) != self._dimension:
                 raise CoordinateError(f"Basis vector must have {self._dimension} dimensions")
         self._basis = [vec.copy() for vec in basis]
-        logger.debug(f"Updated space basis")
+        logger.debug("Updated space basis")
 
     # Validation methods
     def validate_coordinate(self, coordinate: Coordinate) -> bool:
@@ -292,7 +293,7 @@ class Space(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Space":
+    def deserialize(cls, data: bytes, format: str = "json") -> Space:
         """Deserialize the space from bytes.
 
         Args:

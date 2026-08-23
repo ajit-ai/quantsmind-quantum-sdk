@@ -26,7 +26,7 @@ quantsmind.quantum.operator.operator (operator module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.constants import (
     IDENTITY_MATRIX,
@@ -35,7 +35,6 @@ from quantsmind.quantum.algorithms.constants import (
     PAULI_Z_MATRIX,
 )
 from quantsmind.quantum.algorithms.enums import PauliType
-from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.operator.operator import QuantumOperator
 
@@ -61,7 +60,7 @@ class PauliOperator(QuantumOperator):
         name: str,
         pauli_type: PauliType,
         num_qubits: int = 1,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PauliOperator.
 
@@ -130,7 +129,7 @@ class PauliOperator(QuantumOperator):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -164,7 +163,7 @@ class PauliX(PauliOperator):
         >>> pauli = PauliX()
     """
 
-    def __init__(self, num_qubits: int = 1, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, num_qubits: int = 1, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliX.
 
         Args:
@@ -186,7 +185,7 @@ class PauliY(PauliOperator):
         >>> pauli = PauliY()
     """
 
-    def __init__(self, num_qubits: int = 1, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, num_qubits: int = 1, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliY.
 
         Args:
@@ -208,7 +207,7 @@ class PauliZ(PauliOperator):
         >>> pauli = PauliZ()
     """
 
-    def __init__(self, num_qubits: int = 1, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, num_qubits: int = 1, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliZ.
 
         Args:
@@ -230,7 +229,7 @@ class PauliI(PauliOperator):
         >>> pauli = PauliI()
     """
 
-    def __init__(self, num_qubits: int = 1, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, num_qubits: int = 1, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliI.
 
         Args:

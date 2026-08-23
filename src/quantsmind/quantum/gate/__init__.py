@@ -20,18 +20,18 @@ from __future__ import annotations
 
 from quantsmind.quantum.gate.controlled_gate import (
     CCXGate,
-    ControlledGate,
     CNOTGate,
+    ControlledGate,
     CYGate,
     CZGate,
 )
 from quantsmind.quantum.gate.gate import QuantumGate
 from quantsmind.quantum.gate.multi_qubit_gate import ISwapGate, MultiQubitGate, SwapGate
 from quantsmind.quantum.gate.parameterized_gate import (
-    PhaseGate,
     ParameterizedGate,
-    RYGate,
+    PhaseGate,
     RXGate,
+    RYGate,
     RZGate,
     UGate,
 )
@@ -42,8 +42,8 @@ from quantsmind.quantum.gate.single_qubit_gate import (
     PauliYGate,
     PauliZGate,
     SGate,
-    SXGate,
     SingleQubitGate,
+    SXGate,
     TGate,
 )
 

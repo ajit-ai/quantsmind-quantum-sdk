@@ -26,7 +26,7 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 
 class Variable:
@@ -50,10 +50,10 @@ class Variable:
     def __init__(
         self,
         name: str,
-        value: Optional[Union[float, int, str]] = None,
+        value: float | int | str | None = None,
         var_type: str = "float",
-        constraints: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        constraints: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Variable.
 
@@ -89,7 +89,7 @@ class Variable:
         return self._name
 
     @property
-    def value(self) -> Optional[Union[float, int, str]]:
+    def value(self) -> float | int | str | None:
         """Get the variable value.
 
         Returns:
@@ -113,7 +113,7 @@ class Variable:
         return self._type
 
     @property
-    def constraints(self) -> Dict[str, Any]:
+    def constraints(self) -> dict[str, Any]:
         """Get the variable constraints.
 
         Returns:
@@ -125,7 +125,7 @@ class Variable:
         return self._constraints.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the metadata.
 
         Returns:
@@ -136,7 +136,7 @@ class Variable:
         """
         return self._metadata.copy()
 
-    def set_value(self, value: Union[float, int, str]) -> None:
+    def set_value(self, value: float | int | str) -> None:
         """Set the variable value.
 
         Args:
@@ -176,7 +176,7 @@ class Variable:
 
         self._value = value
 
-    def get_value(self) -> Optional[Union[float, int, str]]:
+    def get_value(self) -> float | int | str | None:
         """Get the variable value.
 
         Returns:
@@ -231,7 +231,7 @@ class Variable:
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the variable.
 
         Returns:
@@ -249,7 +249,7 @@ class Variable:
         }
 
     @classmethod
-    def deserialize(cls, data: Dict[str, Any]) -> "Variable":
+    def deserialize(cls, data: dict[str, Any]) -> Variable:
         """Deserialize a dictionary to a variable.
 
         Args:

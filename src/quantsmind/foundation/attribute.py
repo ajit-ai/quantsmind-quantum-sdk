@@ -41,15 +41,16 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from quantsmind.foundation.constants import (
     DEFAULT_ATTRIBUTE_TYPE,
     ERROR_INVALID_PROPERTY,
 )
 from quantsmind.foundation.exceptions import (
-    AttributeError,
     ConversionError,
+)
+from quantsmind.foundation.exceptions import (
     TypeError as FoundationTypeError,
 )
 from quantsmind.foundation.interfaces import (
@@ -60,10 +61,7 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     AttributeValue,
     ComparisonResult,
-    ScalarValue,
-    SerializedData,
     ValidationResult,
-    VectorValue,
 )
 
 logger = logging.getLogger(__name__)
@@ -95,8 +93,8 @@ class Attribute(Comparable, Serializable, Validatable):
         self,
         value: AttributeValue,
         attribute_type: str = DEFAULT_ATTRIBUTE_TYPE,
-        precision: Optional[int] = None,
-        unit: Optional[str] = None,
+        precision: int | None = None,
+        unit: str | None = None,
     ) -> None:
         """Initialize an Attribute.
 
@@ -115,8 +113,8 @@ class Attribute(Comparable, Serializable, Validatable):
         """
         self._value: AttributeValue = value
         self._type: str = attribute_type
-        self._precision: Optional[int] = precision
-        self._unit: Optional[str] = unit
+        self._precision: int | None = precision
+        self._unit: str | None = unit
 
         self._validate_type()
         logger.debug(f"Created attribute: type={self._type}, unit={self._unit}")
@@ -150,12 +148,11 @@ class Attribute(Comparable, Serializable, Validatable):
                     f"String attribute must be a string, got {type(self._value)}",
                     error_code=ERROR_INVALID_PROPERTY,
                 )
-        elif self._type == "bool":
-            if not isinstance(self._value, bool):
-                raise FoundationTypeError(
-                    f"Boolean attribute must be a bool, got {type(self._value)}",
-                    error_code=ERROR_INVALID_PROPERTY,
-                )
+        elif self._type == "bool" and not isinstance(self._value, bool):
+            raise FoundationTypeError(
+                f"Boolean attribute must be a bool, got {type(self._value)}",
+                error_code=ERROR_INVALID_PROPERTY,
+            )
 
     @property
     def value(self) -> AttributeValue:
@@ -182,7 +179,7 @@ class Attribute(Comparable, Serializable, Validatable):
         return self._type
 
     @property
-    def precision(self) -> Optional[int]:
+    def precision(self) -> int | None:
         """Get the precision.
 
         Returns:
@@ -194,7 +191,7 @@ class Attribute(Comparable, Serializable, Validatable):
         return self._precision
 
     @property
-    def unit(self) -> Optional[str]:
+    def unit(self) -> str | None:
         """Get the unit.
 
         Returns:
@@ -286,7 +283,7 @@ class Attribute(Comparable, Serializable, Validatable):
         are_equal = self._value == other._value and self._type == other._type
         similarity = 1.0 if are_equal else 0.0
 
-        differences: Dict[str, Any] = {}
+        differences: dict[str, Any] = {}
         if self._value != other._value:
             differences["value"] = (self._value, other._value)
         if self._type != other._type:
@@ -403,7 +400,7 @@ class Attribute(Comparable, Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Attribute":
+    def deserialize(cls, data: bytes, format: str = "json") -> Attribute:
         """Deserialize the attribute from bytes.
 
         Args:
@@ -511,7 +508,7 @@ class Attribute(Comparable, Serializable, Validatable):
         return []
 
     # Conversion methods
-    def convert_to(self, target_type: str) -> "Attribute":
+    def convert_to(self, target_type: str) -> Attribute:
         """Convert attribute to a different type.
 
         Args:

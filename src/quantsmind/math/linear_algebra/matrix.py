@@ -40,19 +40,19 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-import math
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any
 
 from quantsmind.math.exceptions import (
     DimensionError,
     DivisionByZeroError,
-    IndexError as MathIndexError,
-    InvalidOperationError,
     SingularMatrixError,
 )
-from quantsmind.math.types import Matrix as MatrixType, Scalar, Shape, Vector as VectorType
-from quantsmind.math.utilities import get_shape, is_square, trace, transpose
-from quantsmind.math.validation import validate_matrix, validate_square_matrix
+from quantsmind.math.exceptions import (
+    IndexError as MathIndexError,
+)
+from quantsmind.math.types import Scalar, Shape
+from quantsmind.math.utilities import is_square
+from quantsmind.math.validation import validate_matrix
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ class Matrix:
         >>> print(f"Shape: {m.shape}")
     """
 
-    def __init__(self, data: List[List[Scalar]]) -> None:
+    def __init__(self, data: list[list[Scalar]]) -> None:
         """Initialize a Matrix.
 
         Args:
@@ -96,7 +96,7 @@ class Matrix:
         if not is_valid:
             raise ValueError(f"Invalid matrix data: {errors}")
 
-        self._data: List[List[Scalar]] = [list(row) for row in data]
+        self._data: list[list[Scalar]] = [list(row) for row in data]
         self._rows: int = len(self._data)
         self._cols: int = len(self._data[0]) if self._data else 0
         logger.debug(f"Created matrix of shape {self.shape}")
@@ -114,7 +114,7 @@ class Matrix:
         return (self._rows, self._cols)
 
     @property
-    def data(self) -> List[List[Scalar]]:
+    def data(self) -> list[list[Scalar]]:
         """Get the matrix data.
 
         Returns:
@@ -149,7 +149,7 @@ class Matrix:
         """
         return self._cols
 
-    def __getitem__(self, index: Union[int, Tuple[int, int]]) -> Union[Scalar, List[Scalar]]:
+    def __getitem__(self, index: int | tuple[int, int]) -> Scalar | list[Scalar]:
         """Get matrix element or row by index.
 
         Args:
@@ -175,7 +175,7 @@ class Matrix:
                 raise MathIndexError(f"Row index {index} out of bounds for {self._rows} rows")
             return self._data[index].copy()
 
-    def __setitem__(self, index: Tuple[int, int], value: Scalar) -> None:
+    def __setitem__(self, index: tuple[int, int], value: Scalar) -> None:
         """Set matrix element by index.
 
         Args:
@@ -286,7 +286,7 @@ class Matrix:
             raise DimensionError(f"Shape mismatch: {self.shape} vs {other.shape}")
         return Matrix([[self._data[i][j] - other._data[i][j] for j in range(self._cols)] for i in range(self._rows)])
 
-    def __mul__(self, other: Union[Matrix, Scalar]) -> Matrix:
+    def __mul__(self, other: Matrix | Scalar) -> Matrix:
         """Multiply matrix by matrix or scalar.
 
         Args:
@@ -390,7 +390,7 @@ class Matrix:
             raise ValueError("Matrix must be square")
         return self._determinant_recursive(self._data)
 
-    def _determinant_recursive(self, matrix: List[List[Scalar]]) -> float:
+    def _determinant_recursive(self, matrix: list[list[Scalar]]) -> float:
         """Calculate determinant recursively (for small matrices).
 
         Args:
@@ -500,7 +500,7 @@ class Matrix:
                     return False
         return True
 
-    def to_list(self) -> List[List[Scalar]]:
+    def to_list(self) -> list[list[Scalar]]:
         """Convert matrix to list.
 
         Returns:
@@ -533,7 +533,7 @@ class DenseMatrix(Matrix):
         >>> m = DenseMatrix([[1.0, 2.0], [3.0, 4.0]])
     """
 
-    def __init__(self, data: List[List[Scalar]]) -> None:
+    def __init__(self, data: list[list[Scalar]]) -> None:
         """Initialize a DenseMatrix.
 
         Args:
@@ -555,7 +555,7 @@ class SparseMatrix(Matrix):
         >>> m = SparseMatrix([[0.0, 1.0], [0.0, 0.0]])
     """
 
-    def __init__(self, data: List[List[Scalar]]) -> None:
+    def __init__(self, data: list[list[Scalar]]) -> None:
         """Initialize a SparseMatrix.
 
         Args:
@@ -567,7 +567,7 @@ class SparseMatrix(Matrix):
         super().__init__(data)
         self._non_zero_elements = self._find_non_zero_elements()
 
-    def _find_non_zero_elements(self) -> List[Tuple[int, int, Scalar]]:
+    def _find_non_zero_elements(self) -> list[tuple[int, int, Scalar]]:
         """Find non-zero elements.
 
         Returns:
@@ -628,7 +628,7 @@ class DiagonalMatrix(Matrix):
         >>> D = DiagonalMatrix([1.0, 2.0, 3.0])
     """
 
-    def __init__(self, diagonal: List[Scalar]) -> None:
+    def __init__(self, diagonal: list[Scalar]) -> None:
         """Initialize a DiagonalMatrix.
 
         Args:
@@ -643,7 +643,7 @@ class DiagonalMatrix(Matrix):
         self._diagonal = diagonal.copy()
 
     @property
-    def diagonal_elements(self) -> List[Scalar]:
+    def diagonal_elements(self) -> list[Scalar]:
         """Get diagonal elements.
 
         Returns:
@@ -665,7 +665,7 @@ class SymmetricMatrix(Matrix):
         >>> S = SymmetricMatrix([[1.0, 2.0], [2.0, 1.0]])
     """
 
-    def __init__(self, data: List[List[Scalar]]) -> None:
+    def __init__(self, data: list[list[Scalar]]) -> None:
         """Initialize a SymmetricMatrix.
 
         Args:
@@ -692,7 +692,7 @@ class OrthogonalMatrix(Matrix):
         >>> Q = OrthogonalMatrix([[1.0, 0.0], [0.0, 1.0]])
     """
 
-    def __init__(self, data: List[List[Scalar]]) -> None:
+    def __init__(self, data: list[list[Scalar]]) -> None:
         """Initialize an OrthogonalMatrix.
 
         Args:

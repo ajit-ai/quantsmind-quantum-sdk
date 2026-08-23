@@ -24,9 +24,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -49,7 +49,7 @@ class Consistency:
     def __init__(
         self,
         check_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Consistency.
 
@@ -64,7 +64,7 @@ class Consistency:
             raise QualityError("Check ID cannot be empty", {"check_id": check_id})
 
         self._id = check_id
-        self._rules: List[tuple[str, Callable[[Dict[str, Any]], bool]]] = []
+        self._rules: list[tuple[str, Callable[[dict[str, Any]], bool]]] = []
         self._metadata = metadata or {}
 
     @property
@@ -80,7 +80,7 @@ class Consistency:
         return self._id
 
     @property
-    def rules(self) -> List[str]:
+    def rules(self) -> list[str]:
         """Get the rule descriptions.
 
         Returns:
@@ -92,7 +92,7 @@ class Consistency:
         return [rule[0] for rule in self._rules]
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the check metadata.
 
         Returns:
@@ -103,7 +103,7 @@ class Consistency:
         """
         return self._metadata.copy()
 
-    def add_rule(self, description: str, check_function: Callable[[Dict[str, Any]], bool]) -> None:
+    def add_rule(self, description: str, check_function: Callable[[dict[str, Any]], bool]) -> None:
         """Add a consistency rule.
 
         Args:
@@ -133,7 +133,7 @@ class Consistency:
                 return True
         return False
 
-    def check(self, data: Dict[str, Any]) -> ValidationResult:
+    def check(self, data: dict[str, Any]) -> ValidationResult:
         """Check data consistency.
 
         Args:
@@ -156,7 +156,7 @@ class Consistency:
 
         return (len(errors) == 0, errors)
 
-    def get_consistency_score(self, data: Dict[str, Any]) -> float:
+    def get_consistency_score(self, data: dict[str, Any]) -> float:
         """Get consistency score.
 
         Args:
@@ -172,7 +172,7 @@ class Consistency:
             return 1.0
 
         passed_count = 0
-        for description, check_function in self._rules:
+        for _description, check_function in self._rules:
             try:
                 if check_function(data):
                     passed_count += 1
@@ -197,7 +197,7 @@ class Consistency:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

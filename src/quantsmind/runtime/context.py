@@ -30,11 +30,10 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
-from quantsmind.runtime.exceptions import ValidationError
-from quantsmind.runtime.types import ConfigDict, SessionID
+from quantsmind.runtime.types import SessionID
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +54,7 @@ class ExecutionContext:
         >>> context = ExecutionContext(session_id="session_123")
     """
 
-    def __init__(self, session_id: Optional[SessionID] = None) -> None:
+    def __init__(self, session_id: SessionID | None = None) -> None:
         """Initialize an ExecutionContext.
 
         Args:
@@ -65,8 +64,8 @@ class ExecutionContext:
             >>> context = ExecutionContext(session_id="session_123")
         """
         self._session_id = session_id or str(uuid.uuid4())
-        self._data: Dict[str, Any] = {}
-        self._metadata: Dict[str, Any] = {
+        self._data: dict[str, Any] = {}
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
             "created_at": datetime.utcnow().isoformat(),
         }
@@ -87,7 +86,7 @@ class ExecutionContext:
         return self._session_id
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the context data.
 
         Returns:
@@ -99,7 +98,7 @@ class ExecutionContext:
         return self._data.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the context metadata.
 
         Returns:
@@ -202,7 +201,7 @@ class ExecutionContext:
         self._updated_at = datetime.utcnow()
         logger.debug("Cleared context data")
 
-    def update(self, data: Dict[str, Any]) -> None:
+    def update(self, data: dict[str, Any]) -> None:
         """Update context with data.
 
         Args:
@@ -215,7 +214,7 @@ class ExecutionContext:
         self._updated_at = datetime.utcnow()
         logger.debug(f"Updated context with {len(data)} keys")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert context to dictionary.
 
         Returns:

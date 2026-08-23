@@ -24,7 +24,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.interfaces import IQuantumState
@@ -50,7 +50,7 @@ class QuantumState(IQuantumState):
     def __init__(
         self,
         num_qubits: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumState.
 
@@ -65,8 +65,8 @@ class QuantumState(IQuantumState):
             raise StateError("Number of qubits must be positive", {"num_qubits": num_qubits})
 
         self._num_qubits = num_qubits
-        self._state_vector: Optional[StateVector] = None
-        self._density_matrix: Optional[DensityMatrix] = None
+        self._state_vector: StateVector | None = None
+        self._density_matrix: DensityMatrix | None = None
         self._metadata = metadata or {}
 
     @property
@@ -82,7 +82,7 @@ class QuantumState(IQuantumState):
         return self._num_qubits
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the state metadata.
 
         Returns:
@@ -173,10 +173,7 @@ class QuantumState(IQuantumState):
         Example:
             >>> state.normalize()
         """
-        if self._state_vector is not None:
-            # Placeholder normalization
-            pass
-        elif self._density_matrix is not None:
+        if self._state_vector is not None or self._density_matrix is not None:
             # Placeholder normalization
             pass
 
@@ -199,7 +196,7 @@ class QuantumState(IQuantumState):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

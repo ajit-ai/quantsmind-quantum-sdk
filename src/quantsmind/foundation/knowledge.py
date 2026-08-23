@@ -44,14 +44,11 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_KNOWLEDGE_TYPE
 from quantsmind.foundation.enums import KnowledgeType
 from quantsmind.foundation.exceptions import (
     InvalidKnowledgeError,
-    KnowledgeError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
@@ -59,7 +56,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -94,10 +90,10 @@ class Knowledge(Serializable, Validatable):
     def __init__(
         self,
         knowledge_type: KnowledgeType = KnowledgeType.DESCRIPTIVE,
-        data: Optional[Dict[str, Any]] = None,
-        sources: Optional[List[str]] = None,
-        confidence: Optional[float] = None,
-        metadata: Optional[MetadataDict] = None,
+        data: dict[str, Any] | None = None,
+        sources: list[str] | None = None,
+        confidence: float | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Knowledge.
 
@@ -116,9 +112,9 @@ class Knowledge(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._knowledge_type: KnowledgeType = knowledge_type
-        self._data: Dict[str, Any] = data or {}
-        self._sources: List[str] = sources or []
-        self._confidence: Optional[float] = confidence
+        self._data: dict[str, Any] = data or {}
+        self._sources: list[str] = sources or []
+        self._confidence: float | None = confidence
         self._metadata: MetadataDict = metadata or {}
 
         self._validate_confidence()
@@ -158,7 +154,7 @@ class Knowledge(Serializable, Validatable):
         return self._knowledge_type
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the knowledge data.
 
         Returns:
@@ -170,7 +166,7 @@ class Knowledge(Serializable, Validatable):
         return self._data.copy()
 
     @property
-    def sources(self) -> List[str]:
+    def sources(self) -> list[str]:
         """Get the source observation IDs.
 
         Returns:
@@ -182,7 +178,7 @@ class Knowledge(Serializable, Validatable):
         return self._sources.copy()
 
     @property
-    def confidence(self) -> Optional[float]:
+    def confidence(self) -> float | None:
         """Get the confidence level.
 
         Returns:
@@ -297,7 +293,7 @@ class Knowledge(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Knowledge":
+    def deserialize(cls, data: bytes, format: str = "json") -> Knowledge:
         """Deserialize the knowledge from bytes.
 
         Args:

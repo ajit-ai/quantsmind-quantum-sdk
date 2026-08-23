@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
 from quantsmind.knowledge.types import ConceptID, ConceptName, ValidationResult
 
@@ -53,10 +52,10 @@ class Concept:
         self,
         concept_id: ConceptID,
         name: ConceptName,
-        description: Optional[str] = None,
-        properties: Optional[Dict[str, Any]] = None,
-        aliases: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        description: str | None = None,
+        properties: dict[str, Any] | None = None,
+        aliases: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Concept.
 
@@ -109,7 +108,7 @@ class Concept:
         return self._name
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the concept description.
 
         Returns:
@@ -121,7 +120,7 @@ class Concept:
         return self._description
 
     @property
-    def properties(self) -> Dict[str, Any]:
+    def properties(self) -> dict[str, Any]:
         """Get the concept properties.
 
         Returns:
@@ -133,7 +132,7 @@ class Concept:
         return self._properties.copy()
 
     @property
-    def aliases(self) -> List[str]:
+    def aliases(self) -> list[str]:
         """Get the concept aliases.
 
         Returns:
@@ -145,7 +144,7 @@ class Concept:
         return self._aliases.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the concept metadata.
 
         Returns:
@@ -233,7 +232,7 @@ class Concept:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

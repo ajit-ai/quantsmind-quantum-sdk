@@ -27,12 +27,11 @@ quantsmind.runtime.exceptions (runtime exceptions)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import ExecutionError
-from quantsmind.runtime.types import ConfigDict
 
 logger = logging.getLogger(__name__)
 
@@ -59,10 +58,10 @@ class Kernel:
             >>> kernel = Kernel()
         """
         self._state = ExecutionState.CREATED
-        self._metadata: Dict[str, Any] = {
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
-        self._capabilities: List[str] = []
+        self._capabilities: list[str] = []
         logger.debug("Created kernel")
 
     @property
@@ -78,7 +77,7 @@ class Kernel:
         return self._state
 
     @property
-    def capabilities(self) -> List[str]:
+    def capabilities(self) -> list[str]:
         """Get the kernel capabilities.
 
         Returns:
@@ -160,7 +159,7 @@ class Kernel:
         """
         return capability in self._capabilities
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get kernel status.
 
         Returns:

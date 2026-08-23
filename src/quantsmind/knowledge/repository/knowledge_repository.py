@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import RepositoryType
 from quantsmind.knowledge.exceptions import RepositoryError
@@ -57,7 +57,7 @@ class KnowledgeRepository(IRepository):
         repository_id: str,
         name: str,
         repository_type: RepositoryType = RepositoryType.MEMORY,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a KnowledgeRepository.
 
@@ -79,9 +79,9 @@ class KnowledgeRepository(IRepository):
         self._id = repository_id
         self._name = name
         self._repository_type = repository_type
-        self._knowledge_items: Dict[str, Any] = {}
-        self._schemas: Dict[str, Any] = {}
-        self._ontologies: Dict[str, Any] = {}
+        self._knowledge_items: dict[str, Any] = {}
+        self._schemas: dict[str, Any] = {}
+        self._ontologies: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -121,7 +121,7 @@ class KnowledgeRepository(IRepository):
         return self._repository_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the repository metadata.
 
         Returns:
@@ -161,7 +161,7 @@ class KnowledgeRepository(IRepository):
             return True
         return False
 
-    def get_knowledge(self, item_id: str) -> Optional[Any]:
+    def get_knowledge(self, item_id: str) -> Any | None:
         """Get a knowledge item from the repository.
 
         Args:
@@ -204,7 +204,7 @@ class KnowledgeRepository(IRepository):
             return True
         return False
 
-    def get_schema(self, schema_id: str) -> Optional[Any]:
+    def get_schema(self, schema_id: str) -> Any | None:
         """Get a schema from the repository.
 
         Args:
@@ -247,7 +247,7 @@ class KnowledgeRepository(IRepository):
             return True
         return False
 
-    def get_ontology(self, ontology_id: str) -> Optional[Any]:
+    def get_ontology(self, ontology_id: str) -> Any | None:
         """Get an ontology from the repository.
 
         Args:
@@ -287,7 +287,7 @@ class KnowledgeRepository(IRepository):
         """
         return self.remove_knowledge(item_id)
 
-    def get(self, item_id: str) -> Optional[Any]:
+    def get(self, item_id: str) -> Any | None:
         """Get an item from the repository.
 
         Args:
@@ -301,7 +301,7 @@ class KnowledgeRepository(IRepository):
         """
         return self.get_knowledge(item_id)
 
-    def list_all(self) -> List[str]:
+    def list_all(self) -> list[str]:
         """List all knowledge item IDs.
 
         Returns:
@@ -352,7 +352,7 @@ class KnowledgeRepository(IRepository):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

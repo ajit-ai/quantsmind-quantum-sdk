@@ -24,7 +24,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import IndexType
 from quantsmind.knowledge.exceptions import IndexError
@@ -54,7 +54,7 @@ class GraphIndex:
         index_id: str,
         name: str,
         index_type: IndexType,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GraphIndex.
 
@@ -76,8 +76,8 @@ class GraphIndex:
         self._id = index_id
         self._name = name
         self._index_type = index_type
-        self._adjacency_index: Dict[str, List[str]] = {}
-        self._reverse_adjacency_index: Dict[str, List[str]] = {}
+        self._adjacency_index: dict[str, list[str]] = {}
+        self._reverse_adjacency_index: dict[str, list[str]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -117,7 +117,7 @@ class GraphIndex:
         return self._index_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the index metadata.
 
         Returns:
@@ -172,7 +172,7 @@ class GraphIndex:
 
         return removed
 
-    def get_neighbors(self, node: str) -> List[str]:
+    def get_neighbors(self, node: str) -> list[str]:
         """Get neighbors of a node.
 
         Args:
@@ -186,7 +186,7 @@ class GraphIndex:
         """
         return self._adjacency_index.get(node, []).copy()
 
-    def get_predecessors(self, node: str) -> List[str]:
+    def get_predecessors(self, node: str) -> list[str]:
         """Get predecessors of a node.
 
         Args:
@@ -214,7 +214,7 @@ class GraphIndex:
         """
         return len(self.get_neighbors(node))
 
-    def get_all_nodes(self) -> List[str]:
+    def get_all_nodes(self) -> list[str]:
         """Get all nodes in the index.
 
         Returns:
@@ -268,7 +268,7 @@ class GraphIndex:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

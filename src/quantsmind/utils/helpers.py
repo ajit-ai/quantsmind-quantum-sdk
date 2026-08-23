@@ -21,14 +21,13 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, Type, TypeVar
 import math
-
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 
 
-def validate_type(value: Any, expected_type: Type[T], name: str = "value") -> T:
+def validate_type[T](value: Any, expected_type: type[T], name: str = "value") -> T:
     """Validate that a value is of the expected type.
 
     Args:
@@ -124,7 +123,7 @@ def is_close(a: float, b: float, rel_tol: float = 1e-9, abs_tol: float = 0.0) ->
     return math.isclose(a, b, rel_tol=rel_tol, abs_tol=abs_tol)
 
 
-def chunk_list(lst: List[T], chunk_size: int) -> List[List[T]]:
+def chunk_list[T](lst: list[T], chunk_size: int) -> list[list[T]]:
     """Split a list into chunks.
 
     Args:
@@ -140,7 +139,7 @@ def chunk_list(lst: List[T], chunk_size: int) -> List[List[T]]:
     return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
 
 
-def flatten_list(nested: List[List[T]]) -> List[T]:
+def flatten_list[T](nested: list[list[T]]) -> list[T]:
     """Flatten a nested list.
 
     Args:
@@ -155,7 +154,7 @@ def flatten_list(nested: List[List[T]]) -> List[T]:
     return [item for sublist in nested for item in sublist]
 
 
-def unique_preserve_order(lst: List[T]) -> List[T]:
+def unique_preserve_order[T](lst: list[T]) -> list[T]:
     """Get unique elements while preserving order.
 
     Args:

@@ -25,8 +25,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class RiskEngine:
@@ -47,7 +47,7 @@ class RiskEngine:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a RiskEngine.
 
@@ -59,7 +59,7 @@ class RiskEngine:
             >>> engine = RiskEngine()
         """
         self._name = name
-        self._risk_factors: Dict[str, float] = {}
+        self._risk_factors: dict[str, float] = {}
         self._metadata = metadata or {}
 
     @property
@@ -76,9 +76,9 @@ class RiskEngine:
 
     def compute_risk_metrics(
         self,
-        returns: List[float],
-        confidence_levels: Optional[List[float]] = None,
-    ) -> Dict[str, float]:
+        returns: list[float],
+        confidence_levels: list[float] | None = None,
+    ) -> dict[str, float]:
         """Compute comprehensive risk metrics.
 
         Args:
@@ -128,7 +128,7 @@ class RiskEngine:
 
         return metrics
 
-    def _var(self, returns: List[float], confidence_level: float) -> float:
+    def _var(self, returns: list[float], confidence_level: float) -> float:
         """Compute Value at Risk.
 
         Args:
@@ -145,7 +145,7 @@ class RiskEngine:
         index = int((1 - confidence_level) * len(sorted_returns))
         return sorted_returns[index]
 
-    def _cvar(self, returns: List[float], confidence_level: float) -> float:
+    def _cvar(self, returns: list[float], confidence_level: float) -> float:
         """Compute Conditional Value at Risk.
 
         Args:
@@ -166,7 +166,7 @@ class RiskEngine:
 
         return sum(tail_losses) / len(tail_losses)
 
-    def _max_drawdown(self, returns: List[float]) -> float:
+    def _max_drawdown(self, returns: list[float]) -> float:
         """Compute maximum drawdown.
 
         Args:
@@ -195,8 +195,8 @@ class RiskEngine:
 
     def beta_exposure(
         self,
-        portfolio_returns: List[float],
-        factor_returns: List[float],
+        portfolio_returns: list[float],
+        factor_returns: list[float],
     ) -> float:
         """Compute beta exposure to a factor.
 
@@ -220,7 +220,7 @@ class RiskEngine:
 
         covariance = sum(
             (p - avg_portfolio) * (f - avg_factor)
-            for p, f in zip(portfolio_returns, factor_returns)
+            for p, f in zip(portfolio_returns, factor_returns, strict=False)
         ) / n
 
         variance = sum((f - avg_factor) ** 2 for f in factor_returns) / n
@@ -233,8 +233,8 @@ class RiskEngine:
     def stress_test(
         self,
         portfolio_value: float,
-        scenarios: List[Dict[str, float]],
-    ) -> Dict[str, float]:
+        scenarios: list[dict[str, float]],
+    ) -> dict[str, float]:
         """Perform stress testing on portfolio.
 
         Args:
@@ -260,8 +260,8 @@ class RiskEngine:
     def scenario_analysis(
         self,
         base_value: float,
-        factor_sensitivities: Dict[str, float],
-        factor_shocks: Dict[str, float],
+        factor_sensitivities: dict[str, float],
+        factor_shocks: dict[str, float],
     ) -> float:
         """Perform scenario analysis.
 
@@ -287,8 +287,8 @@ class RiskEngine:
     def risk_budget(
         self,
         total_risk: float,
-        risk_contributions: List[float],
-    ) -> List[float]:
+        risk_contributions: list[float],
+    ) -> list[float]:
         """Allocate risk budget.
 
         Args:
@@ -310,7 +310,7 @@ class RiskEngine:
 
     def concentration_risk(
         self,
-        weights: List[float],
+        weights: list[float],
         herfindahl_index: bool = True,
     ) -> float:
         """Compute concentration risk.

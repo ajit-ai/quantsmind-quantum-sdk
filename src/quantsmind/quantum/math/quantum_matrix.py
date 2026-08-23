@@ -26,10 +26,9 @@ quantsmind.algebra.linear_algebra (Matrix, Vector)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
-import math
+from typing import Any
 
-from quantsmind.algebra.linear_algebra import Matrix, Vector
+from quantsmind.algebra.linear_algebra import Matrix
 
 
 class QuantumMatrix:
@@ -51,8 +50,8 @@ class QuantumMatrix:
     def __init__(
         self,
         name: str,
-        data: List[List[complex]],
-        metadata: Optional[Dict[str, Any]] = None,
+        data: list[list[complex]],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumMatrix.
 
@@ -81,7 +80,7 @@ class QuantumMatrix:
         return self._name
 
     @property
-    def data(self) -> List[List[complex]]:
+    def data(self) -> list[list[complex]]:
         """Get the matrix data.
 
         Returns:
@@ -128,7 +127,7 @@ class QuantumMatrix:
         real_data = [[complex(val).real for val in row] for row in self._data]
         return Matrix(f"{self._name}_classical", real_data)
 
-    def hermitian_conjugate(self) -> "QuantumMatrix":
+    def hermitian_conjugate(self) -> QuantumMatrix:
         """Compute Hermitian conjugate.
 
         Returns:
@@ -140,7 +139,7 @@ class QuantumMatrix:
         transposed = [[self._data[j][i].conjugate() for j in range(self.cols)] for i in range(self.rows)]
         return QuantumMatrix(f"{self._name}_dagger", transposed)
 
-    def tensor_product(self, other: "QuantumMatrix") -> "QuantumMatrix":
+    def tensor_product(self, other: QuantumMatrix) -> QuantumMatrix:
         """Compute tensor product (Kronecker product).
 
         Args:
@@ -164,7 +163,7 @@ class QuantumMatrix:
 
         return QuantumMatrix(f"{self._name}_tensor_{other._name}", result)
 
-    def multiply(self, other: "QuantumMatrix") -> "QuantumMatrix":
+    def multiply(self, other: QuantumMatrix) -> QuantumMatrix:
         """Multiply with another matrix.
 
         Args:
@@ -265,7 +264,7 @@ class QuantumMatrix:
 
         return True
 
-    def eigenvalues(self) -> List[complex]:
+    def eigenvalues(self) -> list[complex]:
         """Compute eigenvalues (simplified).
 
         Returns:

@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -58,10 +57,10 @@ class Rule:
         rule_id: str,
         name: str,
         description: str,
-        conditions: List[str],
-        consequences: List[str],
+        conditions: list[str],
+        consequences: list[str],
         priority: int = 0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Rule.
 
@@ -98,7 +97,7 @@ class Rule:
         self._conditions = conditions
         self._consequences = consequences
         self._priority = priority
-        self._evidence: List[str] = []
+        self._evidence: list[str] = []
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
 
@@ -139,7 +138,7 @@ class Rule:
         return self._description
 
     @property
-    def conditions(self) -> List[str]:
+    def conditions(self) -> list[str]:
         """Get the rule conditions.
 
         Returns:
@@ -151,7 +150,7 @@ class Rule:
         return self._conditions.copy()
 
     @property
-    def consequences(self) -> List[str]:
+    def consequences(self) -> list[str]:
         """Get the rule consequences.
 
         Returns:
@@ -175,7 +174,7 @@ class Rule:
         return self._priority
 
     @property
-    def evidence(self) -> List[str]:
+    def evidence(self) -> list[str]:
         """Get the supporting evidence.
 
         Returns:
@@ -199,7 +198,7 @@ class Rule:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the rule metadata.
 
         Returns:
@@ -333,7 +332,7 @@ class Rule:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

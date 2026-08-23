@@ -44,12 +44,11 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.foundation.enums import LifecycleStage
 from quantsmind.foundation.exceptions import (
     InvalidLifecycleError,
-    LifecycleError,
     TransitionError,
 )
 from quantsmind.foundation.interfaces import (
@@ -58,7 +57,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -92,7 +90,7 @@ class Lifecycle(Serializable, Validatable):
     def __init__(
         self,
         current_stage: LifecycleStage = LifecycleStage.CREATED,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Lifecycle.
 
@@ -104,7 +102,7 @@ class Lifecycle(Serializable, Validatable):
             >>> lifecycle = Lifecycle(current_stage=LifecycleStage.CREATED)
         """
         self._current_stage: LifecycleStage = current_stage
-        self._stage_history: List[tuple[LifecycleStage, datetime]] = [(current_stage, datetime.utcnow())]
+        self._stage_history: list[tuple[LifecycleStage, datetime]] = [(current_stage, datetime.utcnow())]
         self._created_at: datetime = datetime.utcnow()
         self._metadata: MetadataDict = metadata or {}
 
@@ -123,7 +121,7 @@ class Lifecycle(Serializable, Validatable):
         return self._current_stage
 
     @property
-    def stage_history(self) -> List[tuple[LifecycleStage, datetime]]:
+    def stage_history(self) -> list[tuple[LifecycleStage, datetime]]:
         """Get the stage history.
 
         Returns:
@@ -261,7 +259,7 @@ class Lifecycle(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Lifecycle":
+    def deserialize(cls, data: bytes, format: str = "json") -> Lifecycle:
         """Deserialize the lifecycle from bytes.
 
         Args:

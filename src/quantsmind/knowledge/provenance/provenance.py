@@ -27,10 +27,9 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import ProvenanceType
-from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.interfaces import IProvenance
 from quantsmind.knowledge.types import (
     ProvenanceData,
@@ -61,7 +60,7 @@ class Provenance(IProvenance):
         self,
         provenance_id: ProvenanceID,
         provenance_type: ProvenanceType = ProvenanceType.DATASET,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Provenance.
 
@@ -75,8 +74,8 @@ class Provenance(IProvenance):
         """
         self._id = provenance_id
         self._provenance_type = provenance_type
-        self._source: Optional[Dict[str, Any]] = None
-        self._creator: Optional[Dict[str, Any]] = None
+        self._source: dict[str, Any] | None = None
+        self._creator: dict[str, Any] | None = None
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
 
@@ -105,7 +104,7 @@ class Provenance(IProvenance):
         return self._provenance_type
 
     @property
-    def source(self) -> Optional[Dict[str, Any]]:
+    def source(self) -> dict[str, Any] | None:
         """Get the source information.
 
         Returns:
@@ -117,7 +116,7 @@ class Provenance(IProvenance):
         return self._source.copy() if self._source else None
 
     @property
-    def creator(self) -> Optional[Dict[str, Any]]:
+    def creator(self) -> dict[str, Any] | None:
         """Get the creator information.
 
         Returns:
@@ -141,7 +140,7 @@ class Provenance(IProvenance):
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the provenance metadata.
 
         Returns:
@@ -152,7 +151,7 @@ class Provenance(IProvenance):
         """
         return self._metadata.copy()
 
-    def set_source(self, source: Dict[str, Any]) -> None:
+    def set_source(self, source: dict[str, Any]) -> None:
         """Set the source information.
 
         Args:
@@ -163,7 +162,7 @@ class Provenance(IProvenance):
         """
         self._source = source
 
-    def set_creator(self, creator: Dict[str, Any]) -> None:
+    def set_creator(self, creator: dict[str, Any]) -> None:
         """Set the creator information.
 
         Args:
@@ -186,7 +185,7 @@ class Provenance(IProvenance):
         """
         self._metadata[key] = value
 
-    def get_trace(self) -> List[Dict[str, Any]]:
+    def get_trace(self) -> list[dict[str, Any]]:
         """Get the provenance trace.
 
         Returns:

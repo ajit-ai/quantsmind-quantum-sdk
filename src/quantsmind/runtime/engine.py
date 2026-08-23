@@ -36,18 +36,18 @@ from __future__ import annotations
 import logging
 import threading
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
-from quantsmind.runtime.context import ExecutionContext
 from quantsmind.runtime.dispatcher import Dispatcher
-from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import ExecutionError
 from quantsmind.runtime.executor import Executor
 from quantsmind.runtime.scheduler import Scheduler
 from quantsmind.runtime.session import RuntimeSession
 from quantsmind.runtime.task import Task
-from quantsmind.runtime.types import Callback, ConfigDict, ExecutionID, ExecutionResult, SessionID, TaskID
+from quantsmind.runtime.types import (
+    Callback,
+    ExecutionResult,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +92,7 @@ class ExecutionEngine:
         self._scheduler = Scheduler(max_queue_size=max_queue_size)
         self._dispatcher = Dispatcher(num_executors=num_executors, max_workers_per_executor=max_workers_per_executor)
         self._executor = Executor(max_workers=max_workers_per_executor * num_executors)
-        self._execution_history: List[Dict[str, Any]] = []
+        self._execution_history: list[dict[str, Any]] = []
         self._running = False
         self._lock = threading.Lock()
         logger.debug("Created execution engine")
@@ -160,7 +160,7 @@ class ExecutionEngine:
         self._session.close()
         logger.info("Execution engine stopped")
 
-    def execute(self, task: Task, callback: Optional[Callback] = None) -> ExecutionResult:
+    def execute(self, task: Task, callback: Callback | None = None) -> ExecutionResult:
         """Execute a task.
 
         Args:
@@ -186,7 +186,7 @@ class ExecutionEngine:
         
         return result
 
-    def execute_async(self, task: Task, callback: Optional[Callback] = None) -> None:
+    def execute_async(self, task: Task, callback: Callback | None = None) -> None:
         """Execute a task asynchronously.
 
         Args:
@@ -218,7 +218,7 @@ class ExecutionEngine:
                 "timestamp": datetime.utcnow().isoformat(),
             })
 
-    def get_execution_history(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_execution_history(self, limit: int = 100) -> list[dict[str, Any]]:
         """Get execution history.
 
         Args:
@@ -233,7 +233,7 @@ class ExecutionEngine:
         with self._lock:
             return self._execution_history[-limit:]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status.
 
         Returns:

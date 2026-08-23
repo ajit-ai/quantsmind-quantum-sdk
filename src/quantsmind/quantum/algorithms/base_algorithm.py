@@ -24,7 +24,7 @@ quantsmind.quantum.circuit.circuit (circuit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import AlgorithmError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,8 +53,8 @@ class BaseAlgorithm:
         self,
         name: str,
         num_qubits: int,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BaseAlgorithm.
 
@@ -76,7 +76,7 @@ class BaseAlgorithm:
         self._name = name
         self._num_qubits = num_qubits
         self._parameters = parameters or {}
-        self._circuit: Optional[QuantumCircuit] = None
+        self._circuit: QuantumCircuit | None = None
         self._metadata = metadata or {}
 
     @property
@@ -104,7 +104,7 @@ class BaseAlgorithm:
         return self._num_qubits
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the algorithm parameters.
 
         Returns:
@@ -116,7 +116,7 @@ class BaseAlgorithm:
         return self._parameters.copy()
 
     @property
-    def circuit(self) -> Optional[QuantumCircuit]:
+    def circuit(self) -> QuantumCircuit | None:
         """Get the algorithm circuit.
 
         Returns:
@@ -128,7 +128,7 @@ class BaseAlgorithm:
         return self._circuit
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the algorithm metadata.
 
         Returns:
@@ -151,7 +151,7 @@ class BaseAlgorithm:
         """
         self._parameters[key] = value
 
-    def get_parameter(self, key: str, default: Optional[Any] = None) -> Optional[Any]:
+    def get_parameter(self, key: str, default: Any | None = None) -> Any | None:
         """Get an algorithm parameter.
 
         Args:
@@ -198,7 +198,7 @@ class BaseAlgorithm:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

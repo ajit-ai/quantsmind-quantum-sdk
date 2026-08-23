@@ -26,11 +26,10 @@ quantsmind.quantum.gate.gate (gate module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.quantum.algorithms.constants import GATE_CX, GATE_CY, GATE_CZ, GATE_ISWAP, GATE_SWAP
+from quantsmind.quantum.algorithms.constants import GATE_ISWAP, GATE_SWAP
 from quantsmind.quantum.algorithms.enums import GateType
-from quantsmind.quantum.algorithms.exceptions import GateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.gate.gate import QuantumGate
 
@@ -56,8 +55,8 @@ class MultiQubitGate(QuantumGate):
         self,
         name: str,
         num_qubits: int,
-        parameters: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MultiQubitGate.
 
@@ -129,7 +128,7 @@ class SwapGate(MultiQubitGate):
         >>> gate = SwapGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a SwapGate.
 
         Args:
@@ -150,7 +149,7 @@ class ISwapGate(MultiQubitGate):
         >>> gate = ISwapGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an ISwapGate.
 
         Args:

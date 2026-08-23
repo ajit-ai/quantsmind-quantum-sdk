@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import VersionType
 from quantsmind.knowledge.exceptions import VersionError
@@ -59,10 +59,10 @@ class Version:
         entity_id: str,
         version_number: str,
         version_type: VersionType,
-        data: Optional[Dict[str, Any]] = None,
-        author: Optional[str] = None,
-        description: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        data: dict[str, Any] | None = None,
+        author: str | None = None,
+        description: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Version.
 
@@ -147,7 +147,7 @@ class Version:
         return self._version_type
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the version data.
 
         Returns:
@@ -171,7 +171,7 @@ class Version:
         return self._timestamp
 
     @property
-    def author(self) -> Optional[str]:
+    def author(self) -> str | None:
         """Get the author.
 
         Returns:
@@ -183,7 +183,7 @@ class Version:
         return self._author
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the description.
 
         Returns:
@@ -195,7 +195,7 @@ class Version:
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the version metadata.
 
         Returns:
@@ -206,7 +206,7 @@ class Version:
         """
         return self._metadata.copy()
 
-    def set_data(self, data: Dict[str, Any]) -> None:
+    def set_data(self, data: dict[str, Any]) -> None:
         """Set the version data.
 
         Args:
@@ -273,7 +273,7 @@ class Version:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -334,8 +334,8 @@ class VersionHistory:
             raise VersionError("Entity ID cannot be empty", {"entity_id": entity_id})
 
         self._entity_id = entity_id
-        self._versions: Dict[str, Version] = {}
-        self._current_version: Optional[str] = None
+        self._versions: dict[str, Version] = {}
+        self._current_version: str | None = None
 
     @property
     def entity_id(self) -> str:
@@ -350,7 +350,7 @@ class VersionHistory:
         return self._entity_id
 
     @property
-    def versions(self) -> Dict[str, Version]:
+    def versions(self) -> dict[str, Version]:
         """Get the versions.
 
         Returns:
@@ -362,7 +362,7 @@ class VersionHistory:
         return self._versions.copy()
 
     @property
-    def current_version(self) -> Optional[str]:
+    def current_version(self) -> str | None:
         """Get the current version.
 
         Returns:
@@ -404,7 +404,7 @@ class VersionHistory:
             return True
         return False
 
-    def get_version(self, version_number: str) -> Optional[Version]:
+    def get_version(self, version_number: str) -> Version | None:
         """Get a version by number.
 
         Args:
@@ -418,7 +418,7 @@ class VersionHistory:
         """
         return self._versions.get(version_number)
 
-    def get_current(self) -> Optional[Version]:
+    def get_current(self) -> Version | None:
         """Get the current version.
 
         Returns:
@@ -469,7 +469,7 @@ class VersionHistory:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

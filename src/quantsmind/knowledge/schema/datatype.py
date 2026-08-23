@@ -23,7 +23,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.exceptions import ValidationError
 
@@ -48,8 +48,8 @@ class DataType:
         self,
         name: str,
         base_type: str = "string",
-        constraints: Optional[Dict[str, Any]] = None,
-        description: Optional[str] = None,
+        constraints: dict[str, Any] | None = None,
+        description: str | None = None,
     ) -> None:
         """Initialize a DataType.
 
@@ -95,7 +95,7 @@ class DataType:
         return self._base_type
 
     @property
-    def constraints(self) -> Dict[str, Any]:
+    def constraints(self) -> dict[str, Any]:
         """Get the datatype constraints.
 
         Returns:
@@ -107,7 +107,7 @@ class DataType:
         return self._constraints.copy()
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the datatype description.
 
         Returns:
@@ -130,7 +130,7 @@ class DataType:
         """
         self._constraints[key] = value
 
-    def validate(self, value: Any) -> tuple[bool, List[str]]:
+    def validate(self, value: Any) -> tuple[bool, list[str]]:
         """Validate a value against datatype constraints.
 
         Args:
@@ -170,9 +170,8 @@ class DataType:
             if not re.match(self._constraints["pattern"], value):
                 errors.append(f"Value does not match pattern {self._constraints['pattern']}")
 
-        if "enum" in self._constraints:
-            if value not in self._constraints["enum"]:
-                errors.append(f"Value not in allowed values: {self._constraints['enum']}")
+        if "enum" in self._constraints and value not in self._constraints["enum"]:
+            errors.append(f"Value not in allowed values: {self._constraints['enum']}")
 
         return (len(errors) == 0, errors)
 
@@ -238,7 +237,7 @@ class DataType:
         except (ValueError, TypeError) as e:
             raise ValidationError(f"Failed to convert value to {self._name}: {e}")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -285,7 +284,7 @@ class DataTypeRegistry:
         Example:
             >>> registry = DataTypeRegistry()
         """
-        self._datatypes: Dict[str, DataType] = {}
+        self._datatypes: dict[str, DataType] = {}
 
         # Register standard datatypes
         self._register_standard_datatypes()
@@ -337,7 +336,7 @@ class DataTypeRegistry:
             return True
         return False
 
-    def get(self, name: str) -> Optional[DataType]:
+    def get(self, name: str) -> DataType | None:
         """Get a datatype by name.
 
         Args:
@@ -351,7 +350,7 @@ class DataTypeRegistry:
         """
         return self._datatypes.get(name)
 
-    def list_all(self) -> List[DataType]:
+    def list_all(self) -> list[DataType]:
         """List all registered datatypes.
 
         Returns:
@@ -373,7 +372,7 @@ class DataTypeRegistry:
         """
         return len(self._datatypes)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -25,7 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
 from quantsmind.knowledge.exceptions import ReasoningError
@@ -57,8 +58,8 @@ class PredictionEngine(IReasoner):
         engine_id: str,
         name: str,
         reasoning_type: ReasoningType = ReasoningType.PREDICTION,
-        prediction_function: Optional[Callable[[Dict[str, Any]], Dict[str, Any]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        prediction_function: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PredictionEngine.
 
@@ -81,8 +82,8 @@ class PredictionEngine(IReasoner):
         self._id = engine_id
         self._name = name
         self._reasoning_type = reasoning_type
-        self._models: Dict[str, Dict[str, Any]] = {}
-        self._predictions: List[Dict[str, Any]] = []
+        self._models: dict[str, dict[str, Any]] = {}
+        self._predictions: list[dict[str, Any]] = []
         self._prediction_function = prediction_function
         self._metadata = metadata or {}
 
@@ -123,7 +124,7 @@ class PredictionEngine(IReasoner):
         return self._reasoning_type
 
     @property
-    def models(self) -> Dict[str, Dict[str, Any]]:
+    def models(self) -> dict[str, dict[str, Any]]:
         """Get the prediction models.
 
         Returns:
@@ -135,7 +136,7 @@ class PredictionEngine(IReasoner):
         return self._models.copy()
 
     @property
-    def predictions(self) -> List[Dict[str, Any]]:
+    def predictions(self) -> list[dict[str, Any]]:
         """Get the prediction history.
 
         Returns:
@@ -147,7 +148,7 @@ class PredictionEngine(IReasoner):
         return self._predictions.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the prediction engine metadata.
 
         Returns:
@@ -158,7 +159,7 @@ class PredictionEngine(IReasoner):
         """
         return self._metadata.copy()
 
-    def add_model(self, model_id: str, model: Dict[str, Any]) -> None:
+    def add_model(self, model_id: str, model: dict[str, Any]) -> None:
         """Add a prediction model.
 
         Args:
@@ -214,7 +215,7 @@ class PredictionEngine(IReasoner):
         """
         return self.remove_model(knowledge_id)
 
-    def reason(self, query: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, query: dict[str, Any]) -> dict[str, Any]:
         """Generate a prediction for a query.
 
         Args:
@@ -244,7 +245,7 @@ class PredictionEngine(IReasoner):
         self._record_prediction(query, prediction)
         return prediction
 
-    def predict(self, input_data: Dict[str, Any], model_id: Optional[str] = None) -> Dict[str, Any]:
+    def predict(self, input_data: dict[str, Any], model_id: str | None = None) -> dict[str, Any]:
         """Generate a prediction using a specific model.
 
         Args:
@@ -270,7 +271,7 @@ class PredictionEngine(IReasoner):
 
         return self.reason(input_data)
 
-    def _record_prediction(self, query: Dict[str, Any], prediction: Dict[str, Any]) -> None:
+    def _record_prediction(self, query: dict[str, Any], prediction: dict[str, Any]) -> None:
         """Record a prediction in the history.
 
         Args:
@@ -286,7 +287,7 @@ class PredictionEngine(IReasoner):
             "timestamp": str(__import__("datetime").datetime.utcnow()),
         })
 
-    def get_prediction_history(self) -> List[Dict[str, Any]]:
+    def get_prediction_history(self) -> list[dict[str, Any]]:
         """Get the prediction history.
 
         Returns:
@@ -324,7 +325,7 @@ class PredictionEngine(IReasoner):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

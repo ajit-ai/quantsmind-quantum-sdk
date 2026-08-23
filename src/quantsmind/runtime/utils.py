@@ -28,7 +28,7 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.types import SessionID, TaskID
 
@@ -104,7 +104,7 @@ def parse_timestamp(timestamp_str: str) -> datetime:
     return datetime.fromisoformat(timestamp_str)
 
 
-def merge_dicts(*dicts: Dict[str, Any]) -> Dict[str, Any]:
+def merge_dicts(*dicts: dict[str, Any]) -> dict[str, Any]:
     """Merge multiple dictionaries.
 
     Args:
@@ -122,7 +122,7 @@ def merge_dicts(*dicts: Dict[str, Any]) -> Dict[str, Any]:
     return result
 
 
-def flatten_dict(d: Dict[str, Any], parent_key: str = "", sep: str = ".") -> Dict[str, Any]:
+def flatten_dict(d: dict[str, Any], parent_key: str = "", sep: str = ".") -> dict[str, Any]:
     """Flatten a nested dictionary.
 
     Args:
@@ -166,7 +166,7 @@ def safe_cast(value: Any, target_type: type, default: Any = None) -> Any:
         return default
 
 
-def validate_required_fields(data: Dict[str, Any], required_fields: List[str]) -> List[str]:
+def validate_required_fields(data: dict[str, Any], required_fields: list[str]) -> list[str]:
     """Validate required fields in data.
 
     Args:
@@ -198,7 +198,7 @@ def sanitize_string(s: str, max_length: int = 100) -> str:
     return s[:max_length].strip()
 
 
-def truncate_list(lst: List[Any], max_length: int) -> List[Any]:
+def truncate_list(lst: list[Any], max_length: int) -> list[Any]:
     """Truncate a list to maximum length.
 
     Args:
@@ -214,7 +214,7 @@ def truncate_list(lst: List[Any], max_length: int) -> List[Any]:
     return lst[:max_length]
 
 
-def deep_copy_dict(d: Dict[str, Any]) -> Dict[str, Any]:
+def deep_copy_dict(d: dict[str, Any]) -> dict[str, Any]:
     """Deep copy a dictionary.
 
     Args:

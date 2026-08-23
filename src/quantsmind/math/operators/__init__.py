@@ -36,7 +36,8 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, List, Union
+from collections.abc import Callable
+from typing import Any, List, Union
 
 from quantsmind.math.exceptions import InvalidOperationError
 from quantsmind.math.types import BinaryOperator, Scalar, UnaryOperator
@@ -361,7 +362,7 @@ class ComposedOperator:
         >>> composed = ComposedOperator([AddOperator(), MultiplyOperator()])
     """
 
-    def __init__(self, operators: List[Any]) -> None:
+    def __init__(self, operators: list[Any]) -> None:
         """Initialize a ComposedOperator.
 
         Args:
@@ -387,10 +388,7 @@ class ComposedOperator:
         """
         result = args
         for operator in self._operators:
-            if len(result) == 1:
-                result = operator.apply(result[0])
-            else:
-                result = operator.apply(*result)
+            result = operator.apply(result[0]) if len(result) == 1 else operator.apply(*result)
         return result
 
     def __call__(self, *args: Any) -> Any:

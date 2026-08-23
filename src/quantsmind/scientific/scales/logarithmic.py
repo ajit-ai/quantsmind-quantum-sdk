@@ -26,7 +26,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.enums import ScaleType
 from quantsmind.scientific.exceptions import MeasurementError
@@ -52,8 +52,8 @@ class LogarithmicScale(Scale):
     def __init__(
         self,
         base: float = 10.0,
-        range: Optional[ScaleRange] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        range: ScaleRange | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LogarithmicScale.
 
@@ -135,7 +135,7 @@ class LogarithmicScale(Scale):
         log_value = log_min + scaled_value * (log_max - log_min)
         return self._base ** log_value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

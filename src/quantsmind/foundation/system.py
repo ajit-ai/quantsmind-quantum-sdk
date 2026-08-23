@@ -46,14 +46,11 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_SYSTEM_TYPE
 from quantsmind.foundation.enums import SystemType
 from quantsmind.foundation.exceptions import (
     InvalidSystemError,
-    SystemError,
 )
 from quantsmind.foundation.identity import Identity
 from quantsmind.foundation.interfaces import (
@@ -65,7 +62,6 @@ from quantsmind.foundation.state import State
 from quantsmind.foundation.types import (
     EntityID,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -100,11 +96,11 @@ class System(Serializable, Validatable):
     def __init__(
         self,
         system_type: SystemType = SystemType.GENERIC,
-        identity: Optional[Identity] = None,
-        entities: Optional[Dict[EntityID, Any]] = None,
-        relationships: Optional[List[Relationship]] = None,
-        state: Optional[State] = None,
-        metadata: Optional[MetadataDict] = None,
+        identity: Identity | None = None,
+        entities: dict[EntityID, Any] | None = None,
+        relationships: list[Relationship] | None = None,
+        state: State | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a System.
 
@@ -121,9 +117,9 @@ class System(Serializable, Validatable):
         """
         self._identity: Identity = identity or Identity()
         self._system_type: SystemType = system_type
-        self._entities: Dict[EntityID, Any] = entities or {}
-        self._relationships: List[Relationship] = relationships or []
-        self._state: Optional[State] = state
+        self._entities: dict[EntityID, Any] = entities or {}
+        self._relationships: list[Relationship] = relationships or []
+        self._state: State | None = state
         self._metadata: MetadataDict = metadata or {}
 
         logger.debug(f"Created system: {self._identity.id} of type {system_type.value}")
@@ -153,7 +149,7 @@ class System(Serializable, Validatable):
         return self._system_type
 
     @property
-    def entities(self) -> Dict[EntityID, Any]:
+    def entities(self) -> dict[EntityID, Any]:
         """Get the system entities.
 
         Returns:
@@ -165,7 +161,7 @@ class System(Serializable, Validatable):
         return self._entities.copy()
 
     @property
-    def relationships(self) -> List[Relationship]:
+    def relationships(self) -> list[Relationship]:
         """Get the system relationships.
 
         Returns:
@@ -177,7 +173,7 @@ class System(Serializable, Validatable):
         return self._relationships.copy()
 
     @property
-    def state(self) -> Optional[State]:
+    def state(self) -> State | None:
         """Get the system state.
 
         Returns:
@@ -228,7 +224,7 @@ class System(Serializable, Validatable):
         del self._entities[entity_id]
         logger.debug(f"Removed entity {entity_id} from system {self._identity.id}")
 
-    def get_entity(self, entity_id: EntityID) -> Optional[Any]:
+    def get_entity(self, entity_id: EntityID) -> Any | None:
         """Get an entity by ID.
 
         Args:
@@ -320,7 +316,7 @@ class System(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "System":
+    def deserialize(cls, data: bytes, format: str = "json") -> System:
         """Deserialize the system from bytes.
 
         Args:

@@ -28,7 +28,7 @@ quantsmind.runtime.resource (resource)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import DEFAULT_MEMORY_LIMIT
 from quantsmind.runtime.enums import ResourceType
@@ -56,8 +56,8 @@ class MemoryResource(Resource):
         self,
         memory_type: str = "RAM",
         bandwidth: float = 25.6,
-        capacity: Optional[ResourceCapacity] = None,
-        resource_id: Optional[ResourceID] = None,
+        capacity: ResourceCapacity | None = None,
+        resource_id: ResourceID | None = None,
     ) -> None:
         """Initialize a MemoryResource.
 
@@ -100,7 +100,7 @@ class MemoryResource(Resource):
         """
         return self._bandwidth
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert memory resource to dictionary.
 
         Returns:

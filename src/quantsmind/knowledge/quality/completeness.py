@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -50,9 +49,9 @@ class Completeness:
     def __init__(
         self,
         check_id: str,
-        required_fields: List[str],
-        optional_fields: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        required_fields: list[str],
+        optional_fields: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Completeness.
 
@@ -89,7 +88,7 @@ class Completeness:
         return self._id
 
     @property
-    def required_fields(self) -> List[str]:
+    def required_fields(self) -> list[str]:
         """Get the required fields.
 
         Returns:
@@ -101,7 +100,7 @@ class Completeness:
         return self._required_fields.copy()
 
     @property
-    def optional_fields(self) -> List[str]:
+    def optional_fields(self) -> list[str]:
         """Get the optional fields.
 
         Returns:
@@ -113,7 +112,7 @@ class Completeness:
         return self._optional_fields.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the check metadata.
 
         Returns:
@@ -165,7 +164,7 @@ class Completeness:
         if field not in self._optional_fields:
             self._optional_fields.append(field)
 
-    def check(self, data: Dict[str, Any]) -> ValidationResult:
+    def check(self, data: dict[str, Any]) -> ValidationResult:
         """Check data completeness.
 
         Args:
@@ -187,7 +186,7 @@ class Completeness:
 
         return (len(errors) == 0, errors)
 
-    def get_completeness_score(self, data: Dict[str, Any]) -> float:
+    def get_completeness_score(self, data: dict[str, Any]) -> float:
         """Get completeness score.
 
         Args:
@@ -229,7 +228,7 @@ class Completeness:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

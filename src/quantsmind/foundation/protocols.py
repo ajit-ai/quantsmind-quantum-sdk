@@ -39,15 +39,15 @@ Future Extensions
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from quantsmind.foundation.types import (
     AttributeValue,
     ComparisonResult,
     ConstraintResult,
     EntityID,
-    EventID,
     MetadataDict,
     SerializedData,
     ValidationResult,
@@ -173,7 +173,7 @@ class SerializableProtocol(Protocol):
         ...
 
     @classmethod
-    def deserialize(cls, data: SerializedData, format: str = "json") -> "SerializableProtocol":
+    def deserialize(cls, data: SerializedData, format: str = "json") -> SerializableProtocol:
         """Deserialize the object from bytes.
 
         Args:
@@ -220,7 +220,7 @@ class ValidatableProtocol(Protocol):
         ...
 
     @property
-    def validation_errors(self) -> List[str]:
+    def validation_errors(self) -> list[str]:
         """Get validation errors.
 
         Returns:
@@ -246,7 +246,7 @@ class CloneableProtocol(Protocol):
     clone(): Clone the object
     """
 
-    def clone(self, deep: bool = True) -> "CloneableProtocol":
+    def clone(self, deep: bool = True) -> CloneableProtocol:
         """Clone the object.
 
         Args:
@@ -377,7 +377,7 @@ class ConstrainableProtocol(Protocol):
         """
         ...
 
-    def evaluate_constraints(self, context: Dict[str, Any]) -> List[ConstraintResult]:
+    def evaluate_constraints(self, context: dict[str, Any]) -> list[ConstraintResult]:
         """Evaluate all constraints.
 
         Args:
@@ -406,7 +406,7 @@ class DescribableProtocol(Protocol):
     describe(): Get structured description
     """
 
-    def describe(self) -> Dict[str, Any]:
+    def describe(self) -> dict[str, Any]:
         """Get structured description.
 
         Returns:
@@ -541,7 +541,7 @@ class PropertyAwareProtocol(Protocol):
         """
         ...
 
-    def list_properties(self) -> List[str]:
+    def list_properties(self) -> list[str]:
         """List all property names.
 
         Returns:
@@ -667,7 +667,7 @@ class RelationshipAwareProtocol(Protocol):
         """
         ...
 
-    def get_relationships(self, relationship_type: Optional[str] = None) -> List[Any]:
+    def get_relationships(self, relationship_type: str | None = None) -> list[Any]:
         """Get relationships.
 
         Args:

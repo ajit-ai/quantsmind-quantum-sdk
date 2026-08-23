@@ -24,7 +24,7 @@ quantsmind.quantum.qubit.qubit (qubit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import QubitIndex, ValidationResult
@@ -51,7 +51,7 @@ class QuantumRegister:
         self,
         name: str,
         size: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumRegister.
 
@@ -71,7 +71,7 @@ class QuantumRegister:
 
         self._name = name
         self._size = size
-        self._qubits: List[Qubit] = []
+        self._qubits: list[Qubit] = []
         self._metadata = metadata or {}
 
     @property
@@ -99,7 +99,7 @@ class QuantumRegister:
         return self._size
 
     @property
-    def qubits(self) -> List[Qubit]:
+    def qubits(self) -> list[Qubit]:
         """Get the qubits in the register.
 
         Returns:
@@ -111,7 +111,7 @@ class QuantumRegister:
         return self._qubits.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the register metadata.
 
         Returns:
@@ -165,7 +165,7 @@ class QuantumRegister:
                 return True
         return False
 
-    def get_qubit(self, index: QubitIndex) -> Optional[Qubit]:
+    def get_qubit(self, index: QubitIndex) -> Qubit | None:
         """Get a qubit by index.
 
         Args:
@@ -240,7 +240,7 @@ class QuantumRegister:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -42,11 +42,11 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.foundation.constants import DEFAULT_BEHAVIOUR_TYPE
 from quantsmind.foundation.exceptions import (
-    BehaviourError,
     ExecutionError,
     InvalidBehaviourError,
     PreconditionError,
@@ -58,7 +58,6 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     BehaviourResult,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -94,10 +93,10 @@ class Behaviour(Serializable, Validatable):
     def __init__(
         self,
         name: str,
-        rule: Callable[[Dict[str, Any]], BehaviourResult],
+        rule: Callable[[dict[str, Any]], BehaviourResult],
         behaviour_type: str = DEFAULT_BEHAVIOUR_TYPE,
-        preconditions: Optional[List[Callable[[Dict[str, Any]], bool]]] = None,
-        metadata: Optional[MetadataDict] = None,
+        preconditions: list[Callable[[dict[str, Any]], bool]] | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Behaviour.
 
@@ -117,9 +116,9 @@ class Behaviour(Serializable, Validatable):
             >>> behaviour = Behaviour(name="double", rule=my_rule)
         """
         self._name: str = name
-        self._rule: Callable[[Dict[str, Any]], BehaviourResult] = rule
+        self._rule: Callable[[dict[str, Any]], BehaviourResult] = rule
         self._behaviour_type: str = behaviour_type
-        self._preconditions: List[Callable[[Dict[str, Any]], bool]] = preconditions or []
+        self._preconditions: list[Callable[[dict[str, Any]], bool]] = preconditions or []
         self._metadata: MetadataDict = metadata or {}
 
         self._validate_rule()
@@ -171,7 +170,7 @@ class Behaviour(Serializable, Validatable):
         return self._metadata.copy()
 
     @property
-    def preconditions(self) -> List[Callable[[Dict[str, Any]], bool]]:
+    def preconditions(self) -> list[Callable[[dict[str, Any]], bool]]:
         """Get the preconditions.
 
         Returns:
@@ -182,7 +181,7 @@ class Behaviour(Serializable, Validatable):
         """
         return self._preconditions.copy()
 
-    def add_precondition(self, precondition: Callable[[Dict[str, Any]], bool]) -> None:
+    def add_precondition(self, precondition: Callable[[dict[str, Any]], bool]) -> None:
         """Add a precondition.
 
         Args:
@@ -194,7 +193,7 @@ class Behaviour(Serializable, Validatable):
         self._preconditions.append(precondition)
         logger.debug(f"Added precondition to behaviour {self._name}")
 
-    def execute(self, context: Dict[str, Any]) -> BehaviourResult:
+    def execute(self, context: dict[str, Any]) -> BehaviourResult:
         """Execute the behaviour.
 
         Args:
@@ -252,7 +251,7 @@ class Behaviour(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Behaviour":
+    def deserialize(cls, data: bytes, format: str = "json") -> Behaviour:
         """Deserialize the behaviour from bytes.
 
         Args:
@@ -278,7 +277,7 @@ class Behaviour(Serializable, Validatable):
         try:
             obj = json.loads(data.decode("utf-8"))
             # Create a placeholder rule
-            def placeholder_rule(context: Dict[str, Any]) -> BehaviourResult:
+            def placeholder_rule(context: dict[str, Any]) -> BehaviourResult:
                 return (True, None, ["Placeholder rule executed"])
 
             return cls(

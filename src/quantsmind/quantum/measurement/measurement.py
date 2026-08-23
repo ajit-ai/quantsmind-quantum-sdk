@@ -24,12 +24,17 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import MeasurementType
 from quantsmind.quantum.algorithms.exceptions import MeasurementError
 from quantsmind.quantum.algorithms.interfaces import IMeasurement
-from quantsmind.quantum.algorithms.types import MeasurementBasis, MeasurementResult, QubitIndex, QubitIndices, ValidationResult
+from quantsmind.quantum.algorithms.types import (
+    MeasurementBasis,
+    MeasurementResult,
+    QubitIndices,
+    ValidationResult,
+)
 
 
 class Measurement(IMeasurement):
@@ -56,8 +61,8 @@ class Measurement(IMeasurement):
         measurement_type: MeasurementType,
         qubits: QubitIndices,
         basis: MeasurementBasis = "computational",
-        clbits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        clbits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Measurement.
 
@@ -134,7 +139,7 @@ class Measurement(IMeasurement):
         return self._basis
 
     @property
-    def clbits(self) -> List[int]:
+    def clbits(self) -> list[int]:
         """Get the classical bits.
 
         Returns:
@@ -146,7 +151,7 @@ class Measurement(IMeasurement):
         return self._clbits.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the measurement metadata.
 
         Returns:
@@ -182,7 +187,7 @@ class Measurement(IMeasurement):
 
         self._qubits = qubits
 
-    def set_clbits(self, clbits: List[int]) -> None:
+    def set_clbits(self, clbits: list[int]) -> None:
         """Set the classical bits.
 
         Args:
@@ -193,7 +198,7 @@ class Measurement(IMeasurement):
         """
         self._clbits = clbits
 
-    def measure(self, state: Any, qubits: Optional[QubitIndices] = None) -> MeasurementResult:
+    def measure(self, state: Any, qubits: QubitIndices | None = None) -> MeasurementResult:
         """Perform measurement on the state.
 
         Args:
@@ -243,7 +248,7 @@ class Measurement(IMeasurement):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

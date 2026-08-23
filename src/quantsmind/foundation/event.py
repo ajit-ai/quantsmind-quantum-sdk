@@ -45,12 +45,10 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_EVENT_TYPE
 from quantsmind.foundation.enums import EventType
 from quantsmind.foundation.exceptions import (
-    EventError,
     InvalidEventError,
 )
 from quantsmind.foundation.interfaces import (
@@ -59,7 +57,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -93,9 +90,9 @@ class Event(Serializable, Validatable):
     def __init__(
         self,
         event_type: EventType = EventType.STATE_CHANGE,
-        timestamp: Optional[datetime] = None,
-        data: Optional[Dict[str, Any]] = None,
-        metadata: Optional[MetadataDict] = None,
+        timestamp: datetime | None = None,
+        data: dict[str, Any] | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize an Event.
 
@@ -111,7 +108,7 @@ class Event(Serializable, Validatable):
         self._id: str = str(uuid.uuid4())
         self._event_type: EventType = event_type
         self._timestamp: datetime = timestamp or datetime.utcnow()
-        self._data: Dict[str, Any] = data or {}
+        self._data: dict[str, Any] = data or {}
         self._metadata: MetadataDict = metadata or {}
 
         logger.debug(f"Created event: {event_type.value} at {self._timestamp}")
@@ -153,7 +150,7 @@ class Event(Serializable, Validatable):
         return self._timestamp
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the event data.
 
         Returns:
@@ -235,7 +232,7 @@ class Event(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Event":
+    def deserialize(cls, data: bytes, format: str = "json") -> Event:
         """Deserialize the event from bytes.
 
         Args:

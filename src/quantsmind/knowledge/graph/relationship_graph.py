@@ -25,15 +25,13 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import GraphType
 from quantsmind.knowledge.exceptions import GraphError
 from quantsmind.knowledge.graph.knowledge_graph import KnowledgeGraph
 from quantsmind.knowledge.types import (
-    EdgeData,
     GraphID,
-    NodeData,
     ValidationResult,
 )
 
@@ -56,7 +54,7 @@ class RelationshipGraph(KnowledgeGraph):
         self,
         graph_id: GraphID,
         bidirectional: bool = False,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a RelationshipGraph.
 
@@ -69,11 +67,11 @@ class RelationshipGraph(KnowledgeGraph):
             >>> graph = RelationshipGraph("rel_graph_001")
         """
         super().__init__(graph_id, GraphType.RELATIONSHIP, metadata)
-        self._relationship_types: Dict[str, Dict[str, Any]] = {}
+        self._relationship_types: dict[str, dict[str, Any]] = {}
         self._bidirectional = bidirectional
 
     @property
-    def relationship_types(self) -> Dict[str, Dict[str, Any]]:
+    def relationship_types(self) -> dict[str, dict[str, Any]]:
         """Get the relationship types.
 
         Returns:
@@ -96,7 +94,7 @@ class RelationshipGraph(KnowledgeGraph):
         """
         return self._bidirectional
 
-    def add_relationship_type(self, rel_type: str, description: Optional[str] = None, properties: Optional[Dict[str, Any]] = None) -> None:
+    def add_relationship_type(self, rel_type: str, description: str | None = None, properties: dict[str, Any] | None = None) -> None:
         """Add a relationship type definition.
 
         Args:
@@ -112,7 +110,7 @@ class RelationshipGraph(KnowledgeGraph):
             "properties": properties or {},
         }
 
-    def add_relationship(self, source: str, target: str, rel_type: str, attributes: Optional[Dict[str, Any]] = None) -> None:
+    def add_relationship(self, source: str, target: str, rel_type: str, attributes: dict[str, Any] | None = None) -> None:
         """Add a relationship to the graph.
 
         Args:
@@ -136,7 +134,7 @@ class RelationshipGraph(KnowledgeGraph):
         if self._bidirectional:
             self.add_edge(target, source, edge_data)
 
-    def remove_relationship(self, source: str, target: str, rel_type: Optional[str] = None) -> bool:
+    def remove_relationship(self, source: str, target: str, rel_type: str | None = None) -> bool:
         """Remove a relationship from the graph.
 
         Args:
@@ -165,7 +163,7 @@ class RelationshipGraph(KnowledgeGraph):
 
         return removed
 
-    def get_relationships(self, node_id: str, rel_type: Optional[str] = None) -> List[tuple[str, str, Dict[str, Any]]]:
+    def get_relationships(self, node_id: str, rel_type: str | None = None) -> list[tuple[str, str, dict[str, Any]]]:
         """Get relationships for a node.
 
         Args:
@@ -187,7 +185,7 @@ class RelationshipGraph(KnowledgeGraph):
                     relationships.append((neighbor, current_rel_type, edge_data))
         return relationships
 
-    def get_relationships_by_type(self, rel_type: str) -> List[tuple[str, str]]:
+    def get_relationships_by_type(self, rel_type: str) -> list[tuple[str, str]]:
         """Get all relationships of a specific type.
 
         Args:
@@ -205,7 +203,7 @@ class RelationshipGraph(KnowledgeGraph):
                 relationships.append((source, target))
         return relationships
 
-    def get_relationship_strength(self, source: str, target: str) -> Optional[float]:
+    def get_relationship_strength(self, source: str, target: str) -> float | None:
         """Get the strength of a relationship.
 
         Args:
@@ -241,7 +239,7 @@ class RelationshipGraph(KnowledgeGraph):
         if edge_data:
             edge_data["strength"] = strength
 
-    def get_mutual_relationships(self, node_id: str) -> List[str]:
+    def get_mutual_relationships(self, node_id: str) -> list[str]:
         """Get nodes with mutual relationships.
 
         Args:
@@ -275,14 +273,14 @@ class RelationshipGraph(KnowledgeGraph):
         errors.extend(base_errors)
 
         # Validate relationship types
-        for (source, target), edge_data in self._edges.items():
+        for (_source, _target), edge_data in self._edges.items():
             rel_type = edge_data.get("relationship_type")
             if rel_type and rel_type not in self._relationship_types:
                 errors.append(f"Unknown relationship type: {rel_type}")
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

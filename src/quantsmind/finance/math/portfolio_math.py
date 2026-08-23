@@ -26,8 +26,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class PortfolioMath:
@@ -49,7 +49,7 @@ class PortfolioMath:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PortfolioMath.
 
@@ -61,8 +61,8 @@ class PortfolioMath:
             >>> pm = PortfolioMath()
         """
         self._name = name
-        self._weights: List[float] = []
-        self._returns: List[List[float]] = []
+        self._weights: list[float] = []
+        self._returns: list[list[float]] = []
         self._metadata = metadata or {}
 
     @property
@@ -79,8 +79,8 @@ class PortfolioMath:
 
     def portfolio_return(
         self,
-        weights: List[float],
-        asset_returns: List[float],
+        weights: list[float],
+        asset_returns: list[float],
     ) -> float:
         """Compute portfolio return.
 
@@ -100,11 +100,11 @@ class PortfolioMath:
         if abs(sum(weights) - 1.0) > 1e-6:
             raise ValueError("Weights must sum to 1")
 
-        return sum(w * r for w, r in zip(weights, asset_returns))
+        return sum(w * r for w, r in zip(weights, asset_returns, strict=False))
 
     def annualized_return(
         self,
-        returns: List[float],
+        returns: list[float],
         periods_per_year: int = 252,
     ) -> float:
         """Compute annualized return.
@@ -130,7 +130,7 @@ class PortfolioMath:
 
     def volatility(
         self,
-        returns: List[float],
+        returns: list[float],
         periods_per_year: int = 252,
     ) -> float:
         """Compute portfolio volatility (standard deviation).
@@ -156,7 +156,7 @@ class PortfolioMath:
 
     def sharpe_ratio(
         self,
-        returns: List[float],
+        returns: list[float],
         risk_free_rate: float = 0.02,
         periods_per_year: int = 252,
     ) -> float:
@@ -183,8 +183,8 @@ class PortfolioMath:
 
     def alpha(
         self,
-        portfolio_returns: List[float],
-        benchmark_returns: List[float],
+        portfolio_returns: list[float],
+        benchmark_returns: list[float],
         risk_free_rate: float = 0.02,
     ) -> float:
         """Compute Jensen's alpha.
@@ -217,8 +217,8 @@ class PortfolioMath:
 
     def beta(
         self,
-        portfolio_returns: List[float],
-        benchmark_returns: List[float],
+        portfolio_returns: list[float],
+        benchmark_returns: list[float],
     ) -> float:
         """Compute beta.
 
@@ -243,7 +243,7 @@ class PortfolioMath:
 
         covariance = sum(
             (p - avg_portfolio) * (b - avg_benchmark)
-            for p, b in zip(portfolio_returns, benchmark_returns)
+            for p, b in zip(portfolio_returns, benchmark_returns, strict=False)
         ) / n
 
         variance = sum((b - avg_benchmark) ** 2 for b in benchmark_returns) / n
@@ -255,7 +255,7 @@ class PortfolioMath:
 
     def value_at_risk(
         self,
-        returns: List[float],
+        returns: list[float],
         confidence_level: float = 0.95,
     ) -> float:
         """Compute Value at Risk (VaR).
@@ -279,7 +279,7 @@ class PortfolioMath:
 
     def conditional_var(
         self,
-        returns: List[float],
+        returns: list[float],
         confidence_level: float = 0.95,
     ) -> float:
         """Compute Conditional Value at Risk (CVaR).
@@ -307,10 +307,10 @@ class PortfolioMath:
 
     def portfolio_optimization(
         self,
-        expected_returns: List[float],
-        covariance_matrix: List[List[float]],
+        expected_returns: list[float],
+        covariance_matrix: list[list[float]],
         risk_aversion: float = 1.0,
-    ) -> List[float]:
+    ) -> list[float]:
         """Optimize portfolio weights (simplified mean-variance optimization).
 
         Args:
@@ -334,8 +334,8 @@ class PortfolioMath:
 
     def tracking_error(
         self,
-        portfolio_returns: List[float],
-        benchmark_returns: List[float],
+        portfolio_returns: list[float],
+        benchmark_returns: list[float],
     ) -> float:
         """Compute tracking error.
 
@@ -352,13 +352,13 @@ class PortfolioMath:
         if len(portfolio_returns) != len(benchmark_returns):
             raise ValueError("Portfolio and benchmark returns must have same length")
 
-        excess_returns = [p - b for p, b in zip(portfolio_returns, benchmark_returns)]
+        excess_returns = [p - b for p, b in zip(portfolio_returns, benchmark_returns, strict=False)]
         return math.sqrt(sum(e ** 2 for e in excess_returns) / len(excess_returns))
 
     def information_ratio(
         self,
-        portfolio_returns: List[float],
-        benchmark_returns: List[float],
+        portfolio_returns: list[float],
+        benchmark_returns: list[float],
     ) -> float:
         """Compute information ratio.
 
@@ -372,7 +372,7 @@ class PortfolioMath:
         Example:
             >>> ir = pm.information_ratio([0.01, 0.02], [0.008, 0.015])
         """
-        excess_returns = [p - b for p, b in zip(portfolio_returns, benchmark_returns)]
+        excess_returns = [p - b for p, b in zip(portfolio_returns, benchmark_returns, strict=False)]
         avg_excess = sum(excess_returns) / len(excess_returns)
         te = self.tracking_error(portfolio_returns, benchmark_returns)
 

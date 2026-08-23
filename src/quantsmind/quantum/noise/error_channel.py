@@ -24,7 +24,7 @@ quantsmind.quantum.noise.noise_model (noise model module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import NoiseError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,8 +53,8 @@ class ErrorChannel(NoiseModel):
         name: str,
         error_type: str,
         probability: float,
-        qubits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        qubits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ErrorChannel.
 
@@ -85,7 +85,7 @@ class ErrorChannel(NoiseModel):
         return self._probability
 
     @property
-    def qubits(self) -> List[int]:
+    def qubits(self) -> list[int]:
         """Get the target qubits.
 
         Returns:
@@ -111,7 +111,7 @@ class ErrorChannel(NoiseModel):
         self._probability = probability
         self._parameters["probability"] = probability
 
-    def set_qubits(self, qubits: List[int]) -> None:
+    def set_qubits(self, qubits: list[int]) -> None:
         """Set the target qubits.
 
         Args:
@@ -157,7 +157,7 @@ class ErrorChannel(NoiseModel):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -195,8 +195,8 @@ class BitFlipChannel(ErrorChannel):
     def __init__(
         self,
         probability: float = 0.01,
-        qubits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        qubits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BitFlipChannel.
 
@@ -223,8 +223,8 @@ class PhaseFlipChannel(ErrorChannel):
     def __init__(
         self,
         probability: float = 0.01,
-        qubits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        qubits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PhaseFlipChannel.
 
@@ -251,8 +251,8 @@ class AmplitudeDampingChannel(ErrorChannel):
     def __init__(
         self,
         probability: float = 0.01,
-        qubits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        qubits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an AmplitudeDampingChannel.
 
@@ -279,8 +279,8 @@ class DepolarizingChannel(ErrorChannel):
     def __init__(
         self,
         probability: float = 0.01,
-        qubits: Optional[List[int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        qubits: list[int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DepolarizingChannel.
 

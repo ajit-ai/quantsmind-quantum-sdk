@@ -22,7 +22,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from quantsmind.quantum.algorithms.enums import (
     BackendType,
@@ -35,11 +35,9 @@ from quantsmind.quantum.algorithms.types import (
     BackendConfig,
     CompilerConfig,
     DensityMatrix,
-    GateParameters,
     JobResult,
     MeasurementBasis,
     MeasurementResult,
-    NoiseConfig,
     ProviderConfig,
     QubitIndex,
     QubitIndices,
@@ -233,7 +231,7 @@ class QuantumCircuitProtocol(Protocol):
         """
         ...
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -488,7 +486,7 @@ class QuantumProviderProtocol(Protocol):
         """
         ...
 
-    def get_backends(self) -> List[Any]:
+    def get_backends(self) -> list[Any]:
         """Get available backends.
 
         Returns:
@@ -499,7 +497,7 @@ class QuantumProviderProtocol(Protocol):
         """
         ...
 
-    def get_backend(self, name: str) -> Optional[Any]:
+    def get_backend(self, name: str) -> Any | None:
         """Get a specific backend.
 
         Args:
@@ -513,7 +511,7 @@ class QuantumProviderProtocol(Protocol):
         """
         ...
 
-    def authenticate(self, credentials: Dict[str, Any]) -> bool:
+    def authenticate(self, credentials: dict[str, Any]) -> bool:
         """Authenticate with the provider.
 
         Args:
@@ -641,7 +639,7 @@ class QuantumJobProtocol(Protocol):
         """
         ...
 
-    def result(self) -> Optional[JobResult]:
+    def result(self) -> JobResult | None:
         """Get the job result.
 
         Returns:
@@ -652,7 +650,7 @@ class QuantumJobProtocol(Protocol):
         """
         ...
 
-    def wait(self, timeout: Optional[int] = None) -> JobResult:
+    def wait(self, timeout: int | None = None) -> JobResult:
         """Wait for the job to complete.
 
         Args:

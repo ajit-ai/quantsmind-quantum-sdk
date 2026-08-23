@@ -28,9 +28,8 @@ quantsmind.runtime.resource (resource)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import DEFAULT_CPU_LIMIT
 from quantsmind.runtime.enums import ResourceType
 from quantsmind.runtime.resource import Resource
 from quantsmind.runtime.types import ResourceCapacity, ResourceID
@@ -56,8 +55,8 @@ class CPUResource(Resource):
         self,
         num_cores: int = 4,
         frequency: float = 3.5,
-        capacity: Optional[ResourceCapacity] = None,
-        resource_id: Optional[ResourceID] = None,
+        capacity: ResourceCapacity | None = None,
+        resource_id: ResourceID | None = None,
     ) -> None:
         """Initialize a CPUResource.
 
@@ -100,7 +99,7 @@ class CPUResource(Resource):
         """
         return self._frequency
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert CPU resource to dictionary.
 
         Returns:

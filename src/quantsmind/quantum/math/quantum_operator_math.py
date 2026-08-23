@@ -26,8 +26,7 @@ quantsmind.algebra.linear_algebra (Matrix)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
-import math
+from typing import Any
 
 from quantsmind.algebra.linear_algebra import Matrix
 
@@ -51,8 +50,8 @@ class QuantumOperatorMath:
     def __init__(
         self,
         name: str,
-        data: List[List[complex]],
-        metadata: Optional[Dict[str, Any]] = None,
+        data: list[list[complex]],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumOperatorMath.
 
@@ -81,7 +80,7 @@ class QuantumOperatorMath:
         return self._name
 
     @property
-    def data(self) -> List[List[complex]]:
+    def data(self) -> list[list[complex]]:
         """Get the operator data.
 
         Returns:
@@ -128,7 +127,7 @@ class QuantumOperatorMath:
         real_data = [[complex(val).real for val in row] for row in self._data]
         return Matrix(f"{self._name}_classical", real_data)
 
-    def hermitian_conjugate(self) -> "QuantumOperatorMath":
+    def hermitian_conjugate(self) -> QuantumOperatorMath:
         """Compute Hermitian conjugate.
 
         Returns:
@@ -140,7 +139,7 @@ class QuantumOperatorMath:
         transposed = [[self._data[j][i].conjugate() for j in range(self.cols)] for i in range(self.rows)]
         return QuantumOperatorMath(f"{self._name}_dagger", transposed)
 
-    def commutator(self, other: "QuantumOperatorMath") -> "QuantumOperatorMath":
+    def commutator(self, other: QuantumOperatorMath) -> QuantumOperatorMath:
         """Compute commutator [A, B] = AB - BA.
 
         Args:
@@ -165,7 +164,7 @@ class QuantumOperatorMath:
         comm_data = [[ab[i][j] - ba[i][j] for j in range(self.cols)] for i in range(self.rows)]
         return QuantumOperatorMath(f"[{self._name},{other._name}]", comm_data)
 
-    def anti_commutator(self, other: "QuantumOperatorMath") -> "QuantumOperatorMath":
+    def anti_commutator(self, other: QuantumOperatorMath) -> QuantumOperatorMath:
         """Compute anti-commutator {A, B} = AB + BA.
 
         Args:
@@ -190,7 +189,7 @@ class QuantumOperatorMath:
         anti_comm_data = [[ab[i][j] + ba[i][j] for j in range(self.cols)] for i in range(self.rows)]
         return QuantumOperatorMath(f"{{{self._name},{other._name}}}", anti_comm_data)
 
-    def _multiply_matrices(self, A: List[List[complex]], B: List[List[complex]]) -> List[List[complex]]:
+    def _multiply_matrices(self, A: list[list[complex]], B: list[list[complex]]) -> list[list[complex]]:
         """Multiply two matrices.
 
         Args:
@@ -213,7 +212,7 @@ class QuantumOperatorMath:
 
         return result
 
-    def tensor_product(self, other: "QuantumOperatorMath") -> "QuantumOperatorMath":
+    def tensor_product(self, other: QuantumOperatorMath) -> QuantumOperatorMath:
         """Compute tensor product (Kronecker product).
 
         Args:
@@ -314,7 +313,7 @@ class QuantumOperatorMath:
 
         return sum(self._data[i][i] for i in range(min(self.rows, self.cols)))
 
-    def eigenvalues(self) -> List[complex]:
+    def eigenvalues(self) -> list[complex]:
         """Compute eigenvalues (simplified).
 
         Returns:
@@ -326,7 +325,7 @@ class QuantumOperatorMath:
         # Placeholder - real implementation would use numerical methods
         return []
 
-    def eigenvectors(self) -> List[List[complex]]:
+    def eigenvectors(self) -> list[list[complex]]:
         """Compute eigenvectors (simplified).
 
         Returns:

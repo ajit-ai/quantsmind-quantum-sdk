@@ -26,7 +26,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.exceptions import CoordinateError
 from quantsmind.scientific.interfaces import ICoordinate
@@ -54,7 +54,7 @@ class SphericalCoordinate(ICoordinate):
         r: CoordinateValue,
         theta: CoordinateValue,
         phi: CoordinateValue,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SphericalCoordinate.
 
@@ -112,7 +112,7 @@ class SphericalCoordinate(ICoordinate):
         return self._phi
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the coordinate metadata.
 
         Returns:
@@ -156,7 +156,7 @@ class SphericalCoordinate(ICoordinate):
         """
         return self._r
 
-    def to_cartesian(self) -> Tuple[float, float, float]:
+    def to_cartesian(self) -> tuple[float, float, float]:
         """Convert to Cartesian coordinates.
 
         Returns:
@@ -170,7 +170,7 @@ class SphericalCoordinate(ICoordinate):
         z = self._r * math.cos(self._phi)
         return (x, y, z)
 
-    def to_cylindrical(self) -> Tuple[float, float, float]:
+    def to_cylindrical(self) -> tuple[float, float, float]:
         """Convert to cylindrical coordinates.
 
         Returns:
@@ -212,7 +212,7 @@ class SphericalCoordinate(ICoordinate):
         else:
             raise CoordinateError(f"Transformation to {target_system} not supported")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

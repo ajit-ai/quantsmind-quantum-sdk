@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -58,9 +58,9 @@ class QuantumDataset(Dataset):
         self,
         name: str,
         qubit_count: int = 1,
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumDataset.
 
@@ -85,9 +85,9 @@ class QuantumDataset(Dataset):
             raise DatasetError("Qubit count must be at least 1", {"qubit_count": qubit_count})
 
         self._qubit_count = qubit_count
-        self._quantum_states: List[Dict[str, Any]] = []
-        self._quantum_circuits: List[Dict[str, Any]] = []
-        self._quantum_measurements: List[Dict[str, Any]] = []
+        self._quantum_states: list[dict[str, Any]] = []
+        self._quantum_circuits: list[dict[str, Any]] = []
+        self._quantum_measurements: list[dict[str, Any]] = []
 
     @property
     def qubit_count(self) -> int:
@@ -102,7 +102,7 @@ class QuantumDataset(Dataset):
         return self._qubit_count
 
     @property
-    def quantum_states(self) -> List[Dict[str, Any]]:
+    def quantum_states(self) -> list[dict[str, Any]]:
         """Get the quantum states.
 
         Returns:
@@ -114,7 +114,7 @@ class QuantumDataset(Dataset):
         return self._quantum_states.copy()
 
     @property
-    def quantum_circuits(self) -> List[Dict[str, Any]]:
+    def quantum_circuits(self) -> list[dict[str, Any]]:
         """Get the quantum circuits.
 
         Returns:
@@ -126,7 +126,7 @@ class QuantumDataset(Dataset):
         return self._quantum_circuits.copy()
 
     @property
-    def quantum_measurements(self) -> List[Dict[str, Any]]:
+    def quantum_measurements(self) -> list[dict[str, Any]]:
         """Get the quantum measurements.
 
         Returns:
@@ -137,7 +137,7 @@ class QuantumDataset(Dataset):
         """
         return self._quantum_measurements.copy()
 
-    def add_quantum_state(self, state: Dict[str, Any]) -> None:
+    def add_quantum_state(self, state: dict[str, Any]) -> None:
         """Add a quantum state to the dataset.
 
         Args:
@@ -164,7 +164,7 @@ class QuantumDataset(Dataset):
         self._quantum_states.append(state)
         self._updated_at = self._updated_at
 
-    def add_quantum_circuit(self, circuit: Dict[str, Any]) -> None:
+    def add_quantum_circuit(self, circuit: dict[str, Any]) -> None:
         """Add a quantum circuit to the dataset.
 
         Args:
@@ -182,7 +182,7 @@ class QuantumDataset(Dataset):
         self._quantum_circuits.append(circuit)
         self._updated_at = self._updated_at
 
-    def add_quantum_measurement(self, measurement: Dict[str, Any]) -> None:
+    def add_quantum_measurement(self, measurement: dict[str, Any]) -> None:
         """Add a quantum measurement to the dataset.
 
         Args:
@@ -200,7 +200,7 @@ class QuantumDataset(Dataset):
         self._quantum_measurements.append(measurement)
         self._updated_at = self._updated_at
 
-    def get_quantum_states_by_circuit(self, circuit_id: str) -> List[Dict[str, Any]]:
+    def get_quantum_states_by_circuit(self, circuit_id: str) -> list[dict[str, Any]]:
         """Get quantum states for a specific circuit.
 
         Args:
@@ -214,7 +214,7 @@ class QuantumDataset(Dataset):
         """
         return [state for state in self._quantum_states if state.get("circuit_id") == circuit_id]
 
-    def get_measurements_by_circuit(self, circuit_id: str) -> List[Dict[str, Any]]:
+    def get_measurements_by_circuit(self, circuit_id: str) -> list[dict[str, Any]]:
         """Get measurements for a specific circuit.
 
         Args:
@@ -228,7 +228,7 @@ class QuantumDataset(Dataset):
         """
         return [m for m in self._quantum_measurements if m.get("circuit_id") == circuit_id]
 
-    def calculate_fidelity(self, state1: List[float], state2: List[float]) -> float:
+    def calculate_fidelity(self, state1: list[float], state2: list[float]) -> float:
         """Calculate fidelity between two quantum states.
 
         Args:
@@ -241,13 +241,12 @@ class QuantumDataset(Dataset):
         Example:
             >>> fidelity = dataset.calculate_fidelity([1, 0], [1, 0])
         """
-        import math
 
         if len(state1) != len(state2):
             raise DatasetError("State vectors must have the same length")
 
         # Calculate overlap
-        overlap = sum(complex(s1) * complex(s2).conjugate() for s1, s2 in zip(state1, state2))
+        overlap = sum(complex(s1) * complex(s2).conjugate() for s1, s2 in zip(state1, state2, strict=False))
         fidelity = abs(overlap) ** 2
         return fidelity
 
@@ -280,7 +279,7 @@ class QuantumDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

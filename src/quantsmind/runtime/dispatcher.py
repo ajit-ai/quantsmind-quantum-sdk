@@ -31,11 +31,8 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
-from quantsmind.runtime.enums import ExecutionState
-from quantsmind.runtime.exceptions import TaskError
 from quantsmind.runtime.executor import Executor
 from quantsmind.runtime.task import Task
 from quantsmind.runtime.types import Callback, ExecutionResult, TaskID
@@ -69,12 +66,12 @@ class Dispatcher:
         Example:
             >>> dispatcher = Dispatcher(num_executors=4)
         """
-        self._executors: List[Executor] = [
+        self._executors: list[Executor] = [
             Executor(max_workers=max_workers_per_executor) for _ in range(num_executors)
         ]
         self._current_executor_index = 0
         self._lock = threading.Lock()
-        self._dispatched_tasks: Dict[TaskID, Executor] = {}
+        self._dispatched_tasks: dict[TaskID, Executor] = {}
         logger.debug(f"Created dispatcher with {num_executors} executors")
 
     @property
@@ -102,7 +99,7 @@ class Dispatcher:
         with self._lock:
             return len(self._dispatched_tasks)
 
-    def dispatch(self, task: Task, callback: Optional[Callback] = None) -> ExecutionResult:
+    def dispatch(self, task: Task, callback: Callback | None = None) -> ExecutionResult:
         """Dispatch a task to an executor.
 
         Args:
@@ -131,7 +128,7 @@ class Dispatcher:
         
         return result
 
-    def dispatch_async(self, task: Task, callback: Optional[Callback] = None) -> None:
+    def dispatch_async(self, task: Task, callback: Callback | None = None) -> None:
         """Dispatch a task asynchronously.
 
         Args:
@@ -178,7 +175,7 @@ class Dispatcher:
                 return executor.cancel(task_id)
         return False
 
-    def get_executor_status(self) -> List[Dict[str, Any]]:
+    def get_executor_status(self) -> list[dict[str, Any]]:
         """Get executor status.
 
         Returns:

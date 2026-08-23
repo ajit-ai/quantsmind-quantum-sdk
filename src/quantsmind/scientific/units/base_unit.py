@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.exceptions import UnitError
 from quantsmind.scientific.interfaces import IUnit
@@ -54,7 +54,7 @@ class BaseUnit(IUnit):
         symbol: str,
         conversion_factor: ConversionFactor,
         dimension: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BaseUnit.
 
@@ -123,7 +123,7 @@ class BaseUnit(IUnit):
         return self._dimension
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the unit metadata.
 
         Returns:

@@ -26,7 +26,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.exceptions import CoordinateError
 from quantsmind.scientific.interfaces import ICoordinate
@@ -54,7 +54,7 @@ class CartesianCoordinate(ICoordinate):
         x: CoordinateValue,
         y: CoordinateValue,
         z: CoordinateValue = 0.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a CartesianCoordinate.
 
@@ -109,7 +109,7 @@ class CartesianCoordinate(ICoordinate):
         return self._z
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the coordinate metadata.
 
         Returns:
@@ -174,7 +174,7 @@ class CartesianCoordinate(ICoordinate):
         ox, oy, oz = other.coordinates()
         return math.sqrt((self._x - ox) ** 2 + (self._y - oy) ** 2 + (self._z - oz) ** 2)
 
-    def to_polar(self) -> Tuple[float, float]:
+    def to_polar(self) -> tuple[float, float]:
         """Convert to polar coordinates (2D).
 
         Returns:
@@ -187,7 +187,7 @@ class CartesianCoordinate(ICoordinate):
         theta = math.atan2(self._y, self._x)
         return (r, theta)
 
-    def to_spherical(self) -> Tuple[float, float, float]:
+    def to_spherical(self) -> tuple[float, float, float]:
         """Convert to spherical coordinates.
 
         Returns:
@@ -233,7 +233,7 @@ class CartesianCoordinate(ICoordinate):
         else:
             raise CoordinateError(f"Transformation to {target_system} not supported")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

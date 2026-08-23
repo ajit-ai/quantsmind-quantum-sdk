@@ -25,7 +25,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class MathReasoningAgent:
@@ -47,7 +47,7 @@ class MathReasoningAgent:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MathReasoningAgent.
 
@@ -59,8 +59,8 @@ class MathReasoningAgent:
             >>> agent = MathReasoningAgent()
         """
         self._name = name
-        self._knowledge_base: Dict[str, Any] = {}
-        self._reasoning_history: List[Dict[str, Any]] = []
+        self._knowledge_base: dict[str, Any] = {}
+        self._reasoning_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -78,8 +78,8 @@ class MathReasoningAgent:
     def reason_about(
         self,
         problem: str,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Reason about a mathematical problem.
 
         Args:
@@ -108,8 +108,8 @@ class MathReasoningAgent:
     def _analyze_problem(
         self,
         problem: str,
-        context: Optional[Dict[str, Any]],
-    ) -> List[Dict[str, str]]:
+        context: dict[str, Any] | None,
+    ) -> list[dict[str, str]]:
         """Analyze the problem and generate reasoning steps.
 
         Args:
@@ -178,7 +178,7 @@ class MathReasoningAgent:
 
         return "general"
 
-    def _extract_variables(self, problem: str) -> List[str]:
+    def _extract_variables(self, problem: str) -> list[str]:
         """Extract variables from the problem.
 
         Args:
@@ -202,7 +202,7 @@ class MathReasoningAgent:
     def _determine_approach(
         self,
         problem_type: str,
-        variables: List[str],
+        variables: list[str],
     ) -> str:
         """Determine the solution approach.
 
@@ -229,8 +229,8 @@ class MathReasoningAgent:
     def _generate_solution(
         self,
         problem: str,
-        reasoning_steps: List[Dict[str, str]],
-        context: Optional[Dict[str, Any]],
+        reasoning_steps: list[dict[str, str]],
+        context: dict[str, Any] | None,
     ) -> str:
         """Generate a solution based on reasoning.
 
@@ -247,7 +247,7 @@ class MathReasoningAgent:
         """
         return "Solution generated based on reasoning steps"
 
-    def _compute_confidence(self, reasoning_steps: List[Dict[str, str]]) -> float:
+    def _compute_confidence(self, reasoning_steps: list[dict[str, str]]) -> float:
         """Compute confidence in the reasoning.
 
         Args:
@@ -261,7 +261,7 @@ class MathReasoningAgent:
         """
         return 0.8
 
-    def suggest_alternative_approach(self, problem: str) -> List[str]:
+    def suggest_alternative_approach(self, problem: str) -> list[str]:
         """Suggest alternative approaches to a problem.
 
         Args:
@@ -291,7 +291,7 @@ class MathReasoningAgent:
 
         return alternatives.get(problem_type, ["General mathematical approach"])
 
-    def validate_reasoning(self, reasoning: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_reasoning(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Validate a reasoning chain.
 
         Args:
@@ -311,7 +311,7 @@ class MathReasoningAgent:
 
         return validation
 
-    def get_reasoning_history(self) -> List[Dict[str, Any]]:
+    def get_reasoning_history(self) -> list[dict[str, Any]]:
         """Get the reasoning history.
 
         Returns:

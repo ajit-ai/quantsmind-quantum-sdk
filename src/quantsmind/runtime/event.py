@@ -31,11 +31,11 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import EventType
-from quantsmind.runtime.types import EventData, EventID, EventPayload
+from quantsmind.runtime.types import EventID, EventPayload
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +60,8 @@ class Event:
     def __init__(
         self,
         event_type: EventType,
-        payload: Optional[EventPayload] = None,
-        event_id: Optional[EventID] = None,
+        payload: EventPayload | None = None,
+        event_id: EventID | None = None,
     ) -> None:
         """Initialize an Event.
 
@@ -77,7 +77,7 @@ class Event:
         self._event_type = event_type
         self._payload = payload or {}
         self._timestamp = datetime.utcnow()
-        self._metadata: Dict[str, Any] = {
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created event: {self._event_id} of type {event_type.value}")
@@ -157,7 +157,7 @@ class Event:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary.
 
         Returns:

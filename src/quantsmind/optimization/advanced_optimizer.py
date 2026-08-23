@@ -28,9 +28,10 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import math
 import random
+from collections.abc import Callable
+from typing import Any
 
 
 class LBFGSOptimizer:
@@ -54,7 +55,7 @@ class LBFGSOptimizer:
         memory_size: int = 10,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an LBFGSOptimizer.
 
@@ -89,7 +90,7 @@ class LBFGSOptimizer:
         func: Callable[[float], float],
         gradient: Callable[[float], float],
         initial_x: float,
-    ) -> Tuple[float, List[float]]:
+    ) -> tuple[float, list[float]]:
         """Optimize using L-BFGS.
 
         Args:
@@ -107,9 +108,9 @@ class LBFGSOptimizer:
         history = [x]
 
         # L-BFGS state
-        s_history: List[float] = []  # Position differences
-        y_history: List[float] = []  # Gradient differences
-        rho_history: List[float] = []  # 1 / (y^T s)
+        s_history: list[float] = []  # Position differences
+        y_history: list[float] = []  # Gradient differences
+        rho_history: list[float] = []  # 1 / (y^T s)
 
         grad = gradient(x)
         old_grad = grad
@@ -118,7 +119,7 @@ class LBFGSOptimizer:
         for _ in range(self._max_iterations):
             # Compute search direction using L-BFGS two-loop recursion
             q = grad
-            alpha: List[float] = []
+            alpha: list[float] = []
 
             # First loop
             for i in reversed(range(len(s_history))):
@@ -204,7 +205,7 @@ class BayesianOptimizer:
         n_init: int = 10,
         n_iter: int = 50,
         acquisition: str = "expected_improvement",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BayesianOptimizer.
 
@@ -237,8 +238,8 @@ class BayesianOptimizer:
     def optimize(
         self,
         func: Callable[[float], float],
-        bounds: Tuple[float, float],
-    ) -> Tuple[float, List[float]]:
+        bounds: tuple[float, float],
+    ) -> tuple[float, list[float]]:
         """Optimize using Bayesian optimization.
 
         Args:
@@ -317,7 +318,7 @@ class SimulatedAnnealing:
         cooling_rate: float = 0.95,
         min_temp: float = 1e-6,
         max_iterations: int = 10000,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimulatedAnnealing optimizer.
 
@@ -352,8 +353,8 @@ class SimulatedAnnealing:
     def optimize(
         self,
         func: Callable[[float], float],
-        bounds: Tuple[float, float],
-    ) -> Tuple[float, List[float]]:
+        bounds: tuple[float, float],
+    ) -> tuple[float, list[float]]:
         """Optimize using simulated annealing.
 
         Args:

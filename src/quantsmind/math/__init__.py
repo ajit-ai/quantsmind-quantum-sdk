@@ -37,32 +37,31 @@ Modules
 from __future__ import annotations
 
 # Foundational modules
-from quantsmind.math import constants
-from quantsmind.math import exceptions
-from quantsmind.math import types
-from quantsmind.math import utilities
-from quantsmind.math import validation
-
 # Submodules
-from quantsmind.math import algebra
-from quantsmind.math import calculus
-from quantsmind.math import complex
-from quantsmind.math import geometry
-from quantsmind.math import graph
-from quantsmind.math import numerical
-from quantsmind.math import operators
-from quantsmind.math import optimization
-from quantsmind.math import probability
-from quantsmind.math import random
-from quantsmind.math import statistics
-from quantsmind.math import tensor
-from quantsmind.math import topology
-from quantsmind.math import transforms
+from quantsmind.math import (
+    algebra,
+    calculus,
+    complex,
+    constants,
+    exceptions,
+    geometry,
+    graph,
+    numerical,
+    operators,
+    optimization,
+    probability,
+    random,
+    statistics,
+    tensor,
+    topology,
+    transforms,
+    types,
+    utilities,
+    validation,
+)
 
 # Linear algebra submodule
-from quantsmind.math.linear_algebra import vector
-from quantsmind.math.linear_algebra import matrix
-from quantsmind.math.linear_algebra import factory
+from quantsmind.math.linear_algebra import factory, matrix, vector
 
 __version__ = "R0.4.0"
 

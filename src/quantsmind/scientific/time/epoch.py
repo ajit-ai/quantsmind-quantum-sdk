@@ -25,12 +25,11 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from datetime import datetime
+from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
 from quantsmind.scientific.interfaces import ITime
-from quantsmind.scientific.types import EpochValue
 
 
 class Epoch(ITime):
@@ -54,7 +53,7 @@ class Epoch(ITime):
         name: str,
         reference_time: datetime,
         description: str = "",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Epoch.
 
@@ -109,7 +108,7 @@ class Epoch(ITime):
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the epoch metadata.
 
         Returns:
@@ -182,7 +181,7 @@ class Epoch(ITime):
         """
         return (timestamp - self._reference_time).total_seconds()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

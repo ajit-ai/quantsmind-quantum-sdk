@@ -28,7 +28,7 @@ quantsmind.quantum.gate.gate (gate module)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.constants import (
     GATE_PHASE,
@@ -64,8 +64,8 @@ class ParameterizedGate(QuantumGate):
     def __init__(
         self,
         name: str,
-        parameters: Dict[str, float],
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, float],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ParameterizedGate.
 
@@ -172,7 +172,7 @@ class RXGate(ParameterizedGate):
         >>> gate = RXGate(theta=1.57)
     """
 
-    def __init__(self, theta: float = 0.0, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, theta: float = 0.0, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an RXGate.
 
         Args:
@@ -194,7 +194,7 @@ class RYGate(ParameterizedGate):
         >>> gate = RYGate(theta=1.57)
     """
 
-    def __init__(self, theta: float = 0.0, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, theta: float = 0.0, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an RYGate.
 
         Args:
@@ -216,7 +216,7 @@ class RZGate(ParameterizedGate):
         >>> gate = RZGate(phi=1.57)
     """
 
-    def __init__(self, phi: float = 0.0, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, phi: float = 0.0, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an RZGate.
 
         Args:
@@ -238,7 +238,7 @@ class PhaseGate(ParameterizedGate):
         >>> gate = PhaseGate(phi=1.57)
     """
 
-    def __init__(self, phi: float = 0.0, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, phi: float = 0.0, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PhaseGate.
 
         Args:
@@ -265,7 +265,7 @@ class UGate(ParameterizedGate):
         theta: float = 0.0,
         phi: float = 0.0,
         lam: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a UGate.
 

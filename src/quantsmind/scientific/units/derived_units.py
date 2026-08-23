@@ -23,8 +23,6 @@ quantsmind.scientific.exceptions (scientific exceptions)
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
 from quantsmind.scientific.exceptions import UnitError
 from quantsmind.scientific.units.base_unit import BaseUnit
 
@@ -48,8 +46,8 @@ class DerivedUnit(BaseUnit):
         symbol: str,
         conversion_factor: float,
         dimension: str,
-        base_units: Optional[List[Tuple[str, int]]] = None,
-        metadata: Optional[Dict[str, any]] = None,
+        base_units: list[tuple[str, int]] | None = None,
+        metadata: dict[str, any] | None = None,
     ) -> None:
         """Initialize a DerivedUnit.
 
@@ -66,10 +64,10 @@ class DerivedUnit(BaseUnit):
         """
         super().__init__(name, symbol, conversion_factor, dimension, metadata)
         self._base_units = base_units or []
-        self._exponents: Dict[str, int] = {unit: exp for unit, exp in self._base_units}
+        self._exponents: dict[str, int] = {unit: exp for unit, exp in self._base_units}
 
     @property
-    def base_units(self) -> List[Tuple[str, int]]:
+    def base_units(self) -> list[tuple[str, int]]:
         """Get the base units composition.
 
         Returns:
@@ -81,7 +79,7 @@ class DerivedUnit(BaseUnit):
         return self._base_units.copy()
 
     @property
-    def exponents(self) -> Dict[str, int]:
+    def exponents(self) -> dict[str, int]:
         """Get the exponents for base units.
 
         Returns:
@@ -92,7 +90,7 @@ class DerivedUnit(BaseUnit):
         """
         return self._exponents.copy()
 
-    def compose_from(self, base_unit_instances: Dict[str, BaseUnit]) -> float:
+    def compose_from(self, base_unit_instances: dict[str, BaseUnit]) -> float:
         """Calculate conversion factor from base unit instances.
 
         Args:
@@ -115,7 +113,7 @@ class DerivedUnit(BaseUnit):
             factor *= base_unit.conversion_factor ** exponent
         return factor
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> dict[str, any]:
         """Convert to dictionary.
 
         Returns:
@@ -160,7 +158,7 @@ class DerivedUnitsRegistry:
         Example:
             >>> registry = DerivedUnitsRegistry()
         """
-        self._units: Dict[str, DerivedUnit] = {}
+        self._units: dict[str, DerivedUnit] = {}
         self._initialize_common_derived_units()
 
     def _initialize_common_derived_units(self) -> None:
@@ -199,7 +197,7 @@ class DerivedUnitsRegistry:
             [("second", -1)]
         )
 
-    def get_unit(self, name: str) -> Optional[DerivedUnit]:
+    def get_unit(self, name: str) -> DerivedUnit | None:
         """Get a unit by name.
 
         Args:
@@ -213,7 +211,7 @@ class DerivedUnitsRegistry:
         """
         return self._units.get(name)
 
-    def get_all_units(self) -> Dict[str, DerivedUnit]:
+    def get_all_units(self) -> dict[str, DerivedUnit]:
         """Get all registered units.
 
         Returns:

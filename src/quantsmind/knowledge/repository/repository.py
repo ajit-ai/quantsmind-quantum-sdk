@@ -25,10 +25,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import RepositoryType
-from quantsmind.knowledge.exceptions import RepositoryError
 from quantsmind.knowledge.interfaces import IRepository
 from quantsmind.knowledge.types import ValidationResult
 
@@ -55,7 +54,7 @@ class Repository(IRepository):
         repository_id: str,
         name: str,
         repository_type: RepositoryType,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Repository.
 
@@ -71,7 +70,7 @@ class Repository(IRepository):
         self._id = repository_id
         self._name = name
         self._repository_type = repository_type
-        self._items: Dict[str, Any] = {}
+        self._items: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -111,7 +110,7 @@ class Repository(IRepository):
         return self._repository_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the repository metadata.
 
         Returns:
@@ -151,7 +150,7 @@ class Repository(IRepository):
             return True
         return False
 
-    def get(self, item_id: str) -> Optional[Any]:
+    def get(self, item_id: str) -> Any | None:
         """Get an item from the repository.
 
         Args:
@@ -165,7 +164,7 @@ class Repository(IRepository):
         """
         return self._items.get(item_id)
 
-    def list_all(self) -> List[str]:
+    def list_all(self) -> list[str]:
         """List all item IDs.
 
         Returns:
@@ -214,7 +213,7 @@ class Repository(IRepository):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

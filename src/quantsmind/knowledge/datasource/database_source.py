@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.enums import DataSourceType
@@ -58,10 +58,10 @@ class DatabaseSource(DataSource):
         host: str,
         port: int,
         database_name: str,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        config: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        username: str | None = None,
+        password: str | None = None,
+        config: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DatabaseSource.
 
@@ -148,7 +148,7 @@ class DatabaseSource(DataSource):
         return self._database_name
 
     @property
-    def username(self) -> Optional[str]:
+    def username(self) -> str | None:
         """Get the username.
 
         Returns:
@@ -182,7 +182,7 @@ class DatabaseSource(DataSource):
         }
         return True
 
-    def execute_query(self, query: str) -> List[Dict[str, Any]]:
+    def execute_query(self, query: str) -> list[dict[str, Any]]:
         """Execute a SQL query.
 
         Args:
@@ -203,7 +203,7 @@ class DatabaseSource(DataSource):
         # Placeholder implementation
         return []
 
-    def read(self, table: str, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    def read(self, table: str, limit: int | None = None) -> list[dict[str, Any]]:
         """Read data from a table.
 
         Args:
@@ -228,7 +228,7 @@ class DatabaseSource(DataSource):
 
         return self.execute_query(query)
 
-    def write(self, table: str, data: List[Dict[str, Any]]) -> bool:
+    def write(self, table: str, data: list[dict[str, Any]]) -> bool:
         """Write data to a table.
 
         Args:
@@ -284,7 +284,7 @@ class DatabaseSource(DataSource):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

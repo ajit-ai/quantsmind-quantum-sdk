@@ -24,7 +24,7 @@ quantsmind.quantum.operator.observable (observable module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import MeasurementError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,7 +53,7 @@ class ExpectationValue:
         value: float,
         variance: float = 0.0,
         shots: int = 0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ExpectationValue.
 
@@ -125,7 +125,7 @@ class ExpectationValue:
         return self._shots
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the expectation metadata.
 
         Returns:
@@ -218,7 +218,7 @@ class ExpectationValue:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

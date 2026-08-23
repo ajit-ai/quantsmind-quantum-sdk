@@ -22,7 +22,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from quantsmind.scientific.types import ConstantName, ConstantValue
 
@@ -46,7 +46,7 @@ class PhysicalConstants:
         Example:
             >>> constants = PhysicalConstants()
         """
-        self._constants: Dict[ConstantName, ConstantDefinition] = {}
+        self._constants: dict[ConstantName, ConstantDefinition] = {}
         self._initialize_constants()
 
     def _initialize_constants(self) -> None:
@@ -161,7 +161,7 @@ class PhysicalConstants:
         """
         return self._constants.get(name)
 
-    def get_all_constants(self) -> Dict[ConstantName, ConstantDefinition]:
+    def get_all_constants(self) -> dict[ConstantName, ConstantDefinition]:
         """Get all constants.
 
         Returns:
@@ -270,7 +270,7 @@ class ConstantDefinition:
         """
         return self._description
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

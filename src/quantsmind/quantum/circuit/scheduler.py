@@ -24,7 +24,7 @@ quantsmind.quantum.circuit.instruction (instruction module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -52,7 +52,7 @@ class Scheduler:
         self,
         name: str,
         strategy: str = "topological",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Scheduler.
 
@@ -69,7 +69,7 @@ class Scheduler:
 
         self._name = name
         self._strategy = strategy
-        self._scheduled_instructions: List[Instruction] = []
+        self._scheduled_instructions: list[Instruction] = []
         self._metadata = metadata or {}
 
     @property
@@ -97,7 +97,7 @@ class Scheduler:
         return self._strategy
 
     @property
-    def scheduled_instructions(self) -> List[Instruction]:
+    def scheduled_instructions(self) -> list[Instruction]:
         """Get the scheduled instructions.
 
         Returns:
@@ -109,7 +109,7 @@ class Scheduler:
         return self._scheduled_instructions.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the scheduler metadata.
 
         Returns:
@@ -131,7 +131,7 @@ class Scheduler:
         """
         self._strategy = strategy
 
-    def schedule(self, instructions: List[Instruction]) -> List[Instruction]:
+    def schedule(self, instructions: list[Instruction]) -> list[Instruction]:
         """Schedule instructions based on the strategy.
 
         Args:
@@ -154,7 +154,7 @@ class Scheduler:
             self._scheduled_instructions = instructions.copy()
             return self._scheduled_instructions
 
-    def _schedule_topological(self, instructions: List[Instruction]) -> List[Instruction]:
+    def _schedule_topological(self, instructions: list[Instruction]) -> list[Instruction]:
         """Schedule instructions using topological ordering.
 
         Args:
@@ -170,7 +170,7 @@ class Scheduler:
         self._scheduled_instructions = instructions.copy()
         return self._scheduled_instructions
 
-    def _schedule_asap(self, instructions: List[Instruction]) -> List[Instruction]:
+    def _schedule_asap(self, instructions: list[Instruction]) -> list[Instruction]:
         """Schedule instructions using ASAP (As Soon As Possible) strategy.
 
         Args:
@@ -186,7 +186,7 @@ class Scheduler:
         self._scheduled_instructions = instructions.copy()
         return self._scheduled_instructions
 
-    def _schedule_alap(self, instructions: List[Instruction]) -> List[Instruction]:
+    def _schedule_alap(self, instructions: list[Instruction]) -> list[Instruction]:
         """Schedule instructions using ALAP (As Late As Possible) strategy.
 
         Args:
@@ -230,7 +230,7 @@ class Scheduler:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

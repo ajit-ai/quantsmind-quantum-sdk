@@ -25,9 +25,9 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import math
 import random
+from typing import Any
 
 
 class MonteCarloFinanceSimulator:
@@ -49,9 +49,9 @@ class MonteCarloFinanceSimulator:
     def __init__(
         self,
         risk_free_rate: float = 0.05,
-        seed: Optional[int] = None,
+        seed: int | None = None,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MonteCarloFinanceSimulator.
 
@@ -103,7 +103,7 @@ class MonteCarloFinanceSimulator:
         T: float,
         n_steps: int = 252,
         n_paths: int = 1000,
-    ) -> List[List[float]]:
+    ) -> list[list[float]]:
         """Simulate asset price paths using geometric Brownian motion.
 
         Args:
@@ -169,10 +169,7 @@ class MonteCarloFinanceSimulator:
         payoffs = []
         for path in paths:
             final_price = path[-1]
-            if option_type == "call":
-                payoff = max(0, final_price - K)
-            else:
-                payoff = max(0, K - final_price)
+            payoff = max(0, final_price - K) if option_type == "call" else max(0, K - final_price)
             payoffs.append(payoff)
 
         # Discount expected payoff
@@ -184,13 +181,13 @@ class MonteCarloFinanceSimulator:
     def simulate_portfolio(
         self,
         initial_value: float,
-        weights: List[float],
-        expected_returns: List[float],
-        cov_matrix: List[List[float]],
+        weights: list[float],
+        expected_returns: list[float],
+        cov_matrix: list[list[float]],
         T: float,
         n_steps: int = 252,
         n_paths: int = 1000,
-    ) -> List[List[float]]:
+    ) -> list[list[float]]:
         """Simulate portfolio value paths.
 
         Args:
@@ -228,7 +225,7 @@ class MonteCarloFinanceSimulator:
                     asset_returns.append(asset_return)
 
                 # Portfolio return
-                portfolio_return = sum(w * (1 + r) for w, r in zip(weights, asset_returns)) - 1
+                portfolio_return = sum(w * (1 + r) for w, r in zip(weights, asset_returns, strict=False)) - 1
                 new_value = path[-1] * (1 + portfolio_return)
                 path.append(new_value)
 
@@ -239,7 +236,7 @@ class MonteCarloFinanceSimulator:
     def value_at_risk_simulation(
         self,
         portfolio_value: float,
-        returns: List[float],
+        returns: list[float],
         confidence_level: float = 0.95,
         n_simulations: int = 10000,
     ) -> float:
@@ -277,7 +274,7 @@ class MonteCarloFinanceSimulator:
     def conditional_var_simulation(
         self,
         portfolio_value: float,
-        returns: List[float],
+        returns: list[float],
         confidence_level: float = 0.95,
         n_simulations: int = 10000,
     ) -> float:

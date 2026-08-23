@@ -24,15 +24,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.scientific.exceptions import (
-    ConversionError,
-    DimensionError,
-    MeasurementError,
-    QuantityError,
-    ValidationError,
-)
 from quantsmind.scientific.types import ValidationResult
 
 
@@ -55,10 +48,10 @@ class ScientificValidator:
         Example:
             >>> validator = ScientificValidator()
         """
-        self._errors: List[str] = []
+        self._errors: list[str] = []
 
     @property
-    def errors(self) -> List[str]:
+    def errors(self) -> list[str]:
         """Get the validation errors.
 
         Returns:
@@ -225,7 +218,7 @@ class ScientificValidator:
         
         return len(self._errors) == 0, self._errors
 
-    def validate_config(self, config: Dict[str, Any]) -> ValidationResult:
+    def validate_config(self, config: dict[str, Any]) -> ValidationResult:
         """Validate a configuration.
 
         Args:
@@ -245,7 +238,7 @@ class ScientificValidator:
         
         return True, []
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -50,8 +49,8 @@ class Uniqueness:
     def __init__(
         self,
         check_id: str,
-        unique_fields: List[str],
-        metadata: Optional[Dict[str, Any]] = None,
+        unique_fields: list[str],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Uniqueness.
 
@@ -71,7 +70,7 @@ class Uniqueness:
 
         self._id = check_id
         self._unique_fields = unique_fields
-        self._seen_values: Dict[str, set] = {field: set() for field in unique_fields}
+        self._seen_values: dict[str, set] = {field: set() for field in unique_fields}
         self._metadata = metadata or {}
 
     @property
@@ -87,7 +86,7 @@ class Uniqueness:
         return self._id
 
     @property
-    def unique_fields(self) -> List[str]:
+    def unique_fields(self) -> list[str]:
         """Get the unique fields.
 
         Returns:
@@ -99,7 +98,7 @@ class Uniqueness:
         return self._unique_fields.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the check metadata.
 
         Returns:
@@ -141,7 +140,7 @@ class Uniqueness:
             return True
         return False
 
-    def check(self, data: Dict[str, Any]) -> ValidationResult:
+    def check(self, data: dict[str, Any]) -> ValidationResult:
         """Check data uniqueness.
 
         Args:
@@ -166,7 +165,7 @@ class Uniqueness:
 
         return (len(errors) == 0, errors)
 
-    def record(self, data: Dict[str, Any]) -> None:
+    def record(self, data: dict[str, Any]) -> None:
         """Record data values for future uniqueness checks.
 
         Args:
@@ -203,7 +202,7 @@ class Uniqueness:
             return 0
         return len(self._seen_values[field])
 
-    def get_uniqueness_score(self, data: Dict[str, Any]) -> float:
+    def get_uniqueness_score(self, data: dict[str, Any]) -> float:
         """Get uniqueness score.
 
         Args:
@@ -251,7 +250,7 @@ class Uniqueness:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

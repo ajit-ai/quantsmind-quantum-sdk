@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ObservationError
 from quantsmind.knowledge.types import (
     ObservationData,
@@ -60,8 +59,8 @@ class Observation:
         observation_id: ObservationID,
         observer: str,
         target: str,
-        data: Optional[ObservationData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        data: ObservationData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Observation.
 
@@ -152,7 +151,7 @@ class Observation:
         return self._data.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the observation metadata.
 
         Returns:
@@ -226,7 +225,7 @@ class Observation:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

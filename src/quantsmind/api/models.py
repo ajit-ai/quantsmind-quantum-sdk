@@ -28,7 +28,8 @@ pydantic (external)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 from pydantic import BaseModel, Field, validator
 
 
@@ -44,12 +45,12 @@ class PolynomialRequest(BaseModel):
         >>> request = PolynomialRequest(coefficients=[1, 0, -4], operation="evaluate", x=2)
     """
 
-    coefficients: List[float] = Field(..., description="Polynomial coefficients")
+    coefficients: list[float] = Field(..., description="Polynomial coefficients")
     operation: str = Field(..., description="Operation to perform")
-    x: Optional[float] = Field(None, description="Evaluation point")
+    x: float | None = Field(None, description="Evaluation point")
 
     @validator("operation")
-    def validate_operation(cls, v: str) -> str:
+    def validate_operation(self, v: str) -> str:
         """Validate operation type.
 
         Args:
@@ -79,12 +80,12 @@ class MatrixRequest(BaseModel):
         >>> request = MatrixRequest(data=[[1, 2], [3, 4]], operation="determinant")
     """
 
-    data: List[List[float]] = Field(..., description="Matrix data")
+    data: list[list[float]] = Field(..., description="Matrix data")
     operation: str = Field(..., description="Operation to perform")
-    other_data: Optional[List[List[float]]] = Field(None, description="Other matrix data")
+    other_data: list[list[float]] | None = Field(None, description="Other matrix data")
 
     @validator("operation")
-    def validate_operation(cls, v: str) -> str:
+    def validate_operation(self, v: str) -> str:
         """Validate operation type.
 
         Args:
@@ -118,12 +119,12 @@ class OptimizationRequest(BaseModel):
 
     function: str = Field(..., description="Objective function")
     method: str = Field(..., description="Optimization method")
-    initial_point: Optional[float] = Field(None, description="Initial point")
-    bounds: Optional[List[float]] = Field(None, description="Optimization bounds")
-    parameters: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Additional parameters")
+    initial_point: float | None = Field(None, description="Initial point")
+    bounds: list[float] | None = Field(None, description="Optimization bounds")
+    parameters: dict[str, Any] | None = Field(default_factory=dict, description="Additional parameters")
 
     @validator("method")
-    def validate_method(cls, v: str) -> str:
+    def validate_method(self, v: str) -> str:
         """Validate optimization method.
 
         Args:
@@ -154,11 +155,11 @@ class SimulationRequest(BaseModel):
     """
 
     simulator_name: str = Field(..., description="Name of simulator")
-    parameters: Dict[str, Any] = Field(..., description="Simulation parameters")
-    steps: Optional[int] = Field(1, description="Number of simulation steps")
+    parameters: dict[str, Any] = Field(..., description="Simulation parameters")
+    steps: int | None = Field(1, description="Number of simulation steps")
 
     @validator("steps")
-    def validate_steps(cls, v: int) -> int:
+    def validate_steps(self, v: int) -> int:
         """Validate number of steps.
 
         Args:
@@ -189,9 +190,9 @@ class APIResponse(BaseModel):
     """
 
     success: bool = Field(..., description="Whether the operation succeeded")
-    data: Optional[Any] = Field(None, description="Response data")
-    error: Optional[str] = Field(None, description="Error message if failed")
-    metadata: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Additional metadata")
+    data: Any | None = Field(None, description="Response data")
+    error: str | None = Field(None, description="Error message if failed")
+    metadata: dict[str, Any] | None = Field(default_factory=dict, description="Additional metadata")
 
 
 class HealthResponse(BaseModel):
@@ -208,7 +209,7 @@ class HealthResponse(BaseModel):
 
     status: str = Field(..., description="Health status")
     version: str = Field(..., description="SDK version")
-    services: Dict[str, str] = Field(default_factory=dict, description="Service status")
+    services: dict[str, str] = Field(default_factory=dict, description="Service status")
 
 
 __all__ = [

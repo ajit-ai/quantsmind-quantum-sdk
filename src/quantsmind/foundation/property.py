@@ -42,7 +42,7 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.foundation.attribute import Attribute
 from quantsmind.foundation.constants import (
@@ -52,19 +52,14 @@ from quantsmind.foundation.constants import (
     RESERVED_PROPERTY_NAMES,
 )
 from quantsmind.foundation.exceptions import (
-    DuplicatePropertyError,
     InvalidPropertyError,
-    PropertyError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
     Validatable,
 )
 from quantsmind.foundation.types import (
-    AttributeValue,
-    ConstraintResult,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -101,9 +96,9 @@ class Property(Serializable, Validatable):
         name: str,
         value: Attribute,
         property_type: str = DEFAULT_PROPERTY_TYPE,
-        unit: Optional[str] = None,
-        description: Optional[str] = None,
-        metadata: Optional[MetadataDict] = None,
+        unit: str | None = None,
+        description: str | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Property.
 
@@ -129,8 +124,8 @@ class Property(Serializable, Validatable):
         self._name: str = name
         self._value: Attribute = value
         self._property_type: str = property_type
-        self._unit: Optional[str] = unit
-        self._description: Optional[str] = description
+        self._unit: str | None = unit
+        self._description: str | None = description
         self._metadata: MetadataDict = metadata or {}
 
         self._validate_name()
@@ -195,7 +190,7 @@ class Property(Serializable, Validatable):
         return self._property_type
 
     @property
-    def unit(self) -> Optional[str]:
+    def unit(self) -> str | None:
         """Get the property unit.
 
         Returns:
@@ -207,7 +202,7 @@ class Property(Serializable, Validatable):
         return self._unit
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the property description.
 
         Returns:
@@ -324,7 +319,7 @@ class Property(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Property":
+    def deserialize(cls, data: bytes, format: str = "json") -> Property:
         """Deserialize the property from bytes.
 
         Args:

@@ -30,8 +30,6 @@ quantsmind.api.models (Pydantic models)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
-
 from fastapi import APIRouter, HTTPException, status
 
 from quantsmind.api.models import (
@@ -42,7 +40,6 @@ from quantsmind.api.models import (
     PolynomialRequest,
     SimulationRequest,
 )
-
 
 router = APIRouter()
 

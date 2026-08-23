@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -60,8 +59,8 @@ class AuditRecord:
         user: str,
         resource: str,
         action: str,
-        details: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        details: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an AuditRecord.
 
@@ -171,7 +170,7 @@ class AuditRecord:
         return self._action
 
     @property
-    def details(self) -> Dict[str, Any]:
+    def details(self) -> dict[str, Any]:
         """Get the details.
 
         Returns:
@@ -183,7 +182,7 @@ class AuditRecord:
         return self._details.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the record metadata.
 
         Returns:
@@ -218,7 +217,7 @@ class AuditRecord:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -268,7 +267,7 @@ class AuditLog:
     def __init__(
         self,
         audit_log_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an AuditLog.
 
@@ -283,7 +282,7 @@ class AuditLog:
             raise ProvenanceError("Audit log ID cannot be empty", {"audit_log_id": audit_log_id})
 
         self._id = audit_log_id
-        self._records: List[AuditRecord] = []
+        self._records: list[AuditRecord] = []
         self._metadata = metadata or {}
 
     @property
@@ -299,7 +298,7 @@ class AuditLog:
         return self._id
 
     @property
-    def records(self) -> List[AuditRecord]:
+    def records(self) -> list[AuditRecord]:
         """Get the audit records.
 
         Returns:
@@ -311,7 +310,7 @@ class AuditLog:
         return self._records.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the audit log metadata.
 
         Returns:
@@ -351,7 +350,7 @@ class AuditLog:
                 return True
         return False
 
-    def get_record(self, record_id: str) -> Optional[AuditRecord]:
+    def get_record(self, record_id: str) -> AuditRecord | None:
         """Get a record by ID.
 
         Args:
@@ -368,7 +367,7 @@ class AuditLog:
                 return record
         return None
 
-    def get_records_by_event_type(self, event_type: str) -> List[AuditRecord]:
+    def get_records_by_event_type(self, event_type: str) -> list[AuditRecord]:
         """Get records by event type.
 
         Args:
@@ -382,7 +381,7 @@ class AuditLog:
         """
         return [record for record in self._records if record.event_type == event_type]
 
-    def get_records_by_user(self, user: str) -> List[AuditRecord]:
+    def get_records_by_user(self, user: str) -> list[AuditRecord]:
         """Get records by user.
 
         Args:
@@ -396,7 +395,7 @@ class AuditLog:
         """
         return [record for record in self._records if record.user == user]
 
-    def get_records_by_resource(self, resource: str) -> List[AuditRecord]:
+    def get_records_by_resource(self, resource: str) -> list[AuditRecord]:
         """Get records by resource.
 
         Args:
@@ -410,7 +409,7 @@ class AuditLog:
         """
         return [record for record in self._records if record.resource == resource]
 
-    def get_records_by_time_range(self, start: datetime, end: datetime) -> List[AuditRecord]:
+    def get_records_by_time_range(self, start: datetime, end: datetime) -> list[AuditRecord]:
         """Get records within a time range.
 
         Args:
@@ -425,7 +424,7 @@ class AuditLog:
         """
         return [record for record in self._records if start <= record.timestamp <= end]
 
-    def get_records_by_action(self, action: str) -> List[AuditRecord]:
+    def get_records_by_action(self, action: str) -> list[AuditRecord]:
         """Get records by action.
 
         Args:
@@ -439,7 +438,7 @@ class AuditLog:
         """
         return [record for record in self._records if record.action == action]
 
-    def get_recent_records(self, limit: int = 10) -> List[AuditRecord]:
+    def get_recent_records(self, limit: int = 10) -> list[AuditRecord]:
         """Get recent records.
 
         Args:
@@ -454,7 +453,7 @@ class AuditLog:
         sorted_records = sorted(self._records, key=lambda r: r.timestamp, reverse=True)
         return sorted_records[:limit]
 
-    def get_audit_trail(self, resource: str) -> List[AuditRecord]:
+    def get_audit_trail(self, resource: str) -> list[AuditRecord]:
         """Get the audit trail for a resource.
 
         Args:
@@ -485,7 +484,7 @@ class AuditLog:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

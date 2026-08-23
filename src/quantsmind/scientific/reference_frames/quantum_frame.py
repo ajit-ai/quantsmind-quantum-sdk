@@ -25,7 +25,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IReferenceFrame
 from quantsmind.scientific.reference_frames.reference_frame import ReferenceFrame
@@ -54,8 +54,8 @@ class QuantumReferenceFrame(ReferenceFrame):
         frame_id: FrameID,
         name: str,
         description: str = "",
-        basis_state: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        basis_state: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumReferenceFrame.
 
@@ -127,7 +127,7 @@ class QuantumReferenceFrame(ReferenceFrame):
             "basis_state": self._basis_state,
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

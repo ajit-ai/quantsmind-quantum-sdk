@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -58,9 +57,9 @@ class Theory:
         theory_id: str,
         name: str,
         description: str,
-        principles: List[str],
+        principles: list[str],
         status: str = "proposed",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Theory.
 
@@ -91,8 +90,8 @@ class Theory:
         self._name = name
         self._description = description
         self._principles = principles
-        self._hypotheses: List[str] = []
-        self._evidence: List[str] = []
+        self._hypotheses: list[str] = []
+        self._evidence: list[str] = []
         self._status = status
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
@@ -134,7 +133,7 @@ class Theory:
         return self._description
 
     @property
-    def principles(self) -> List[str]:
+    def principles(self) -> list[str]:
         """Get the theory principles.
 
         Returns:
@@ -146,7 +145,7 @@ class Theory:
         return self._principles.copy()
 
     @property
-    def hypotheses(self) -> List[str]:
+    def hypotheses(self) -> list[str]:
         """Get the supporting hypotheses.
 
         Returns:
@@ -158,7 +157,7 @@ class Theory:
         return self._hypotheses.copy()
 
     @property
-    def evidence(self) -> List[str]:
+    def evidence(self) -> list[str]:
         """Get the supporting evidence.
 
         Returns:
@@ -194,7 +193,7 @@ class Theory:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the theory metadata.
 
         Returns:
@@ -325,7 +324,7 @@ class Theory:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

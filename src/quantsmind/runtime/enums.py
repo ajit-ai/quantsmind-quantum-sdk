@@ -24,7 +24,6 @@ typing (standard library)
 from __future__ import annotations
 
 import enum
-from typing import Literal
 
 
 class ExecutionState(enum.Enum):

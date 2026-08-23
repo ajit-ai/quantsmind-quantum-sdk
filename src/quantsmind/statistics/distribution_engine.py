@@ -32,9 +32,9 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
 import random
+from typing import Any
 
 
 class DistributionEngine:
@@ -54,8 +54,8 @@ class DistributionEngine:
     def __init__(
         self,
         name: str,
-        parameters: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DistributionEngine.
 
@@ -84,7 +84,7 @@ class DistributionEngine:
         return self._name
 
     @property
-    def parameters(self) -> Dict[str, float]:
+    def parameters(self) -> dict[str, float]:
         """Get the distribution parameters.
 
         Returns:
@@ -123,7 +123,7 @@ class DistributionEngine:
         """
         raise NotImplementedError("Subclasses must implement cdf")
 
-    def sample(self, n: int = 1) -> List[float]:
+    def sample(self, n: int = 1) -> list[float]:
         """Generate random samples.
 
         Args:
@@ -187,7 +187,7 @@ class NormalDistribution(DistributionEngine):
         self,
         mean: float = 0.0,
         std: float = 1.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a NormalDistribution.
 
@@ -235,7 +235,7 @@ class NormalDistribution(DistributionEngine):
         z = (x - self._mean) / (self._std * math.sqrt(2))
         return 0.5 * (1 + math.erf(z))
 
-    def sample(self, n: int = 1) -> List[float]:
+    def sample(self, n: int = 1) -> list[float]:
         """Generate random samples using Box-Muller transform.
 
         Args:
@@ -294,7 +294,7 @@ class BinomialDistribution(DistributionEngine):
         self,
         n: int,
         p: float,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BinomialDistribution.
 
@@ -351,7 +351,7 @@ class BinomialDistribution(DistributionEngine):
         """
         return sum(self.pdf(i) for i in range(k + 1))
 
-    def sample(self, n: int = 1) -> List[int]:
+    def sample(self, n: int = 1) -> list[int]:
         """Generate random samples.
 
         Args:
@@ -406,7 +406,7 @@ class PoissonDistribution(DistributionEngine):
     def __init__(
         self,
         lambda_param: float,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PoissonDistribution.
 
@@ -452,7 +452,7 @@ class PoissonDistribution(DistributionEngine):
         """
         return sum(self.pdf(i) for i in range(k + 1))
 
-    def sample(self, n: int = 1) -> List[int]:
+    def sample(self, n: int = 1) -> list[int]:
         """Generate random samples using Knuth's algorithm.
 
         Args:
@@ -514,7 +514,7 @@ class GammaDistribution(DistributionEngine):
         self,
         shape: float,
         scale: float = 1.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GammaDistribution.
 
@@ -577,7 +577,7 @@ class GammaDistribution(DistributionEngine):
         # Placeholder - real implementation would use incomplete gamma function
         return 0.5  # Simplified
 
-    def sample(self, n: int = 1) -> List[float]:
+    def sample(self, n: int = 1) -> list[float]:
         """Generate random samples (simplified).
 
         Args:
@@ -631,7 +631,7 @@ class BetaDistribution(DistributionEngine):
         self,
         alpha: float,
         beta: float,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BetaDistribution.
 
@@ -683,7 +683,7 @@ class BetaDistribution(DistributionEngine):
         # Placeholder - real implementation would use incomplete beta function
         return 0.5  # Simplified
 
-    def sample(self, n: int = 1) -> List[float]:
+    def sample(self, n: int = 1) -> list[float]:
         """Generate random samples (simplified).
 
         Args:
@@ -736,7 +736,7 @@ class ExponentialDistribution(DistributionEngine):
     def __init__(
         self,
         lambda_param: float,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ExponentialDistribution.
 
@@ -784,7 +784,7 @@ class ExponentialDistribution(DistributionEngine):
 
         return 1 - math.exp(-self._lambda * x)
 
-    def sample(self, n: int = 1) -> List[float]:
+    def sample(self, n: int = 1) -> list[float]:
         """Generate random samples using inverse transform.
 
         Args:

@@ -27,9 +27,9 @@ from __future__ import annotations
 
 import logging
 import sys
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import DEFAULT_LOG_FORMAT, DEFAULT_LOG_LEVEL
+from quantsmind.runtime.constants import DEFAULT_LOG_FORMAT
 from quantsmind.runtime.enums import LogLevel
 
 logger = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ class RuntimeLogger:
         """
         self._logger = logging.getLogger(name)
         self._logger.setLevel(getattr(logging, level.value))
-        self._context: Dict[str, Any] = {}
+        self._context: dict[str, Any] = {}
         
         # Configure handler if not already configured
         if not self._logger.handlers:
@@ -92,7 +92,7 @@ class RuntimeLogger:
         """
         self._context[key] = value
 
-    def _add_context(self, extra: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def _add_context(self, extra: dict[str, Any] | None = None) -> dict[str, Any]:
         """Add context to extra.
 
         Args:
@@ -105,7 +105,7 @@ class RuntimeLogger:
         result.update(self._context)
         return result
 
-    def debug(self, message: str, extra: Optional[Dict[str, Any]] = None) -> None:
+    def debug(self, message: str, extra: dict[str, Any] | None = None) -> None:
         """Log a debug message.
 
         Args:
@@ -117,7 +117,7 @@ class RuntimeLogger:
         """
         self._logger.debug(message, extra=self._add_context(extra))
 
-    def info(self, message: str, extra: Optional[Dict[str, Any]] = None) -> None:
+    def info(self, message: str, extra: dict[str, Any] | None = None) -> None:
         """Log an info message.
 
         Args:
@@ -129,7 +129,7 @@ class RuntimeLogger:
         """
         self._logger.info(message, extra=self._add_context(extra))
 
-    def warning(self, message: str, extra: Optional[Dict[str, Any]] = None) -> None:
+    def warning(self, message: str, extra: dict[str, Any] | None = None) -> None:
         """Log a warning message.
 
         Args:
@@ -141,7 +141,7 @@ class RuntimeLogger:
         """
         self._logger.warning(message, extra=self._add_context(extra))
 
-    def error(self, message: str, extra: Optional[Dict[str, Any]] = None, exc_info: bool = False) -> None:
+    def error(self, message: str, extra: dict[str, Any] | None = None, exc_info: bool = False) -> None:
         """Log an error message.
 
         Args:
@@ -154,7 +154,7 @@ class RuntimeLogger:
         """
         self._logger.error(message, extra=self._add_context(extra), exc_info=exc_info)
 
-    def critical(self, message: str, extra: Optional[Dict[str, Any]] = None, exc_info: bool = False) -> None:
+    def critical(self, message: str, extra: dict[str, Any] | None = None, exc_info: bool = False) -> None:
         """Log a critical message.
 
         Args:

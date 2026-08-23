@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -60,8 +59,8 @@ class Law:
         description: str,
         statement: str,
         domain: str,
-        conditions: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        conditions: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Law.
 
@@ -98,7 +97,7 @@ class Law:
         self._statement = statement
         self._domain = domain
         self._conditions = conditions or []
-        self._evidence: List[str] = []
+        self._evidence: list[str] = []
         self._timestamp = datetime.utcnow()
         self._metadata = metadata or {}
 
@@ -163,7 +162,7 @@ class Law:
         return self._domain
 
     @property
-    def conditions(self) -> List[str]:
+    def conditions(self) -> list[str]:
         """Get the applicable conditions.
 
         Returns:
@@ -175,7 +174,7 @@ class Law:
         return self._conditions.copy()
 
     @property
-    def evidence(self) -> List[str]:
+    def evidence(self) -> list[str]:
         """Get the supporting evidence.
 
         Returns:
@@ -199,7 +198,7 @@ class Law:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the law metadata.
 
         Returns:
@@ -294,7 +293,7 @@ class Law:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

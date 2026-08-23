@@ -40,3 +40,20 @@ Thumbs.db
 # Build artifacts
 *.log
 .cache/
+
+# Dependency / build trees (never track)
+node_modules/
+target/
+dist-newstyle/
+
+# Analysis scratch output (local lint/type runs)
+mypy_output.txt
+mypy_after*.txt
+ruff_output.txt
+ruff_after.txt
+ruff_after*.txt
+ruff_current.txt
+ruff_final.txt
+ruff_fix*.txt
+ruff_new.txt
+test_unittmp.txt

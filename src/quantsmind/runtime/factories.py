@@ -31,7 +31,7 @@ quantsmind.runtime.pipeline (pipeline)
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
 
 from quantsmind.runtime.context import ExecutionContext
 from quantsmind.runtime.job import Job
@@ -54,7 +54,7 @@ class RuntimeFactory:
         >>> session = factory.create_session()
     """
 
-    def create_session(self, config: Optional[ConfigDict] = None) -> RuntimeSession:
+    def create_session(self, config: ConfigDict | None = None) -> RuntimeSession:
         """Create a runtime session.
 
         Args:
@@ -73,7 +73,7 @@ class RuntimeFactory:
         logger.debug("Created runtime session")
         return session
 
-    def create_context(self, config: Optional[ConfigDict] = None) -> ExecutionContext:
+    def create_context(self, config: ConfigDict | None = None) -> ExecutionContext:
         """Create an execution context.
 
         Args:
@@ -95,9 +95,9 @@ class RuntimeFactory:
         self,
         name: str,
         func: Callable,
-        args: Optional[list] = None,
-        kwargs: Optional[dict] = None,
-        config: Optional[ConfigDict] = None,
+        args: list | None = None,
+        kwargs: dict | None = None,
+        config: ConfigDict | None = None,
     ) -> Task:
         """Create a task.
 
@@ -124,8 +124,8 @@ class RuntimeFactory:
     def create_job(
         self,
         name: str,
-        tasks: Optional[list] = None,
-        config: Optional[ConfigDict] = None,
+        tasks: list | None = None,
+        config: ConfigDict | None = None,
     ) -> Job:
         """Create a job.
 
@@ -153,8 +153,8 @@ class RuntimeFactory:
     def create_workflow(
         self,
         name: str,
-        jobs: Optional[list] = None,
-        config: Optional[ConfigDict] = None,
+        jobs: list | None = None,
+        config: ConfigDict | None = None,
     ) -> Workflow:
         """Create a workflow.
 
@@ -182,8 +182,8 @@ class RuntimeFactory:
     def create_pipeline(
         self,
         name: str,
-        workflows: Optional[list] = None,
-        config: Optional[ConfigDict] = None,
+        workflows: list | None = None,
+        config: ConfigDict | None = None,
     ) -> Pipeline:
         """Create a pipeline.
 

@@ -26,8 +26,7 @@ quantsmind.quantum.gate.gate (gate module)
 
 from __future__ import annotations
 
-import math
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.constants import (
     GATE_H,
@@ -48,7 +47,6 @@ from quantsmind.quantum.algorithms.constants import (
     T_GATE_MATRIX,
 )
 from quantsmind.quantum.algorithms.enums import GateType
-from quantsmind.quantum.algorithms.exceptions import GateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.gate.gate import QuantumGate
 
@@ -72,8 +70,8 @@ class SingleQubitGate(QuantumGate):
     def __init__(
         self,
         name: str,
-        parameters: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SingleQubitGate.
 
@@ -144,7 +142,7 @@ class IdentityGate(SingleQubitGate):
         >>> gate = IdentityGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an IdentityGate.
 
         Args:
@@ -165,7 +163,7 @@ class PauliXGate(SingleQubitGate):
         >>> gate = PauliXGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliXGate.
 
         Args:
@@ -186,7 +184,7 @@ class PauliYGate(SingleQubitGate):
         >>> gate = PauliYGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliYGate.
 
         Args:
@@ -207,7 +205,7 @@ class PauliZGate(SingleQubitGate):
         >>> gate = PauliZGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a PauliZGate.
 
         Args:
@@ -228,7 +226,7 @@ class HadamardGate(SingleQubitGate):
         >>> gate = HadamardGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a HadamardGate.
 
         Args:
@@ -249,7 +247,7 @@ class SGate(SingleQubitGate):
         >>> gate = SGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an SGate.
 
         Args:
@@ -270,7 +268,7 @@ class TGate(SingleQubitGate):
         >>> gate = TGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a TGate.
 
         Args:
@@ -291,7 +289,7 @@ class SXGate(SingleQubitGate):
         >>> gate = SXGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an SXGate.
 
         Args:

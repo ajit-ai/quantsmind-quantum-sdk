@@ -24,7 +24,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import QubitError
 from quantsmind.quantum.algorithms.interfaces import IQubit
@@ -49,7 +49,7 @@ class Qubit(IQubit):
     def __init__(
         self,
         index: QubitIndex,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Qubit.
 
@@ -92,7 +92,7 @@ class Qubit(IQubit):
         return self._state
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the qubit metadata.
 
         Returns:
@@ -143,7 +143,7 @@ class Qubit(IQubit):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

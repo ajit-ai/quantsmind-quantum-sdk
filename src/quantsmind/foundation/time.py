@@ -44,14 +44,11 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_TIME_TYPE
 from quantsmind.foundation.enums import TimeType
 from quantsmind.foundation.exceptions import (
     InvalidTimeError,
-    TimeConversionError,
-    TimeError,
     TimeReferenceError,
 )
 from quantsmind.foundation.interfaces import (
@@ -60,7 +57,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -92,10 +88,10 @@ class Time(Serializable, Validatable):
 
     def __init__(
         self,
-        value: Optional[Any] = None,
+        value: Any | None = None,
         time_type: TimeType = TimeType.CONTINUOUS,
-        reference: Optional[datetime] = None,
-        metadata: Optional[MetadataDict] = None,
+        reference: datetime | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Time.
 
@@ -112,7 +108,7 @@ class Time(Serializable, Validatable):
             >>> time = Time(value=datetime.now(), time_type=TimeType.CONTINUOUS)
         """
         self._time_type: TimeType = time_type
-        self._reference: Optional[datetime] = reference
+        self._reference: datetime | None = reference
         self._metadata: MetadataDict = metadata or {}
 
         if value is None:
@@ -168,7 +164,7 @@ class Time(Serializable, Validatable):
         return self._time_type
 
     @property
-    def reference(self) -> Optional[datetime]:
+    def reference(self) -> datetime | None:
         """Get the reference time.
 
         Returns:
@@ -251,7 +247,7 @@ class Time(Serializable, Validatable):
         logger.debug(f"Updated time reference: {reference}")
 
     # Time conversion methods
-    def to_continuous(self) -> "Time":
+    def to_continuous(self) -> Time:
         """Convert to continuous time.
 
         Returns:
@@ -274,7 +270,7 @@ class Time(Serializable, Validatable):
         new_value = self._reference + delta
         return Time(value=new_value, time_type=TimeType.CONTINUOUS, reference=self._reference)
 
-    def to_discrete(self, step_size: float = 1.0) -> "Time":
+    def to_discrete(self, step_size: float = 1.0) -> Time:
         """Convert to discrete time.
 
         Args:
@@ -333,7 +329,7 @@ class Time(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Time":
+    def deserialize(cls, data: bytes, format: str = "json") -> Time:
         """Deserialize the time from bytes.
 
         Args:

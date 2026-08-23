@@ -29,7 +29,8 @@ abc (standard library)
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.types import (
     DatasetData,
@@ -39,13 +40,10 @@ from quantsmind.knowledge.types import (
     Explanation,
     GraphID,
     InferenceID,
-    KnowledgeGraph,
     KnowledgeItemData,
     KnowledgeItemID,
     MetadataDict,
     NodeData,
-    ObservationData,
-    ObservationID,
     Path,
     Prediction,
     ProvenanceChain,
@@ -144,7 +142,7 @@ class IDataset(ABC):
         pass
 
     @abstractmethod
-    def add_record(self, record: Dict[str, Any]) -> None:
+    def add_record(self, record: dict[str, Any]) -> None:
         """Add a record to the dataset.
 
         Args:
@@ -156,7 +154,7 @@ class IDataset(ABC):
         pass
 
     @abstractmethod
-    def get_record(self, record_id: str) -> Optional[Dict[str, Any]]:
+    def get_record(self, record_id: str) -> dict[str, Any] | None:
         """Get a record from the dataset.
 
         Args:
@@ -171,7 +169,7 @@ class IDataset(ABC):
         pass
 
     @abstractmethod
-    def query(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def query(self, query: dict[str, Any]) -> list[dict[str, Any]]:
         """Query the dataset.
 
         Args:
@@ -293,7 +291,7 @@ class IMetadata(ABC):
         pass
 
     @abstractmethod
-    def keys(self) -> List[str]:
+    def keys(self) -> list[str]:
         """Get all metadata keys.
 
         Returns:
@@ -305,7 +303,7 @@ class IMetadata(ABC):
         pass
 
     @abstractmethod
-    def values(self) -> List[Any]:
+    def values(self) -> list[Any]:
         """Get all metadata values.
 
         Returns:
@@ -317,7 +315,7 @@ class IMetadata(ABC):
         pass
 
     @abstractmethod
-    def items(self) -> List[Tuple[str, Any]]:
+    def items(self) -> list[tuple[str, Any]]:
         """Get all metadata items.
 
         Returns:
@@ -361,7 +359,7 @@ class IOntology(ABC):
     """
 
     @abstractmethod
-    def add_concept(self, concept_id: str, concept_data: Dict[str, Any]) -> None:
+    def add_concept(self, concept_id: str, concept_data: dict[str, Any]) -> None:
         """Add a concept to the ontology.
 
         Args:
@@ -374,7 +372,7 @@ class IOntology(ABC):
         pass
 
     @abstractmethod
-    def get_concept(self, concept_id: str) -> Optional[Dict[str, Any]]:
+    def get_concept(self, concept_id: str) -> dict[str, Any] | None:
         """Get a concept from the ontology.
 
         Args:
@@ -403,7 +401,7 @@ class IOntology(ABC):
         pass
 
     @abstractmethod
-    def get_relations(self, concept_id: str) -> List[Tuple[str, str]]:
+    def get_relations(self, concept_id: str) -> list[tuple[str, str]]:
         """Get relations for a concept.
 
         Args:
@@ -418,7 +416,7 @@ class IOntology(ABC):
         pass
 
     @abstractmethod
-    def traverse(self, start: str, max_depth: int = 3) -> List[str]:
+    def traverse(self, start: str, max_depth: int = 3) -> list[str]:
         """Traverse the ontology.
 
         Args:
@@ -481,7 +479,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def add_node(self, node_id: str, data: Optional[NodeData] = None) -> None:
+    def add_node(self, node_id: str, data: NodeData | None = None) -> None:
         """Add a node to the graph.
 
         Args:
@@ -494,7 +492,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def add_edge(self, source: str, target: str, data: Optional[EdgeData] = None) -> None:
+    def add_edge(self, source: str, target: str, data: EdgeData | None = None) -> None:
         """Add an edge to the graph.
 
         Args:
@@ -508,7 +506,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def get_node(self, node_id: str) -> Optional[NodeData]:
+    def get_node(self, node_id: str) -> NodeData | None:
         """Get a node from the graph.
 
         Args:
@@ -523,7 +521,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def get_edge(self, source: str, target: str) -> Optional[EdgeData]:
+    def get_edge(self, source: str, target: str) -> EdgeData | None:
         """Get an edge from the graph.
 
         Args:
@@ -539,7 +537,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def neighbors(self, node_id: str) -> List[str]:
+    def neighbors(self, node_id: str) -> list[str]:
         """Get neighbors of a node.
 
         Args:
@@ -554,7 +552,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def shortest_path(self, source: str, target: str) -> Optional[Path]:
+    def shortest_path(self, source: str, target: str) -> Path | None:
         """Find shortest path between nodes.
 
         Args:
@@ -570,7 +568,7 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def traverse(self, start: str, max_depth: int = 3) -> List[str]:
+    def traverse(self, start: str, max_depth: int = 3) -> list[str]:
         """Traverse the graph.
 
         Args:
@@ -605,7 +603,7 @@ class IProvenance(ABC):
     """
 
     @abstractmethod
-    def record_origin(self, data_id: str, source: str, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def record_origin(self, data_id: str, source: str, metadata: dict[str, Any] | None = None) -> None:
         """Record data origin.
 
         Args:
@@ -619,7 +617,7 @@ class IProvenance(ABC):
         pass
 
     @abstractmethod
-    def get_provenance(self, data_id: str) -> Optional[ProvenanceChain]:
+    def get_provenance(self, data_id: str) -> ProvenanceChain | None:
         """Get provenance chain for data.
 
         Args:
@@ -634,7 +632,7 @@ class IProvenance(ABC):
         pass
 
     @abstractmethod
-    def trace_lineage(self, data_id: str) -> List[str]:
+    def trace_lineage(self, data_id: str) -> list[str]:
         """Trace data lineage.
 
         Args:
@@ -649,7 +647,7 @@ class IProvenance(ABC):
         pass
 
     @abstractmethod
-    def add_transformation(self, data_id: str, transformation: str, input_ids: List[str]) -> None:
+    def add_transformation(self, data_id: str, transformation: str, input_ids: list[str]) -> None:
         """Add transformation record.
 
         Args:
@@ -694,7 +692,7 @@ class IReasoner(ABC):
     """
 
     @abstractmethod
-    def infer(self, facts: List[Dict[str, Any]], query: str) -> InferenceID:
+    def infer(self, facts: list[dict[str, Any]], query: str) -> InferenceID:
         """Perform inference.
 
         Args:
@@ -725,7 +723,7 @@ class IReasoner(ABC):
         pass
 
     @abstractmethod
-    def predict(self, context: Dict[str, Any]) -> Prediction:
+    def predict(self, context: dict[str, Any]) -> Prediction:
         """Generate prediction.
 
         Args:
@@ -740,7 +738,7 @@ class IReasoner(ABC):
         pass
 
     @abstractmethod
-    def add_rule(self, rule: Dict[str, Any]) -> None:
+    def add_rule(self, rule: dict[str, Any]) -> None:
         """Add reasoning rule.
 
         Args:
@@ -797,7 +795,7 @@ class IRepository(ABC):
         pass
 
     @abstractmethod
-    def retrieve(self, item_id: KnowledgeItemID) -> Optional[KnowledgeItemData]:
+    def retrieve(self, item_id: KnowledgeItemID) -> KnowledgeItemData | None:
         """Retrieve a knowledge item.
 
         Args:
@@ -893,7 +891,7 @@ class ISearchEngine(ABC):
     """
 
     @abstractmethod
-    def index(self, doc_id: str, document: Dict[str, Any]) -> None:
+    def index(self, doc_id: str, document: dict[str, Any]) -> None:
         """Index a document.
 
         Args:
@@ -937,7 +935,7 @@ class ISearchEngine(ABC):
         pass
 
     @abstractmethod
-    def update(self, doc_id: str, document: Dict[str, Any]) -> bool:
+    def update(self, doc_id: str, document: dict[str, Any]) -> bool:
         """Update document in index.
 
         Args:
@@ -953,7 +951,7 @@ class ISearchEngine(ABC):
         pass
 
     @abstractmethod
-    def get_index_stats(self) -> Dict[str, Any]:
+    def get_index_stats(self) -> dict[str, Any]:
         """Get index statistics.
 
         Returns:
@@ -998,7 +996,7 @@ class ITransformer(ABC):
         pass
 
     @abstractmethod
-    def apply(self, data: List[Any]) -> List[Any]:
+    def apply(self, data: list[Any]) -> list[Any]:
         """Apply transformation to data list.
 
         Args:
@@ -1013,7 +1011,7 @@ class ITransformer(ABC):
         pass
 
     @abstractmethod
-    def compose(self, other: "ITransformer") -> "ITransformer":
+    def compose(self, other: ITransformer) -> ITransformer:
         """Compose with another transformer.
 
         Args:
@@ -1101,7 +1099,7 @@ class IValidator(ABC):
         pass
 
     @abstractmethod
-    def get_rules(self) -> List[str]:
+    def get_rules(self) -> list[str]:
         """Get validation rules.
 
         Returns:
@@ -1113,7 +1111,7 @@ class IValidator(ABC):
         pass
 
     @abstractmethod
-    def validate_schema(self, schema: Dict[str, Any], data: Any) -> ValidationResult:
+    def validate_schema(self, schema: dict[str, Any], data: Any) -> ValidationResult:
         """Validate against schema.
 
         Args:

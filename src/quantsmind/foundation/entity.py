@@ -47,12 +47,10 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_ENTITY_TYPE
 from quantsmind.foundation.enums import EntityType
 from quantsmind.foundation.exceptions import (
-    EntityError,
     InvalidEntityError,
 )
 from quantsmind.foundation.identity import Identity
@@ -64,9 +62,7 @@ from quantsmind.foundation.lifecycle import Lifecycle
 from quantsmind.foundation.property import Property
 from quantsmind.foundation.state import State
 from quantsmind.foundation.types import (
-    EntityID,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -101,11 +97,11 @@ class Entity(Serializable, Validatable):
     def __init__(
         self,
         entity_type: EntityType = EntityType.GENERIC,
-        identity: Optional[Identity] = None,
-        properties: Optional[Dict[str, Property]] = None,
-        state: Optional[State] = None,
-        lifecycle: Optional[Lifecycle] = None,
-        metadata: Optional[MetadataDict] = None,
+        identity: Identity | None = None,
+        properties: dict[str, Property] | None = None,
+        state: State | None = None,
+        lifecycle: Lifecycle | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize an Entity.
 
@@ -122,8 +118,8 @@ class Entity(Serializable, Validatable):
         """
         self._identity: Identity = identity or Identity()
         self._entity_type: EntityType = entity_type
-        self._properties: Dict[str, Property] = properties or {}
-        self._state: Optional[State] = state
+        self._properties: dict[str, Property] = properties or {}
+        self._state: State | None = state
         self._lifecycle: Lifecycle = lifecycle or Lifecycle()
         self._metadata: MetadataDict = metadata or {}
 
@@ -154,7 +150,7 @@ class Entity(Serializable, Validatable):
         return self._entity_type
 
     @property
-    def properties(self) -> Dict[str, Property]:
+    def properties(self) -> dict[str, Property]:
         """Get the entity properties.
 
         Returns:
@@ -166,7 +162,7 @@ class Entity(Serializable, Validatable):
         return self._properties.copy()
 
     @property
-    def state(self) -> Optional[State]:
+    def state(self) -> State | None:
         """Get the entity state.
 
         Returns:
@@ -229,7 +225,7 @@ class Entity(Serializable, Validatable):
         del self._properties[name]
         logger.debug(f"Removed property {name} from entity {self._identity.id}")
 
-    def get_property(self, name: str) -> Optional[Property]:
+    def get_property(self, name: str) -> Property | None:
         """Get a property by name.
 
         Args:
@@ -291,7 +287,7 @@ class Entity(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Entity":
+    def deserialize(cls, data: bytes, format: str = "json") -> Entity:
         """Deserialize the entity from bytes.
 
         Args:

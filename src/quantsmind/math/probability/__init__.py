@@ -37,7 +37,8 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, List, Optional, Union
+from collections.abc import Callable
+from typing import Any, Dict, List, Optional, Union
 
 from quantsmind.math.exceptions import ProbabilityError
 from quantsmind.math.types import Probability, Scalar
@@ -143,7 +144,7 @@ class Probability:
         """
         return hash(self._value)
 
-    def __add__(self, other: Union[Probability, float]) -> Probability:
+    def __add__(self, other: Probability | float) -> Probability:
         """Add probabilities.
 
         Args:
@@ -164,7 +165,7 @@ class Probability:
             value = self._value + other
         return Probability(value)
 
-    def __sub__(self, other: Union[Probability, float]) -> Probability:
+    def __sub__(self, other: Probability | float) -> Probability:
         """Subtract probabilities.
 
         Args:
@@ -185,7 +186,7 @@ class Probability:
             value = self._value - other
         return Probability(value)
 
-    def __mul__(self, other: Union[Probability, float]) -> Probability:
+    def __mul__(self, other: Probability | float) -> Probability:
         """Multiply probabilities.
 
         Args:
@@ -325,7 +326,7 @@ class RandomVariable:
         >>> rv = RandomVariable("X", [1, 2, 3], [0.2, 0.5, 0.3])
     """
 
-    def __init__(self, name: str, values: List[Scalar], probabilities: List[float]) -> None:
+    def __init__(self, name: str, values: list[Scalar], probabilities: list[float]) -> None:
         """Initialize a RandomVariable.
 
         Args:
@@ -362,7 +363,7 @@ class RandomVariable:
         return self._name
 
     @property
-    def values(self) -> List[Scalar]:
+    def values(self) -> list[Scalar]:
         """Get the possible values.
 
         Returns:
@@ -374,7 +375,7 @@ class RandomVariable:
         return self._values.copy()
 
     @property
-    def probabilities(self) -> List[Probability]:
+    def probabilities(self) -> list[Probability]:
         """Get the associated probabilities.
 
         Returns:
@@ -394,7 +395,7 @@ class RandomVariable:
         Example:
             >>> ev = rv.expected_value()
         """
-        return sum(v * p.value for v, p in zip(self._values, self._probabilities))
+        return sum(v * p.value for v, p in zip(self._values, self._probabilities, strict=False))
 
     def variance(self) -> float:
         """Calculate the variance.
@@ -406,7 +407,7 @@ class RandomVariable:
             >>> var = rv.variance()
         """
         ev = self.expected_value()
-        return sum(p.value * (v - ev) ** 2 for v, p in zip(self._values, self._probabilities))
+        return sum(p.value * (v - ev) ** 2 for v, p in zip(self._values, self._probabilities, strict=False))
 
     def __repr__(self) -> str:
         """Return string representation.

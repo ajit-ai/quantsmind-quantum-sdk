@@ -25,15 +25,13 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from quantsmind.knowledge.enums import GraphType
 from quantsmind.knowledge.exceptions import GraphError
 from quantsmind.knowledge.graph.knowledge_graph import KnowledgeGraph
 from quantsmind.knowledge.types import (
-    EdgeData,
     GraphID,
-    NodeData,
     ValidationResult,
 )
 
@@ -56,7 +54,7 @@ class DependencyGraph(KnowledgeGraph):
         self,
         graph_id: GraphID,
         directed: bool = True,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DependencyGraph.
 
@@ -69,11 +67,11 @@ class DependencyGraph(KnowledgeGraph):
             >>> graph = DependencyGraph("dep_graph_001")
         """
         super().__init__(graph_id, GraphType.DEPENDENCY, metadata)
-        self._dependency_types: Dict[str, Dict[str, Any]] = {}
+        self._dependency_types: dict[str, dict[str, Any]] = {}
         self._directed = directed
 
     @property
-    def dependency_types(self) -> Dict[str, Dict[str, Any]]:
+    def dependency_types(self) -> dict[str, dict[str, Any]]:
         """Get the dependency types.
 
         Returns:
@@ -96,7 +94,7 @@ class DependencyGraph(KnowledgeGraph):
         """
         return self._directed
 
-    def add_dependency_type(self, dep_type: str, description: Optional[str] = None, transitive: bool = False) -> None:
+    def add_dependency_type(self, dep_type: str, description: str | None = None, transitive: bool = False) -> None:
         """Add a dependency type definition.
 
         Args:
@@ -112,7 +110,7 @@ class DependencyGraph(KnowledgeGraph):
             "transitive": transitive,
         }
 
-    def add_dependency(self, source: str, target: str, dep_type: str, attributes: Optional[Dict[str, Any]] = None) -> None:
+    def add_dependency(self, source: str, target: str, dep_type: str, attributes: dict[str, Any] | None = None) -> None:
         """Add a dependency to the graph.
 
         Args:
@@ -133,7 +131,7 @@ class DependencyGraph(KnowledgeGraph):
         edge_data = {"dependency_type": dep_type, **(attributes or {})}
         self.add_edge(source, target, edge_data)
 
-    def remove_dependency(self, source: str, target: str, dep_type: Optional[str] = None) -> bool:
+    def remove_dependency(self, source: str, target: str, dep_type: str | None = None) -> bool:
         """Remove a dependency from the graph.
 
         Args:
@@ -158,7 +156,7 @@ class DependencyGraph(KnowledgeGraph):
 
         return removed
 
-    def get_dependencies(self, item_id: str, dep_type: Optional[str] = None) -> List[tuple[str, str, Dict[str, Any]]]:
+    def get_dependencies(self, item_id: str, dep_type: str | None = None) -> list[tuple[str, str, dict[str, Any]]]:
         """Get dependencies for an item.
 
         Args:
@@ -180,7 +178,7 @@ class DependencyGraph(KnowledgeGraph):
                     dependencies.append((neighbor, current_dep_type, edge_data))
         return dependencies
 
-    def get_dependents(self, item_id: str, dep_type: Optional[str] = None) -> List[str]:
+    def get_dependents(self, item_id: str, dep_type: str | None = None) -> list[str]:
         """Get items that depend on this item.
 
         Args:
@@ -201,7 +199,7 @@ class DependencyGraph(KnowledgeGraph):
                     dependents.append(source)
         return dependents
 
-    def get_all_dependencies(self, item_id: str, dep_type: Optional[str] = None) -> Set[str]:
+    def get_all_dependencies(self, item_id: str, dep_type: str | None = None) -> set[str]:
         """Get all transitive dependencies for an item.
 
         Args:
@@ -235,7 +233,7 @@ class DependencyGraph(KnowledgeGraph):
 
         return all_deps
 
-    def get_all_dependents(self, item_id: str, dep_type: Optional[str] = None) -> Set[str]:
+    def get_all_dependents(self, item_id: str, dep_type: str | None = None) -> set[str]:
         """Get all transitive dependents for an item.
 
         Args:
@@ -268,7 +266,7 @@ class DependencyGraph(KnowledgeGraph):
 
         return all_dependents
 
-    def detect_cycles(self) -> List[List[str]]:
+    def detect_cycles(self) -> list[list[str]]:
         """Detect cycles in the dependency graph.
 
         Returns:
@@ -281,7 +279,7 @@ class DependencyGraph(KnowledgeGraph):
         visited = set()
         rec_stack = set()
 
-        def dfs(node: str, path: List[str]) -> bool:
+        def dfs(node: str, path: list[str]) -> bool:
             visited.add(node)
             rec_stack.add(node)
             path.append(node)
@@ -302,13 +300,12 @@ class DependencyGraph(KnowledgeGraph):
             return False
 
         for node in self._nodes:
-            if node not in visited:
-                if dfs(node, []):
-                    pass
+            if node not in visited and dfs(node, []):
+                pass
 
         return cycles
 
-    def topological_sort(self) -> Optional[List[str]]:
+    def topological_sort(self) -> list[str] | None:
         """Perform topological sort of the graph.
 
         Returns:
@@ -321,7 +318,7 @@ class DependencyGraph(KnowledgeGraph):
             return None
 
         in_degree = {node: 0 for node in self._nodes}
-        for (source, target) in self._edges.keys():
+        for (_source, target) in self._edges:
             in_degree[target] += 1
 
         queue = [node for node, degree in in_degree.items() if degree == 0]
@@ -341,7 +338,7 @@ class DependencyGraph(KnowledgeGraph):
 
         return result
 
-    def resolve_dependencies(self, item_id: str) -> List[str]:
+    def resolve_dependencies(self, item_id: str) -> list[str]:
         """Get dependency resolution order for an item.
 
         Args:
@@ -379,7 +376,7 @@ class DependencyGraph(KnowledgeGraph):
         errors.extend(base_errors)
 
         # Validate dependency types
-        for (source, target), edge_data in self._edges.items():
+        for (_source, _target), edge_data in self._edges.items():
             dep_type = edge_data.get("dependency_type")
             if dep_type and dep_type not in self._dependency_types:
                 errors.append(f"Unknown dependency type: {dep_type}")
@@ -391,7 +388,7 @@ class DependencyGraph(KnowledgeGraph):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

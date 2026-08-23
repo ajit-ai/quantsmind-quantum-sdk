@@ -25,7 +25,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class AlgorithmAdvisor:
@@ -47,7 +47,7 @@ class AlgorithmAdvisor:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an AlgorithmAdvisor.
 
@@ -59,8 +59,8 @@ class AlgorithmAdvisor:
             >>> advisor = AlgorithmAdvisor()
         """
         self._name = name
-        self._algorithm_database: Dict[str, Dict[str, Any]] = {}
-        self._recommendation_history: List[Dict[str, Any]] = []
+        self._algorithm_database: dict[str, dict[str, Any]] = {}
+        self._recommendation_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -78,8 +78,8 @@ class AlgorithmAdvisor:
     def recommend_algorithm(
         self,
         problem_type: str,
-        constraints: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        constraints: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Recommend an algorithm for a problem.
 
         Args:
@@ -109,8 +109,8 @@ class AlgorithmAdvisor:
     def _find_algorithms(
         self,
         problem_type: str,
-        constraints: Optional[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        constraints: dict[str, Any] | None,
+    ) -> list[dict[str, Any]]:
         """Find algorithms suitable for the problem.
 
         Args:
@@ -178,9 +178,9 @@ class AlgorithmAdvisor:
 
     def _rank_algorithms(
         self,
-        algorithms: List[Dict[str, Any]],
-        constraints: Optional[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        algorithms: list[dict[str, Any]],
+        constraints: dict[str, Any] | None,
+    ) -> list[dict[str, Any]]:
         """Rank algorithms based on constraints.
 
         Args:
@@ -197,7 +197,7 @@ class AlgorithmAdvisor:
         # Real implementation would consider more factors
         return algorithms
 
-    def _explain_recommendation(self, algorithm: Optional[Dict[str, Any]]) -> str:
+    def _explain_recommendation(self, algorithm: dict[str, Any] | None) -> str:
         """Explain the recommendation.
 
         Args:
@@ -220,9 +220,9 @@ class AlgorithmAdvisor:
 
     def compare_algorithms(
         self,
-        algorithms: List[str],
+        algorithms: list[str],
         problem_type: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Compare multiple algorithms.
 
         Args:
@@ -250,7 +250,7 @@ class AlgorithmAdvisor:
 
         return comparison
 
-    def analyze_complexity(self, algorithm: str) -> Dict[str, str]:
+    def analyze_complexity(self, algorithm: str) -> dict[str, str]:
         """Analyze algorithm complexity.
 
         Args:
@@ -279,7 +279,7 @@ class AlgorithmAdvisor:
 
         return complexities.get(algorithm, {"time": "Unknown", "space": "Unknown"})
 
-    def suggest_optimization(self, algorithm: str) -> List[str]:
+    def suggest_optimization(self, algorithm: str) -> list[str]:
         """Suggest optimizations for an algorithm.
 
         Args:
@@ -309,7 +309,7 @@ class AlgorithmAdvisor:
 
         return suggestions
 
-    def get_recommendation_history(self) -> List[Dict[str, Any]]:
+    def get_recommendation_history(self) -> list[dict[str, Any]]:
         """Get the recommendation history.
 
         Returns:

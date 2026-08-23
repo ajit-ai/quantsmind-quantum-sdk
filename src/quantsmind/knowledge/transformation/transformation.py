@@ -24,7 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import TransformationType
 from quantsmind.knowledge.exceptions import TransformationError
@@ -54,9 +55,9 @@ class Transformation:
         transformation_id: str,
         name: str,
         transformation_type: TransformationType,
-        transform_function: Optional[Callable[[Any], Any]] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        transform_function: Callable[[Any], Any] | None = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Transformation.
 
@@ -121,7 +122,7 @@ class Transformation:
         return self._transformation_type
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the transformation parameters.
 
         Returns:
@@ -133,7 +134,7 @@ class Transformation:
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the transformation metadata.
 
         Returns:
@@ -206,7 +207,7 @@ class Transformation:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

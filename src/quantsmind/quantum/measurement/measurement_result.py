@@ -23,7 +23,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import MeasurementError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -48,7 +48,7 @@ class MeasurementResult:
     def __init__(
         self,
         shots: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MeasurementResult.
 
@@ -63,8 +63,8 @@ class MeasurementResult:
             raise MeasurementError("Number of shots must be positive", {"shots": shots})
 
         self._shots = shots
-        self._counts: Dict[str, int] = {}
-        self._probabilities: Dict[str, float] = {}
+        self._counts: dict[str, int] = {}
+        self._probabilities: dict[str, float] = {}
         self._metadata = metadata or {}
 
     @property
@@ -80,7 +80,7 @@ class MeasurementResult:
         return self._shots
 
     @property
-    def counts(self) -> Dict[str, int]:
+    def counts(self) -> dict[str, int]:
         """Get the measurement counts.
 
         Returns:
@@ -92,7 +92,7 @@ class MeasurementResult:
         return self._counts.copy()
 
     @property
-    def probabilities(self) -> Dict[str, float]:
+    def probabilities(self) -> dict[str, float]:
         """Get the measurement probabilities.
 
         Returns:
@@ -104,7 +104,7 @@ class MeasurementResult:
         return self._probabilities.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the result metadata.
 
         Returns:
@@ -173,7 +173,7 @@ class MeasurementResult:
 
         return max(self._counts, key=self._counts.get)
 
-    def get_outcomes(self) -> List[str]:
+    def get_outcomes(self) -> list[str]:
         """Get all possible outcomes.
 
         Returns:
@@ -209,7 +209,7 @@ class MeasurementResult:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

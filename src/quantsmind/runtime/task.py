@@ -30,8 +30,9 @@ from __future__ import annotations
 
 import logging
 import uuid
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.runtime.constants import (
     DEFAULT_RETRY_COUNT,
@@ -40,8 +41,8 @@ from quantsmind.runtime.constants import (
     RUNTIME_VERSION,
 )
 from quantsmind.runtime.enums import ExecutionState, RetryPolicy, TaskPriority
-from quantsmind.runtime.exceptions import TaskError, ValidationError
-from quantsmind.runtime.types import Callback, ConfigDict, ExecutionID, ExecutionResult, TaskID
+from quantsmind.runtime.exceptions import TaskError
+from quantsmind.runtime.types import ExecutionResult, TaskID
 
 logger = logging.getLogger(__name__)
 
@@ -80,15 +81,15 @@ class Task:
         self,
         name: str,
         func: Callable[..., ExecutionResult],
-        args: Optional[List[Any]] = None,
-        kwargs: Optional[Dict[str, Any]] = None,
+        args: list[Any] | None = None,
+        kwargs: dict[str, Any] | None = None,
         priority: TaskPriority = TaskPriority.NORMAL,
         timeout: float = DEFAULT_TIMEOUT,
         retry_policy: RetryPolicy = RetryPolicy.NONE,
         retry_count: int = DEFAULT_RETRY_COUNT,
         retry_delay: float = DEFAULT_RETRY_DELAY,
-        dependencies: Optional[List[TaskID]] = None,
-        task_id: Optional[TaskID] = None,
+        dependencies: list[TaskID] | None = None,
+        task_id: TaskID | None = None,
     ) -> None:
         """Initialize a Task.
 
@@ -120,12 +121,12 @@ class Task:
         self._retry_count = retry_count
         self._retry_delay = retry_delay
         self._dependencies = dependencies or []
-        self._result: Optional[ExecutionResult] = None
-        self._error: Optional[Exception] = None
+        self._result: ExecutionResult | None = None
+        self._error: Exception | None = None
         self._created_at = datetime.utcnow()
-        self._started_at: Optional[datetime] = None
-        self._completed_at: Optional[datetime] = None
-        self._metadata: Dict[str, Any] = {
+        self._started_at: datetime | None = None
+        self._completed_at: datetime | None = None
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created task: {self._task_id}")
@@ -191,7 +192,7 @@ class Task:
         return self._timeout
 
     @property
-    def dependencies(self) -> List[TaskID]:
+    def dependencies(self) -> list[TaskID]:
         """Get the task dependencies.
 
         Returns:
@@ -203,7 +204,7 @@ class Task:
         return self._dependencies.copy()
 
     @property
-    def result(self) -> Optional[ExecutionResult]:
+    def result(self) -> ExecutionResult | None:
         """Get the task result.
 
         Returns:
@@ -215,7 +216,7 @@ class Task:
         return self._result
 
     @property
-    def error(self) -> Optional[Exception]:
+    def error(self) -> Exception | None:
         """Get the task error.
 
         Returns:
@@ -239,7 +240,7 @@ class Task:
         """
         return self._state in [ExecutionState.COMPLETED, ExecutionState.FAILED, ExecutionState.CANCELLED]
 
-    def validate(self) -> Tuple[bool, List[str]]:
+    def validate(self) -> tuple[bool, list[str]]:
         """Validate the task.
 
         Returns:
@@ -339,7 +340,7 @@ class Task:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert task to dictionary.
 
         Returns:

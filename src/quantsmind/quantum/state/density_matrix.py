@@ -25,10 +25,10 @@ quantsmind.quantum.state.quantum_state (quantum state module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.enums import StateType
+from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.state.quantum_state import QuantumState
 
@@ -52,8 +52,8 @@ class DensityMatrix(QuantumState):
     def __init__(
         self,
         num_qubits: int,
-        matrix: Optional[List[List[complex]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        matrix: list[list[complex]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DensityMatrix.
 
@@ -73,7 +73,7 @@ class DensityMatrix(QuantumState):
             self.initialize_pure_zero()
 
     @property
-    def matrix(self) -> List[List[complex]]:
+    def matrix(self) -> list[list[complex]]:
         """Get the density matrix.
 
         Returns:
@@ -96,7 +96,7 @@ class DensityMatrix(QuantumState):
         """
         return self._state_type
 
-    def set_matrix(self, matrix: List[List[complex]]) -> None:
+    def set_matrix(self, matrix: list[list[complex]]) -> None:
         """Set the density matrix.
 
         Args:
@@ -275,7 +275,7 @@ class DensityMatrix(QuantumState):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

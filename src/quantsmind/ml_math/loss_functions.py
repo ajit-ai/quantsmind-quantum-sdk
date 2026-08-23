@@ -30,8 +30,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class LossFunction:
@@ -53,7 +53,7 @@ class LossFunction:
         self,
         name: str,
         reduction: str = "mean",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LossFunction.
 
@@ -95,8 +95,8 @@ class LossFunction:
 
     def compute(
         self,
-        predictions: List[float],
-        targets: List[float],
+        predictions: list[float],
+        targets: list[float],
     ) -> float:
         """Compute the loss.
 
@@ -124,9 +124,9 @@ class LossFunction:
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise losses.
 
         Args:
@@ -143,9 +143,9 @@ class LossFunction:
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient of the loss.
 
         Args:
@@ -182,7 +182,7 @@ class MSELoss(LossFunction):
         >>> loss = loss_fn.compute([1, 2], [1.1, 1.9])
     """
 
-    def __init__(reduction: str = "mean", metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: str = "mean", metadata: dict[str, Any] | None = None) -> None:
         """Initialize an MSELoss.
 
         Args:
@@ -192,13 +192,13 @@ class MSELoss(LossFunction):
         Example:
             >>> loss_fn = MSELoss()
         """
-        super().__init__("mse", reduction, metadata)
+        super().__init__("mse", self, metadata)
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise MSE losses.
 
         Args:
@@ -211,13 +211,13 @@ class MSELoss(LossFunction):
         Example:
             >>> losses = loss_fn._compute_elementwise([1, 2], [1.1, 1.9])
         """
-        return [(p - t) ** 2 for p, t in zip(predictions, targets)]
+        return [(p - t) ** 2 for p, t in zip(predictions, targets, strict=False)]
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient.
 
         Args:
@@ -230,7 +230,7 @@ class MSELoss(LossFunction):
         Example:
             >>> grad = loss_fn.gradient([1, 2], [1.1, 1.9])
         """
-        grad = [2 * (p - t) for p, t in zip(predictions, targets)]
+        grad = [2 * (p - t) for p, t in zip(predictions, targets, strict=False)]
 
         if self._reduction == "mean":
             n = len(predictions)
@@ -249,7 +249,7 @@ class MAELoss(LossFunction):
         >>> loss = loss_fn.compute([1, 2], [1.1, 1.9])
     """
 
-    def __init__(reduction: str = "mean", metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: str = "mean", metadata: dict[str, Any] | None = None) -> None:
         """Initialize an MAELoss.
 
         Args:
@@ -259,13 +259,13 @@ class MAELoss(LossFunction):
         Example:
             >>> loss_fn = MAELoss()
         """
-        super().__init__("mae", reduction, metadata)
+        super().__init__("mae", self, metadata)
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise MAE losses.
 
         Args:
@@ -278,13 +278,13 @@ class MAELoss(LossFunction):
         Example:
             >>> losses = loss_fn._compute_elementwise([1, 2], [1.1, 1.9])
         """
-        return [abs(p - t) for p, t in zip(predictions, targets)]
+        return [abs(p - t) for p, t in zip(predictions, targets, strict=False)]
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient.
 
         Args:
@@ -297,7 +297,7 @@ class MAELoss(LossFunction):
         Example:
             >>> grad = loss_fn.gradient([1, 2], [1.1, 1.9])
         """
-        grad = [1.0 if p > t else -1.0 if p < t else 0.0 for p, t in zip(predictions, targets)]
+        grad = [1.0 if p > t else -1.0 if p < t else 0.0 for p, t in zip(predictions, targets, strict=False)]
 
         if self._reduction == "mean":
             n = len(predictions)
@@ -320,9 +320,9 @@ class CrossEntropyLoss(LossFunction):
     """
 
     def __init__(
-        epsilon: float = 1e-10,
+        self: float = 1e-10,
         reduction: str = "mean",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a CrossEntropyLoss.
 
@@ -335,13 +335,13 @@ class CrossEntropyLoss(LossFunction):
             >>> loss_fn = CrossEntropyLoss()
         """
         super().__init__("cross_entropy", reduction, metadata)
-        self._epsilon = epsilon
+        self._epsilon = self
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise cross entropy losses.
 
         Args:
@@ -355,7 +355,7 @@ class CrossEntropyLoss(LossFunction):
             >>> losses = loss_fn._compute_elementwise([0.9, 0.1], [1, 0])
         """
         losses = []
-        for p, t in zip(predictions, targets):
+        for p, t in zip(predictions, targets, strict=False):
             p_clipped = max(self._epsilon, min(1 - self._epsilon, p))
             if t == 1:
                 losses.append(-math.log(p_clipped))
@@ -365,9 +365,9 @@ class CrossEntropyLoss(LossFunction):
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient.
 
         Args:
@@ -381,7 +381,7 @@ class CrossEntropyLoss(LossFunction):
             >>> grad = loss_fn.gradient([0.9, 0.1], [1, 0])
         """
         grad = []
-        for p, t in zip(predictions, targets):
+        for p, t in zip(predictions, targets, strict=False):
             p_clipped = max(self._epsilon, min(1 - self._epsilon, p))
             if t == 1:
                 grad.append(-1 / p_clipped)
@@ -405,7 +405,7 @@ class HingeLoss(LossFunction):
         >>> loss = loss_fn.compute([0.8, -0.3], [1, -1])
     """
 
-    def __init__(reduction: str = "mean", metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: str = "mean", metadata: dict[str, Any] | None = None) -> None:
         """Initialize a HingeLoss.
 
         Args:
@@ -415,13 +415,13 @@ class HingeLoss(LossFunction):
         Example:
             >>> loss_fn = HingeLoss()
         """
-        super().__init__("hinge", reduction, metadata)
+        super().__init__("hinge", self, metadata)
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise hinge losses.
 
         Args:
@@ -434,13 +434,13 @@ class HingeLoss(LossFunction):
         Example:
             >>> losses = loss_fn._compute_elementwise([0.8, -0.3], [1, -1])
         """
-        return [max(0, 1 - t * p) for p, t in zip(predictions, targets)]
+        return [max(0, 1 - t * p) for p, t in zip(predictions, targets, strict=False)]
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient.
 
         Args:
@@ -454,7 +454,7 @@ class HingeLoss(LossFunction):
             >>> grad = loss_fn.gradient([0.8, -0.3], [1, -1])
         """
         grad = []
-        for p, t in zip(predictions, targets):
+        for p, t in zip(predictions, targets, strict=False):
             if 1 - t * p > 0:
                 grad.append(-t)
             else:
@@ -481,9 +481,9 @@ class HuberLoss(LossFunction):
     """
 
     def __init__(
-        delta: float = 1.0,
+        self: float = 1.0,
         reduction: str = "mean",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a HuberLoss.
 
@@ -496,13 +496,13 @@ class HuberLoss(LossFunction):
             >>> loss_fn = HuberLoss(delta=1.0)
         """
         super().__init__("huber", reduction, metadata)
-        self._delta = delta
+        self._delta = self
 
     def _compute_elementwise(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute elementwise Huber losses.
 
         Args:
@@ -516,7 +516,7 @@ class HuberLoss(LossFunction):
             >>> losses = loss_fn._compute_elementwise([1, 2], [1.1, 1.9])
         """
         losses = []
-        for p, t in zip(predictions, targets):
+        for p, t in zip(predictions, targets, strict=False):
             diff = abs(p - t)
             if diff <= self._delta:
                 losses.append(0.5 * diff ** 2)
@@ -526,9 +526,9 @@ class HuberLoss(LossFunction):
 
     def gradient(
         self,
-        predictions: List[float],
-        targets: List[float],
-    ) -> List[float]:
+        predictions: list[float],
+        targets: list[float],
+    ) -> list[float]:
         """Compute the gradient.
 
         Args:
@@ -542,7 +542,7 @@ class HuberLoss(LossFunction):
             >>> grad = loss_fn.gradient([1, 2], [1.1, 1.9])
         """
         grad = []
-        for p, t in zip(predictions, targets):
+        for p, t in zip(predictions, targets, strict=False):
             diff = p - t
             if abs(diff) <= self._delta:
                 grad.append(diff)

@@ -27,9 +27,9 @@ quantsmind.runtime.exceptions (runtime exceptions)
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import StateMachineError
 from quantsmind.runtime.types import State, StateTransition
@@ -57,8 +57,8 @@ class StateMachine:
     def __init__(
         self,
         initial_state: ExecutionState = ExecutionState.CREATED,
-        states: Optional[List[ExecutionState]] = None,
-        transitions: Optional[Dict[State, List[State]]] = None,
+        states: list[ExecutionState] | None = None,
+        transitions: dict[State, list[State]] | None = None,
     ) -> None:
         """Initialize a StateMachine.
 
@@ -73,11 +73,11 @@ class StateMachine:
         self._current_state = initial_state
         self._states = states or list(ExecutionState)
         self._transitions = transitions or self._default_transitions()
-        self._state_history: List[State] = [initial_state.value]
-        self._hooks: Dict[StateTransition, List[Callable]] = {}
+        self._state_history: list[State] = [initial_state.value]
+        self._hooks: dict[StateTransition, list[Callable]] = {}
         logger.debug(f"Created state machine with initial state: {initial_state.value}")
 
-    def _default_transitions(self) -> Dict[State, List[State]]:
+    def _default_transitions(self) -> dict[State, list[State]]:
         """Get default state transitions.
 
         Returns:
@@ -141,7 +141,7 @@ class StateMachine:
         return self._current_state
 
     @property
-    def state_history(self) -> List[State]:
+    def state_history(self) -> list[State]:
         """Get the state history.
 
         Returns:
@@ -258,7 +258,7 @@ class StateMachine:
         self._state_history = [ExecutionState.CREATED.value]
         logger.debug("Reset state machine")
 
-    def get_valid_transitions(self) -> List[State]:
+    def get_valid_transitions(self) -> list[State]:
         """Get valid transitions from current state.
 
         Returns:
@@ -269,7 +269,7 @@ class StateMachine:
         """
         return self._transitions.get(self._current_state.value, []).copy()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get state machine status.
 
         Returns:

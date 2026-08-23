@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ObservationError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -50,7 +49,7 @@ class ObservationStore:
     def __init__(
         self,
         store_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ObservationStore.
 
@@ -65,8 +64,8 @@ class ObservationStore:
             raise ObservationError("Store ID cannot be empty", {"store_id": store_id})
 
         self._id = store_id
-        self._observations: Dict[str, Any] = {}
-        self._sessions: Dict[str, Any] = {}
+        self._observations: dict[str, Any] = {}
+        self._sessions: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -82,7 +81,7 @@ class ObservationStore:
         return self._id
 
     @property
-    def observations(self) -> Dict[str, Any]:
+    def observations(self) -> dict[str, Any]:
         """Get the observations.
 
         Returns:
@@ -94,7 +93,7 @@ class ObservationStore:
         return self._observations.copy()
 
     @property
-    def sessions(self) -> Dict[str, Any]:
+    def sessions(self) -> dict[str, Any]:
         """Get the sessions.
 
         Returns:
@@ -106,7 +105,7 @@ class ObservationStore:
         return self._sessions.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the store metadata.
 
         Returns:
@@ -147,7 +146,7 @@ class ObservationStore:
             return True
         return False
 
-    def get_observation(self, observation_id: str) -> Optional[Any]:
+    def get_observation(self, observation_id: str) -> Any | None:
         """Get an observation from the store.
 
         Args:
@@ -161,7 +160,7 @@ class ObservationStore:
         """
         return self._observations.get(observation_id)
 
-    def get_observations_by_observer(self, observer: str) -> List[Any]:
+    def get_observations_by_observer(self, observer: str) -> list[Any]:
         """Get observations by observer.
 
         Args:
@@ -175,7 +174,7 @@ class ObservationStore:
         """
         return [obs for obs in self._observations.values() if getattr(obs, 'observer', None) == observer]
 
-    def get_observations_by_target(self, target: str) -> List[Any]:
+    def get_observations_by_target(self, target: str) -> list[Any]:
         """Get observations by target.
 
         Args:
@@ -219,7 +218,7 @@ class ObservationStore:
             return True
         return False
 
-    def get_session(self, session_id: str) -> Optional[Any]:
+    def get_session(self, session_id: str) -> Any | None:
         """Get a session from the store.
 
         Args:
@@ -233,7 +232,7 @@ class ObservationStore:
         """
         return self._sessions.get(session_id)
 
-    def get_sessions_by_observer(self, observer: str) -> List[Any]:
+    def get_sessions_by_observer(self, observer: str) -> list[Any]:
         """Get sessions by observer.
 
         Args:
@@ -275,7 +274,7 @@ class ObservationStore:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

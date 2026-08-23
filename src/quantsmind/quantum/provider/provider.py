@@ -25,11 +25,10 @@ quantsmind.quantum.backend.backend (backend module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import ProviderType
 from quantsmind.quantum.algorithms.exceptions import ProviderError
-from quantsmind.quantum.algorithms.interfaces import IQuantumBackend
 from quantsmind.quantum.algorithms.interfaces import IQuantumProvider
 from quantsmind.quantum.algorithms.types import ProviderConfig, ValidationResult
 from quantsmind.quantum.backend.backend import QuantumBackend
@@ -57,9 +56,9 @@ class QuantumProvider(IQuantumProvider):
         self,
         name: str,
         provider_type: ProviderType,
-        credentials: Optional[Dict[str, Any]] = None,
-        configuration: Optional[ProviderConfig] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        credentials: dict[str, Any] | None = None,
+        configuration: ProviderConfig | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumProvider.
 
@@ -78,7 +77,7 @@ class QuantumProvider(IQuantumProvider):
 
         self._name = name
         self._provider_type = provider_type
-        self._backends: List[QuantumBackend] = []
+        self._backends: list[QuantumBackend] = []
         self._credentials = credentials or {}
         self._configuration = configuration or {}
         self._metadata = metadata or {}
@@ -108,7 +107,7 @@ class QuantumProvider(IQuantumProvider):
         return self._provider_type
 
     @property
-    def credentials(self) -> Dict[str, Any]:
+    def credentials(self) -> dict[str, Any]:
         """Get the provider credentials.
 
         Returns:
@@ -132,7 +131,7 @@ class QuantumProvider(IQuantumProvider):
         return self._configuration.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the provider metadata.
 
         Returns:
@@ -175,7 +174,7 @@ class QuantumProvider(IQuantumProvider):
                 return True
         return False
 
-    def get_backends(self) -> List[QuantumBackend]:
+    def get_backends(self) -> list[QuantumBackend]:
         """Get available backends.
 
         Returns:
@@ -186,7 +185,7 @@ class QuantumProvider(IQuantumProvider):
         """
         return self._backends.copy()
 
-    def get_backend(self, name: str) -> Optional[QuantumBackend]:
+    def get_backend(self, name: str) -> QuantumBackend | None:
         """Get a specific backend.
 
         Args:
@@ -203,7 +202,7 @@ class QuantumProvider(IQuantumProvider):
                 return backend
         return None
 
-    def authenticate(self, credentials: Dict[str, Any]) -> bool:
+    def authenticate(self, credentials: dict[str, Any]) -> bool:
         """Authenticate with the provider.
 
         Args:
@@ -254,7 +253,7 @@ class QuantumProvider(IQuantumProvider):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -32,13 +32,13 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState, TaskPriority
-from quantsmind.runtime.exceptions import JobError, ValidationError
+from quantsmind.runtime.exceptions import JobError
 from quantsmind.runtime.task import Task
-from quantsmind.runtime.types import ConfigDict, ExecutionResult, JobID, TaskID
+from quantsmind.runtime.types import ExecutionResult, JobID, TaskID
 
 logger = logging.getLogger(__name__)
 
@@ -71,8 +71,8 @@ class Job:
         self,
         name: str,
         priority: TaskPriority = TaskPriority.NORMAL,
-        dependencies: Optional[List[JobID]] = None,
-        job_id: Optional[JobID] = None,
+        dependencies: list[JobID] | None = None,
+        job_id: JobID | None = None,
     ) -> None:
         """Initialize a Job.
 
@@ -87,15 +87,15 @@ class Job:
         """
         self._job_id = job_id or str(uuid.uuid4())
         self._name = name
-        self._tasks: Dict[TaskID, Task] = {}
+        self._tasks: dict[TaskID, Task] = {}
         self._state = ExecutionState.CREATED
         self._priority = priority
         self._dependencies = dependencies or []
-        self._results: Dict[TaskID, ExecutionResult] = {}
+        self._results: dict[TaskID, ExecutionResult] = {}
         self._created_at = datetime.utcnow()
-        self._started_at: Optional[datetime] = None
-        self._completed_at: Optional[datetime] = None
-        self._metadata: Dict[str, Any] = {
+        self._started_at: datetime | None = None
+        self._completed_at: datetime | None = None
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created job: {self._job_id}")
@@ -149,7 +149,7 @@ class Job:
         return self._priority
 
     @property
-    def dependencies(self) -> List[JobID]:
+    def dependencies(self) -> list[JobID]:
         """Get the job dependencies.
 
         Returns:
@@ -215,7 +215,7 @@ class Job:
             del self._tasks[task_id]
             logger.debug(f"Removed task from job: {task_id}")
 
-    def get_task(self, task_id: TaskID) -> Optional[Task]:
+    def get_task(self, task_id: TaskID) -> Task | None:
         """Get a task by ID.
 
         Args:
@@ -229,7 +229,7 @@ class Job:
         """
         return self._tasks.get(task_id)
 
-    def get_tasks(self) -> List[Task]:
+    def get_tasks(self) -> list[Task]:
         """Get all tasks.
 
         Returns:
@@ -240,7 +240,7 @@ class Job:
         """
         return list(self._tasks.values())
 
-    def validate(self) -> Tuple[bool, List[str]]:
+    def validate(self) -> Tuple[bool, list[str]]:
         """Validate the job.
 
         Returns:
@@ -264,7 +264,7 @@ class Job:
 
         return (len(errors) == 0, errors)
 
-    def execute(self) -> Dict[TaskID, ExecutionResult]:
+    def execute(self) -> dict[TaskID, ExecutionResult]:
         """Execute the job.
 
         Returns:
@@ -343,7 +343,7 @@ class Job:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert job to dictionary.
 
         Returns:

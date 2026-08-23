@@ -30,8 +30,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
 import math
+from typing import Any
 
 
 class ActivationFunction:
@@ -51,7 +51,7 @@ class ActivationFunction:
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ActivationFunction.
 
@@ -77,7 +77,7 @@ class ActivationFunction:
         """
         return self._name
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -91,7 +91,7 @@ class ActivationFunction:
         """
         raise NotImplementedError("Subclasses must implement forward")
 
-    def backward(self, x: List[float]) -> List[float]:
+    def backward(self, x: list[float]) -> list[float]:
         """Compute backward pass (derivative).
 
         Args:
@@ -127,7 +127,7 @@ class ReLU(ActivationFunction):
         >>> output = act_fn.forward([1, -1, 2])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a ReLU.
 
         Args:
@@ -136,9 +136,9 @@ class ReLU(ActivationFunction):
         Example:
             >>> act_fn = ReLU()
         """
-        super().__init__("relu", metadata)
+        super().__init__("relu", self)
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -152,7 +152,7 @@ class ReLU(ActivationFunction):
         """
         return [max(0, val) for val in x]
 
-    def backward(self, x: List[float]) -> List[float]:
+    def backward(self, x: list[float]) -> list[float]:
         """Compute backward pass.
 
         Args:
@@ -177,7 +177,7 @@ class Sigmoid(ActivationFunction):
         >>> output = act_fn.forward([0, 1, -1])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a Sigmoid.
 
         Args:
@@ -186,9 +186,9 @@ class Sigmoid(ActivationFunction):
         Example:
             >>> act_fn = Sigmoid()
         """
-        super().__init__("sigmoid", metadata)
+        super().__init__("sigmoid", self)
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -202,7 +202,7 @@ class Sigmoid(ActivationFunction):
         """
         return [1.0 / (1.0 + math.exp(-val)) for val in x]
 
-    def backward(self, x: List[float]) -> List[float]:
+    def backward(self, x: list[float]) -> list[float]:
         """Compute backward pass.
 
         Args:
@@ -228,7 +228,7 @@ class Tanh(ActivationFunction):
         >>> output = act_fn.forward([0, 1, -1])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a Tanh.
 
         Args:
@@ -237,9 +237,9 @@ class Tanh(ActivationFunction):
         Example:
             >>> act_fn = Tanh()
         """
-        super().__init__("tanh", metadata)
+        super().__init__("tanh", self)
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -253,7 +253,7 @@ class Tanh(ActivationFunction):
         """
         return [math.tanh(val) for val in x]
 
-    def backward(self, x: List[float]) -> List[float]:
+    def backward(self, x: list[float]) -> list[float]:
         """Compute backward pass.
 
         Args:
@@ -279,7 +279,7 @@ class Softmax(ActivationFunction):
         >>> output = act_fn.forward([1, 2, 3])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a Softmax.
 
         Args:
@@ -288,9 +288,9 @@ class Softmax(ActivationFunction):
         Example:
             >>> act_fn = Softmax()
         """
-        super().__init__("softmax", metadata)
+        super().__init__("softmax", self)
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -308,7 +308,7 @@ class Softmax(ActivationFunction):
         sum_exp = sum(exp_x)
         return [e / sum_exp for e in exp_x]
 
-    def backward(self, x: List[float]) -> List[List[float]]:
+    def backward(self, x: list[float]) -> list[list[float]]:
         """Compute backward pass (Jacobian).
 
         Args:
@@ -348,8 +348,8 @@ class LeakyReLU(ActivationFunction):
     """
 
     def __init__(
-        alpha: float = 0.01,
-        metadata: Optional[Dict[str, Any]] = None,
+        self: float = 0.01,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LeakyReLU.
 
@@ -361,7 +361,7 @@ class LeakyReLU(ActivationFunction):
             >>> act_fn = LeakyReLU(alpha=0.01)
         """
         super().__init__("leaky_relu", metadata)
-        self._alpha = alpha
+        self._alpha = self
 
     @property
     def alpha(self) -> float:
@@ -375,7 +375,7 @@ class LeakyReLU(ActivationFunction):
         """
         return self._alpha
 
-    def forward(self, x: List[float]) -> List[float]:
+    def forward(self, x: list[float]) -> list[float]:
         """Compute forward pass.
 
         Args:
@@ -389,7 +389,7 @@ class LeakyReLU(ActivationFunction):
         """
         return [val if val > 0 else self._alpha * val for val in x]
 
-    def backward(self, x: List[float]) -> List[float]:
+    def backward(self, x: list[float]) -> list[float]:
         """Compute backward pass.
 
         Args:

@@ -28,7 +28,7 @@ abc (standard library)
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class MathObject(ABC):
@@ -53,7 +53,7 @@ class MathObject(ABC):
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MathObject.
 
@@ -93,7 +93,7 @@ class MathObject(ABC):
         return self._name
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the metadata.
 
         Returns:
@@ -135,7 +135,7 @@ class MathObject(ABC):
         """
         pass
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the mathematical object to a dictionary.
 
         Returns:
@@ -152,7 +152,7 @@ class MathObject(ABC):
         }
 
     @classmethod
-    def deserialize(cls, data: Dict[str, Any]) -> "MathObject":
+    def deserialize(cls, data: dict[str, Any]) -> MathObject:
         """Deserialize a dictionary to a mathematical object.
 
         Args:
@@ -167,7 +167,7 @@ class MathObject(ABC):
         # Base implementation - subclasses should override
         return cls(data.get("name", ""), data.get("metadata"))
 
-    def clone(self) -> "MathObject":
+    def clone(self) -> MathObject:
         """Clone the mathematical object.
 
         Returns:
@@ -179,7 +179,7 @@ class MathObject(ABC):
         # Base implementation - subclasses may override for deep copy
         return self.__class__(self._name, self._metadata.copy())
 
-    def compare(self, other: "MathObject") -> int:
+    def compare(self, other: MathObject) -> int:
         """Compare with another mathematical object.
 
         Args:

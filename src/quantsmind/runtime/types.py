@@ -24,15 +24,9 @@ uuid (standard library)
 from __future__ import annotations
 
 import datetime
-import uuid
+from collections.abc import Callable
 from typing import (
     Any,
-    Callable,
-    Dict,
-    List,
-    Optional,
-    Protocol,
-    Tuple,
     TypeVar,
     Union,
 )
@@ -59,8 +53,8 @@ Timestamp = datetime.datetime
 TimeDelta = datetime.timedelta
 
 # Configuration
-ConfigValue = Union[str, int, float, bool, List[Any], Dict[str, Any]]
-ConfigDict = Dict[str, ConfigValue]
+ConfigValue = Union[str, int, float, bool, list[Any], dict[str, Any]]
+ConfigDict = dict[str, ConfigValue]
 
 # Execution results
 Result = Any
@@ -71,11 +65,11 @@ ExecutionResult = Union[SuccessResult, FailureResult]
 # Resources
 ResourceAmount = Union[int, float]
 ResourceCapacity = ResourceAmount
-ResourceAllocation = Dict[ResourceID, ResourceAmount]
+ResourceAllocation = dict[ResourceID, ResourceAmount]
 
 # Events
-EventData = Dict[str, Any]
-EventPayload = Dict[str, Any]
+EventData = dict[str, Any]
+EventPayload = dict[str, Any]
 
 # Callbacks
 Callback = Callable[..., Any]
@@ -85,34 +79,34 @@ ProgressCallback = Callable[[float], None]
 
 # Metrics
 MetricValue = Union[int, float]
-MetricDict = Dict[str, MetricValue]
+MetricDict = dict[str, MetricValue]
 Metrics = MetricDict
 
 # Telemetry
-TelemetryData = Dict[str, Any]
-TelemetryPoint = Tuple[Timestamp, TelemetryData]
+TelemetryData = dict[str, Any]
+TelemetryPoint = tuple[Timestamp, TelemetryData]
 
 # State
 State = str
-StateTransition = Tuple[State, State]
+StateTransition = tuple[State, State]
 
 # Plugin
 PluginVersion = str
 PluginCapability = str
-PluginCapabilities = List[PluginCapability]
+PluginCapabilities = list[PluginCapability]
 
 # Cache
 CacheKey = str
 CacheValue = Any
-CacheEntry = Tuple[CacheValue, Timestamp]
+CacheEntry = tuple[CacheValue, Timestamp]
 
 # Serialization
 SerializedData = bytes
 SerializationFormat = str
 
 # Validation
-ValidationResult = Tuple[bool, List[str]]
-ValidationErrors = List[str]
+ValidationResult = tuple[bool, list[str]]
+ValidationErrors = list[str]
 
 # Retry
 RetryCount = int

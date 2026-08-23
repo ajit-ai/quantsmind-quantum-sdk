@@ -41,8 +41,10 @@ import logging
 import math
 from typing import List, Optional, Tuple, Union
 
-from quantsmind.math.exceptions import GeometryError, ValueError as MathValueError
-from quantsmind.math.types import Point as PointType, Scalar
+from quantsmind.math.exceptions import GeometryError
+from quantsmind.math.exceptions import ValueError as MathValueError
+from quantsmind.math.types import Point as PointType
+from quantsmind.math.types import Scalar
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +65,7 @@ class Point:
         >>> p = Point([1.0, 2.0])
     """
 
-    def __init__(self, coordinates: List[Scalar]) -> None:
+    def __init__(self, coordinates: list[Scalar]) -> None:
         """Initialize a Point.
 
         Args:
@@ -77,7 +79,7 @@ class Point:
         logger.debug(f"Created point with {self._dimension} dimensions")
 
     @property
-    def coordinates(self) -> List[Scalar]:
+    def coordinates(self) -> list[Scalar]:
         """Get the coordinates.
 
         Returns:
@@ -166,7 +168,7 @@ class Point:
         """
         if self._dimension != other._dimension:
             raise GeometryError(f"Dimension mismatch: {self._dimension} vs {other._dimension}")
-        return math.sqrt(sum((a - b) ** 2 for a, b in zip(self._coordinates, other._coordinates)))
+        return math.sqrt(sum((a - b) ** 2 for a, b in zip(self._coordinates, other._coordinates, strict=False)))
 
 
 class Line:
@@ -340,7 +342,7 @@ class Plane:
         """
         return self._point3
 
-    def normal(self) -> List[Scalar]:
+    def normal(self) -> list[Scalar]:
         """Calculate the plane normal vector.
 
         Returns:
@@ -489,7 +491,7 @@ class Polygon:
         >>> polygon = Polygon([Point([0.0, 0.0]), Point([1.0, 0.0]), Point([1.0, 1.0])])
     """
 
-    def __init__(self, vertices: List[Point]) -> None:
+    def __init__(self, vertices: list[Point]) -> None:
         """Initialize a Polygon.
 
         Args:
@@ -513,7 +515,7 @@ class Polygon:
         self._dimension = dimension
 
     @property
-    def vertices(self) -> List[Point]:
+    def vertices(self) -> list[Point]:
         """Get the vertices.
 
         Returns:
@@ -607,7 +609,7 @@ class CoordinateSystem:
         >>> cs = CoordinateSystem(Point([0.0, 0.0]), [[1.0, 0.0], [0.0, 1.0]])
     """
 
-    def __init__(self, origin: Point, basis: List[List[Scalar]]) -> None:
+    def __init__(self, origin: Point, basis: list[list[Scalar]]) -> None:
         """Initialize a CoordinateSystem.
 
         Args:
@@ -634,7 +636,7 @@ class CoordinateSystem:
         return self._origin
 
     @property
-    def basis(self) -> List[List[Scalar]]:
+    def basis(self) -> list[list[Scalar]]:
         """Get the basis vectors.
 
         Returns:
@@ -685,7 +687,7 @@ class Transformation:
     """
 
     @staticmethod
-    def translate(point: Point, offset: List[Scalar]) -> Point:
+    def translate(point: Point, offset: list[Scalar]) -> Point:
         """Translate a point by an offset.
 
         Args:
@@ -703,11 +705,11 @@ class Transformation:
         """
         if point.dimension != len(offset):
             raise GeometryError(f"Dimension mismatch: {point.dimension} vs {len(offset)}")
-        new_coords = [c + o for c, o in zip(point.coordinates, offset)]
+        new_coords = [c + o for c, o in zip(point.coordinates, offset, strict=False)]
         return Point(new_coords)
 
     @staticmethod
-    def rotate(point: Point, angle: float, center: Optional[Point] = None) -> Point:
+    def rotate(point: Point, angle: float, center: Point | None = None) -> Point:
         """Rotate a point around a center (2D only).
 
         Args:
@@ -743,7 +745,7 @@ class Transformation:
         return Transformation.translate(Point(rotated_coords), center.coordinates)
 
     @staticmethod
-    def scale(point: Point, factor: Union[Scalar, List[Scalar]], center: Optional[Point] = None) -> Point:
+    def scale(point: Point, factor: Scalar | list[Scalar], center: Point | None = None) -> Point:
         """Scale a point by a factor.
 
         Args:
@@ -773,7 +775,7 @@ class Transformation:
         translated = Transformation.translate(point, [-c for c in center.coordinates])
         
         # Scale
-        scaled_coords = [c * f for c, f in zip(translated.coordinates, factor)]
+        scaled_coords = [c * f for c, f in zip(translated.coordinates, factor, strict=False)]
         
         # Translate back
         return Transformation.translate(Point(scaled_coords), center.coordinates)

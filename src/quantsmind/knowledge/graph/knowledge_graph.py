@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import GraphType
 from quantsmind.knowledge.exceptions import GraphError
@@ -61,7 +61,7 @@ class KnowledgeGraph(IGraph):
         self,
         graph_id: GraphID,
         graph_type: GraphType = GraphType.KNOWLEDGE,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a KnowledgeGraph.
 
@@ -75,9 +75,9 @@ class KnowledgeGraph(IGraph):
         """
         self._id = graph_id
         self._graph_type = graph_type
-        self._nodes: Dict[str, NodeData] = {}
-        self._edges: Dict[tuple[str, str], EdgeData] = {}
-        self._adjacency: Dict[str, List[tuple[str, EdgeData]]] = {}
+        self._nodes: dict[str, NodeData] = {}
+        self._edges: dict[tuple[str, str], EdgeData] = {}
+        self._adjacency: dict[str, list[tuple[str, EdgeData]]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -105,7 +105,7 @@ class KnowledgeGraph(IGraph):
         return self._graph_type
 
     @property
-    def nodes(self) -> Dict[str, NodeData]:
+    def nodes(self) -> dict[str, NodeData]:
         """Get the nodes.
 
         Returns:
@@ -117,7 +117,7 @@ class KnowledgeGraph(IGraph):
         return self._nodes.copy()
 
     @property
-    def edges(self) -> Dict[tuple[str, str], EdgeData]:
+    def edges(self) -> dict[tuple[str, str], EdgeData]:
         """Get the edges.
 
         Returns:
@@ -129,7 +129,7 @@ class KnowledgeGraph(IGraph):
         return self._edges.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the graph metadata.
 
         Returns:
@@ -140,7 +140,7 @@ class KnowledgeGraph(IGraph):
         """
         return self._metadata.copy()
 
-    def add_node(self, node_id: str, data: Optional[NodeData] = None) -> None:
+    def add_node(self, node_id: str, data: NodeData | None = None) -> None:
         """Add a node to the graph.
 
         Args:
@@ -157,7 +157,7 @@ class KnowledgeGraph(IGraph):
         if node_id not in self._adjacency:
             self._adjacency[node_id] = []
 
-    def add_edge(self, source: str, target: str, data: Optional[EdgeData] = None) -> None:
+    def add_edge(self, source: str, target: str, data: EdgeData | None = None) -> None:
         """Add an edge to the graph.
 
         Args:
@@ -178,7 +178,7 @@ class KnowledgeGraph(IGraph):
         self._edges[edge_key] = data or {}
         self._adjacency[source].append((target, data or {}))
 
-    def get_node(self, node_id: str) -> Optional[NodeData]:
+    def get_node(self, node_id: str) -> NodeData | None:
         """Get a node from the graph.
 
         Args:
@@ -192,7 +192,7 @@ class KnowledgeGraph(IGraph):
         """
         return self._nodes.get(node_id)
 
-    def get_edge(self, source: str, target: str) -> Optional[EdgeData]:
+    def get_edge(self, source: str, target: str) -> EdgeData | None:
         """Get an edge from the graph.
 
         Args:
@@ -222,7 +222,7 @@ class KnowledgeGraph(IGraph):
         if node_id in self._nodes:
             del self._nodes[node_id]
             # Remove edges involving this node
-            edges_to_remove = [k for k in self._edges.keys() if node_id in k]
+            edges_to_remove = [k for k in self._edges if node_id in k]
             for edge_key in edges_to_remove:
                 del self._edges[edge_key]
             # Remove from adjacency
@@ -256,7 +256,7 @@ class KnowledgeGraph(IGraph):
             return True
         return False
 
-    def neighbors(self, node_id: str) -> List[str]:
+    def neighbors(self, node_id: str) -> list[str]:
         """Get neighbors of a node.
 
         Args:
@@ -286,7 +286,7 @@ class KnowledgeGraph(IGraph):
         """
         return len(self.neighbors(node_id))
 
-    def shortest_path(self, source: str, target: str) -> Optional[Path]:
+    def shortest_path(self, source: str, target: str) -> Path | None:
         """Find shortest path between nodes using BFS.
 
         Args:
@@ -323,7 +323,7 @@ class KnowledgeGraph(IGraph):
 
         return None
 
-    def traverse(self, start: str, max_depth: int = 3) -> List[str]:
+    def traverse(self, start: str, max_depth: int = 3) -> list[str]:
         """Traverse the graph using BFS.
 
         Args:
@@ -373,7 +373,7 @@ class KnowledgeGraph(IGraph):
             errors.append("Graph ID cannot be empty")
 
         # Validate edges reference existing nodes
-        for (source, target) in self._edges.keys():
+        for (source, target) in self._edges:
             if source not in self._nodes:
                 errors.append(f"Edge references non-existent source node: {source}")
 
@@ -382,7 +382,7 @@ class KnowledgeGraph(IGraph):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

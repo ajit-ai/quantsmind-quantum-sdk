@@ -27,10 +27,10 @@ quantsmind.quantum.state.quantum_state (quantum state module)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
-from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.enums import StateType
+from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.state.quantum_state import QuantumState
 
@@ -54,7 +54,7 @@ class BlochState(QuantumState):
         self,
         theta: float = 0.0,
         phi: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a BlochState.
 
@@ -126,7 +126,7 @@ class BlochState(QuantumState):
         self._theta = theta
         self._phi = phi
 
-    def get_state_vector(self) -> Tuple[complex, complex]:
+    def get_state_vector(self) -> tuple[complex, complex]:
         """Get the state vector representation.
 
         Returns:
@@ -143,7 +143,7 @@ class BlochState(QuantumState):
 
         return (alpha, beta)
 
-    def get_cartesian_coordinates(self) -> Tuple[float, float, float]:
+    def get_cartesian_coordinates(self) -> tuple[float, float, float]:
         """Get the Cartesian coordinates on the Bloch sphere.
 
         Returns:
@@ -235,7 +235,7 @@ class BlochState(QuantumState):
         self._theta = math.pi / 2
         self._phi = 3 * math.pi / 2
 
-    def get_pauli_expectations(self) -> Tuple[float, float, float]:
+    def get_pauli_expectations(self) -> tuple[float, float, float]:
         """Get the expectation values of Pauli operators.
 
         Returns:
@@ -270,7 +270,7 @@ class BlochState(QuantumState):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

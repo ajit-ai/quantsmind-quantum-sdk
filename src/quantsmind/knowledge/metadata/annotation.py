@@ -26,10 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import MetadataType
-from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.types import Annotation
 
 
@@ -54,8 +52,8 @@ class Annotation:
         self,
         text: str,
         annotator: str,
-        annotation_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        annotation_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Annotation.
 
@@ -123,7 +121,7 @@ class Annotation:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the annotation metadata.
 
         Returns:
@@ -157,7 +155,7 @@ class Annotation:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

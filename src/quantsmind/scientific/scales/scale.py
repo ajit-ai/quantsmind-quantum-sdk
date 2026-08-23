@@ -24,10 +24,9 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.enums import ScaleType
-from quantsmind.scientific.exceptions import MeasurementError
 from quantsmind.scientific.types import ScaleRange, ScaleValue
 
 
@@ -49,8 +48,8 @@ class Scale:
     def __init__(
         self,
         scale_type: ScaleType = ScaleType.LINEAR,
-        range: Optional[ScaleRange] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        range: ScaleRange | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Scale.
 
@@ -91,7 +90,7 @@ class Scale:
         return self._range
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the scale metadata.
 
         Returns:
@@ -228,7 +227,7 @@ class Scale:
         log_value = log_min + scaled_value * (log_max - log_min)
         return math.exp(log_value)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

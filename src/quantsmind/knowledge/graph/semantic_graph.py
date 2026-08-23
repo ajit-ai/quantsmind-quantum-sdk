@@ -25,15 +25,13 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import GraphType
 from quantsmind.knowledge.exceptions import GraphError
 from quantsmind.knowledge.graph.knowledge_graph import KnowledgeGraph
 from quantsmind.knowledge.types import (
-    EdgeData,
     GraphID,
-    NodeData,
     ValidationResult,
 )
 
@@ -56,7 +54,7 @@ class SemanticGraph(KnowledgeGraph):
         self,
         graph_id: GraphID,
         similarity_threshold: float = 0.7,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SemanticGraph.
 
@@ -69,11 +67,11 @@ class SemanticGraph(KnowledgeGraph):
             >>> graph = SemanticGraph("semantic_graph_001")
         """
         super().__init__(graph_id, GraphType.SEMANTIC, metadata)
-        self._semantic_types: Dict[str, Dict[str, Any]] = {}
+        self._semantic_types: dict[str, dict[str, Any]] = {}
         self._similarity_threshold = similarity_threshold
 
     @property
-    def semantic_types(self) -> Dict[str, Dict[str, Any]]:
+    def semantic_types(self) -> dict[str, dict[str, Any]]:
         """Get the semantic types.
 
         Returns:
@@ -96,7 +94,7 @@ class SemanticGraph(KnowledgeGraph):
         """
         return self._similarity_threshold
 
-    def add_semantic_type(self, sem_type: str, description: Optional[str] = None, weight: float = 1.0) -> None:
+    def add_semantic_type(self, sem_type: str, description: str | None = None, weight: float = 1.0) -> None:
         """Add a semantic type definition.
 
         Args:
@@ -112,7 +110,7 @@ class SemanticGraph(KnowledgeGraph):
             "weight": weight,
         }
 
-    def add_semantic_link(self, source: str, target: str, sem_type: str, similarity: float = 1.0, attributes: Optional[Dict[str, Any]] = None) -> None:
+    def add_semantic_link(self, source: str, target: str, sem_type: str, similarity: float = 1.0, attributes: dict[str, Any] | None = None) -> None:
         """Add a semantic link to the graph.
 
         Args:
@@ -141,7 +139,7 @@ class SemanticGraph(KnowledgeGraph):
         }
         self.add_edge(source, target, edge_data)
 
-    def remove_semantic_link(self, source: str, target: str, sem_type: Optional[str] = None) -> bool:
+    def remove_semantic_link(self, source: str, target: str, sem_type: str | None = None) -> bool:
         """Remove a semantic link from the graph.
 
         Args:
@@ -166,7 +164,7 @@ class SemanticGraph(KnowledgeGraph):
 
         return removed
 
-    def get_semantic_links(self, concept_id: str, sem_type: Optional[str] = None, min_similarity: Optional[float] = None) -> List[tuple[str, str, float]]:
+    def get_semantic_links(self, concept_id: str, sem_type: str | None = None, min_similarity: float | None = None) -> list[tuple[str, str, float]]:
         """Get semantic links for a concept.
 
         Args:
@@ -192,7 +190,7 @@ class SemanticGraph(KnowledgeGraph):
                         links.append((neighbor, current_sem_type, similarity))
         return links
 
-    def get_similar_concepts(self, concept_id: str, min_similarity: Optional[float] = None) -> List[tuple[str, float]]:
+    def get_similar_concepts(self, concept_id: str, min_similarity: float | None = None) -> list[tuple[str, float]]:
         """Get similar concepts.
 
         Args:
@@ -220,7 +218,7 @@ class SemanticGraph(KnowledgeGraph):
         similar.sort(key=lambda x: x[1], reverse=True)
         return similar
 
-    def calculate_semantic_similarity(self, concept1: str, concept2: str) -> Optional[float]:
+    def calculate_semantic_similarity(self, concept1: str, concept2: str) -> float | None:
         """Calculate semantic similarity between two concepts.
 
         Args:
@@ -244,7 +242,7 @@ class SemanticGraph(KnowledgeGraph):
 
         return None
 
-    def find_shortest_semantic_path(self, source: str, target: str) -> Optional[List[str]]:
+    def find_shortest_semantic_path(self, source: str, target: str) -> list[str] | None:
         """Find shortest semantic path between concepts.
 
         Args:
@@ -259,7 +257,7 @@ class SemanticGraph(KnowledgeGraph):
         """
         return self.shortest_path(source, target)
 
-    def get_semantic_neighbors(self, concept_id: str, radius: int = 1) -> Dict[str, List[str]]:
+    def get_semantic_neighbors(self, concept_id: str, radius: int = 1) -> dict[str, list[str]]:
         """Get semantic neighbors within a radius.
 
         Args:
@@ -319,7 +317,7 @@ class SemanticGraph(KnowledgeGraph):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -26,7 +26,7 @@ typing (standard library)
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.types import (
     ConversionFactor,
@@ -86,7 +86,7 @@ class IUnit(ABC):
         pass
 
     @abstractmethod
-    def is_compatible(self, other: "IUnit") -> bool:
+    def is_compatible(self, other: IUnit) -> bool:
         """Check if units are compatible.
 
         Args:
@@ -137,7 +137,7 @@ class IDimension(ABC):
         pass
 
     @abstractmethod
-    def is_compatible(self, other: "IDimension") -> bool:
+    def is_compatible(self, other: IDimension) -> bool:
         """Check if dimensions are compatible.
 
         Args:
@@ -200,7 +200,7 @@ class IQuantity(ABC):
         pass
 
     @abstractmethod
-    def convert_to(self, unit: IUnit) -> "IQuantity":
+    def convert_to(self, unit: IUnit) -> IQuantity:
         """Convert to a different unit.
 
         Args:
@@ -311,7 +311,7 @@ class ICoordinate(ABC):
         pass
 
     @abstractmethod
-    def transform_to(self, target_system: str) -> "ICoordinate":
+    def transform_to(self, target_system: str) -> ICoordinate:
         """Transform to a different coordinate system.
 
         Args:
@@ -362,7 +362,7 @@ class IReferenceFrame(ABC):
         pass
 
     @abstractmethod
-    def transform_to(self, target_frame: "IReferenceFrame") -> Dict[str, Any]:
+    def transform_to(self, target_frame: IReferenceFrame) -> dict[str, Any]:
         """Get transformation to another frame.
 
         Args:
@@ -413,7 +413,7 @@ class ITime(ABC):
         pass
 
     @abstractmethod
-    def convert_to(self, target_type: str) -> "ITime":
+    def convert_to(self, target_type: str) -> ITime:
         """Convert to a different time type.
 
         Args:

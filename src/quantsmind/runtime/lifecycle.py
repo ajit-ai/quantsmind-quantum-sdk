@@ -27,7 +27,8 @@ quantsmind.runtime.exceptions (runtime exceptions)
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState
@@ -58,7 +59,7 @@ class LifecycleManager:
     def __init__(
         self,
         initial_state: ExecutionState = ExecutionState.CREATED,
-        transitions: Optional[Dict[State, List[State]]] = None,
+        transitions: dict[State, list[State]] | None = None,
     ) -> None:
         """Initialize a LifecycleManager.
 
@@ -70,15 +71,15 @@ class LifecycleManager:
             >>> manager = LifecycleManager()
         """
         self._state = initial_state
-        self._state_history: List[State] = [initial_state.value]
+        self._state_history: list[State] = [initial_state.value]
         self._transitions = transitions or self._default_transitions()
-        self._hooks: Dict[StateTransition, List[Callable]] = {}
-        self._metadata: Dict[str, Any] = {
+        self._hooks: dict[StateTransition, list[Callable]] = {}
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created lifecycle manager with initial state: {initial_state.value}")
 
-    def _default_transitions(self) -> Dict[State, List[State]]:
+    def _default_transitions(self) -> dict[State, list[State]]:
         """Get default state transitions.
 
         Returns:
@@ -139,7 +140,7 @@ class LifecycleManager:
         return self._state
 
     @property
-    def state_history(self) -> List[State]:
+    def state_history(self) -> list[State]:
         """Get the state history.
 
         Returns:
@@ -258,7 +259,7 @@ class LifecycleManager:
         self._state_history = [ExecutionState.CREATED.value]
         logger.debug("Reset lifecycle manager")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get lifecycle status.
 
         Returns:

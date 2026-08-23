@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import EvidenceType
 from quantsmind.knowledge.exceptions import EvidenceError
@@ -56,9 +56,9 @@ class Evidence:
         evidence_id: str,
         evidence_type: EvidenceType,
         source: str,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         confidence: float = 1.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Evidence.
 
@@ -127,7 +127,7 @@ class Evidence:
         return self._source
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the evidence data.
 
         Returns:
@@ -163,7 +163,7 @@ class Evidence:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the evidence metadata.
 
         Returns:
@@ -221,7 +221,7 @@ class Evidence:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

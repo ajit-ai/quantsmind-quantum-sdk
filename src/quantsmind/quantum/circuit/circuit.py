@@ -25,11 +25,11 @@ quantsmind.quantum.gate.gate (gate module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.interfaces import IQuantumCircuit
-from quantsmind.quantum.algorithms.types import QubitIndex, QubitIndices, ValidationResult
+from quantsmind.quantum.algorithms.types import QubitIndices, ValidationResult
 from quantsmind.quantum.gate.gate import QuantumGate
 
 
@@ -54,7 +54,7 @@ class QuantumCircuit(IQuantumCircuit):
         self,
         name: str,
         num_qubits: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumCircuit.
 
@@ -74,8 +74,8 @@ class QuantumCircuit(IQuantumCircuit):
 
         self._name = name
         self._num_qubits = num_qubits
-        self._gates: List[QuantumGate] = []
-        self._qubit_indices: List[QubitIndices] = []
+        self._gates: list[QuantumGate] = []
+        self._qubit_indices: list[QubitIndices] = []
         self._metadata = metadata or {}
 
     @property
@@ -128,7 +128,7 @@ class QuantumCircuit(IQuantumCircuit):
         return len(self._gates)
 
     @property
-    def gates(self) -> List[QuantumGate]:
+    def gates(self) -> list[QuantumGate]:
         """Get the gates in the circuit.
 
         Returns:
@@ -140,7 +140,7 @@ class QuantumCircuit(IQuantumCircuit):
         return self._gates.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the circuit metadata.
 
         Returns:
@@ -189,7 +189,7 @@ class QuantumCircuit(IQuantumCircuit):
             return True
         return False
 
-    def get_gate(self, index: int) -> Optional[QuantumGate]:
+    def get_gate(self, index: int) -> QuantumGate | None:
         """Get a gate by index.
 
         Args:
@@ -205,7 +205,7 @@ class QuantumCircuit(IQuantumCircuit):
             return self._gates[index]
         return None
 
-    def get_gate_qubits(self, index: int) -> Optional[QubitIndices]:
+    def get_gate_qubits(self, index: int) -> QubitIndices | None:
         """Get the qubits for a gate.
 
         Args:
@@ -230,7 +230,7 @@ class QuantumCircuit(IQuantumCircuit):
         self._gates.clear()
         self._qubit_indices.clear()
 
-    def inverse(self) -> "QuantumCircuit":
+    def inverse(self) -> QuantumCircuit:
         """Create the inverse of the circuit.
 
         Returns:
@@ -242,13 +242,13 @@ class QuantumCircuit(IQuantumCircuit):
         inverse_circuit = QuantumCircuit(f"{self._name}_inverse", self._num_qubits, self._metadata.copy())
         
         # Add gates in reverse order with inverse gates
-        for gate, qubits in reversed(list(zip(self._gates, self._qubit_indices))):
+        for gate, qubits in reversed(list(zip(self._gates, self._qubit_indices, strict=False))):
             # Placeholder - actual inverse gate creation depends on gate type
             inverse_circuit.add_gate(gate, qubits)
         
         return inverse_circuit
 
-    def compose(self, other: "QuantumCircuit") -> "QuantumCircuit":
+    def compose(self, other: QuantumCircuit) -> QuantumCircuit:
         """Compose this circuit with another.
 
         Args:
@@ -266,11 +266,11 @@ class QuantumCircuit(IQuantumCircuit):
         composed = QuantumCircuit(f"{self._name}_{other.name}", self._num_qubits)
         
         # Add gates from this circuit
-        for gate, qubits in zip(self._gates, self._qubit_indices):
+        for gate, qubits in zip(self._gates, self._qubit_indices, strict=False):
             composed.add_gate(gate, qubits)
         
         # Add gates from other circuit
-        for gate, qubits in zip(other.gates, other._qubit_indices):
+        for gate, qubits in zip(other.gates, other._qubit_indices, strict=False):
             composed.add_gate(gate, qubits)
         
         return composed
@@ -305,7 +305,7 @@ class QuantumCircuit(IQuantumCircuit):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -319,7 +319,7 @@ class QuantumCircuit(IQuantumCircuit):
             "num_qubits": self._num_qubits,
             "depth": self.depth,
             "num_gates": self.num_gates,
-            "gates": [{"gate": gate.name, "qubits": qubits} for gate, qubits in zip(self._gates, self._qubit_indices)],
+            "gates": [{"gate": gate.name, "qubits": qubits} for gate, qubits in zip(self._gates, self._qubit_indices, strict=False)],
             "metadata": self._metadata,
         }
 

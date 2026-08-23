@@ -45,16 +45,13 @@ from __future__ import annotations
 
 import logging
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_INTERACTION_TYPE
 from quantsmind.foundation.enums import InteractionType
+from quantsmind.foundation.event import Event
 from quantsmind.foundation.exceptions import (
-    InteractionError,
     InvalidInteractionError,
 )
-from quantsmind.foundation.event import Event
-from quantsmind.foundation.identity import Identity
 from quantsmind.foundation.interfaces import (
     Serializable,
     Validatable,
@@ -62,7 +59,6 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     EntityID,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -97,10 +93,10 @@ class Interaction(Serializable, Validatable):
     def __init__(
         self,
         interaction_type: InteractionType = InteractionType.GENERIC,
-        participants: Optional[List[EntityID]] = None,
-        event: Optional[Event] = None,
-        effects: Optional[Dict[str, Any]] = None,
-        metadata: Optional[MetadataDict] = None,
+        participants: list[EntityID] | None = None,
+        event: Event | None = None,
+        effects: dict[str, Any] | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize an Interaction.
 
@@ -116,9 +112,9 @@ class Interaction(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._interaction_type: InteractionType = interaction_type
-        self._participants: List[EntityID] = participants or []
-        self._event: Optional[Event] = event
-        self._effects: Dict[str, Any] = effects or {}
+        self._participants: list[EntityID] = participants or []
+        self._event: Event | None = event
+        self._effects: dict[str, Any] = effects or {}
         self._metadata: MetadataDict = metadata or {}
 
         logger.debug(f"Created interaction: {interaction_type.value}")
@@ -148,7 +144,7 @@ class Interaction(Serializable, Validatable):
         return self._interaction_type
 
     @property
-    def participants(self) -> List[EntityID]:
+    def participants(self) -> list[EntityID]:
         """Get the participant entity IDs.
 
         Returns:
@@ -160,7 +156,7 @@ class Interaction(Serializable, Validatable):
         return self._participants.copy()
 
     @property
-    def event(self) -> Optional[Event]:
+    def event(self) -> Event | None:
         """Get the associated event.
 
         Returns:
@@ -172,7 +168,7 @@ class Interaction(Serializable, Validatable):
         return self._event
 
     @property
-    def effects(self) -> Dict[str, Any]:
+    def effects(self) -> dict[str, Any]:
         """Get the interaction effects.
 
         Returns:
@@ -298,7 +294,7 @@ class Interaction(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Interaction":
+    def deserialize(cls, data: bytes, format: str = "json") -> Interaction:
         """Deserialize the interaction from bytes.
 
         Args:

@@ -27,9 +27,6 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Dict, List
-
-
 # Dataset constants
 DEFAULT_DATASET_VERSION = "1.0.0"
 MAX_DATASET_SIZE = 10**12  # 1 trillion records

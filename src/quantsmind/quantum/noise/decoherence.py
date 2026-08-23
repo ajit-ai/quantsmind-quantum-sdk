@@ -24,7 +24,7 @@ quantsmind.quantum.noise.noise_model (noise model module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import NoiseError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -52,7 +52,7 @@ class Decoherence(NoiseModel):
         name: str,
         t1: float = 100e-6,
         t2: float = 50e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Decoherence.
 
@@ -169,7 +169,7 @@ class Decoherence(NoiseModel):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

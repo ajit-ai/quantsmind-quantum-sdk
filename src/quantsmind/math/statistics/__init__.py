@@ -62,7 +62,7 @@ class Mean:
     """
 
     @staticmethod
-    def arithmetic(data: List[Scalar]) -> float:
+    def arithmetic(data: list[Scalar]) -> float:
         """Calculate arithmetic mean.
 
         Args:
@@ -82,7 +82,7 @@ class Mean:
         return sum(data) / len(data)
 
     @staticmethod
-    def geometric(data: List[Scalar]) -> float:
+    def geometric(data: list[Scalar]) -> float:
         """Calculate geometric mean.
 
         Args:
@@ -108,7 +108,7 @@ class Mean:
         return product ** (1.0 / len(data))
 
     @staticmethod
-    def harmonic(data: List[Scalar]) -> float:
+    def harmonic(data: list[Scalar]) -> float:
         """Calculate harmonic mean.
 
         Args:
@@ -132,7 +132,7 @@ class Mean:
         return len(data) / reciprocal_sum
 
     @staticmethod
-    def weighted(data: List[Scalar], weights: List[Scalar]) -> float:
+    def weighted(data: list[Scalar], weights: list[Scalar]) -> float:
         """Calculate weighted mean.
 
         Args:
@@ -154,7 +154,7 @@ class Mean:
             raise MathValueError("Data and weights must have same length")
         if abs(sum(weights) - 1.0) > 1e-10:
             raise MathValueError("Weights must sum to 1")
-        return sum(d * w for d, w in zip(data, weights))
+        return sum(d * w for d, w in zip(data, weights, strict=False))
 
 
 class Median:
@@ -172,7 +172,7 @@ class Median:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar]) -> float:
+    def calculate(data: list[Scalar]) -> float:
         """Calculate median.
 
         Args:
@@ -211,7 +211,7 @@ class Mode:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar]) -> List[Scalar]:
+    def calculate(data: list[Scalar]) -> list[Scalar]:
         """Calculate mode(s).
 
         Args:
@@ -249,7 +249,7 @@ class Variance:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar], sample: bool = True) -> float:
+    def calculate(data: list[Scalar], sample: bool = True) -> float:
         """Calculate variance.
 
         Args:
@@ -292,7 +292,7 @@ class StandardDeviation:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar], sample: bool = True) -> float:
+    def calculate(data: list[Scalar], sample: bool = True) -> float:
         """Calculate standard deviation.
 
         Args:
@@ -322,7 +322,7 @@ class Covariance:
     """
 
     @staticmethod
-    def calculate(x: List[Scalar], y: List[Scalar], sample: bool = True) -> float:
+    def calculate(x: list[Scalar], y: list[Scalar], sample: bool = True) -> float:
         """Calculate covariance.
 
         Args:
@@ -350,7 +350,7 @@ class Covariance:
         mean_y = Mean.arithmetic(y)
         
         n = len(x) if not sample else len(x) - 1
-        return sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y)) / n
+        return sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y, strict=False)) / n
 
 
 class Correlation:
@@ -368,7 +368,7 @@ class Correlation:
     """
 
     @staticmethod
-    def calculate(x: List[Scalar], y: List[Scalar]) -> float:
+    def calculate(x: list[Scalar], y: list[Scalar]) -> float:
         """Calculate Pearson correlation coefficient.
 
         Args:
@@ -414,7 +414,7 @@ class ConfidenceInterval:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar], confidence: float = 0.95) -> Tuple[float, float]:
+    def calculate(data: list[Scalar], confidence: float = 0.95) -> tuple[float, float]:
         """Calculate confidence interval for the mean.
 
         Args:
@@ -464,7 +464,7 @@ class Percentile:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar], percentile: float) -> float:
+    def calculate(data: list[Scalar], percentile: float) -> float:
         """Calculate percentile.
 
         Args:
@@ -513,7 +513,7 @@ class Skewness:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar]) -> float:
+    def calculate(data: list[Scalar]) -> float:
         """Calculate skewness.
 
         Args:
@@ -556,7 +556,7 @@ class Kurtosis:
     """
 
     @staticmethod
-    def calculate(data: List[Scalar]) -> float:
+    def calculate(data: list[Scalar]) -> float:
         """Calculate kurtosis.
 
         Args:

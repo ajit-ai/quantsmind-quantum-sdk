@@ -37,7 +37,7 @@ quantsmind.knowledge.validation (validation)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import (
     DatasetType,
@@ -52,21 +52,12 @@ from quantsmind.knowledge.enums import (
 )
 from quantsmind.knowledge.types import (
     DatasetData,
-    DatasetID,
     DatasetSchema,
-    EdgeData,
     GraphID,
-    KnowledgeGraph,
     MetadataDict,
-    NodeData,
     ObservationData,
     ObservationID,
     ObservationTimestamp,
-    ProvenanceChain,
-    SearchQuery,
-    SearchResults,
-    SerializedData,
-    ValidationResult,
 )
 
 
@@ -92,9 +83,9 @@ class KnowledgeFactory:
         self,
         name: str,
         dataset_type: DatasetType,
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[MetadataDict] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a dataset.
 
@@ -123,7 +114,7 @@ class KnowledgeFactory:
 
     def create_metadata(
         self,
-        data: Optional[MetadataDict] = None,
+        data: MetadataDict | None = None,
         metadata_type: MetadataType = MetadataType.CUSTOM,
     ) -> Any:
         """Create metadata.
@@ -146,7 +137,7 @@ class KnowledgeFactory:
         self,
         name: str,
         ontology_type: OntologyType = OntologyType.CONCEPT,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create an ontology.
 
@@ -169,7 +160,7 @@ class KnowledgeFactory:
         self,
         graph_id: GraphID,
         graph_type: GraphType = GraphType.KNOWLEDGE,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a graph.
 
@@ -192,7 +183,7 @@ class KnowledgeFactory:
         self,
         data_id: str,
         source: str,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create provenance.
 
@@ -214,7 +205,7 @@ class KnowledgeFactory:
     def create_reasoner(
         self,
         reasoner_type: ReasoningType = ReasoningType.RULE_BASED,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a reasoner.
 
@@ -235,7 +226,7 @@ class KnowledgeFactory:
     def create_repository(
         self,
         repository_id: str,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a repository.
 
@@ -256,7 +247,7 @@ class KnowledgeFactory:
     def create_search_engine(
         self,
         search_type: SearchType = SearchType.SEMANTIC,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a search engine.
 
@@ -277,7 +268,7 @@ class KnowledgeFactory:
     def create_transformer(
         self,
         transformation_type: TransformationType,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a transformer.
 
@@ -298,7 +289,7 @@ class KnowledgeFactory:
     def create_validator(
         self,
         strictness: str = "strict",
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a validator.
 
@@ -319,7 +310,7 @@ class KnowledgeFactory:
     def create_serializer(
         self,
         format: SerializationFormat = SerializationFormat.JSON,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a serializer.
 
@@ -341,8 +332,8 @@ class KnowledgeFactory:
         self,
         observation_id: ObservationID,
         data: ObservationData,
-        timestamp: Optional[ObservationTimestamp] = None,
-        metadata: Optional[MetadataDict] = None,
+        timestamp: ObservationTimestamp | None = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create an observation.
 
@@ -372,8 +363,8 @@ class KnowledgeFactory:
         self,
         source_id: str,
         source_type: DataSourceType,
-        config: Optional[Dict[str, Any]] = None,
-        metadata: Optional[MetadataDict] = None,
+        config: dict[str, Any] | None = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a data source.
 
@@ -401,8 +392,8 @@ class KnowledgeFactory:
     def create_schema(
         self,
         schema_name: str,
-        fields: List[Dict[str, Any]],
-        metadata: Optional[MetadataDict] = None,
+        fields: list[dict[str, Any]],
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a schema.
 
@@ -425,7 +416,7 @@ class KnowledgeFactory:
         self,
         concept_id: str,
         name: str,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create a concept.
 
@@ -449,7 +440,7 @@ class KnowledgeFactory:
         evidence_id: str,
         evidence_type: str,
         content: str,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> Any:
         """Create evidence.
 
@@ -474,7 +465,7 @@ class KnowledgeFactory:
             metadata=metadata,
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert factory to dictionary.
 
         Returns:

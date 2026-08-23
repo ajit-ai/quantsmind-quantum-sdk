@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from quantsmind.scientific.types import MetadataDict, MetadataKey, MetadataValue
 
@@ -44,7 +44,7 @@ class ScientificMetadata:
         >>> metadata.set("author", "John Doe")
     """
 
-    def __init__(self, data: Optional[MetadataDict] = None) -> None:
+    def __init__(self, data: MetadataDict | None = None) -> None:
         """Initialize a ScientificMetadata.
 
         Args:
@@ -93,7 +93,7 @@ class ScientificMetadata:
         """
         return self._updated_at
 
-    def get(self, key: MetadataKey, default: Optional[MetadataValue] = None) -> Optional[MetadataValue]:
+    def get(self, key: MetadataKey, default: MetadataValue | None = None) -> MetadataValue | None:
         """Get a metadata value.
 
         Args:
@@ -166,7 +166,7 @@ class ScientificMetadata:
         """
         return key in self._data
 
-    def keys(self) -> List[MetadataKey]:
+    def keys(self) -> list[MetadataKey]:
         """Get all metadata keys.
 
         Returns:
@@ -177,7 +177,7 @@ class ScientificMetadata:
         """
         return list(self._data.keys())
 
-    def values(self) -> List[MetadataValue]:
+    def values(self) -> list[MetadataValue]:
         """Get all metadata values.
 
         Returns:
@@ -188,7 +188,7 @@ class ScientificMetadata:
         """
         return list(self._data.values())
 
-    def items(self) -> List[tuple[MetadataKey, MetadataValue]]:
+    def items(self) -> list[tuple[MetadataKey, MetadataValue]]:
         """Get all metadata items.
 
         Returns:
@@ -208,7 +208,7 @@ class ScientificMetadata:
         self._data.clear()
         self._updated_at = datetime.utcnow()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -25,10 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import CreatorID, ValidationResult
 
@@ -55,8 +53,8 @@ class Creator:
         creator_id: CreatorID,
         name: str,
         creator_type: str = "user",
-        contact: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        contact: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Creator.
 
@@ -119,7 +117,7 @@ class Creator:
         return self._creator_type
 
     @property
-    def contact(self) -> Dict[str, Any]:
+    def contact(self) -> dict[str, Any]:
         """Get the contact information.
 
         Returns:
@@ -131,7 +129,7 @@ class Creator:
         return self._contact.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the creator metadata.
 
         Returns:
@@ -142,7 +140,7 @@ class Creator:
         """
         return self._metadata.copy()
 
-    def set_contact(self, contact: Dict[str, Any]) -> None:
+    def set_contact(self, contact: dict[str, Any]) -> None:
         """Set the contact information.
 
         Args:
@@ -196,7 +194,7 @@ class Creator:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -244,7 +242,7 @@ class CreatorRegistry:
         Example:
             >>> registry = CreatorRegistry()
         """
-        self._creators: Dict[CreatorID, Creator] = {}
+        self._creators: dict[CreatorID, Creator] = {}
 
     def register(self, creator: Creator) -> None:
         """Register a creator.
@@ -274,7 +272,7 @@ class CreatorRegistry:
             return True
         return False
 
-    def get(self, creator_id: CreatorID) -> Optional[Creator]:
+    def get(self, creator_id: CreatorID) -> Creator | None:
         """Get a creator by ID.
 
         Args:
@@ -288,7 +286,7 @@ class CreatorRegistry:
         """
         return self._creators.get(creator_id)
 
-    def get_by_name(self, name: str) -> Optional[Creator]:
+    def get_by_name(self, name: str) -> Creator | None:
         """Get a creator by name.
 
         Args:
@@ -341,7 +339,7 @@ class CreatorRegistry:
         """
         return len(self._creators)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

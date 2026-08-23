@@ -26,11 +26,10 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import MeasurementError
-from quantsmind.knowledge.types import MeasurementData, ValidationResult
+from quantsmind.knowledge.types import ValidationResult
 
 
 class MeasurementRecord:
@@ -62,8 +61,8 @@ class MeasurementRecord:
         quantity: str,
         unit: str,
         value: float,
-        uncertainty: Optional[float] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        uncertainty: float | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a MeasurementRecord.
 
@@ -190,7 +189,7 @@ class MeasurementRecord:
         return self._value
 
     @property
-    def uncertainty(self) -> Optional[float]:
+    def uncertainty(self) -> float | None:
         """Get the measurement uncertainty.
 
         Returns:
@@ -202,7 +201,7 @@ class MeasurementRecord:
         return self._uncertainty
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the record metadata.
 
         Returns:
@@ -278,7 +277,7 @@ class MeasurementRecord:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

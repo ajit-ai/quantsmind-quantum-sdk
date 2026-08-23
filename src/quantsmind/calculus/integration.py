@@ -26,9 +26,9 @@ quantsmind.algebra.polynomial (Polynomial)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
-import math
 import random
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.algebra.polynomial import Polynomial
 
@@ -53,7 +53,7 @@ class Integrator:
         self,
         method: str = "simpson",
         n: int = 1000,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Integrator.
 
@@ -256,9 +256,9 @@ class Integrator:
 
     def monte_carlo_integral(
         self,
-        func: Callable[[List[float]], float],
-        bounds: List[Tuple[float, float]],
-        n_samples: Optional[int] = None,
+        func: Callable[[list[float]], float],
+        bounds: list[tuple[float, float]],
+        n_samples: int | None = None,
     ) -> float:
         """Compute Monte Carlo integral for multivariate function.
 
@@ -274,7 +274,7 @@ class Integrator:
             >>> result = integrator.monte_carlo_integral(lambda x: x[0]**2 + x[1]**2, [(0, 1), (0, 1)])
         """
         n = n_samples if n_samples is not None else self._n
-        dim = len(bounds)
+        len(bounds)
         volume = 1.0
         for a, b in bounds:
             volume *= (b - a)

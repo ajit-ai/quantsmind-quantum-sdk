@@ -25,10 +25,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
-from quantsmind.knowledge.exceptions import ReasoningError
 from quantsmind.knowledge.interfaces import IReasoner
 from quantsmind.knowledge.types import ValidationResult
 
@@ -55,7 +54,7 @@ class Reasoner(IReasoner):
         reasoner_id: str,
         name: str,
         reasoning_type: ReasoningType,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Reasoner.
 
@@ -71,7 +70,7 @@ class Reasoner(IReasoner):
         self._id = reasoner_id
         self._name = name
         self._reasoning_type = reasoning_type
-        self._knowledge_base: Dict[str, Any] = {}
+        self._knowledge_base: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -111,7 +110,7 @@ class Reasoner(IReasoner):
         return self._reasoning_type
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the reasoner metadata.
 
         Returns:
@@ -151,7 +150,7 @@ class Reasoner(IReasoner):
             return True
         return False
 
-    def reason(self, query: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, query: dict[str, Any]) -> dict[str, Any]:
         """Perform reasoning on a query.
 
         Args:
@@ -189,7 +188,7 @@ class Reasoner(IReasoner):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

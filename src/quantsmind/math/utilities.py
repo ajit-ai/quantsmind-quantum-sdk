@@ -38,20 +38,15 @@ Future Extensions
 from __future__ import annotations
 
 import math
-from typing import Any, List, Tuple, Union
 
 from quantsmind.math.constants import (
     DEG_TO_RAD,
     FLOAT_EPSILON,
-    MACHINE_EPSILON,
     RAD_TO_DEG,
 )
 from quantsmind.math.types import (
-    Complex,
     Float,
-    Integer,
     Matrix,
-    Real,
     Scalar,
     Shape,
     Vector,
@@ -271,7 +266,7 @@ def dot_product(v1: Vector, v2: Vector) -> Float:
     """
     if len(v1) != len(v2):
         raise ValueError(f"Vector lengths differ: {len(v1)} vs {len(v2)}")
-    return sum(a * b for a, b in zip(v1, v2))
+    return sum(a * b for a, b in zip(v1, v2, strict=False))
 
 
 def cross_product_2d(v1: Vector, v2: Vector) -> Float:
@@ -328,7 +323,7 @@ def distance(v1: Vector, v2: Vector) -> Float:
     """
     if len(v1) != len(v2):
         raise ValueError(f"Vector lengths differ: {len(v1)} vs {len(v2)}")
-    return math.sqrt(sum((a - b) ** 2 for a, b in zip(v1, v2)))
+    return math.sqrt(sum((a - b) ** 2 for a, b in zip(v1, v2, strict=False)))
 
 
 def angle_between(v1: Vector, v2: Vector) -> Float:
@@ -420,7 +415,7 @@ def transpose(matrix: Matrix) -> Matrix:
     Example:
         >>> transpose([[1, 2], [3, 4]])
     """
-    return [list(row) for row in zip(*matrix)]
+    return [list(row) for row in zip(*matrix, strict=False)]
 
 
 def is_square(matrix: Matrix) -> bool:

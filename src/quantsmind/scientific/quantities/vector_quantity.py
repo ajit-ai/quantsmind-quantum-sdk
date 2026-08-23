@@ -24,11 +24,11 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IDimension, IUnit
 from quantsmind.scientific.quantities.quantity import Quantity
-from quantsmind.scientific.types import QuantityValue, QuantityVector
+from quantsmind.scientific.types import QuantityVector
 
 
 class VectorQuantity(Quantity):
@@ -52,7 +52,7 @@ class VectorQuantity(Quantity):
         value: QuantityVector,
         unit: IUnit,
         dimension: IDimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a VectorQuantity.
 
@@ -103,7 +103,7 @@ class VectorQuantity(Quantity):
         """
         return len(self._value)
 
-    def normalize(self) -> "VectorQuantity":
+    def normalize(self) -> VectorQuantity:
         """Normalize the vector.
 
         Returns:
@@ -122,7 +122,7 @@ class VectorQuantity(Quantity):
         normalized_value = [v / mag for v in self._value]
         return VectorQuantity(normalized_value, self._unit, self._dimension, self._metadata)
 
-    def dot(self, other: "VectorQuantity") -> float:
+    def dot(self, other: VectorQuantity) -> float:
         """Calculate dot product.
 
         Args:
@@ -140,9 +140,9 @@ class VectorQuantity(Quantity):
         if self.dimension != other.dimension:
             raise ValueError("Vectors must have the same dimension")
         
-        return sum(a * b for a, b in zip(self._value, other.value()))
+        return sum(a * b for a, b in zip(self._value, other.value(), strict=False))
 
-    def add(self, other: "VectorQuantity") -> "VectorQuantity":
+    def add(self, other: VectorQuantity) -> VectorQuantity:
         """Add vectors.
 
         Args:
@@ -160,10 +160,10 @@ class VectorQuantity(Quantity):
         if self.dimension != other.dimension:
             raise ValueError("Vectors must have the same dimension")
         
-        result_value = [a + b for a, b in zip(self._value, other.value())]
+        result_value = [a + b for a, b in zip(self._value, other.value(), strict=False)]
         return VectorQuantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def subtract(self, other: "VectorQuantity") -> "VectorQuantity":
+    def subtract(self, other: VectorQuantity) -> VectorQuantity:
         """Subtract vectors.
 
         Args:
@@ -181,10 +181,10 @@ class VectorQuantity(Quantity):
         if self.dimension != other.dimension:
             raise ValueError("Vectors must have the same dimension")
         
-        result_value = [a - b for a, b in zip(self._value, other.value())]
+        result_value = [a - b for a, b in zip(self._value, other.value(), strict=False)]
         return VectorQuantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def scale(self, scalar: float) -> "VectorQuantity":
+    def scale(self, scalar: float) -> VectorQuantity:
         """Scale the vector.
 
         Args:
@@ -199,7 +199,7 @@ class VectorQuantity(Quantity):
         result_value = [v * scalar for v in self._value]
         return VectorQuantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def __add__(self, other: "VectorQuantity") -> "VectorQuantity":
+    def __add__(self, other: VectorQuantity) -> VectorQuantity:
         """Add vectors.
 
         Args:
@@ -213,7 +213,7 @@ class VectorQuantity(Quantity):
         """
         return self.add(other)
 
-    def __sub__(self, other: "VectorQuantity") -> "VectorQuantity":
+    def __sub__(self, other: VectorQuantity) -> VectorQuantity:
         """Subtract vectors.
 
         Args:
@@ -227,7 +227,7 @@ class VectorQuantity(Quantity):
         """
         return self.subtract(other)
 
-    def __mul__(self, scalar: float) -> "VectorQuantity":
+    def __mul__(self, scalar: float) -> VectorQuantity:
         """Multiply by scalar.
 
         Args:
@@ -241,7 +241,7 @@ class VectorQuantity(Quantity):
         """
         return self.scale(scalar)
 
-    def __rmul__(self, scalar: float) -> "VectorQuantity":
+    def __rmul__(self, scalar: float) -> VectorQuantity:
         """Multiply by scalar (right side).
 
         Args:

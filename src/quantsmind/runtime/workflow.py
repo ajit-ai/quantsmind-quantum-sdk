@@ -32,13 +32,13 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.enums import ExecutionState, TaskPriority
-from quantsmind.runtime.exceptions import WorkflowError, ValidationError
+from quantsmind.runtime.exceptions import WorkflowError
 from quantsmind.runtime.job import Job
-from quantsmind.runtime.types import ConfigDict, ExecutionResult, JobID, WorkflowID
+from quantsmind.runtime.types import ExecutionResult, JobID, WorkflowID
 
 logger = logging.getLogger(__name__)
 
@@ -73,8 +73,8 @@ class Workflow:
         name: str,
         execution_mode: str = "sequential",
         priority: TaskPriority = TaskPriority.NORMAL,
-        dependencies: Optional[List[WorkflowID]] = None,
-        workflow_id: Optional[WorkflowID] = None,
+        dependencies: list[WorkflowID] | None = None,
+        workflow_id: WorkflowID | None = None,
     ) -> None:
         """Initialize a Workflow.
 
@@ -90,16 +90,16 @@ class Workflow:
         """
         self._workflow_id = workflow_id or str(uuid.uuid4())
         self._name = name
-        self._jobs: Dict[JobID, Job] = {}
+        self._jobs: dict[JobID, Job] = {}
         self._state = ExecutionState.CREATED
         self._priority = priority
         self._dependencies = dependencies or []
         self._execution_mode = execution_mode
-        self._results: Dict[JobID, ExecutionResult] = {}
+        self._results: dict[JobID, ExecutionResult] = {}
         self._created_at = datetime.utcnow()
-        self._started_at: Optional[datetime] = None
-        self._completed_at: Optional[datetime] = None
-        self._metadata: Dict[str, Any] = {
+        self._started_at: datetime | None = None
+        self._completed_at: datetime | None = None
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created workflow: {self._workflow_id}")
@@ -165,7 +165,7 @@ class Workflow:
         return self._execution_mode
 
     @property
-    def dependencies(self) -> List[WorkflowID]:
+    def dependencies(self) -> list[WorkflowID]:
         """Get the workflow dependencies.
 
         Returns:
@@ -231,7 +231,7 @@ class Workflow:
             del self._jobs[job_id]
             logger.debug(f"Removed job from workflow: {job_id}")
 
-    def get_job(self, job_id: JobID) -> Optional[Job]:
+    def get_job(self, job_id: JobID) -> Job | None:
         """Get a job by ID.
 
         Args:
@@ -245,7 +245,7 @@ class Workflow:
         """
         return self._jobs.get(job_id)
 
-    def get_jobs(self) -> List[Job]:
+    def get_jobs(self) -> list[Job]:
         """Get all jobs.
 
         Returns:
@@ -256,7 +256,7 @@ class Workflow:
         """
         return list(self._jobs.values())
 
-    def validate(self) -> Tuple[bool, List[str]]:
+    def validate(self) -> Tuple[bool, list[str]]:
         """Validate the workflow.
 
         Returns:
@@ -283,7 +283,7 @@ class Workflow:
 
         return (len(errors) == 0, errors)
 
-    def execute(self) -> Dict[JobID, ExecutionResult]:
+    def execute(self) -> dict[JobID, ExecutionResult]:
         """Execute the workflow.
 
         Returns:
@@ -386,7 +386,7 @@ class Workflow:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert workflow to dictionary.
 
         Returns:

@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -57,12 +57,12 @@ class ImageDataset(Dataset):
     def __init__(
         self,
         name: str,
-        image_size: Optional[Tuple[int, int]] = None,
+        image_size: tuple[int, int] | None = None,
         channels: int = 3,
         image_format: str = "PNG",
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ImageDataset.
 
@@ -88,10 +88,10 @@ class ImageDataset(Dataset):
         self._image_size = image_size
         self._channels = channels
         self._image_format = image_format
-        self._images: List[Dict[str, Any]] = []
+        self._images: list[dict[str, Any]] = []
 
     @property
-    def image_size(self) -> Optional[Tuple[int, int]]:
+    def image_size(self) -> tuple[int, int] | None:
         """Get the image size.
 
         Returns:
@@ -127,7 +127,7 @@ class ImageDataset(Dataset):
         return self._image_format
 
     @property
-    def images(self) -> List[Dict[str, Any]]:
+    def images(self) -> list[dict[str, Any]]:
         """Get the images.
 
         Returns:
@@ -138,7 +138,7 @@ class ImageDataset(Dataset):
         """
         return self._images.copy()
 
-    def add_image(self, image: Dict[str, Any]) -> None:
+    def add_image(self, image: dict[str, Any]) -> None:
         """Add an image to the dataset.
 
         Args:
@@ -165,7 +165,7 @@ class ImageDataset(Dataset):
         self._images.append(image)
         self._updated_at = self._updated_at
 
-    def add_images(self, images: List[Dict[str, Any]]) -> None:
+    def add_images(self, images: list[dict[str, Any]]) -> None:
         """Add multiple images to the dataset.
 
         Args:
@@ -177,7 +177,7 @@ class ImageDataset(Dataset):
         for image in images:
             self.add_image(image)
 
-    def get_image_by_index(self, index: int) -> Optional[Dict[str, Any]]:
+    def get_image_by_index(self, index: int) -> dict[str, Any] | None:
         """Get image by index.
 
         Args:
@@ -193,7 +193,7 @@ class ImageDataset(Dataset):
             return self._images[index]
         return None
 
-    def get_images_by_format(self, format: str) -> List[Dict[str, Any]]:
+    def get_images_by_format(self, format: str) -> list[dict[str, Any]]:
         """Get images with specific format.
 
         Args:
@@ -207,7 +207,7 @@ class ImageDataset(Dataset):
         """
         return [image for image in self._images if image.get("format") == format]
 
-    def get_images_by_size(self, size: Tuple[int, int]) -> List[Dict[str, Any]]:
+    def get_images_by_size(self, size: tuple[int, int]) -> list[dict[str, Any]]:
         """Get images with specific size.
 
         Args:
@@ -221,7 +221,7 @@ class ImageDataset(Dataset):
         """
         return [image for image in self._images if image.get("size") == size]
 
-    def calculate_dataset_statistics(self) -> Dict[str, Any]:
+    def calculate_dataset_statistics(self) -> dict[str, Any]:
         """Calculate dataset statistics.
 
         Returns:
@@ -250,7 +250,7 @@ class ImageDataset(Dataset):
             "sizes": sizes,
         }
 
-    def resize_images(self, target_size: Tuple[int, int]) -> None:
+    def resize_images(self, target_size: tuple[int, int]) -> None:
         """Resize all images to target size.
 
         Args:
@@ -292,7 +292,7 @@ class ImageDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -58,9 +58,9 @@ class SimulationDataset(Dataset):
         self,
         name: str,
         simulation_type: str = "generic",
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimulationDataset.
 
@@ -83,8 +83,8 @@ class SimulationDataset(Dataset):
         )
         self._simulation_type = simulation_type
         self._time_steps = 0
-        self._parameters: Dict[str, Any] = {}
-        self._simulations: List[Dict[str, Any]] = []
+        self._parameters: dict[str, Any] = {}
+        self._simulations: list[dict[str, Any]] = []
 
     @property
     def simulation_type(self) -> str:
@@ -111,7 +111,7 @@ class SimulationDataset(Dataset):
         return self._time_steps
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the simulation parameters.
 
         Returns:
@@ -123,7 +123,7 @@ class SimulationDataset(Dataset):
         return self._parameters.copy()
 
     @property
-    def simulations(self) -> List[Dict[str, Any]]:
+    def simulations(self) -> list[dict[str, Any]]:
         """Get the simulations.
 
         Returns:
@@ -134,7 +134,7 @@ class SimulationDataset(Dataset):
         """
         return self._simulations.copy()
 
-    def add_simulation(self, simulation: Dict[str, Any]) -> None:
+    def add_simulation(self, simulation: dict[str, Any]) -> None:
         """Add a simulation to the dataset.
 
         Args:
@@ -162,7 +162,7 @@ class SimulationDataset(Dataset):
         self._time_steps = max(self._time_steps, len(results) if isinstance(results, list) else 1)
         self._updated_at = self._updated_at
 
-    def add_simulations(self, simulations: List[Dict[str, Any]]) -> None:
+    def add_simulations(self, simulations: list[dict[str, Any]]) -> None:
         """Add multiple simulations to the dataset.
 
         Args:
@@ -186,7 +186,7 @@ class SimulationDataset(Dataset):
         """
         self._parameters[key] = value
 
-    def get_simulation_by_index(self, index: int) -> Optional[Dict[str, Any]]:
+    def get_simulation_by_index(self, index: int) -> dict[str, Any] | None:
         """Get simulation by index.
 
         Args:
@@ -202,7 +202,7 @@ class SimulationDataset(Dataset):
             return self._simulations[index]
         return None
 
-    def get_simulations_by_parameter(self, key: str, value: Any) -> List[Dict[str, Any]]:
+    def get_simulations_by_parameter(self, key: str, value: Any) -> list[dict[str, Any]]:
         """Get simulations with specific parameter value.
 
         Args:
@@ -220,7 +220,7 @@ class SimulationDataset(Dataset):
             if sim.get("parameters", {}).get(key) == value
         ]
 
-    def calculate_aggregate_statistics(self) -> Dict[str, Any]:
+    def calculate_aggregate_statistics(self) -> dict[str, Any]:
         """Calculate aggregate statistics across all simulations.
 
         Returns:
@@ -257,7 +257,7 @@ class SimulationDataset(Dataset):
             "std": (sum((x - sum(numeric_results) / len(numeric_results)) ** 2 for x in numeric_results) / len(numeric_results)) ** 0.5,
         }
 
-    def get_parameter_sensitivity(self, parameter: str) -> Dict[str, float]:
+    def get_parameter_sensitivity(self, parameter: str) -> dict[str, float]:
         """Analyze sensitivity to a parameter.
 
         Args:
@@ -316,7 +316,7 @@ class SimulationDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

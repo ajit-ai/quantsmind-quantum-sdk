@@ -22,7 +22,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class RuntimeErrorError(Exception):
@@ -38,7 +38,7 @@ class RuntimeErrorError(Exception):
         >>> raise RuntimeErrorError("Runtime error occurred")
     """
 
-    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, details: dict[str, Any] | None = None) -> None:
         """Initialize a RuntimeErrorError.
 
         Args:
@@ -65,7 +65,7 @@ class ExecutionError(RuntimeErrorError):
         >>> raise ExecutionError("Task execution failed", execution_id="task_123")
     """
 
-    def __init__(self, message: str, execution_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, execution_id: str | None = None, **kwargs: Any) -> None:
         """Initialize an ExecutionError.
 
         Args:
@@ -93,7 +93,7 @@ class TaskError(ExecutionError):
         >>> raise TaskError("Task validation failed", task_id="task_123")
     """
 
-    def __init__(self, message: str, task_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, task_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a TaskError.
 
         Args:
@@ -121,7 +121,7 @@ class JobError(ExecutionError):
         >>> raise JobError("Job scheduling failed", job_id="job_123")
     """
 
-    def __init__(self, message: str, job_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, job_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a JobError.
 
         Args:
@@ -149,7 +149,7 @@ class WorkflowError(ExecutionError):
         >>> raise WorkflowError("Workflow execution failed", workflow_id="workflow_123")
     """
 
-    def __init__(self, message: str, workflow_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, workflow_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a WorkflowError.
 
         Args:
@@ -177,7 +177,7 @@ class PipelineError(ExecutionError):
         >>> raise PipelineError("Pipeline execution failed", pipeline_id="pipeline_123")
     """
 
-    def __init__(self, message: str, pipeline_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, pipeline_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a PipelineError.
 
         Args:
@@ -205,7 +205,7 @@ class ResourceError(RuntimeErrorError):
         >>> raise ResourceError("Resource allocation failed", resource_id="resource_123")
     """
 
-    def __init__(self, message: str, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, resource_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a ResourceError.
 
         Args:
@@ -277,7 +277,7 @@ class ConfigurationError(RuntimeErrorError):
         >>> raise ConfigurationError("Invalid configuration value", config_key="timeout")
     """
 
-    def __init__(self, message: str, config_key: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, config_key: str | None = None, **kwargs: Any) -> None:
         """Initialize a ConfigurationError.
 
         Args:
@@ -305,7 +305,7 @@ class ValidationError(RuntimeErrorError):
         >>> raise ValidationError("Invalid task configuration", field="timeout")
     """
 
-    def __init__(self, message: str, field: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, field: str | None = None, **kwargs: Any) -> None:
         """Initialize a ValidationError.
 
         Args:
@@ -333,7 +333,7 @@ class PluginError(RuntimeErrorError):
         >>> raise PluginError("Plugin loading failed", plugin_id="plugin_123")
     """
 
-    def __init__(self, message: str, plugin_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, plugin_id: str | None = None, **kwargs: Any) -> None:
         """Initialize a PluginError.
 
         Args:
@@ -405,7 +405,7 @@ class TimeoutError(RuntimeErrorError):
         >>> raise TimeoutError("Operation timed out", timeout=300.0)
     """
 
-    def __init__(self, message: str, timeout: Optional[float] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, timeout: float | None = None, **kwargs: Any) -> None:
         """Initialize a TimeoutError.
 
         Args:
@@ -456,7 +456,7 @@ class StateMachineError(RuntimeErrorError):
         >>> raise StateMachineError("Invalid state transition", from_state="running", to_state="completed")
     """
 
-    def __init__(self, message: str, from_state: Optional[str] = None, to_state: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, from_state: str | None = None, to_state: str | None = None, **kwargs: Any) -> None:
         """Initialize a StateMachineError.
 
         Args:
@@ -486,7 +486,7 @@ class EventError(RuntimeErrorError):
         >>> raise EventError("Event dispatch failed", event_id="event_123")
     """
 
-    def __init__(self, message: str, event_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, message: str, event_id: str | None = None, **kwargs: Any) -> None:
         """Initialize an EventError.
 
         Args:

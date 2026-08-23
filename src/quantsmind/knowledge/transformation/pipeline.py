@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import TransformationType
 from quantsmind.knowledge.exceptions import TransformationError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -51,7 +50,7 @@ class Pipeline:
         self,
         pipeline_id: str,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Pipeline.
 
@@ -71,7 +70,7 @@ class Pipeline:
 
         self._id = pipeline_id
         self._name = name
-        self._transformations: List[Any] = []
+        self._transformations: list[Any] = []
         self._metadata = metadata or {}
 
     @property
@@ -99,7 +98,7 @@ class Pipeline:
         return self._name
 
     @property
-    def transformations(self) -> List[Any]:
+    def transformations(self) -> list[Any]:
         """Get the transformations.
 
         Returns:
@@ -111,7 +110,7 @@ class Pipeline:
         return self._transformations.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the pipeline metadata.
 
         Returns:
@@ -151,7 +150,7 @@ class Pipeline:
                 return True
         return False
 
-    def get_transformation(self, transformation_id: str) -> Optional[Any]:
+    def get_transformation(self, transformation_id: str) -> Any | None:
         """Get a transformation by ID.
 
         Args:
@@ -214,7 +213,7 @@ class Pipeline:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

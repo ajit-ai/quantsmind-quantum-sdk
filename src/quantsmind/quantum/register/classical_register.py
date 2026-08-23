@@ -23,7 +23,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -50,7 +50,7 @@ class ClassicalRegister:
         self,
         name: str,
         size: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ClassicalRegister.
 
@@ -70,7 +70,7 @@ class ClassicalRegister:
 
         self._name = name
         self._size = size
-        self._bits: List[int] = []
+        self._bits: list[int] = []
         self._metadata = metadata or {}
 
     @property
@@ -98,7 +98,7 @@ class ClassicalRegister:
         return self._size
 
     @property
-    def bits(self) -> List[int]:
+    def bits(self) -> list[int]:
         """Get the bits in the register.
 
         Returns:
@@ -110,7 +110,7 @@ class ClassicalRegister:
         return self._bits.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the register metadata.
 
         Returns:
@@ -166,7 +166,7 @@ class ClassicalRegister:
             return 0
         return self._bits[index]
 
-    def set_bits(self, values: List[int]) -> None:
+    def set_bits(self, values: list[int]) -> None:
         """Set multiple bit values.
 
         Args:
@@ -185,7 +185,7 @@ class ClassicalRegister:
         self._bits = values.copy()
         self._bits.extend([0] * (self._size - len(self._bits)))
 
-    def get_bits(self) -> List[int]:
+    def get_bits(self) -> list[int]:
         """Get all bit values.
 
         Returns:
@@ -276,7 +276,7 @@ class ClassicalRegister:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

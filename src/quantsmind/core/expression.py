@@ -26,7 +26,7 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from quantsmind.core.math_object import MathObject
 
@@ -53,9 +53,9 @@ class Expression(MathObject):
     def __init__(
         self,
         name: str,
-        terms: List[Union[str, float, int, "Expression"]],
-        operators: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        terms: list[str | float | int | Expression],
+        operators: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Expression.
 
@@ -81,7 +81,7 @@ class Expression(MathObject):
                 self._variables.update(term._variables)
 
     @property
-    def terms(self) -> List[Union[str, float, int, Expression]]:
+    def terms(self) -> list[str | float | int | Expression]:
         """Get the expression terms.
 
         Returns:
@@ -93,7 +93,7 @@ class Expression(MathObject):
         return self._terms.copy()
 
     @property
-    def operators(self) -> List[str]:
+    def operators(self) -> list[str]:
         """Get the operators.
 
         Returns:
@@ -161,7 +161,7 @@ class Expression(MathObject):
 
         return result
 
-    def simplify(self) -> "Expression":
+    def simplify(self) -> Expression:
         """Simplify the expression.
 
         Returns:
@@ -173,7 +173,7 @@ class Expression(MathObject):
         # Placeholder - actual simplification requires symbolic computation
         return self.clone()
 
-    def expand(self) -> "Expression":
+    def expand(self) -> Expression:
         """Expand the expression.
 
         Returns:
@@ -185,7 +185,7 @@ class Expression(MathObject):
         # Placeholder - actual expansion requires symbolic computation
         return self.clone()
 
-    def factor(self) -> "Expression":
+    def factor(self) -> Expression:
         """Factor the expression.
 
         Returns:
@@ -197,7 +197,7 @@ class Expression(MathObject):
         # Placeholder - actual factoring requires symbolic computation
         return self.clone()
 
-    def differentiate(self, variable: str) -> "Expression":
+    def differentiate(self, variable: str) -> Expression:
         """Differentiate with respect to a variable.
 
         Args:
@@ -212,7 +212,7 @@ class Expression(MathObject):
         # Placeholder - actual differentiation requires symbolic computation
         return Expression(f"d/d{variable}_{self._name}", [], [])
 
-    def integrate(self, variable: str) -> "Expression":
+    def integrate(self, variable: str) -> Expression:
         """Integrate with respect to a variable.
 
         Args:
@@ -227,7 +227,7 @@ class Expression(MathObject):
         # Placeholder - actual integration requires symbolic computation
         return Expression(f"∫{self._name}_d{variable}", [], [])
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the expression.
 
         Returns:

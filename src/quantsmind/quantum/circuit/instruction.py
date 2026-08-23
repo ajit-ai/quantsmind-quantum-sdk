@@ -24,10 +24,10 @@ quantsmind.quantum.gate.gate (gate module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
-from quantsmind.quantum.algorithms.types import QubitIndex, QubitIndices, ValidationResult
+from quantsmind.quantum.algorithms.types import QubitIndices, ValidationResult
 from quantsmind.quantum.gate.gate import QuantumGate
 
 
@@ -52,9 +52,9 @@ class Instruction:
         self,
         gate: QuantumGate,
         qubits: QubitIndices,
-        clbits: Optional[List[int]] = None,
-        params: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        clbits: list[int] | None = None,
+        params: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Instruction.
 
@@ -105,7 +105,7 @@ class Instruction:
         return self._qubits.copy()
 
     @property
-    def clbits(self) -> List[int]:
+    def clbits(self) -> list[int]:
         """Get the classical bits.
 
         Returns:
@@ -117,7 +117,7 @@ class Instruction:
         return self._clbits.copy()
 
     @property
-    def params(self) -> Dict[str, float]:
+    def params(self) -> dict[str, float]:
         """Get the instruction parameters.
 
         Returns:
@@ -129,7 +129,7 @@ class Instruction:
         return self._params.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the instruction metadata.
 
         Returns:
@@ -157,7 +157,7 @@ class Instruction:
 
         self._qubits = qubits
 
-    def set_clbits(self, clbits: List[int]) -> None:
+    def set_clbits(self, clbits: list[int]) -> None:
         """Set the classical bits.
 
         Args:
@@ -211,7 +211,7 @@ class Instruction:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

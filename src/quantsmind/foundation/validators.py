@@ -37,9 +37,9 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable, List, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.foundation.exceptions import ValidationError
 from quantsmind.foundation.types import ValidationResult
 
 logger = logging.getLogger(__name__)
@@ -63,7 +63,7 @@ def validate_type(value: Any, expected_type: type) -> ValidationResult:
     return (False, [f"Expected type {expected_type.__name__}, got {type(value).__name__}"])
 
 
-def validate_range(value: float, min_val: Optional[float] = None, max_val: Optional[float] = None) -> ValidationResult:
+def validate_range(value: float, min_val: float | None = None, max_val: float | None = None) -> ValidationResult:
     """Validate that a value is within a range.
 
     Args:
@@ -77,7 +77,7 @@ def validate_range(value: float, min_val: Optional[float] = None, max_val: Optio
     Example:
         >>> is_valid, errors = validate_range(5.0, min_val=0.0, max_val=10.0)
     """
-    errors: List[str] = []
+    errors: list[str] = []
 
     if min_val is not None and value < min_val:
         errors.append(f"Value {value} is below minimum {min_val}")
@@ -88,7 +88,7 @@ def validate_range(value: float, min_val: Optional[float] = None, max_val: Optio
     return (len(errors) == 0, errors)
 
 
-def validate_string_length(value: str, min_len: Optional[int] = None, max_len: Optional[int] = None) -> ValidationResult:
+def validate_string_length(value: str, min_len: int | None = None, max_len: int | None = None) -> ValidationResult:
     """Validate that a string length is within a range.
 
     Args:
@@ -102,7 +102,7 @@ def validate_string_length(value: str, min_len: Optional[int] = None, max_len: O
     Example:
         >>> is_valid, errors = validate_string_length("hello", min_len=1, max_len=10)
     """
-    errors: List[str] = []
+    errors: list[str] = []
 
     if min_len is not None and len(value) < min_len:
         errors.append(f"String length {len(value)} is below minimum {min_len}")
@@ -184,7 +184,7 @@ def validate_custom(value: Any, validator: Callable[[Any], bool], error_message:
     return (False, [error_message])
 
 
-def validate_all(value: Any, validators: List[Callable[[Any], ValidationResult]]) -> ValidationResult:
+def validate_all(value: Any, validators: list[Callable[[Any], ValidationResult]]) -> ValidationResult:
     """Validate a value using multiple validators.
 
     Args:
@@ -198,7 +198,7 @@ def validate_all(value: Any, validators: List[Callable[[Any], ValidationResult]]
         >>> validators = [lambda x: validate_type(x, int), lambda x: validate_positive(x)]
         >>> is_valid, errors = validate_all(5, validators)
     """
-    all_errors: List[str] = []
+    all_errors: list[str] = []
 
     for validator in validators:
         is_valid, errors = validator(value)

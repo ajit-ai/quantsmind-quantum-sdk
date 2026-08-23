@@ -24,7 +24,7 @@ quantsmind.quantum.circuit.circuit (circuit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CompilerError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,7 +53,7 @@ class Optimizer:
         name: str,
         strategy: str = "depth",
         level: int = 2,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Optimizer.
 
@@ -114,7 +114,7 @@ class Optimizer:
         return self._level
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the optimizer metadata.
 
         Returns:
@@ -154,7 +154,7 @@ class Optimizer:
 
         self._level = level
 
-    def optimize(self, circuit: QuantumCircuit, level: Optional[int] = None) -> QuantumCircuit:
+    def optimize(self, circuit: QuantumCircuit, level: int | None = None) -> QuantumCircuit:
         """Optimize a circuit.
 
         Args:
@@ -167,13 +167,12 @@ class Optimizer:
         Example:
             >>> optimized = optimizer.optimize(circuit, level=2)
         """
-        opt_level = level if level is not None else self._level
 
         # Placeholder implementation - actual optimization requires gate cancellation and merging
         optimized = QuantumCircuit(f"{circuit.name}_optimized", circuit.num_qubits, circuit.metadata.copy())
         
         # Copy gates (placeholder - actual optimization would reduce gate count)
-        for gate, qubits in zip(circuit.gates, circuit._qubit_indices):
+        for gate, qubits in zip(circuit.gates, circuit._qubit_indices, strict=False):
             optimized.add_gate(gate, qubits)
         
         return optimized
@@ -201,7 +200,7 @@ class Optimizer:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

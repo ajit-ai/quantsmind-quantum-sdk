@@ -26,7 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 import json
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.knowledge.enums import SerializationType
 from quantsmind.knowledge.exceptions import SerializationError
@@ -57,10 +58,10 @@ class Serializer:
         serializer_id: str,
         name: str,
         serialization_type: SerializationType,
-        serialize_function: Optional[Callable[[Any], str]] = None,
-        deserialize_function: Optional[Callable[[str], Any]] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        serialize_function: Callable[[Any], str] | None = None,
+        deserialize_function: Callable[[str], Any] | None = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Serializer.
 
@@ -127,7 +128,7 @@ class Serializer:
         return self._serialization_type
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the serializer parameters.
 
         Returns:
@@ -139,7 +140,7 @@ class Serializer:
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the serializer metadata.
 
         Returns:
@@ -232,7 +233,7 @@ class Serializer:
         except Exception as e:
             raise SerializationError(f"JSON deserialization failed: {str(e)}", {"serializer_id": self._id})
 
-    def serialize_all(self, data_list: List[Any]) -> List[str]:
+    def serialize_all(self, data_list: list[Any]) -> list[str]:
         """Serialize multiple data items.
 
         Args:
@@ -246,7 +247,7 @@ class Serializer:
         """
         return [self.serialize(data) for data in data_list]
 
-    def deserialize_all(self, serialized_list: List[str]) -> List[Any]:
+    def deserialize_all(self, serialized_list: list[str]) -> list[Any]:
         """Deserialize multiple data items.
 
         Args:
@@ -279,7 +280,7 @@ class Serializer:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -327,7 +328,7 @@ class SerializerRegistry:
         Example:
             >>> registry = SerializerRegistry()
         """
-        self._serializers: Dict[str, Serializer] = {}
+        self._serializers: dict[str, Serializer] = {}
 
     def register(self, serializer: Serializer) -> None:
         """Register a serializer.
@@ -357,7 +358,7 @@ class SerializerRegistry:
             return True
         return False
 
-    def get(self, serializer_id: str) -> Optional[Serializer]:
+    def get(self, serializer_id: str) -> Serializer | None:
         """Get a serializer by ID.
 
         Args:
@@ -371,7 +372,7 @@ class SerializerRegistry:
         """
         return self._serializers.get(serializer_id)
 
-    def get_by_type(self, serialization_type: SerializationType) -> List[Serializer]:
+    def get_by_type(self, serialization_type: SerializationType) -> list[Serializer]:
         """Get serializers by type.
 
         Args:
@@ -385,7 +386,7 @@ class SerializerRegistry:
         """
         return [s for s in self._serializers.values() if s.serialization_type == serialization_type]
 
-    def list_all(self) -> List[Serializer]:
+    def list_all(self) -> list[Serializer]:
         """List all registered serializers.
 
         Returns:
@@ -407,7 +408,7 @@ class SerializerRegistry:
         """
         return len(self._serializers)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

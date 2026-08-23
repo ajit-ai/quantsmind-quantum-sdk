@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
 from quantsmind.scientific.interfaces import ITime
@@ -50,7 +50,7 @@ class Duration(ITime):
         self,
         value: DurationValue,
         unit: str = "second",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Duration.
 
@@ -106,7 +106,7 @@ class Duration(ITime):
         return self._unit
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the duration metadata.
 
         Returns:
@@ -171,7 +171,7 @@ class Duration(ITime):
         else:
             raise TimeError(f"Conversion to {target_type} not supported", time_value=str(target_type))
 
-    def to_unit(self, target_unit: str) -> "Duration":
+    def to_unit(self, target_unit: str) -> Duration:
         """Convert to a different unit.
 
         Args:
@@ -200,7 +200,7 @@ class Duration(ITime):
         converted_value = seconds / conversion_factors[target_unit]
         return Duration(converted_value, target_unit, self._metadata)
 
-    def add(self, other: "Duration") -> "Duration":
+    def add(self, other: Duration) -> Duration:
         """Add durations.
 
         Args:
@@ -215,7 +215,7 @@ class Duration(ITime):
         total_seconds = self._to_seconds() + other._to_seconds()
         return Duration(total_seconds, "second", self._metadata)
 
-    def subtract(self, other: "Duration") -> "Duration":
+    def subtract(self, other: Duration) -> Duration:
         """Subtract durations.
 
         Args:
@@ -235,7 +235,7 @@ class Duration(ITime):
             raise TimeError("Duration cannot be negative", time_value=str(total_seconds))
         return Duration(total_seconds, "second", self._metadata)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -27,10 +27,9 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import MetadataType
-from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.interfaces import IMetadata
 from quantsmind.knowledge.types import (
     MetadataDict,
@@ -57,7 +56,7 @@ class KnowledgeMetadata(IMetadata):
 
     def __init__(
         self,
-        data: Optional[MetadataDict] = None,
+        data: MetadataDict | None = None,
         metadata_type: MetadataType = MetadataType.CUSTOM,
     ) -> None:
         """Initialize KnowledgeMetadata.
@@ -183,7 +182,7 @@ class KnowledgeMetadata(IMetadata):
         """
         return key in self._data
 
-    def keys(self) -> List[MetadataKey]:
+    def keys(self) -> list[MetadataKey]:
         """Get all metadata keys.
 
         Returns:
@@ -194,7 +193,7 @@ class KnowledgeMetadata(IMetadata):
         """
         return list(self._data.keys())
 
-    def values(self) -> List[MetadataValue]:
+    def values(self) -> list[MetadataValue]:
         """Get all metadata values.
 
         Returns:
@@ -205,7 +204,7 @@ class KnowledgeMetadata(IMetadata):
         """
         return list(self._data.values())
 
-    def items(self) -> List[tuple[MetadataKey, MetadataValue]]:
+    def items(self) -> list[tuple[MetadataKey, MetadataValue]]:
         """Get all metadata items.
 
         Returns:
@@ -236,7 +235,7 @@ class KnowledgeMetadata(IMetadata):
         """
         self.update(other.to_dict())
 
-    def copy(self) -> "KnowledgeMetadata":
+    def copy(self) -> KnowledgeMetadata:
         """Create a copy of the metadata.
 
         Returns:

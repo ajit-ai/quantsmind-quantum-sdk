@@ -24,7 +24,7 @@ quantsmind.quantum.operator.operator (operator module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CircuitError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,8 +53,8 @@ class Observable(QuantumOperator):
         self,
         name: str,
         num_qubits: int,
-        matrix: Optional[List[List[complex]]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        matrix: list[list[complex]] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Observable.
 
@@ -68,11 +68,11 @@ class Observable(QuantumOperator):
             >>> observable = Observable("energy", 1)
         """
         super().__init__(name, num_qubits, matrix, metadata)
-        self._eigenvalues: Optional[List[float]] = None
-        self._eigenvectors: Optional[List[List[complex]]] = None
+        self._eigenvalues: list[float] | None = None
+        self._eigenvectors: list[list[complex]] | None = None
 
     @property
-    def eigenvalues(self) -> List[float]:
+    def eigenvalues(self) -> list[float]:
         """Get the eigenvalues.
 
         Returns:
@@ -84,7 +84,7 @@ class Observable(QuantumOperator):
         return self._eigenvalues.copy() if self._eigenvalues else []
 
     @property
-    def eigenvectors(self) -> List[List[complex]]:
+    def eigenvectors(self) -> list[list[complex]]:
         """Get the eigenvectors.
 
         Returns:
@@ -95,7 +95,7 @@ class Observable(QuantumOperator):
         """
         return [vec.copy() for vec in self._eigenvectors] if self._eigenvectors else []
 
-    def set_eigenvalues(self, eigenvalues: List[float]) -> None:
+    def set_eigenvalues(self, eigenvalues: list[float]) -> None:
         """Set the eigenvalues.
 
         Args:
@@ -110,7 +110,7 @@ class Observable(QuantumOperator):
 
         self._eigenvalues = eigenvalues
 
-    def set_eigenvectors(self, eigenvectors: List[List[complex]]) -> None:
+    def set_eigenvectors(self, eigenvectors: list[list[complex]]) -> None:
         """Set the eigenvectors.
 
         Args:
@@ -129,7 +129,7 @@ class Observable(QuantumOperator):
 
         self._eigenvectors = eigenvectors
 
-    def get_expectation_value(self, state_vector: List[complex]) -> float:
+    def get_expectation_value(self, state_vector: list[complex]) -> float:
         """Calculate the expectation value for a given state.
 
         Args:
@@ -147,7 +147,7 @@ class Observable(QuantumOperator):
         # Placeholder implementation - actual calculation requires matrix multiplication
         return 0.0
 
-    def get_variance(self, state_vector: List[complex]) -> float:
+    def get_variance(self, state_vector: list[complex]) -> float:
         """Calculate the variance for a given state.
 
         Args:
@@ -160,11 +160,11 @@ class Observable(QuantumOperator):
             >>> var = observable.get_variance(state_vector)
         """
         # Placeholder implementation
-        expectation = self.get_expectation_value(state_vector)
+        self.get_expectation_value(state_vector)
         # Variance = ⟨O²⟩ - ⟨O⟩²
         return 0.0
 
-    def get_measurement_probabilities(self) -> List[float]:
+    def get_measurement_probabilities(self) -> list[float]:
         """Get the measurement probabilities based on eigenvalues.
 
         Returns:
@@ -198,7 +198,7 @@ class Observable(QuantumOperator):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

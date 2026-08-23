@@ -184,7 +184,7 @@ class ComplexNumber:
         """
         return hash((self._real, self._imag))
 
-    def __add__(self, other: Union[ComplexNumber, Scalar]) -> ComplexNumber:
+    def __add__(self, other: ComplexNumber | Scalar) -> ComplexNumber:
         """Add complex number or scalar.
 
         Args:
@@ -215,7 +215,7 @@ class ComplexNumber:
         """
         return self.__add__(other)
 
-    def __sub__(self, other: Union[ComplexNumber, Scalar]) -> ComplexNumber:
+    def __sub__(self, other: ComplexNumber | Scalar) -> ComplexNumber:
         """Subtract complex number or scalar.
 
         Args:
@@ -246,7 +246,7 @@ class ComplexNumber:
         """
         return ComplexNumber(other - self._real, -self._imag)
 
-    def __mul__(self, other: Union[ComplexNumber, Scalar]) -> ComplexNumber:
+    def __mul__(self, other: ComplexNumber | Scalar) -> ComplexNumber:
         """Multiply by complex number or scalar.
 
         Args:
@@ -279,7 +279,7 @@ class ComplexNumber:
         """
         return self.__mul__(other)
 
-    def __truediv__(self, other: Union[ComplexNumber, Scalar]) -> ComplexNumber:
+    def __truediv__(self, other: ComplexNumber | Scalar) -> ComplexNumber:
         """Divide by complex number or scalar.
 
         Args:
@@ -351,7 +351,7 @@ class ComplexNumber:
         """
         return ComplexNumber(self._real, -self._imag)
 
-    def to_polar(self) -> Tuple[Float, Float]:
+    def to_polar(self) -> tuple[Float, Float]:
         """Convert to polar form.
 
         Returns:
@@ -380,7 +380,7 @@ class ComplexNumber:
         imag = magnitude * math.sin(phase)
         return cls(real, imag)
 
-    def to_tuple(self) -> Tuple[Float, Float]:
+    def to_tuple(self) -> tuple[Float, Float]:
         """Convert to tuple.
 
         Returns:
@@ -412,7 +412,7 @@ class ComplexVector:
         >>> cv = ComplexVector([ComplexNumber(1.0, 2.0), ComplexNumber(3.0, 4.0)])
     """
 
-    def __init__(self, elements: List[ComplexNumber]) -> None:
+    def __init__(self, elements: list[ComplexNumber]) -> None:
         """Initialize a ComplexVector.
 
         Args:
@@ -482,7 +482,7 @@ class ComplexMatrix:
         >>> cm = ComplexMatrix([[ComplexNumber(1.0, 0.0), ComplexNumber(0.0, 1.0)]])
     """
 
-    def __init__(self, data: List[List[ComplexNumber]]) -> None:
+    def __init__(self, data: list[list[ComplexNumber]]) -> None:
         """Initialize a ComplexMatrix.
 
         Args:
@@ -496,7 +496,7 @@ class ComplexMatrix:
         self._cols = len(data[0]) if data else 0
 
     @property
-    def shape(self) -> Tuple[int, int]:
+    def shape(self) -> tuple[int, int]:
         """Get the shape.
 
         Returns:
@@ -507,7 +507,7 @@ class ComplexMatrix:
         """
         return (self._rows, self._cols)
 
-    def __getitem__(self, index: Tuple[int, int]) -> ComplexNumber:
+    def __getitem__(self, index: tuple[int, int]) -> ComplexNumber:
         """Get element by index.
 
         Args:

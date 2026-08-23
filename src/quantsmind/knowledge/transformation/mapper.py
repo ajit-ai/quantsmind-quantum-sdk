@@ -24,9 +24,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.knowledge.enums import TransformationType
 from quantsmind.knowledge.exceptions import TransformationError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -53,9 +53,9 @@ class Mapper:
         self,
         mapper_id: str,
         name: str,
-        source_schema: Optional[str] = None,
-        target_schema: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        source_schema: str | None = None,
+        target_schema: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Mapper.
 
@@ -79,7 +79,7 @@ class Mapper:
         self._name = name
         self._source_schema = source_schema
         self._target_schema = target_schema
-        self._field_mappings: Dict[str, tuple[str, Optional[Callable[[Any], Any]]]] = {}
+        self._field_mappings: dict[str, tuple[str, Callable[[Any], Any] | None]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -107,7 +107,7 @@ class Mapper:
         return self._name
 
     @property
-    def source_schema(self) -> Optional[str]:
+    def source_schema(self) -> str | None:
         """Get the source schema.
 
         Returns:
@@ -119,7 +119,7 @@ class Mapper:
         return self._source_schema
 
     @property
-    def target_schema(self) -> Optional[str]:
+    def target_schema(self) -> str | None:
         """Get the target schema.
 
         Returns:
@@ -131,7 +131,7 @@ class Mapper:
         return self._target_schema
 
     @property
-    def field_mappings(self) -> Dict[str, str]:
+    def field_mappings(self) -> dict[str, str]:
         """Get the field mappings.
 
         Returns:
@@ -143,7 +143,7 @@ class Mapper:
         return {source: target for source, (target, _) in self._field_mappings.items()}
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the mapper metadata.
 
         Returns:
@@ -154,7 +154,7 @@ class Mapper:
         """
         return self._metadata.copy()
 
-    def add_field_mapping(self, source_field: str, target_field: str, transform: Optional[Callable[[Any], Any]] = None) -> None:
+    def add_field_mapping(self, source_field: str, target_field: str, transform: Callable[[Any], Any] | None = None) -> None:
         """Add a field mapping.
 
         Args:
@@ -184,7 +184,7 @@ class Mapper:
             return True
         return False
 
-    def map(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def map(self, data: dict[str, Any]) -> dict[str, Any]:
         """Map data from source to target schema.
 
         Args:
@@ -229,7 +229,7 @@ class Mapper:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

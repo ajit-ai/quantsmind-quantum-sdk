@@ -26,8 +26,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class StatisticalAnalyzer:
@@ -49,7 +49,7 @@ class StatisticalAnalyzer:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a StatisticalAnalyzer.
 
@@ -61,7 +61,7 @@ class StatisticalAnalyzer:
             >>> analyzer = StatisticalAnalyzer()
         """
         self._name = name
-        self._data: List[float] = []
+        self._data: list[float] = []
         self._metadata = metadata or {}
 
     @property
@@ -76,7 +76,7 @@ class StatisticalAnalyzer:
         """
         return self._name
 
-    def set_data(self, data: List[float]) -> None:
+    def set_data(self, data: list[float]) -> None:
         """Set the data for analysis.
 
         Args:
@@ -163,10 +163,7 @@ class StatisticalAnalyzer:
             raise ValueError("No data available")
 
         n = len(self._data)
-        if sample and n > 1:
-            denominator = n - 1
-        else:
-            denominator = n
+        denominator = n - 1 if sample and n > 1 else n
 
         mean_val = self.mean()
         return sum((x - mean_val) ** 2 for x in self._data) / denominator
@@ -185,7 +182,7 @@ class StatisticalAnalyzer:
         """
         return math.sqrt(self.variance(sample))
 
-    def correlation(self, other_data: List[float]) -> float:
+    def correlation(self, other_data: list[float]) -> float:
         """Compute Pearson correlation coefficient.
 
         Args:
@@ -207,7 +204,7 @@ class StatisticalAnalyzer:
         mean_x = sum(self._data) / n
         mean_y = sum(other_data) / n
 
-        numerator = sum((x - mean_x) * (y - mean_y) for x, y in zip(self._data, other_data))
+        numerator = sum((x - mean_x) * (y - mean_y) for x, y in zip(self._data, other_data, strict=False))
         denominator_x = math.sqrt(sum((x - mean_x) ** 2 for x in self._data))
         denominator_y = math.sqrt(sum((y - mean_y) ** 2 for y in other_data))
 
@@ -216,7 +213,7 @@ class StatisticalAnalyzer:
 
         return numerator / (denominator_x * denominator_y)
 
-    def covariance(self, other_data: List[float], sample: bool = True) -> float:
+    def covariance(self, other_data: list[float], sample: bool = True) -> float:
         """Compute covariance.
 
         Args:
@@ -233,17 +230,14 @@ class StatisticalAnalyzer:
             raise ValueError("Data series must have same length")
 
         n = len(self._data)
-        if sample and n > 1:
-            denominator = n - 1
-        else:
-            denominator = n
+        denominator = n - 1 if sample and n > 1 else n
 
         mean_x = sum(self._data) / n
         mean_y = sum(other_data) / n
 
-        return sum((x - mean_x) * (y - mean_y) for x, y in zip(self._data, other_data)) / denominator
+        return sum((x - mean_x) * (y - mean_y) for x, y in zip(self._data, other_data, strict=False)) / denominator
 
-    def linear_regression(self, x_data: List[float]) -> Tuple[float, float]:
+    def linear_regression(self, x_data: list[float]) -> tuple[float, float]:
         """Perform simple linear regression.
 
         Args:
@@ -261,7 +255,7 @@ class StatisticalAnalyzer:
         n = len(self._data)
         sum_x = sum(x_data)
         sum_y = sum(self._data)
-        sum_xy = sum(x * y for x, y in zip(x_data, self._data))
+        sum_xy = sum(x * y for x, y in zip(x_data, self._data, strict=False))
         sum_x2 = sum(x ** 2 for x in x_data)
 
         denominator = n * sum_x2 - sum_x ** 2
@@ -277,7 +271,7 @@ class StatisticalAnalyzer:
         self,
         null_hypothesis: float,
         alpha: float = 0.05,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform one-sample t-test for mean.
 
         Args:
@@ -325,7 +319,7 @@ class StatisticalAnalyzer:
     def confidence_interval_mean(
         self,
         confidence_level: float = 0.95,
-    ) -> Tuple[float, float]:
+    ) -> tuple[float, float]:
         """Compute confidence interval for the mean.
 
         Args:
@@ -345,7 +339,7 @@ class StatisticalAnalyzer:
         sample_std = self.standard_deviation(sample=True)
 
         # Z-score for confidence level (simplified)
-        alpha = 1 - confidence_level
+        1 - confidence_level
         z_score = 1.96 if confidence_level == 0.95 else 1.645  # Approximate
 
         margin_of_error = z_score * sample_std / math.sqrt(n)

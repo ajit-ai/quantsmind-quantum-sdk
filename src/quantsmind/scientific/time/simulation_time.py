@@ -24,11 +24,11 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from datetime import UTC
+from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
 from quantsmind.scientific.interfaces import ITime
-from quantsmind.scientific.types import DurationValue
 
 
 class SimulationTime(ITime):
@@ -50,7 +50,7 @@ class SimulationTime(ITime):
         self,
         value: float,
         time_step: float = 0.01,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimulationTime.
 
@@ -97,7 +97,7 @@ class SimulationTime(ITime):
         return self._time_step
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the simulation time metadata.
 
         Returns:
@@ -137,16 +137,17 @@ class SimulationTime(ITime):
         if target_type == "simulation":
             return self
         elif target_type == "physical":
+            from datetime import datetime
+
             from quantsmind.scientific.time.timestamp import Timestamp
-            from datetime import datetime, timezone
-            return Timestamp(datetime.fromtimestamp(self.value, timezone.utc))
+            return Timestamp(datetime.fromtimestamp(self.value, UTC))
         elif target_type == "logical":
             from quantsmind.scientific.time.logical_time import LogicalTime
             return LogicalTime(int(self.value))
         else:
             raise TimeError(f"Conversion to {target_type} not supported", time_value=str(target_type))
 
-    def advance(self, steps: int = 1) -> "SimulationTime":
+    def advance(self, steps: int = 1) -> SimulationTime:
         """Advance simulation time.
 
         Args:
@@ -172,7 +173,7 @@ class SimulationTime(ITime):
         """
         return int(self._value / self._time_step)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

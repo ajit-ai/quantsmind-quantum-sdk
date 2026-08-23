@@ -26,7 +26,6 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import List, Optional, Tuple
 
 from quantsmind.scientific.enums import UncertaintyType
 from quantsmind.scientific.exceptions import MeasurementError
@@ -110,7 +109,7 @@ class Uncertainty:
         """
         return self._confidence
 
-    def to_absolute(self, measured_value: float) -> "Uncertainty":
+    def to_absolute(self, measured_value: float) -> Uncertainty:
         """Convert to absolute uncertainty.
 
         Args:
@@ -131,7 +130,7 @@ class Uncertainty:
         
         return self
 
-    def to_relative(self, measured_value: float) -> "Uncertainty":
+    def to_relative(self, measured_value: float) -> Uncertainty:
         """Convert to relative uncertainty.
 
         Args:
@@ -159,7 +158,7 @@ class Uncertainty:
         return self
 
     @staticmethod
-    def combine_independent(uncertainties: List["Uncertainty"]) -> "Uncertainty":
+    def combine_independent(uncertainties: list[Uncertainty]) -> Uncertainty:
         """Combine independent uncertainties (root sum of squares).
 
         Args:
@@ -181,7 +180,7 @@ class Uncertainty:
         return Uncertainty(combined_value, UncertaintyType.ABSOLUTE, uncertainties[0].confidence)
 
     @staticmethod
-    def combine_correlated(uncertainties: List["Uncertainty"]) -> "Uncertainty":
+    def combine_correlated(uncertainties: list[Uncertainty]) -> Uncertainty:
         """Combine correlated uncertainties (linear sum).
 
         Args:
@@ -200,7 +199,7 @@ class Uncertainty:
         
         return Uncertainty(combined_value, UncertaintyType.ABSOLUTE, uncertainties[0].confidence)
 
-    def propagate_addition(self, other: "Uncertainty") -> "Uncertainty":
+    def propagate_addition(self, other: Uncertainty) -> Uncertainty:
         """Propagate uncertainty through addition.
 
         Args:
@@ -214,7 +213,7 @@ class Uncertainty:
         """
         return Uncertainty.combine_independent([self, other])
 
-    def propagate_multiplication(self, other: "Uncertainty", value1: float, value2: float) -> "Uncertainty":
+    def propagate_multiplication(self, other: Uncertainty, value1: float, value2: float) -> Uncertainty:
         """Propagate uncertainty through multiplication.
 
         Args:
@@ -239,7 +238,7 @@ class Uncertainty:
         result_value = value1 * value2
         return combined_rel.to_absolute(result_value)
 
-    def scale(self, factor: float) -> "Uncertainty":
+    def scale(self, factor: float) -> Uncertainty:
         """Scale the uncertainty.
 
         Args:

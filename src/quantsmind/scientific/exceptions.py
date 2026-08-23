@@ -21,7 +21,7 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class ScientificError(Exception):
@@ -37,7 +37,7 @@ class ScientificError(Exception):
         >>> raise ScientificError("Operation failed")
     """
 
-    def __init__(self, message: str, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
         """Initialize a ScientificError.
 
         Args:
@@ -77,7 +77,7 @@ class UnitError(ScientificError):
         >>> raise UnitError("Invalid unit conversion", unit="meter")
     """
 
-    def __init__(self, message: str, unit: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, unit: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a UnitError.
 
         Args:
@@ -104,7 +104,7 @@ class DimensionError(ScientificError):
         >>> raise DimensionError("Incompatible dimensions", dimension="length")
     """
 
-    def __init__(self, message: str, dimension: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, dimension: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a DimensionError.
 
         Args:
@@ -131,7 +131,7 @@ class QuantityError(ScientificError):
         >>> raise QuantityError("Invalid quantity operation")
     """
 
-    def __init__(self, message: str, quantity: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, quantity: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a QuantityError.
 
         Args:
@@ -158,7 +158,7 @@ class MeasurementError(ScientificError):
         >>> raise MeasurementError("Invalid measurement")
     """
 
-    def __init__(self, message: str, measurement: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, measurement: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a MeasurementError.
 
         Args:
@@ -185,7 +185,7 @@ class CoordinateError(ScientificError):
         >>> raise CoordinateError("Invalid coordinate transformation")
     """
 
-    def __init__(self, message: str, coordinate: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, coordinate: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a CoordinateError.
 
         Args:
@@ -212,7 +212,7 @@ class ReferenceFrameError(ScientificError):
         >>> raise ReferenceFrameError("Invalid reference frame")
     """
 
-    def __init__(self, message: str, frame: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, frame: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a ReferenceFrameError.
 
         Args:
@@ -239,7 +239,7 @@ class TimeError(ScientificError):
         >>> raise TimeError("Invalid time operation")
     """
 
-    def __init__(self, message: str, time_value: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, time_value: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a TimeError.
 
         Args:
@@ -267,7 +267,7 @@ class ConversionError(ScientificError):
         >>> raise ConversionError("Cannot convert meter to second", from_unit="meter", to_unit="second")
     """
 
-    def __init__(self, message: str, from_unit: Optional[str] = None, to_unit: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, from_unit: str | None = None, to_unit: str | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a ConversionError.
 
         Args:
@@ -297,7 +297,7 @@ class ValidationError(ScientificError):
         >>> raise ValidationError("Invalid value", field="temperature", value=-300)
     """
 
-    def __init__(self, message: str, field: Optional[str] = None, value: Optional[Any] = None, context: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, field: str | None = None, value: Any | None = None, context: dict[str, Any] | None = None) -> None:
         """Initialize a ValidationError.
 
         Args:

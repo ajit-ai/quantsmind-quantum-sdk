@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.enums import DatasetType
@@ -58,9 +58,9 @@ class GraphDataset(Dataset):
         self,
         name: str,
         graph_type: str = "undirected",
-        schema: Optional[DatasetSchema] = None,
-        data: Optional[DatasetData] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        schema: DatasetSchema | None = None,
+        data: DatasetData | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GraphDataset.
 
@@ -87,7 +87,7 @@ class GraphDataset(Dataset):
         self._graph_type = graph_type
         self._node_count = 0
         self._edge_count = 0
-        self._graphs: List[Dict[str, Any]] = []
+        self._graphs: list[dict[str, Any]] = []
 
     @property
     def graph_type(self) -> str:
@@ -126,7 +126,7 @@ class GraphDataset(Dataset):
         return self._edge_count
 
     @property
-    def graphs(self) -> List[Dict[str, Any]]:
+    def graphs(self) -> list[dict[str, Any]]:
         """Get the graphs.
 
         Returns:
@@ -137,7 +137,7 @@ class GraphDataset(Dataset):
         """
         return self._graphs.copy()
 
-    def add_graph(self, graph: Dict[str, Any]) -> None:
+    def add_graph(self, graph: dict[str, Any]) -> None:
         """Add a graph to the dataset.
 
         Args:
@@ -170,7 +170,7 @@ class GraphDataset(Dataset):
             self._edge_count += len(edges)
         self._updated_at = self._updated_at
 
-    def add_graphs(self, graphs: List[Dict[str, Any]]) -> None:
+    def add_graphs(self, graphs: list[dict[str, Any]]) -> None:
         """Add multiple graphs to the dataset.
 
         Args:
@@ -182,7 +182,7 @@ class GraphDataset(Dataset):
         for graph in graphs:
             self.add_graph(graph)
 
-    def get_graph_by_index(self, index: int) -> Optional[Dict[str, Any]]:
+    def get_graph_by_index(self, index: int) -> dict[str, Any] | None:
         """Get graph by index.
 
         Args:
@@ -198,7 +198,7 @@ class GraphDataset(Dataset):
             return self._graphs[index]
         return None
 
-    def get_graphs_by_node_count(self, min_nodes: int, max_nodes: Optional[int] = None) -> List[Dict[str, Any]]:
+    def get_graphs_by_node_count(self, min_nodes: int, max_nodes: int | None = None) -> list[dict[str, Any]]:
         """Get graphs with specific node count range.
 
         Args:
@@ -214,12 +214,11 @@ class GraphDataset(Dataset):
         result = []
         for graph in self._graphs:
             nodes = len(graph.get("nodes", []))
-            if nodes >= min_nodes:
-                if max_nodes is None or nodes <= max_nodes:
-                    result.append(graph)
+            if nodes >= min_nodes and (max_nodes is None or nodes <= max_nodes):
+                result.append(graph)
         return result
 
-    def calculate_graph_statistics(self, graph_index: int) -> Dict[str, Any]:
+    def calculate_graph_statistics(self, graph_index: int) -> dict[str, Any]:
         """Calculate statistics for a graph.
 
         Args:
@@ -261,7 +260,7 @@ class GraphDataset(Dataset):
             "min_degree": min(degrees) if degrees else 0,
         }
 
-    def find_connected_components(self, graph_index: int) -> List[List[Any]]:
+    def find_connected_components(self, graph_index: int) -> list[list[Any]]:
         """Find connected components in a graph.
 
         Args:
@@ -346,7 +345,7 @@ class GraphDataset(Dataset):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

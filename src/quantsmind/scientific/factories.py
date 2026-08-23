@@ -27,7 +27,7 @@ quantsmind.scientific.coordinates (coordinates)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.coordinates import CartesianCoordinate
 from quantsmind.scientific.dimensions import Dimension, DimensionalAnalysis
@@ -61,7 +61,7 @@ class ScientificFactory:
         symbol: str,
         conversion_factor: float,
         dimension: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> BaseUnit:
         """Create a unit.
 
@@ -80,7 +80,7 @@ class ScientificFactory:
         """
         return BaseUnit(name, symbol, conversion_factor, dimension, metadata)
 
-    def get_si_unit(self, name: str) -> Optional[BaseUnit]:
+    def get_si_unit(self, name: str) -> BaseUnit | None:
         """Get an SI unit.
 
         Args:
@@ -98,7 +98,7 @@ class ScientificFactory:
         self,
         name: str,
         vector: tuple[int, int, int, int, int, int, int],
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> Dimension:
         """Create a dimension.
 
@@ -115,7 +115,7 @@ class ScientificFactory:
         """
         return Dimension(name, vector, metadata)
 
-    def get_dimension(self, name: str) -> Optional[Dimension]:
+    def get_dimension(self, name: str) -> Dimension | None:
         """Get a dimension.
 
         Args:
@@ -134,7 +134,7 @@ class ScientificFactory:
         value: float,
         unit: BaseUnit,
         dimension: Dimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> Quantity:
         """Create a quantity.
 
@@ -157,7 +157,7 @@ class ScientificFactory:
         value: float,
         unit: BaseUnit,
         dimension: Dimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> ScalarQuantity:
         """Create a scalar quantity.
 
@@ -180,7 +180,7 @@ class ScientificFactory:
         value: list[float],
         unit: BaseUnit,
         dimension: Dimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> VectorQuantity:
         """Create a vector quantity.
 
@@ -204,7 +204,7 @@ class ScientificFactory:
         uncertainty: float,
         unit: BaseUnit,
         confidence: float = 0.95,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> Measurement:
         """Create a measurement.
 
@@ -228,7 +228,7 @@ class ScientificFactory:
         x: float,
         y: float,
         z: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> CartesianCoordinate:
         """Create a Cartesian coordinate.
 
@@ -246,7 +246,7 @@ class ScientificFactory:
         """
         return CartesianCoordinate(x, y, z, metadata)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

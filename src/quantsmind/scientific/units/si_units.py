@@ -22,8 +22,6 @@ quantsmind.scientific.units.base_unit (base unit)
 
 from __future__ import annotations
 
-from typing import Dict, Optional
-
 from quantsmind.scientific.units.base_unit import BaseUnit
 
 
@@ -46,7 +44,7 @@ class SIUnits:
         Example:
             >>> si = SIUnits()
         """
-        self._units: Dict[str, BaseUnit] = {}
+        self._units: dict[str, BaseUnit] = {}
         self._initialize_base_units()
         self._initialize_derived_units()
 
@@ -109,7 +107,7 @@ class SIUnits:
         # Frequency
         self._units["hertz"] = BaseUnit("hertz", "Hz", 1.0, "frequency")
 
-    def get_unit(self, name: str) -> Optional[BaseUnit]:
+    def get_unit(self, name: str) -> BaseUnit | None:
         """Get a unit by name.
 
         Args:
@@ -123,7 +121,7 @@ class SIUnits:
         """
         return self._units.get(name)
 
-    def get_all_units(self) -> Dict[str, BaseUnit]:
+    def get_all_units(self) -> dict[str, BaseUnit]:
         """Get all registered units.
 
         Returns:

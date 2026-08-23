@@ -27,7 +27,7 @@ quantsmind.core.expression (Expression)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.core.expression import Expression
 from quantsmind.core.math_object import MathObject
@@ -57,8 +57,8 @@ class Formula(MathObject):
         name: str,
         expression: Expression,
         description: str = "",
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Formula.
 
@@ -102,7 +102,7 @@ class Formula(MathObject):
         return self._description
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the formula parameters.
 
         Returns:
@@ -177,7 +177,7 @@ class Formula(MathObject):
 
         return (len(errors) == 0, errors)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, Any]:
         """Serialize the formula.
 
         Returns:

@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
 from quantsmind.knowledge.types import CategoryID, ValidationResult
 
@@ -53,9 +52,9 @@ class Category:
         self,
         category_id: CategoryID,
         name: str,
-        parent_id: Optional[CategoryID] = None,
-        description: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parent_id: CategoryID | None = None,
+        description: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Category.
 
@@ -78,7 +77,7 @@ class Category:
         self._id = category_id
         self._name = name
         self._parent_id = parent_id
-        self._children: List[CategoryID] = []
+        self._children: list[CategoryID] = []
         self._description = description
         self._metadata = metadata or {}
 
@@ -107,7 +106,7 @@ class Category:
         return self._name
 
     @property
-    def parent_id(self) -> Optional[CategoryID]:
+    def parent_id(self) -> CategoryID | None:
         """Get the parent category ID.
 
         Returns:
@@ -119,7 +118,7 @@ class Category:
         return self._parent_id
 
     @property
-    def children(self) -> List[CategoryID]:
+    def children(self) -> list[CategoryID]:
         """Get the child category IDs.
 
         Returns:
@@ -131,7 +130,7 @@ class Category:
         return self._children.copy()
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the category description.
 
         Returns:
@@ -143,7 +142,7 @@ class Category:
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the category metadata.
 
         Returns:
@@ -225,7 +224,7 @@ class Category:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -269,7 +268,7 @@ class CategoryHierarchy:
         >>> hierarchy.add_category(Category("cat_001", "Science"))
     """
 
-    def __init__(self, categories: Optional[List[Category]] = None) -> None:
+    def __init__(self, categories: list[Category] | None = None) -> None:
         """Initialize a CategoryHierarchy.
 
         Args:
@@ -278,8 +277,8 @@ class CategoryHierarchy:
         Example:
             >>> hierarchy = CategoryHierarchy()
         """
-        self._categories: Dict[CategoryID, Category] = {}
-        self._root_categories: List[CategoryID] = []
+        self._categories: dict[CategoryID, Category] = {}
+        self._root_categories: list[CategoryID] = []
 
         if categories:
             for category in categories:
@@ -337,7 +336,7 @@ class CategoryHierarchy:
             return True
         return False
 
-    def get_category(self, category_id: CategoryID) -> Optional[Category]:
+    def get_category(self, category_id: CategoryID) -> Category | None:
         """Get a category by ID.
 
         Args:
@@ -351,7 +350,7 @@ class CategoryHierarchy:
         """
         return self._categories.get(category_id)
 
-    def get_root_categories(self) -> List[Category]:
+    def get_root_categories(self) -> list[Category]:
         """Get root categories.
 
         Returns:
@@ -362,7 +361,7 @@ class CategoryHierarchy:
         """
         return [self._categories[cid] for cid in self._root_categories if cid in self._categories]
 
-    def get_path(self, category_id: CategoryID) -> List[Category]:
+    def get_path(self, category_id: CategoryID) -> list[Category]:
         """Get the path from root to a category.
 
         Args:
@@ -387,7 +386,7 @@ class CategoryHierarchy:
         path.reverse()
         return path
 
-    def get_subtree(self, category_id: CategoryID) -> List[Category]:
+    def get_subtree(self, category_id: CategoryID) -> list[Category]:
         """Get all categories in the subtree of a category.
 
         Args:
@@ -439,7 +438,7 @@ class CategoryHierarchy:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

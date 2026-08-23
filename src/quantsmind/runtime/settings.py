@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.configuration import Configuration
 from quantsmind.runtime.constants import (
@@ -138,7 +138,7 @@ class Settings:
         """
         return self._profile
 
-    def get(self, key: str, default: Optional[Any] = None) -> Any:
+    def get(self, key: str, default: Any | None = None) -> Any:
         """Get a setting value.
 
         Args:
@@ -208,7 +208,7 @@ class Settings:
             >>> settings.load_from_file("settings.json")
         """
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 config = json.load(f)
             self._config.load_from_dict(config)
             logger.info(f"Loaded settings from file: {file_path}")

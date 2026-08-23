@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import ValidationResult, WorkflowID
 
@@ -57,8 +56,8 @@ class Workflow:
         self,
         workflow_id: WorkflowID,
         name: str,
-        description: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        description: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Workflow.
 
@@ -80,10 +79,10 @@ class Workflow:
         self._id = workflow_id
         self._name = name
         self._description = description
-        self._steps: List[Dict[str, Any]] = []
+        self._steps: list[dict[str, Any]] = []
         self._status = "pending"
-        self._start_time: Optional[datetime] = None
-        self._end_time: Optional[datetime] = None
+        self._start_time: datetime | None = None
+        self._end_time: datetime | None = None
         self._metadata = metadata or {}
 
     @property
@@ -111,7 +110,7 @@ class Workflow:
         return self._name
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the workflow description.
 
         Returns:
@@ -123,7 +122,7 @@ class Workflow:
         return self._description
 
     @property
-    def steps(self) -> List[Dict[str, Any]]:
+    def steps(self) -> list[dict[str, Any]]:
         """Get the workflow steps.
 
         Returns:
@@ -147,7 +146,7 @@ class Workflow:
         return self._status
 
     @property
-    def start_time(self) -> Optional[datetime]:
+    def start_time(self) -> datetime | None:
         """Get the start timestamp.
 
         Returns:
@@ -159,7 +158,7 @@ class Workflow:
         return self._start_time
 
     @property
-    def end_time(self) -> Optional[datetime]:
+    def end_time(self) -> datetime | None:
         """Get the end timestamp.
 
         Returns:
@@ -171,7 +170,7 @@ class Workflow:
         return self._end_time
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the workflow metadata.
 
         Returns:
@@ -182,7 +181,7 @@ class Workflow:
         """
         return self._metadata.copy()
 
-    def add_step(self, step_id: str, step_name: str, step_type: str = "process", parameters: Optional[Dict[str, Any]] = None) -> None:
+    def add_step(self, step_id: str, step_name: str, step_type: str = "process", parameters: dict[str, Any] | None = None) -> None:
         """Add a step to the workflow.
 
         Args:
@@ -237,7 +236,7 @@ class Workflow:
                 step["start_time"] = datetime.utcnow()
                 break
 
-    def complete_step(self, step_id: str, results: Optional[Dict[str, Any]] = None) -> None:
+    def complete_step(self, step_id: str, results: dict[str, Any] | None = None) -> None:
         """Complete a workflow step.
 
         Args:
@@ -255,7 +254,7 @@ class Workflow:
                     step["results"] = results
                 break
 
-    def fail_step(self, step_id: str, error: Optional[str] = None) -> None:
+    def fail_step(self, step_id: str, error: str | None = None) -> None:
         """Fail a workflow step.
 
         Args:
@@ -291,7 +290,7 @@ class Workflow:
         self._status = "completed"
         self._end_time = datetime.utcnow()
 
-    def fail(self, error: Optional[str] = None) -> None:
+    def fail(self, error: str | None = None) -> None:
         """Fail the workflow.
 
         Args:
@@ -305,7 +304,7 @@ class Workflow:
         if error:
             self._metadata["error"] = error
 
-    def get_step_status(self, step_id: str) -> Optional[str]:
+    def get_step_status(self, step_id: str) -> str | None:
         """Get the status of a step.
 
         Args:
@@ -322,7 +321,7 @@ class Workflow:
                 return step.get("status")
         return None
 
-    def get_duration(self) -> Optional[float]:
+    def get_duration(self) -> float | None:
         """Get the workflow duration in seconds.
 
         Returns:
@@ -357,7 +356,7 @@ class Workflow:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

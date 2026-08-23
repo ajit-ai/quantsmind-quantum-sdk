@@ -58,7 +58,7 @@ class TopologicalSpace:
         >>> space = TopologicalSpace()
     """
 
-    def __init__(self, elements: Optional[Set[Any]] = None) -> None:
+    def __init__(self, elements: set[Any] | None = None) -> None:
         """Initialize a TopologicalSpace.
 
         Args:
@@ -68,11 +68,11 @@ class TopologicalSpace:
             >>> space = TopologicalSpace({1, 2, 3, 4})
         """
         self._elements = elements or set()
-        self._open_sets: List[Set[Any]] = []
+        self._open_sets: list[set[Any]] = []
         logger.debug(f"Created topological space with {len(self._elements)} elements")
 
     @property
-    def elements(self) -> Set[Any]:
+    def elements(self) -> set[Any]:
         """Get the elements.
 
         Returns:
@@ -83,7 +83,7 @@ class TopologicalSpace:
         """
         return self._elements.copy()
 
-    def add_open_set(self, open_set: Set[Any]) -> None:
+    def add_open_set(self, open_set: set[Any]) -> None:
         """Add an open set.
 
         Args:
@@ -94,7 +94,7 @@ class TopologicalSpace:
         """
         self._open_sets.append(open_set.copy())
 
-    def is_open(self, subset: Set[Any]) -> bool:
+    def is_open(self, subset: set[Any]) -> bool:
         """Check if a subset is open.
 
         Args:
@@ -205,7 +205,7 @@ class ConnectedComponent:
         >>> component = ConnectedComponent({1, 2, 3})
     """
 
-    def __init__(self, elements: Set[Any]) -> None:
+    def __init__(self, elements: set[Any]) -> None:
         """Initialize a ConnectedComponent.
 
         Args:
@@ -218,7 +218,7 @@ class ConnectedComponent:
         logger.debug(f"Created connected component with {len(elements)} elements")
 
     @property
-    def elements(self) -> Set[Any]:
+    def elements(self) -> set[Any]:
         """Get the elements.
 
         Returns:

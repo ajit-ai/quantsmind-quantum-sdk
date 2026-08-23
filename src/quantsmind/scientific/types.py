@@ -23,23 +23,23 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Union
 
 # Unit types
 UnitName = str
 UnitSymbol = str
 ConversionFactor = float
-UnitDefinition = Dict[str, Union[str, float]]
+UnitDefinition = dict[str, str | float]
 
 # Dimension types
 DimensionName = str
 DimensionPower = int
-DimensionVector = Tuple[int, int, int, int, int, int, int]  # L, M, T, Θ, I, N, J
+DimensionVector = tuple[int, int, int, int, int, int, int]  # L, M, T, Θ, I, N, J
 
 # Quantity types
 QuantityValue = Union[int, float]
-QuantityVector = List[QuantityValue]
-QuantityTensor = List[List[QuantityValue]]
+QuantityVector = list[QuantityValue]
+QuantityTensor = list[list[QuantityValue]]
 
 # Measurement types
 MeasurementValue = Union[int, float]
@@ -49,8 +49,8 @@ ToleranceValue = Union[int, float]
 
 # Coordinate types
 CoordinateValue = Union[int, float]
-CoordinateTuple = Tuple[CoordinateValue, CoordinateValue]
-CoordinateTriple = Tuple[CoordinateValue, CoordinateValue, CoordinateValue]
+CoordinateTuple = tuple[CoordinateValue, CoordinateValue]
+CoordinateTriple = tuple[CoordinateValue, CoordinateValue, CoordinateValue]
 
 # Time types
 TimestampValue = Union[int, float]
@@ -59,25 +59,25 @@ EpochValue = Union[int, float]
 
 # Scale types
 ScaleValue = Union[int, float]
-ScaleRange = Tuple[ScaleValue, ScaleValue]
+ScaleRange = tuple[ScaleValue, ScaleValue]
 
 # Constant types
 ConstantName = str
 ConstantValue = Union[int, float]
-ConstantDefinition = Dict[str, Union[str, float, List[str]]]
+ConstantDefinition = dict[str, str | float | list[str]]
 
 # Metadata types
 MetadataKey = str
 MetadataValue = Any
-MetadataDict = Dict[MetadataKey, MetadataValue]
+MetadataDict = dict[MetadataKey, MetadataValue]
 
 # Validation types
-ValidationResult = Tuple[bool, List[str]]
+ValidationResult = tuple[bool, list[str]]
 ValidationError = str
 
 # Serialization types
 SerializationFormat = str
-SerializedData = Union[str, bytes, Dict[str, Any]]
+SerializedData = Union[str, bytes, dict[str, Any]]
 
 # Observer types
 ObserverID = str
@@ -86,7 +86,7 @@ ObservationID = str
 
 # Reference frame types
 FrameID = str
-FrameTransform = Dict[str, Any]
+FrameTransform = dict[str, Any]
 
 # Export
 __all__ = [

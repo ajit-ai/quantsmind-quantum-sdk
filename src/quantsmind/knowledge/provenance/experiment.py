@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import ExperimentID, ValidationResult
 
@@ -57,9 +56,9 @@ class Experiment:
         self,
         experiment_id: ExperimentID,
         name: str,
-        description: Optional[str] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        description: str | None = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Experiment.
 
@@ -82,10 +81,10 @@ class Experiment:
         self._id = experiment_id
         self._name = name
         self._description = description
-        self._start_time: Optional[datetime] = None
-        self._end_time: Optional[datetime] = None
+        self._start_time: datetime | None = None
+        self._end_time: datetime | None = None
         self._parameters = parameters or {}
-        self._results: Dict[str, Any] = {}
+        self._results: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -113,7 +112,7 @@ class Experiment:
         return self._name
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the experiment description.
 
         Returns:
@@ -125,7 +124,7 @@ class Experiment:
         return self._description
 
     @property
-    def start_time(self) -> Optional[datetime]:
+    def start_time(self) -> datetime | None:
         """Get the start timestamp.
 
         Returns:
@@ -137,7 +136,7 @@ class Experiment:
         return self._start_time
 
     @property
-    def end_time(self) -> Optional[datetime]:
+    def end_time(self) -> datetime | None:
         """Get the end timestamp.
 
         Returns:
@@ -149,7 +148,7 @@ class Experiment:
         return self._end_time
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the experiment parameters.
 
         Returns:
@@ -161,7 +160,7 @@ class Experiment:
         return self._parameters.copy()
 
     @property
-    def results(self) -> Dict[str, Any]:
+    def results(self) -> dict[str, Any]:
         """Get the experiment results.
 
         Returns:
@@ -173,7 +172,7 @@ class Experiment:
         return self._results.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the experiment metadata.
 
         Returns:
@@ -224,7 +223,7 @@ class Experiment:
         """
         self._results[key] = value
 
-    def get_duration(self) -> Optional[float]:
+    def get_duration(self) -> float | None:
         """Get the experiment duration in seconds.
 
         Returns:
@@ -270,7 +269,7 @@ class Experiment:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -322,7 +321,7 @@ class ExperimentRegistry:
         Example:
             >>> registry = ExperimentRegistry()
         """
-        self._experiments: Dict[ExperimentID, Experiment] = {}
+        self._experiments: dict[ExperimentID, Experiment] = {}
 
     def register(self, experiment: Experiment) -> None:
         """Register an experiment.
@@ -352,7 +351,7 @@ class ExperimentRegistry:
             return True
         return False
 
-    def get(self, experiment_id: ExperimentID) -> Optional[Experiment]:
+    def get(self, experiment_id: ExperimentID) -> Experiment | None:
         """Get an experiment by ID.
 
         Args:
@@ -366,7 +365,7 @@ class ExperimentRegistry:
         """
         return self._experiments.get(experiment_id)
 
-    def get_running(self) -> List[Experiment]:
+    def get_running(self) -> list[Experiment]:
         """Get running experiments.
 
         Returns:
@@ -377,7 +376,7 @@ class ExperimentRegistry:
         """
         return [exp for exp in self._experiments.values() if exp.is_running()]
 
-    def get_completed(self) -> List[Experiment]:
+    def get_completed(self) -> list[Experiment]:
         """Get completed experiments.
 
         Returns:
@@ -388,7 +387,7 @@ class ExperimentRegistry:
         """
         return [exp for exp in self._experiments.values() if exp.start_time and exp.end_time]
 
-    def list_all(self) -> List[Experiment]:
+    def list_all(self) -> list[Experiment]:
         """List all registered experiments.
 
         Returns:
@@ -410,7 +409,7 @@ class ExperimentRegistry:
         """
         return len(self._experiments)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

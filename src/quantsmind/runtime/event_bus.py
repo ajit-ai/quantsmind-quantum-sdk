@@ -32,13 +32,13 @@ from __future__ import annotations
 import logging
 import queue
 import threading
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import DEFAULT_EVENT_QUEUE_SIZE, DEFAULT_EVENT_TIMEOUT
 from quantsmind.runtime.enums import EventType
-from quantsmind.runtime.exceptions import EventError
 from quantsmind.runtime.event import Event
-from quantsmind.runtime.types import EventCallback, EventID
+from quantsmind.runtime.exceptions import EventError
+from quantsmind.runtime.types import EventCallback
 
 logger = logging.getLogger(__name__)
 
@@ -70,10 +70,10 @@ class EventBus:
         Example:
             >>> bus = EventBus()
         """
-        self._subscribers: Dict[EventType, List[EventCallback]] = {}
+        self._subscribers: dict[EventType, list[EventCallback]] = {}
         self._event_queue: queue.Queue = queue.Queue(maxsize=queue_size)
         self._running = False
-        self._worker_thread: Optional[threading.Thread] = None
+        self._worker_thread: threading.Thread | None = None
         self._lock = threading.Lock()
         logger.debug("Created event bus")
 
@@ -236,7 +236,7 @@ class EventBus:
                 break
         logger.debug("Cleared event queue")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get event bus status.
 
         Returns:
@@ -250,7 +250,7 @@ class EventBus:
                 "running": self._running,
                 "subscriber_count": self.subscriber_count,
                 "queue_size": self.queue_size,
-                "subscribed_event_types": [et.value for et in self._subscribers.keys()],
+                "subscribed_event_types": [et.value for et in self._subscribers],
             }
 
 

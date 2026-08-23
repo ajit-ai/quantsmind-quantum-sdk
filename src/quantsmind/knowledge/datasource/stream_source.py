@@ -25,7 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterator, Optional
+from collections.abc import Iterator
+from typing import Any
 
 from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.enums import DataSourceType
@@ -56,8 +57,8 @@ class StreamSource(DataSource):
         stream_url: str,
         buffer_size: int = 1024,
         batch_size: int = 100,
-        config: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        config: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a StreamSource.
 
@@ -159,7 +160,7 @@ class StreamSource(DataSource):
         }
         return True
 
-    def read_stream(self) -> Iterator[Dict[str, Any]]:
+    def read_stream(self) -> Iterator[dict[str, Any]]:
         """Read data from the stream.
 
         Yields:
@@ -178,7 +179,7 @@ class StreamSource(DataSource):
         # Placeholder implementation
         yield {"data": "sample", "source_id": self._source_id}
 
-    def read_batch(self) -> List[Dict[str, Any]]:
+    def read_batch(self) -> List[dict[str, Any]]:
         """Read a batch of data from the stream.
 
         Returns:
@@ -251,7 +252,7 @@ class StreamSource(DataSource):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

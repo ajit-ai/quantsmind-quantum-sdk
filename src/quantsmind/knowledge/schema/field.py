@@ -23,7 +23,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.exceptions import ValidationError
 
@@ -51,9 +51,9 @@ class Field:
         name: str,
         field_type: str = "string",
         required: bool = False,
-        default: Optional[Any] = None,
-        constraints: Optional[Dict[str, Any]] = None,
-        description: Optional[str] = None,
+        default: Any | None = None,
+        constraints: dict[str, Any] | None = None,
+        description: str | None = None,
     ) -> None:
         """Initialize a Field.
 
@@ -115,7 +115,7 @@ class Field:
         return self._required
 
     @property
-    def default(self) -> Optional[Any]:
+    def default(self) -> Any | None:
         """Get the default value.
 
         Returns:
@@ -127,7 +127,7 @@ class Field:
         return self._default
 
     @property
-    def constraints(self) -> Dict[str, Any]:
+    def constraints(self) -> dict[str, Any]:
         """Get the field constraints.
 
         Returns:
@@ -139,7 +139,7 @@ class Field:
         return self._constraints.copy()
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the field description.
 
         Returns:
@@ -179,7 +179,7 @@ class Field:
             return True
         return False
 
-    def validate_value(self, value: Any) -> tuple[bool, List[str]]:
+    def validate_value(self, value: Any) -> tuple[bool, list[str]]:
         """Validate a value against field constraints.
 
         Args:
@@ -219,9 +219,8 @@ class Field:
             if not re.match(self._constraints["pattern"], value):
                 errors.append(f"Value does not match pattern {self._constraints['pattern']}")
 
-        if "enum" in self._constraints:
-            if value not in self._constraints["enum"]:
-                errors.append(f"Value not in allowed values: {self._constraints['enum']}")
+        if "enum" in self._constraints and value not in self._constraints["enum"]:
+            errors.append(f"Value not in allowed values: {self._constraints['enum']}")
 
         return (len(errors) == 0, errors)
 
@@ -254,7 +253,7 @@ class Field:
 
         return isinstance(value, expected_python_type)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

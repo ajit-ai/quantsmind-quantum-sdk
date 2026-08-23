@@ -38,7 +38,8 @@ from __future__ import annotations
 
 import logging
 import math
-from typing import Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import List, Optional, Tuple, Union
 
 from quantsmind.math.exceptions import InvalidOperationError
 from quantsmind.math.types import Complex, Scalar, Vector
@@ -61,7 +62,7 @@ class FourierTransform:
         >>> result = ft.transform([1.0, 2.0, 3.0, 4.0])
     """
 
-    def transform(self, data: List[Scalar]) -> List[Complex]:
+    def transform(self, data: list[Scalar]) -> list[Complex]:
         """Apply discrete Fourier transform.
 
         Args:
@@ -85,7 +86,7 @@ class FourierTransform:
             result.append(complex(real, imag))
         return result
 
-    def inverse_transform(self, data: List[Complex]) -> List[Scalar]:
+    def inverse_transform(self, data: list[Complex]) -> list[Scalar]:
         """Apply inverse discrete Fourier transform.
 
         Args:
@@ -159,7 +160,7 @@ class WaveletTransform:
         >>> result = wt.transform([1.0, 2.0, 3.0, 4.0])
     """
 
-    def transform(self, data: List[Scalar]) -> List[Scalar]:
+    def transform(self, data: list[Scalar]) -> list[Scalar]:
         """Apply discrete wavelet transform.
 
        Args:
@@ -194,7 +195,7 @@ class ZTransform:
         >>> result = zt.transform([1.0, 2.0, 3.0, 4.0], 1.0)
     """
 
-    def transform(self, data: List[Scalar], z: Complex) -> Complex:
+    def transform(self, data: list[Scalar], z: Complex) -> Complex:
         """Apply Z-transform.
 
         Args:
@@ -228,7 +229,7 @@ class HilbertTransform:
         >>> result = ht.transform([1.0, 2.0, 3.0, 4.0])
     """
 
-    def transform(self, data: List[Scalar]) -> List[Complex]:
+    def transform(self, data: list[Scalar]) -> list[Complex]:
         """Apply Hilbert transform.
 
         Args:

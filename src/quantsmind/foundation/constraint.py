@@ -44,15 +44,10 @@ from __future__ import annotations
 
 import logging
 import uuid
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_CONSTRAINT_TYPE
 from quantsmind.foundation.enums import ConstraintSeverity, ConstraintType
 from quantsmind.foundation.exceptions import (
-    CircularDependencyError,
-    ConstraintError,
-    ConstraintNotFoundError,
-    ConstraintViolationError,
     EvaluationError,
     InvalidConstraintError,
 )
@@ -64,7 +59,6 @@ from quantsmind.foundation.types import (
     ConstraintResult,
     ConstraintRule,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -104,7 +98,7 @@ class Constraint(Serializable, Validatable):
         rule: ConstraintRule,
         constraint_type: ConstraintType = ConstraintType.CUSTOM,
         severity: ConstraintSeverity = ConstraintSeverity.ERROR,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Constraint.
 
@@ -227,7 +221,7 @@ class Constraint(Serializable, Validatable):
         """
         return self._severity.is_blocking()
 
-    def evaluate(self, context: Dict[str, Any]) -> ConstraintResult:
+    def evaluate(self, context: dict[str, Any]) -> ConstraintResult:
         """Evaluate the constraint.
 
         Args:
@@ -289,7 +283,7 @@ class Constraint(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Constraint":
+    def deserialize(cls, data: bytes, format: str = "json") -> Constraint:
         """Deserialize the constraint from bytes.
 
         Args:
@@ -315,7 +309,7 @@ class Constraint(Serializable, Validatable):
         try:
             obj = json.loads(data.decode("utf-8"))
             # Create a placeholder rule
-            def placeholder_rule(context: Dict[str, Any]) -> bool:
+            def placeholder_rule(context: dict[str, Any]) -> bool:
                 return True
 
             return cls(

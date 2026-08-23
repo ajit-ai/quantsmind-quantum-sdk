@@ -24,9 +24,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
 from quantsmind.knowledge.types import RelationID, RelationType, ValidationResult
 
@@ -57,8 +56,8 @@ class SemanticRelation:
         source: str,
         target: str,
         weight: float = 1.0,
-        properties: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        properties: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SemanticRelation.
 
@@ -155,7 +154,7 @@ class SemanticRelation:
         return self._weight
 
     @property
-    def properties(self) -> Dict[str, Any]:
+    def properties(self) -> dict[str, Any]:
         """Get the relation properties.
 
         Returns:
@@ -167,7 +166,7 @@ class SemanticRelation:
         return self._properties.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the relation metadata.
 
         Returns:
@@ -282,7 +281,7 @@ class SemanticRelation:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -333,7 +332,7 @@ class RelationRegistry:
         Example:
             >>> registry = RelationRegistry()
         """
-        self._relations: Dict[RelationID, SemanticRelation] = {}
+        self._relations: dict[RelationID, SemanticRelation] = {}
         self._relation_types = {
             "is_a": "Subclass relationship",
             "part_of": "Part-whole relationship",
@@ -378,7 +377,7 @@ class RelationRegistry:
             return True
         return False
 
-    def get(self, relation_id: RelationID) -> Optional[SemanticRelation]:
+    def get(self, relation_id: RelationID) -> SemanticRelation | None:
         """Get a relation by ID.
 
         Args:
@@ -392,7 +391,7 @@ class RelationRegistry:
         """
         return self._relations.get(relation_id)
 
-    def get_by_type(self, relation_type: RelationType) -> List[SemanticRelation]:
+    def get_by_type(self, relation_type: RelationType) -> list[SemanticRelation]:
         """Get relations by type.
 
         Args:
@@ -406,7 +405,7 @@ class RelationRegistry:
         """
         return [rel for rel in self._relations.values() if rel.relation_type == relation_type]
 
-    def get_by_source(self, source: str) -> List[SemanticRelation]:
+    def get_by_source(self, source: str) -> list[SemanticRelation]:
         """Get relations by source.
 
         Args:
@@ -420,7 +419,7 @@ class RelationRegistry:
         """
         return [rel for rel in self._relations.values() if rel.source == source]
 
-    def get_by_target(self, target: str) -> List[SemanticRelation]:
+    def get_by_target(self, target: str) -> list[SemanticRelation]:
         """Get relations by target.
 
         Args:
@@ -434,7 +433,7 @@ class RelationRegistry:
         """
         return [rel for rel in self._relations.values() if rel.target == target]
 
-    def get_relation_types(self) -> Dict[str, str]:
+    def get_relation_types(self) -> dict[str, str]:
         """Get available relation types.
 
         Returns:
@@ -457,7 +456,7 @@ class RelationRegistry:
         """
         self._relation_types[relation_type] = description
 
-    def list_all(self) -> List[SemanticRelation]:
+    def list_all(self) -> list[SemanticRelation]:
         """List all registered relations.
 
         Returns:
@@ -479,7 +478,7 @@ class RelationRegistry:
         """
         return len(self._relations)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

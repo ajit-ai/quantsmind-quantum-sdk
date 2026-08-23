@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import MetadataType
 from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.types import Label
 
@@ -56,8 +55,8 @@ class Label:
         name: str,
         value: str,
         confidence: float = 1.0,
-        labeler: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        labeler: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Label.
 
@@ -124,7 +123,7 @@ class Label:
         return self._confidence
 
     @property
-    def labeler(self) -> Optional[str]:
+    def labeler(self) -> str | None:
         """Get the labeler.
 
         Returns:
@@ -148,7 +147,7 @@ class Label:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the label metadata.
 
         Returns:
@@ -197,7 +196,7 @@ class Label:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -240,7 +239,7 @@ class LabelSet:
         >>> labelset.add_label(Label("category", "science"))
     """
 
-    def __init__(self, labels: Optional[list[Label]] = None) -> None:
+    def __init__(self, labels: list[Label] | None = None) -> None:
         """Initialize a LabelSet.
 
         Args:
@@ -249,7 +248,7 @@ class LabelSet:
         Example:
             >>> labelset = LabelSet()
         """
-        self._labels: Dict[str, Label] = {}
+        self._labels: dict[str, Label] = {}
         if labels:
             for label in labels:
                 self.add_label(label)
@@ -282,7 +281,7 @@ class LabelSet:
             return True
         return False
 
-    def get_label(self, name: str) -> Optional[Label]:
+    def get_label(self, name: str) -> Label | None:
         """Get a label by name.
 
         Args:
@@ -332,7 +331,7 @@ class LabelSet:
         """
         return len(self._labels)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

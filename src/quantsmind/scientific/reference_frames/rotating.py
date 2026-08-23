@@ -25,7 +25,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IReferenceFrame
 from quantsmind.scientific.reference_frames.reference_frame import ReferenceFrame
@@ -56,8 +56,8 @@ class RotatingFrame(ReferenceFrame):
         name: str,
         description: str = "",
         angular_velocity: float = 0.0,
-        rotation_axis: Optional[tuple[float, float, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        rotation_axis: tuple[float, float, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a RotatingFrame.
 
@@ -144,7 +144,7 @@ class RotatingFrame(ReferenceFrame):
             "rotation_axis": self._rotation_axis,
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

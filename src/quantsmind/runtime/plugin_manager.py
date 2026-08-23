@@ -29,12 +29,11 @@ from __future__ import annotations
 
 import logging
 import threading
-from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
-from quantsmind.runtime.constants import DEFAULT_PLUGIN_TIMEOUT, DEFAULT_PLUGIN_VERSION
+from quantsmind.runtime.constants import DEFAULT_PLUGIN_VERSION
 from quantsmind.runtime.enums import PluginState
-from quantsmind.runtime.exceptions import PluginDependencyError, PluginError, PluginLoadError
+from quantsmind.runtime.exceptions import PluginDependencyError, PluginLoadError
 from quantsmind.runtime.types import PluginCapabilities, PluginID, PluginVersion
 
 logger = logging.getLogger(__name__)
@@ -63,10 +62,10 @@ class PluginManager:
         Example:
             >>> manager = PluginManager()
         """
-        self._plugins: Dict[PluginID, Any] = {}
-        self._plugin_states: Dict[PluginID, PluginState] = {}
-        self._plugin_dependencies: Dict[PluginID, List[PluginID]] = {}
-        self._plugin_capabilities: Dict[PluginID, PluginCapabilities] = {}
+        self._plugins: dict[PluginID, Any] = {}
+        self._plugin_states: dict[PluginID, PluginState] = {}
+        self._plugin_dependencies: dict[PluginID, list[PluginID]] = {}
+        self._plugin_capabilities: dict[PluginID, PluginCapabilities] = {}
         self._lock = threading.Lock()
         logger.debug("Created plugin manager")
 
@@ -87,8 +86,8 @@ class PluginManager:
         self,
         plugin_id: PluginID,
         plugin: Any,
-        dependencies: Optional[List[PluginID]] = None,
-        capabilities: Optional[PluginCapabilities] = None,
+        dependencies: list[PluginID] | None = None,
+        capabilities: PluginCapabilities | None = None,
         version: PluginVersion = DEFAULT_PLUGIN_VERSION,
     ) -> bool:
         """Load a plugin.
@@ -182,13 +181,13 @@ class PluginManager:
             
             logger.info(f"Unloaded plugin: {plugin_id}")
             return True
-        except Exception as e:
+        except Exception:
             with self._lock:
                 self._plugin_states[plugin_id] = PluginState.ERROR
             logger.error(f"Plugin unloading failed: {plugin_id}", exc_info=True)
             return False
 
-    def get_plugin(self, plugin_id: PluginID) -> Optional[Any]:
+    def get_plugin(self, plugin_id: PluginID) -> Any | None:
         """Get a plugin by ID.
 
         Args:
@@ -219,7 +218,7 @@ class PluginManager:
         with self._lock:
             return plugin_id in self._plugins
 
-    def get_plugin_state(self, plugin_id: PluginID) -> Optional[PluginState]:
+    def get_plugin_state(self, plugin_id: PluginID) -> PluginState | None:
         """Get plugin state.
 
         Args:
@@ -297,7 +296,7 @@ class PluginManager:
         logger.info(f"Deactivated plugin: {plugin_id}")
         return True
 
-    def list_plugins(self) -> List[PluginID]:
+    def list_plugins(self) -> list[PluginID]:
         """List all loaded plugins.
 
         Returns:
@@ -309,7 +308,7 @@ class PluginManager:
         with self._lock:
             return list(self._plugins.keys())
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get plugin manager status.
 
         Returns:

@@ -24,9 +24,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -49,7 +49,7 @@ class Validity:
     def __init__(
         self,
         check_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Validity.
 
@@ -64,7 +64,7 @@ class Validity:
             raise QualityError("Check ID cannot be empty", {"check_id": check_id})
 
         self._id = check_id
-        self._field_validators: Dict[str, Callable[[Any], bool]] = {}
+        self._field_validators: dict[str, Callable[[Any], bool]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -80,7 +80,7 @@ class Validity:
         return self._id
 
     @property
-    def field_validators(self) -> Dict[str, str]:
+    def field_validators(self) -> dict[str, str]:
         """Get the field validator names.
 
         Returns:
@@ -92,7 +92,7 @@ class Validity:
         return list(self._field_validators.keys())
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the check metadata.
 
         Returns:
@@ -132,7 +132,7 @@ class Validity:
             return True
         return False
 
-    def check(self, data: Dict[str, Any]) -> ValidationResult:
+    def check(self, data: dict[str, Any]) -> ValidationResult:
         """Check data validity.
 
         Args:
@@ -178,7 +178,7 @@ class Validity:
         except Exception as e:
             return (False, [f"Validation error for field '{field}': {str(e)}"])
 
-    def get_validity_score(self, data: Dict[str, Any]) -> float:
+    def get_validity_score(self, data: dict[str, Any]) -> float:
         """Get validity score.
 
         Args:
@@ -226,7 +226,7 @@ class Validity:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

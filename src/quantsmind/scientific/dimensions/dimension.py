@@ -24,9 +24,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.scientific.exceptions import DimensionError
 from quantsmind.scientific.interfaces import IDimension
 from quantsmind.scientific.types import DimensionPower, DimensionVector
 
@@ -50,7 +49,7 @@ class Dimension(IDimension):
         self,
         name: str,
         vector: DimensionVector,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Dimension.
 
@@ -91,7 +90,7 @@ class Dimension(IDimension):
         return self._vector
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the dimension metadata.
 
         Returns:
@@ -129,7 +128,7 @@ class Dimension(IDimension):
         """
         return all(power == 0 for power in self._vector)
 
-    def multiply(self, other: IDimension) -> "Dimension":
+    def multiply(self, other: IDimension) -> Dimension:
         """Multiply dimensions.
 
         Args:
@@ -147,7 +146,7 @@ class Dimension(IDimension):
         )
         return Dimension(f"{self._name}*{other.name()}", new_vector)
 
-    def divide(self, other: IDimension) -> "Dimension":
+    def divide(self, other: IDimension) -> Dimension:
         """Divide dimensions.
 
         Args:
@@ -165,7 +164,7 @@ class Dimension(IDimension):
         )
         return Dimension(f"{self._name}/{other.name()}", new_vector)
 
-    def power(self, exponent: DimensionPower) -> "Dimension":
+    def power(self, exponent: DimensionPower) -> Dimension:
         """Raise dimension to a power.
 
         Args:
@@ -180,7 +179,7 @@ class Dimension(IDimension):
         new_vector = tuple(power * exponent for power in self._vector)
         return Dimension(f"{self._name}^{exponent}", new_vector)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -23,7 +23,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.scientific.interfaces import IMeasurement, IObservable, IObserver
 from quantsmind.scientific.types import ObserverID
@@ -51,8 +52,8 @@ class Observer(IObserver):
         observer_id: ObserverID,
         name: str,
         description: str = "",
-        observation_function: Optional[Callable[[IObservable], IMeasurement]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        observation_function: Callable[[IObservable], IMeasurement] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Observer.
 
@@ -109,7 +110,7 @@ class Observer(IObserver):
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the observer metadata.
 
         Returns:
@@ -149,7 +150,7 @@ class Observer(IObserver):
         """
         self._observation_function = function
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

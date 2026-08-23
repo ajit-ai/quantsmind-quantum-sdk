@@ -29,8 +29,9 @@ quantsmind.core.math_object (MathObject)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple
 import math
+from collections.abc import Callable
+from typing import Any
 
 
 class GradientOptimizer:
@@ -56,7 +57,7 @@ class GradientOptimizer:
         learning_rate: float = 0.01,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GradientOptimizer.
 
@@ -118,7 +119,7 @@ class GradientOptimizer:
         func: Callable[[float], float],
         gradient: Callable[[float], float],
         initial_x: float,
-    ) -> Tuple[float, List[float]]:
+    ) -> tuple[float, list[float]]:
         """Optimize a function.
 
         Args:
@@ -176,7 +177,7 @@ class GradientDescent(GradientOptimizer):
         learning_rate: float = 0.01,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GradientDescent optimizer.
 
@@ -196,7 +197,7 @@ class GradientDescent(GradientOptimizer):
         func: Callable[[float], float],
         gradient: Callable[[float], float],
         initial_x: float,
-    ) -> Tuple[float, List[float]]:
+    ) -> tuple[float, list[float]]:
         """Optimize using gradient descent.
 
         Args:
@@ -250,7 +251,7 @@ class AdamOptimizer(GradientOptimizer):
         epsilon: float = 1e-8,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an AdamOptimizer.
 
@@ -276,7 +277,7 @@ class AdamOptimizer(GradientOptimizer):
         func: Callable[[float], float],
         gradient: Callable[[float], float],
         initial_x: float,
-    ) -> Tuple[float, List[float]]:
+    ) -> tuple[float, list[float]]:
         """Optimize using Adam.
 
         Args:
@@ -337,7 +338,7 @@ class NewtonMethod(GradientOptimizer):
         learning_rate: float = 1.0,
         max_iterations: int = 1000,
         tolerance: float = 1e-6,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a NewtonMethod optimizer.
 
@@ -357,8 +358,8 @@ class NewtonMethod(GradientOptimizer):
         func: Callable[[float], float],
         gradient: Callable[[float], float],
         initial_x: float,
-        hessian: Optional[Callable[[float], float]] = None,
-    ) -> Tuple[float, List[float]]:
+        hessian: Callable[[float], float] | None = None,
+    ) -> tuple[float, list[float]]:
         """Optimize using Newton's method.
 
         Args:

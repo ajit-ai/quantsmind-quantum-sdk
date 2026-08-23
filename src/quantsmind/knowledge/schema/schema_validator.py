@@ -24,9 +24,8 @@ quantsmind.knowledge.schema.schema (schema)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.exceptions import ValidationError
 from quantsmind.knowledge.schema.schema import Schema
 from quantsmind.knowledge.types import ValidationResult
 
@@ -82,7 +81,7 @@ class SchemaValidator:
         """
         return self._strict_mode
 
-    def validate(self, data: Dict[str, Any]) -> ValidationResult:
+    def validate(self, data: dict[str, Any]) -> ValidationResult:
         """Validate data against the schema.
 
         Args:
@@ -155,13 +154,11 @@ class SchemaValidator:
             errors.append(f"Field '{field_name}' has invalid type, expected {field_type}")
 
         # Validate constraints
-        if "min" in field and isinstance(value, (int, float)):
-            if value < field["min"]:
-                errors.append(f"Field '{field_name}' is below minimum value")
+        if "min" in field and isinstance(value, (int, float)) and value < field["min"]:
+            errors.append(f"Field '{field_name}' is below minimum value")
 
-        if "max" in field and isinstance(value, (int, float)):
-            if value > field["max"]:
-                errors.append(f"Field '{field_name}' is above maximum value")
+        if "max" in field and isinstance(value, (int, float)) and value > field["max"]:
+            errors.append(f"Field '{field_name}' is above maximum value")
 
         if "min_length" in field and isinstance(value, str):
             if len(value) < field["min_length"]:
@@ -176,9 +173,8 @@ class SchemaValidator:
             if not re.match(field["pattern"], value):
                 errors.append(f"Field '{field_name}' does not match pattern")
 
-        if "enum" in field:
-            if value not in field["enum"]:
-                errors.append(f"Field '{field_name}' not in allowed values")
+        if "enum" in field and value not in field["enum"]:
+            errors.append(f"Field '{field_name}' not in allowed values")
 
         return (len(errors) == 0, errors)
 
@@ -211,7 +207,7 @@ class SchemaValidator:
 
         return isinstance(value, expected_python_type)
 
-    def get_validation_report(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def get_validation_report(self, data: dict[str, Any]) -> dict[str, Any]:
         """Get detailed validation report.
 
         Args:
@@ -235,7 +231,7 @@ class SchemaValidator:
             "strict_mode": self._strict_mode,
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

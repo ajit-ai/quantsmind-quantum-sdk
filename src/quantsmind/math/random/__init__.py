@@ -62,7 +62,7 @@ class RandomGenerator:
         >>> value = rng.uniform(0.0, 1.0)
     """
 
-    def __init__(self, seed: Optional[int] = None) -> None:
+    def __init__(self, seed: int | None = None) -> None:
         """Initialize a RandomGenerator.
 
         Args:
@@ -173,7 +173,7 @@ class RandomGenerator:
             raise MathValueError("Probability must be in [0, 1]")
         return sum(self.bernoulli(p) for _ in range(n))
 
-    def choice(self, sequence: List[Any]) -> Any:
+    def choice(self, sequence: list[Any]) -> Any:
         """Choose a random element from a sequence.
 
         Args:
@@ -187,7 +187,7 @@ class RandomGenerator:
         """
         return self._random.choice(sequence)
 
-    def sample(self, sequence: List[Any], k: int) -> List[Any]:
+    def sample(self, sequence: list[Any], k: int) -> list[Any]:
         """Sample k elements from a sequence without replacement.
 
         Args:
@@ -202,7 +202,7 @@ class RandomGenerator:
         """
         return self._random.sample(sequence, k)
 
-    def shuffle(self, sequence: List[Any]) -> None:
+    def shuffle(self, sequence: list[Any]) -> None:
         """Shuffle a sequence in place.
 
         Args:
@@ -240,7 +240,7 @@ class RandomSampler:
         >>> sample = sampler.sample([1, 2, 3, 4, 5], 3)
     """
 
-    def __init__(self, seed: Optional[int] = None) -> None:
+    def __init__(self, seed: int | None = None) -> None:
         """Initialize a RandomSampler.
 
         Args:
@@ -252,7 +252,7 @@ class RandomSampler:
         self._rng = RandomGenerator(seed)
         logger.debug("Created random sampler")
 
-    def sample(self, population: List[Any], k: int, replace: bool = False) -> List[Any]:
+    def sample(self, population: list[Any], k: int, replace: bool = False) -> list[Any]:
         """Sample from a population.
 
         Args:
@@ -295,7 +295,7 @@ class RandomWalk:
         >>> path = walk.generate(100)
     """
 
-    def __init__(self, step_size: float = 1.0, seed: Optional[int] = None) -> None:
+    def __init__(self, step_size: float = 1.0, seed: int | None = None) -> None:
         """Initialize a RandomWalk.
 
         Args:
@@ -309,7 +309,7 @@ class RandomWalk:
         self._rng = RandomGenerator(seed)
         logger.debug(f"Created random walk with step_size={step_size}")
 
-    def generate(self, steps: int, start: float = 0.0) -> List[float]:
+    def generate(self, steps: int, start: float = 0.0) -> list[float]:
         """Generate a random walk.
 
         Args:

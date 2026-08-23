@@ -13,6 +13,34 @@ from __future__ import annotations
 __version__ = "R0.2.0"
 
 # Core mathematical framework
+# AI mathematical reasoning engine
+from quantsmind.ai_reasoning import (
+    AlgorithmAdvisor,
+    FormulaGenerator,
+    MathReasoningAgent,
+    ProofAssistant,
+)
+
+# Algebra engine
+from quantsmind.algebra import Matrix, Polynomial, PolynomialSolver, SparseMatrix, Tensor, Vector
+
+# API layer
+from quantsmind.api import (
+    APIResponse,
+    HealthResponse,
+    MatrixEndpoints,
+    MatrixRequest,
+    OptimizationEndpoints,
+    OptimizationRequest,
+    PolynomialEndpoints,
+    PolynomialRequest,
+    SimulationEndpoints,
+    SimulationRequest,
+    router,
+)
+
+# Calculus engine
+from quantsmind.calculus import Differentiator, Integrator, ODESolver
 from quantsmind.core import (
     Equation,
     Expression,
@@ -23,40 +51,12 @@ from quantsmind.core import (
     Variable,
 )
 
-# Algebra engine
-from quantsmind.algebra import Matrix, Polynomial, PolynomialSolver, SparseMatrix, Tensor, Vector
-
-# Calculus engine
-from quantsmind.calculus import Differentiator, Integrator, ODESolver
-
-# Optimization framework
-from quantsmind.optimization import (
-    AdamOptimizer,
-    BayesianOptimizer,
-    EvolutionaryOptimizer,
-    GeneticAlgorithm,
-    GradientDescent,
-    GradientOptimizer,
-    LBFGSOptimizer,
-    NewtonMethod,
-    ParticleSwarmOptimizer,
-    SimulatedAnnealing,
-)
-
-# Numerical computing engine
-from quantsmind.numerical import approximation, curve_fit, error_analysis, extrapolation, interpolation, root_finding
-
-# Statistics and probability engine
-from quantsmind.statistics import (
-    BetaDistribution,
-    BinomialDistribution,
-    DistributionEngine,
-    ExponentialDistribution,
-    GammaDistribution,
-    NormalDistribution,
-    PoissonDistribution,
-    ProbabilityEngine,
-    StatisticalAnalyzer,
+# Financial mathematics engine
+from quantsmind.finance.math import (
+    MonteCarloFinanceSimulator,
+    OptionPricer,
+    PortfolioMath,
+    RiskEngine,
 )
 
 # Machine learning mathematics engine
@@ -77,34 +77,47 @@ from quantsmind.ml_math import (
     Tanh,
 )
 
-# Financial mathematics engine
-from quantsmind.finance.math import MonteCarloFinanceSimulator, OptionPricer, PortfolioMath, RiskEngine
+# Numerical computing engine
+from quantsmind.numerical import (
+    approximation,
+    curve_fit,
+    error_analysis,
+    extrapolation,
+    interpolation,
+    root_finding,
+)
+
+# Optimization framework
+from quantsmind.optimization import (
+    AdamOptimizer,
+    BayesianOptimizer,
+    EvolutionaryOptimizer,
+    GeneticAlgorithm,
+    GradientDescent,
+    GradientOptimizer,
+    LBFGSOptimizer,
+    NewtonMethod,
+    ParticleSwarmOptimizer,
+    SimulatedAnnealing,
+)
 
 # Quantum mathematics engine
 from quantsmind.quantum.math import QuantumMatrix, QuantumOperatorMath, QuantumStateMath
 
-# AI mathematical reasoning engine
-from quantsmind.ai_reasoning import AlgorithmAdvisor, FormulaGenerator, MathReasoningAgent, ProofAssistant
-
 # Simulation framework
 from quantsmind.simulation import Experiment, SimulationEngine, SimulationResult, Simulator
 
-# Visualization
-from quantsmind.visualization import Plotter
-
-# API layer
-from quantsmind.api import (
-    APIResponse,
-    HealthResponse,
-    MatrixRequest,
-    MatrixEndpoints,
-    OptimizationEndpoints,
-    OptimizationRequest,
-    PolynomialEndpoints,
-    PolynomialRequest,
-    SimulationEndpoints,
-    SimulationRequest,
-    router,
+# Statistics and probability engine
+from quantsmind.statistics import (
+    BetaDistribution,
+    BinomialDistribution,
+    DistributionEngine,
+    ExponentialDistribution,
+    GammaDistribution,
+    NormalDistribution,
+    PoissonDistribution,
+    ProbabilityEngine,
+    StatisticalAnalyzer,
 )
 
 # Utils
@@ -118,6 +131,9 @@ from quantsmind.utils import (
     unique_preserve_order,
     validate_type,
 )
+
+# Visualization
+from quantsmind.visualization import Plotter
 
 __all__ = [
     "__version__",

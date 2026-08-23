@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import ProvenanceError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -56,8 +55,8 @@ class HistoryEntry:
         entry_id: str,
         action: str,
         actor: str,
-        changes: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        changes: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a HistoryEntry.
 
@@ -136,7 +135,7 @@ class HistoryEntry:
         return self._actor
 
     @property
-    def changes(self) -> Dict[str, Any]:
+    def changes(self) -> dict[str, Any]:
         """Get the changes.
 
         Returns:
@@ -148,7 +147,7 @@ class HistoryEntry:
         return self._changes.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the entry metadata.
 
         Returns:
@@ -183,7 +182,7 @@ class HistoryEntry:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -233,7 +232,7 @@ class History:
         self,
         history_id: str,
         target_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a History.
 
@@ -253,7 +252,7 @@ class History:
 
         self._id = history_id
         self._target_id = target_id
-        self._entries: List[HistoryEntry] = []
+        self._entries: list[HistoryEntry] = []
         self._metadata = metadata or {}
 
     @property
@@ -281,7 +280,7 @@ class History:
         return self._target_id
 
     @property
-    def entries(self) -> List[HistoryEntry]:
+    def entries(self) -> list[HistoryEntry]:
         """Get the history entries.
 
         Returns:
@@ -293,7 +292,7 @@ class History:
         return self._entries.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the history metadata.
 
         Returns:
@@ -333,7 +332,7 @@ class History:
                 return True
         return False
 
-    def get_entry(self, entry_id: str) -> Optional[HistoryEntry]:
+    def get_entry(self, entry_id: str) -> HistoryEntry | None:
         """Get an entry by ID.
 
         Args:
@@ -350,7 +349,7 @@ class History:
                 return entry
         return None
 
-    def get_entries_by_action(self, action: str) -> List[HistoryEntry]:
+    def get_entries_by_action(self, action: str) -> list[HistoryEntry]:
         """Get entries by action.
 
         Args:
@@ -364,7 +363,7 @@ class History:
         """
         return [entry for entry in self._entries if entry.action == action]
 
-    def get_entries_by_actor(self, actor: str) -> List[HistoryEntry]:
+    def get_entries_by_actor(self, actor: str) -> list[HistoryEntry]:
         """Get entries by actor.
 
         Args:
@@ -378,7 +377,7 @@ class History:
         """
         return [entry for entry in self._entries if entry.actor == actor]
 
-    def get_entries_by_time_range(self, start: datetime, end: datetime) -> List[HistoryEntry]:
+    def get_entries_by_time_range(self, start: datetime, end: datetime) -> list[HistoryEntry]:
         """Get entries within a time range.
 
         Args:
@@ -393,7 +392,7 @@ class History:
         """
         return [entry for entry in self._entries if start <= entry.timestamp <= end]
 
-    def get_latest_entry(self) -> Optional[HistoryEntry]:
+    def get_latest_entry(self) -> HistoryEntry | None:
         """Get the latest entry.
 
         Returns:
@@ -406,7 +405,7 @@ class History:
             return None
         return max(self._entries, key=lambda e: e.timestamp)
 
-    def get_timeline(self) -> List[Dict[str, Any]]:
+    def get_timeline(self) -> list[dict[str, Any]]:
         """Get the history timeline.
 
         Returns:
@@ -437,7 +436,7 @@ class History:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

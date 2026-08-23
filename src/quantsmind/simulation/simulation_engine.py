@@ -28,8 +28,9 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
 import time
+from collections.abc import Callable
+from typing import Any
 
 
 class SimulationEngine:
@@ -51,7 +52,7 @@ class SimulationEngine:
     def __init__(
         self,
         name: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SimulationEngine.
 
@@ -63,8 +64,8 @@ class SimulationEngine:
             >>> engine = SimulationEngine()
         """
         self._name = name
-        self._simulators: Dict[str, Callable] = {}
-        self._simulation_history: List[Dict[str, Any]] = []
+        self._simulators: dict[str, Callable] = {}
+        self._simulation_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
     @property
@@ -98,7 +99,7 @@ class SimulationEngine:
     def run_simulation(
         self,
         simulator_name: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
     ) -> SimulationResult:
         """Run a simulation.
 
@@ -148,7 +149,7 @@ class SimulationEngine:
 
         return result
 
-    def get_simulation_history(self) -> List[Dict[str, Any]]:
+    def get_simulation_history(self) -> list[dict[str, Any]]:
         """Get the simulation history.
 
         Returns:
@@ -198,7 +199,7 @@ class Simulator:
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Simulator.
 
@@ -210,8 +211,8 @@ class Simulator:
             >>> sim = Simulator("my_sim")
         """
         self._name = name
-        self._parameters: Dict[str, Any] = {}
-        self._state: Dict[str, Any] = {}
+        self._parameters: dict[str, Any] = {}
+        self._state: dict[str, Any] = {}
         self._metadata = metadata or {}
 
     @property
@@ -226,7 +227,7 @@ class Simulator:
         """
         return self._name
 
-    def set_parameters(self, parameters: Dict[str, Any]) -> None:
+    def set_parameters(self, parameters: dict[str, Any]) -> None:
         """Set simulator parameters.
 
         Args:
@@ -237,7 +238,7 @@ class Simulator:
         """
         self._parameters.update(parameters)
 
-    def get_state(self) -> Dict[str, Any]:
+    def get_state(self) -> dict[str, Any]:
         """Get the simulator state.
 
         Returns:
@@ -248,7 +249,7 @@ class Simulator:
         """
         return self._state.copy()
 
-    def initialize(self, parameters: Dict[str, Any]) -> None:
+    def initialize(self, parameters: dict[str, Any]) -> None:
         """Initialize the simulator.
 
         Args:
@@ -260,7 +261,7 @@ class Simulator:
         self._parameters = parameters.copy()
         self._state = {"initialized": True}
 
-    def step(self) -> Dict[str, Any]:
+    def step(self) -> dict[str, Any]:
         """Perform one simulation step.
 
         Returns:
@@ -271,7 +272,7 @@ class Simulator:
         """
         raise NotImplementedError("Subclasses must implement step")
 
-    def run(self, parameters: Dict[str, Any], steps: int = 1) -> SimulationResult:
+    def run(self, parameters: dict[str, Any], steps: int = 1) -> SimulationResult:
         """Run the simulation.
 
         Args:
@@ -341,10 +342,10 @@ class SimulationResult:
     def __init__(
         self,
         simulator_name: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
         output: Any,
         success: bool,
-        error: Optional[str],
+        error: str | None,
         duration: float,
     ) -> None:
         """Initialize a SimulationResult.
@@ -380,7 +381,7 @@ class SimulationResult:
         return self._simulator_name
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the simulation parameters.
 
         Returns:
@@ -416,7 +417,7 @@ class SimulationResult:
         return self._success
 
     @property
-    def error(self) -> Optional[str]:
+    def error(self) -> str | None:
         """Get the error message.
 
         Returns:
@@ -439,7 +440,7 @@ class SimulationResult:
         """
         return self._duration
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary.
 
         Returns:
@@ -489,7 +490,7 @@ class Experiment:
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Experiment.
 
@@ -501,8 +502,8 @@ class Experiment:
             >>> exp = Experiment("my_exp")
         """
         self._name = name
-        self._parameter_sweeps: Dict[str, List[Any]] = {}
-        self._results: List[SimulationResult] = []
+        self._parameter_sweeps: dict[str, list[Any]] = {}
+        self._results: list[SimulationResult] = []
         self._metadata = metadata or {}
 
     @property
@@ -520,7 +521,7 @@ class Experiment:
     def add_parameter_sweep(
         self,
         parameter_name: str,
-        values: List[Any],
+        values: list[Any],
     ) -> None:
         """Add a parameter sweep.
 
@@ -533,7 +534,7 @@ class Experiment:
         """
         self._parameter_sweeps[parameter_name] = values
 
-    def generate_parameter_combinations(self) -> List[Dict[str, Any]]:
+    def generate_parameter_combinations(self) -> list[dict[str, Any]]:
         """Generate all parameter combinations.
 
         Returns:
@@ -563,8 +564,8 @@ class Experiment:
         self,
         engine: SimulationEngine,
         simulator_name: str,
-        base_parameters: Optional[Dict[str, Any]] = None,
-    ) -> List[SimulationResult]:
+        base_parameters: dict[str, Any] | None = None,
+    ) -> list[SimulationResult]:
         """Run the experiment.
 
         Args:
@@ -594,7 +595,7 @@ class Experiment:
 
         return results
 
-    def get_results(self) -> List[SimulationResult]:
+    def get_results(self) -> list[SimulationResult]:
         """Get experiment results.
 
         Returns:

@@ -24,11 +24,7 @@ quantsmind.scientific.exceptions (scientific exceptions)
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
-from quantsmind.scientific.exceptions import UnitError
 from quantsmind.scientific.units.base_unit import BaseUnit
-from quantsmind.scientific.units.derived_units import DerivedUnit
 
 
 class CustomUnit(BaseUnit):
@@ -50,9 +46,9 @@ class CustomUnit(BaseUnit):
         symbol: str,
         conversion_factor: float,
         dimension: str,
-        definition: Optional[Dict[str, any]] = None,
-        aliases: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, any]] = None,
+        definition: dict[str, any] | None = None,
+        aliases: list[str] | None = None,
+        metadata: dict[str, any] | None = None,
     ) -> None:
         """Initialize a CustomUnit.
 
@@ -73,7 +69,7 @@ class CustomUnit(BaseUnit):
         self._aliases = aliases or []
 
     @property
-    def definition(self) -> Dict[str, any]:
+    def definition(self) -> dict[str, any]:
         """Get the unit definition.
 
         Returns:
@@ -85,7 +81,7 @@ class CustomUnit(BaseUnit):
         return self._definition.copy()
 
     @property
-    def aliases(self) -> List[str]:
+    def aliases(self) -> list[str]:
         """Get the unit aliases.
 
         Returns:
@@ -125,7 +121,7 @@ class CustomUnit(BaseUnit):
             return True
         return False
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> dict[str, any]:
         """Convert to dictionary.
 
         Returns:
@@ -171,8 +167,8 @@ class CustomUnitsRegistry:
         Example:
             >>> registry = CustomUnitsRegistry()
         """
-        self._units: Dict[str, CustomUnit] = {}
-        self._aliases: Dict[str, str] = {}
+        self._units: dict[str, CustomUnit] = {}
+        self._aliases: dict[str, str] = {}
 
     def register_unit(self, unit: CustomUnit) -> None:
         """Register a custom unit.
@@ -187,7 +183,7 @@ class CustomUnitsRegistry:
         for alias in unit.aliases:
             self._aliases[alias] = unit.name
 
-    def get_unit(self, name: str) -> Optional[CustomUnit]:
+    def get_unit(self, name: str) -> CustomUnit | None:
         """Get a unit by name or alias.
 
         Args:
@@ -209,7 +205,7 @@ class CustomUnitsRegistry:
         
         return None
 
-    def get_all_units(self) -> Dict[str, CustomUnit]:
+    def get_all_units(self) -> dict[str, CustomUnit]:
         """Get all registered units.
 
         Returns:
@@ -248,9 +244,9 @@ class CustomUnitsRegistry:
         symbol: str,
         conversion_factor: float,
         dimension: str,
-        definition: Optional[Dict[str, any]] = None,
-        aliases: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, any]] = None,
+        definition: dict[str, any] | None = None,
+        aliases: list[str] | None = None,
+        metadata: dict[str, any] | None = None,
     ) -> CustomUnit:
         """Create and register a custom unit.
 

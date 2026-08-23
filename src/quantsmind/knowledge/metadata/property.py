@@ -25,10 +25,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import MetadataType
 from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.types import Property
 
@@ -58,7 +56,7 @@ class Property:
         data_type: str = "string",
         required: bool = False,
         read_only: bool = False,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Property.
 
@@ -144,7 +142,7 @@ class Property:
         return self._read_only
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the property metadata.
 
         Returns:
@@ -207,7 +205,7 @@ class Property:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -250,7 +248,7 @@ class PropertySet:
         >>> propset.add_property(Property("length", 42.0))
     """
 
-    def __init__(self, properties: Optional[list[Property]] = None) -> None:
+    def __init__(self, properties: list[Property] | None = None) -> None:
         """Initialize a PropertySet.
 
         Args:
@@ -259,7 +257,7 @@ class PropertySet:
         Example:
             >>> propset = PropertySet()
         """
-        self._properties: Dict[str, Property] = {}
+        self._properties: dict[str, Property] = {}
         if properties:
             for prop in properties:
                 self.add_property(prop)
@@ -292,7 +290,7 @@ class PropertySet:
             return True
         return False
 
-    def get_property(self, name: str) -> Optional[Property]:
+    def get_property(self, name: str) -> Property | None:
         """Get a property by name.
 
         Args:
@@ -359,7 +357,7 @@ class PropertySet:
         """
         return len(self._properties)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

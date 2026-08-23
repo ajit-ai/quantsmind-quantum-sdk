@@ -27,10 +27,10 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.exceptions import MeasurementError
-from quantsmind.scientific.types import SerializedData, SerializationFormat
+from quantsmind.scientific.types import SerializationFormat, SerializedData
 
 
 class JsonSerializer:
@@ -43,7 +43,7 @@ class JsonSerializer:
         >>> data = serializer.serialize({"key": "value"})
     """
 
-    def __init__(self, indent: Optional[int] = None) -> None:
+    def __init__(self, indent: int | None = None) -> None:
         """Initialize a JsonSerializer.
 
         Args:
@@ -54,7 +54,7 @@ class JsonSerializer:
         """
         self._indent = indent
 
-    def serialize(self, data: Dict[str, Any]) -> str:
+    def serialize(self, data: dict[str, Any]) -> str:
         """Serialize data to JSON.
 
         Args:
@@ -68,7 +68,7 @@ class JsonSerializer:
         """
         return json.dumps(data, indent=self._indent, default=str)
 
-    def deserialize(self, data: str) -> Dict[str, Any]:
+    def deserialize(self, data: str) -> dict[str, Any]:
         """Deserialize data from JSON.
 
         Args:
@@ -88,7 +88,7 @@ class JsonSerializer:
         except json.JSONDecodeError as e:
             raise MeasurementError(f"Failed to deserialize JSON: {e}", measurement="serialization")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -152,7 +152,7 @@ class Serializer:
         """
         return self._format
 
-    def serialize(self, data: Dict[str, Any]) -> SerializedData:
+    def serialize(self, data: dict[str, Any]) -> SerializedData:
         """Serialize data.
 
         Args:
@@ -172,7 +172,7 @@ class Serializer:
         else:
             raise MeasurementError(f"Format {self._format} not supported", measurement="serialization")
 
-    def deserialize(self, data: SerializedData) -> Dict[str, Any]:
+    def deserialize(self, data: SerializedData) -> dict[str, Any]:
         """Deserialize data.
 
         Args:
@@ -195,7 +195,7 @@ class Serializer:
         else:
             raise MeasurementError(f"Format {self._format} not supported", measurement="serialization")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

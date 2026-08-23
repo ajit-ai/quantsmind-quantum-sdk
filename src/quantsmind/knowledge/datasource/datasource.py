@@ -24,7 +24,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import DataSourceType
 from quantsmind.knowledge.exceptions import DatasetError
@@ -57,8 +57,8 @@ class DataSource:
         self,
         source_id: DataSourceID,
         source_type: DataSourceType = DataSourceType.FILE,
-        config: Optional[DataSourceConfig] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        config: DataSourceConfig | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a DataSource.
 
@@ -74,7 +74,7 @@ class DataSource:
         self._source_id = source_id
         self._source_type = source_type
         self._config = config or {}
-        self._connection: Optional[DataSourceConnection] = None
+        self._connection: DataSourceConnection | None = None
         self._metadata = metadata or {}
 
     @property
@@ -114,7 +114,7 @@ class DataSource:
         return self._config.copy()
 
     @property
-    def connection(self) -> Optional[DataSourceConnection]:
+    def connection(self) -> DataSourceConnection | None:
         """Get the source connection.
 
         Returns:
@@ -126,7 +126,7 @@ class DataSource:
         return self._connection
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the source metadata.
 
         Returns:
@@ -235,7 +235,7 @@ class DataSource:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

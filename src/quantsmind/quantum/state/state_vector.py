@@ -25,10 +25,10 @@ quantsmind.quantum.state.quantum_state (quantum state module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.enums import StateType
+from quantsmind.quantum.algorithms.exceptions import StateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.state.quantum_state import QuantumState
 
@@ -52,8 +52,8 @@ class StateVector(QuantumState):
     def __init__(
         self,
         num_qubits: int,
-        amplitudes: Optional[List[complex]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        amplitudes: list[complex] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a StateVector.
 
@@ -73,7 +73,7 @@ class StateVector(QuantumState):
             self.initialize_zero()
 
     @property
-    def amplitudes(self) -> List[complex]:
+    def amplitudes(self) -> list[complex]:
         """Get the amplitudes.
 
         Returns:
@@ -96,7 +96,7 @@ class StateVector(QuantumState):
         """
         return self._state_type
 
-    def set_amplitudes(self, amplitudes: List[complex]) -> None:
+    def set_amplitudes(self, amplitudes: list[complex]) -> None:
         """Set the amplitudes.
 
         Args:
@@ -146,7 +146,7 @@ class StateVector(QuantumState):
         amplitude = self.get_amplitude(index)
         return abs(amplitude) ** 2
 
-    def get_probabilities(self) -> List[float]:
+    def get_probabilities(self) -> list[float]:
         """Get all measurement probabilities.
 
         Returns:
@@ -258,7 +258,7 @@ class StateVector(QuantumState):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

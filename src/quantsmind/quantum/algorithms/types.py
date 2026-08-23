@@ -21,7 +21,8 @@ numpy (external)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import Any, Union
 
 try:
     import numpy as np
@@ -33,13 +34,13 @@ except ImportError:
 
 # Type aliases
 QubitIndex = int
-QubitIndices = List[QubitIndex]
-GateParameters = Dict[str, float]
+QubitIndices = list[QubitIndex]
+GateParameters = dict[str, float]
 StateVector = NDArray
 DensityMatrix = NDArray
 ComplexMatrix = NDArray
-ProbabilityDistribution = List[float]
-MeasurementResult = Dict[int, int]
+ProbabilityDistribution = list[float]
+MeasurementResult = dict[int, int]
 CircuitDepth = int
 GateCount = int
 QubitCount = int
@@ -51,15 +52,15 @@ OptimizationFunction = Callable[[Any], float]
 CompilerPass = Callable[[Any], Any]
 
 # Result types
-ValidationResult = Tuple[bool, List[str]]
-ExecutionResult = Dict[str, Any]
-JobResult = Dict[str, Any]
+ValidationResult = tuple[bool, list[str]]
+ExecutionResult = dict[str, Any]
+JobResult = dict[str, Any]
 
 # Configuration types
-BackendConfig = Dict[str, Any]
-ProviderConfig = Dict[str, Any]
-NoiseConfig = Dict[str, Any]
-CompilerConfig = Dict[str, Any]
+BackendConfig = dict[str, Any]
+ProviderConfig = dict[str, Any]
+NoiseConfig = dict[str, Any]
+CompilerConfig = dict[str, Any]
 
 # Complex types
 QuantumState = Union[StateVector, DensityMatrix]

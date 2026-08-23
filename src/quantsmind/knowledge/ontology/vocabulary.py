@@ -24,11 +24,10 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import OntologyType
 from quantsmind.knowledge.exceptions import OntologyError
-from quantsmind.knowledge.types import VocabularyID, ValidationResult
+from quantsmind.knowledge.types import ValidationResult, VocabularyID
 
 
 class Vocabulary:
@@ -54,8 +53,8 @@ class Vocabulary:
         vocabulary_id: VocabularyID,
         name: str,
         language: str = "en",
-        description: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        description: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Vocabulary.
 
@@ -78,7 +77,7 @@ class Vocabulary:
         self._id = vocabulary_id
         self._name = name
         self._language = language
-        self._terms: Dict[str, Dict[str, Any]] = {}
+        self._terms: dict[str, dict[str, Any]] = {}
         self._description = description
         self._metadata = metadata or {}
 
@@ -119,7 +118,7 @@ class Vocabulary:
         return self._language
 
     @property
-    def terms(self) -> Dict[str, Dict[str, Any]]:
+    def terms(self) -> dict[str, dict[str, Any]]:
         """Get the terms.
 
         Returns:
@@ -131,7 +130,7 @@ class Vocabulary:
         return self._terms.copy()
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the vocabulary description.
 
         Returns:
@@ -143,7 +142,7 @@ class Vocabulary:
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the vocabulary metadata.
 
         Returns:
@@ -154,7 +153,7 @@ class Vocabulary:
         """
         return self._metadata.copy()
 
-    def add_term(self, term: str, definition: Optional[str] = None, synonyms: Optional[List[str]] = None) -> None:
+    def add_term(self, term: str, definition: str | None = None, synonyms: list[str] | None = None) -> None:
         """Add a term to the vocabulary.
 
         Args:
@@ -190,7 +189,7 @@ class Vocabulary:
             return True
         return False
 
-    def get_term(self, term: str) -> Optional[Dict[str, Any]]:
+    def get_term(self, term: str) -> dict[str, Any] | None:
         """Get a term definition.
 
         Args:
@@ -204,7 +203,7 @@ class Vocabulary:
         """
         return self._terms.get(term)
 
-    def search_terms(self, query: str) -> List[str]:
+    def search_terms(self, query: str) -> list[str]:
         """Search for terms matching a query.
 
         Args:
@@ -232,7 +231,7 @@ class Vocabulary:
 
         return matches
 
-    def get_synonyms(self, term: str) -> List[str]:
+    def get_synonyms(self, term: str) -> list[str]:
         """Get synonyms for a term.
 
         Args:
@@ -259,9 +258,8 @@ class Vocabulary:
         Example:
             >>> vocab.add_synonym("quantum", "quantum mechanics")
         """
-        if term in self._terms:
-            if synonym not in self._terms[term]["synonyms"]:
-                self._terms[term]["synonyms"].append(synonym)
+        if term in self._terms and synonym not in self._terms[term]["synonyms"]:
+            self._terms[term]["synonyms"].append(synonym)
 
     def validate(self) -> ValidationResult:
         """Validate the vocabulary.
@@ -285,7 +283,7 @@ class Vocabulary:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

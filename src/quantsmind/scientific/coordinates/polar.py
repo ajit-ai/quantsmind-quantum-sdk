@@ -26,7 +26,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.exceptions import CoordinateError
 from quantsmind.scientific.interfaces import ICoordinate
@@ -52,7 +52,7 @@ class PolarCoordinate(ICoordinate):
         self,
         r: CoordinateValue,
         theta: CoordinateValue,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PolarCoordinate.
 
@@ -96,7 +96,7 @@ class PolarCoordinate(ICoordinate):
         return self._theta
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the coordinate metadata.
 
         Returns:
@@ -140,7 +140,7 @@ class PolarCoordinate(ICoordinate):
         """
         return self._r
 
-    def to_cartesian(self) -> Tuple[float, float]:
+    def to_cartesian(self) -> tuple[float, float]:
         """Convert to Cartesian coordinates (2D).
 
         Returns:
@@ -181,7 +181,7 @@ class PolarCoordinate(ICoordinate):
         else:
             raise CoordinateError(f"Transformation to {target_system} not supported")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import MetadataType
 from quantsmind.knowledge.exceptions import MetadataError
 from quantsmind.knowledge.types import Tag
 
@@ -53,9 +52,9 @@ class Tag:
     def __init__(
         self,
         name: str,
-        value: Optional[str] = None,
-        category: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        value: str | None = None,
+        category: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Tag.
 
@@ -90,7 +89,7 @@ class Tag:
         return self._name
 
     @property
-    def value(self) -> Optional[str]:
+    def value(self) -> str | None:
         """Get the tag value.
 
         Returns:
@@ -102,7 +101,7 @@ class Tag:
         return self._value
 
     @property
-    def category(self) -> Optional[str]:
+    def category(self) -> str | None:
         """Get the tag category.
 
         Returns:
@@ -126,7 +125,7 @@ class Tag:
         return self._created_at
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the tag metadata.
 
         Returns:
@@ -171,7 +170,7 @@ class Tag:
         """
         self._metadata[key] = value
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -213,7 +212,7 @@ class TagSet:
         >>> tagset.add_tag(Tag("important"))
     """
 
-    def __init__(self, tags: Optional[list[Tag]] = None) -> None:
+    def __init__(self, tags: list[Tag] | None = None) -> None:
         """Initialize a TagSet.
 
         Args:
@@ -222,7 +221,7 @@ class TagSet:
         Example:
             >>> tagset = TagSet()
         """
-        self._tags: Dict[str, Tag] = {}
+        self._tags: dict[str, Tag] = {}
         if tags:
             for tag in tags:
                 self.add_tag(tag)
@@ -255,7 +254,7 @@ class TagSet:
             return True
         return False
 
-    def get_tag(self, name: str) -> Optional[Tag]:
+    def get_tag(self, name: str) -> Tag | None:
         """Get a tag by name.
 
         Args:
@@ -305,7 +304,7 @@ class TagSet:
         """
         return len(self._tags)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

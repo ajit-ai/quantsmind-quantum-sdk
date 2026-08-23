@@ -25,10 +25,10 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IMeasurement
-from quantsmind.scientific.types import ObservationID, ObservableID, ObserverID
+from quantsmind.scientific.types import ObservableID, ObservationID, ObserverID
 
 
 class Observation:
@@ -55,8 +55,8 @@ class Observation:
         observable_id: ObservableID,
         observer_id: ObserverID,
         measurement: IMeasurement,
-        timestamp: Optional[datetime] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        timestamp: datetime | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Observation.
 
@@ -139,7 +139,7 @@ class Observation:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the observation metadata.
 
         Returns:
@@ -170,14 +170,11 @@ class Observation:
                 return False
             
             # Value should be finite
-            if not isinstance(value, (int, float)):
-                return False
-            
-            return True
+            return isinstance(value, (int, float))
         except Exception:
             return False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -221,7 +218,7 @@ class ObservationRecord:
         >>> record.add_observation(observation)
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize an ObservationRecord.
 
         Args:
@@ -256,7 +253,7 @@ class ObservationRecord:
         """
         self._observations.append(observation)
 
-    def get_observations(self, observable_id: Optional[ObservableID] = None) -> List[Observation]:
+    def get_observations(self, observable_id: ObservableID | None = None) -> List[Observation]:
         """Get observations, optionally filtered by observable.
 
         Args:
@@ -273,7 +270,7 @@ class ObservationRecord:
         
         return [obs for obs in self._observations if obs.observable_id == observable_id]
 
-    def get_latest_observation(self, observable_id: ObservableID) -> Optional[Observation]:
+    def get_latest_observation(self, observable_id: ObservableID) -> Observation | None:
         """Get the latest observation for an observable.
 
         Args:
@@ -299,7 +296,7 @@ class ObservationRecord:
         """
         self._observations.clear()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

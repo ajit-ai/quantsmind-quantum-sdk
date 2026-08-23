@@ -37,9 +37,11 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import List, Optional, Tuple, Union
 
-from quantsmind.math.exceptions import ConvergenceError, ValueError as MathValueError
+from quantsmind.math.exceptions import ConvergenceError
+from quantsmind.math.exceptions import ValueError as MathValueError
 from quantsmind.math.types import Scalar, Vector
 
 logger = logging.getLogger(__name__)
@@ -309,7 +311,7 @@ class Jacobian:
         func: Callable[[Vector], Vector],
         x: Vector,
         h: float = 1e-6
-    ) -> List[List[float]]:
+    ) -> list[list[float]]:
         """Calculate Jacobian matrix.
 
         Args:
@@ -359,7 +361,7 @@ class Hessian:
         func: Callable[[Vector], Scalar],
         x: Vector,
         h: float = 1e-6
-    ) -> List[List[float]]:
+    ) -> list[list[float]]:
         """Calculate Hessian matrix.
 
         Args:

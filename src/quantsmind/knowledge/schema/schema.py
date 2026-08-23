@@ -23,9 +23,8 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from quantsmind.knowledge.exceptions import ValidationError
 from quantsmind.knowledge.types import ValidationResult
 
 
@@ -48,9 +47,9 @@ class Schema:
     def __init__(
         self,
         schema_name: str,
-        fields: List[Dict[str, Any]],
+        fields: list[dict[str, Any]],
         version: str = "1.0.0",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Schema.
 
@@ -81,7 +80,7 @@ class Schema:
         return self._schema_name
 
     @property
-    def fields(self) -> List[Dict[str, Any]]:
+    def fields(self) -> list[dict[str, Any]]:
         """Get the schema fields.
 
         Returns:
@@ -105,7 +104,7 @@ class Schema:
         return self._version
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the schema metadata.
 
         Returns:
@@ -116,7 +115,7 @@ class Schema:
         """
         return self._metadata.copy()
 
-    def add_field(self, field: Dict[str, Any]) -> None:
+    def add_field(self, field: dict[str, Any]) -> None:
         """Add a field to the schema.
 
         Args:
@@ -145,7 +144,7 @@ class Schema:
                 return True
         return False
 
-    def get_field(self, field_name: str) -> Optional[Dict[str, Any]]:
+    def get_field(self, field_name: str) -> dict[str, Any] | None:
         """Get a field by name.
 
         Args:
@@ -162,7 +161,7 @@ class Schema:
                 return field
         return None
 
-    def get_required_fields(self) -> List[str]:
+    def get_required_fields(self) -> list[str]:
         """Get required field names.
 
         Returns:
@@ -173,7 +172,7 @@ class Schema:
         """
         return [field["name"] for field in self._fields if field.get("required", False)]
 
-    def validate(self, data: Dict[str, Any]) -> ValidationResult:
+    def validate(self, data: dict[str, Any]) -> ValidationResult:
         """Validate data against the schema.
 
         Args:
@@ -251,7 +250,7 @@ class Schema:
 
         return isinstance(value, expected_python_type)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

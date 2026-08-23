@@ -36,7 +36,8 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import List, Optional, Tuple, Union
 
 from quantsmind.math.exceptions import ConvergenceError
 from quantsmind.math.types import Scalar, Vector
@@ -199,7 +200,7 @@ class Interpolation:
     """
 
     @staticmethod
-    def linear(x_data: List[Scalar], y_data: List[Scalar], x: Scalar) -> Scalar:
+    def linear(x_data: list[Scalar], y_data: list[Scalar], x: Scalar) -> Scalar:
         """Linear interpolation.
 
         Args:
@@ -239,7 +240,7 @@ class Interpolation:
             return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
 
     @staticmethod
-    def polynomial(x_data: List[Scalar], y_data: List[Scalar], x: Scalar, degree: int = 2) -> Scalar:
+    def polynomial(x_data: list[Scalar], y_data: list[Scalar], x: Scalar, degree: int = 2) -> Scalar:
         """Polynomial interpolation.
 
         Args:
@@ -375,7 +376,7 @@ class RootFinding:
         if func(a) * func(b) > 0:
             raise ValueError("Function must have different signs at interval endpoints")
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             c = (a + b) / 2
             f_c = func(c)
 
@@ -415,7 +416,7 @@ class RootFinding:
         Example:
             >>> root = RootFinding.secant(lambda x: x**2 - 4, 1.0, 2.0)
         """
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             f_x0 = func(x0)
             f_x1 = func(x1)
 

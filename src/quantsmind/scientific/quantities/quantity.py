@@ -26,7 +26,7 @@ quantsmind.scientific.dimensions.dimension (dimension)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.exceptions import ConversionError, QuantityError
 from quantsmind.scientific.interfaces import IDimension, IQuantity, IUnit
@@ -55,7 +55,7 @@ class Quantity(IQuantity):
         value: QuantityValue,
         unit: IUnit,
         dimension: IDimension,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Quantity.
 
@@ -110,7 +110,7 @@ class Quantity(IQuantity):
         return self._dimension
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the quantity metadata.
 
         Returns:
@@ -121,7 +121,7 @@ class Quantity(IQuantity):
         """
         return self._metadata.copy()
 
-    def convert_to(self, target_unit: IUnit) -> "Quantity":
+    def convert_to(self, target_unit: IUnit) -> Quantity:
         """Convert to a different unit.
 
         Args:
@@ -152,7 +152,7 @@ class Quantity(IQuantity):
 
         return Quantity(converted_value, target_unit, self._dimension, self._metadata)
 
-    def add(self, other: IQuantity) -> "Quantity":
+    def add(self, other: IQuantity) -> Quantity:
         """Add quantities.
 
         Args:
@@ -182,7 +182,7 @@ class Quantity(IQuantity):
 
         return Quantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def subtract(self, other: IQuantity) -> "Quantity":
+    def subtract(self, other: IQuantity) -> Quantity:
         """Subtract quantities.
 
         Args:
@@ -212,7 +212,7 @@ class Quantity(IQuantity):
 
         return Quantity(result_value, self._unit, self._dimension, self._metadata)
 
-    def multiply(self, other: IQuantity) -> "Quantity":
+    def multiply(self, other: IQuantity) -> Quantity:
         """Multiply quantities.
 
         Args:
@@ -230,7 +230,7 @@ class Quantity(IQuantity):
         # For simplicity, use the first unit (real implementation would handle unit multiplication)
         return Quantity(result_value, self._unit, result_dimension, self._metadata)
 
-    def divide(self, other: IQuantity) -> "Quantity":
+    def divide(self, other: IQuantity) -> Quantity:
         """Divide quantities.
 
         Args:
@@ -254,7 +254,7 @@ class Quantity(IQuantity):
         # For simplicity, use the first unit (real implementation would handle unit division)
         return Quantity(result_value, self._unit, result_dimension, self._metadata)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

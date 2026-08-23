@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.exceptions import DatasetError
@@ -52,8 +52,8 @@ class DatasetRegistry:
         Example:
             >>> registry = DatasetRegistry()
         """
-        self._datasets: Dict[DatasetID, Dataset] = {}
-        self._metadata: Dict[str, Any] = {}
+        self._datasets: dict[DatasetID, Dataset] = {}
+        self._metadata: dict[str, Any] = {}
 
     def register(self, dataset: Dataset) -> None:
         """Register a dataset.
@@ -90,7 +90,7 @@ class DatasetRegistry:
             return True
         return False
 
-    def get(self, dataset_id: DatasetID) -> Optional[Dataset]:
+    def get(self, dataset_id: DatasetID) -> Dataset | None:
         """Get a registered dataset.
 
         Args:
@@ -104,7 +104,7 @@ class DatasetRegistry:
         """
         return self._datasets.get(dataset_id)
 
-    def get_by_name(self, name: str) -> Optional[Dataset]:
+    def get_by_name(self, name: str) -> Dataset | None:
         """Get a dataset by name.
 
         Args:
@@ -121,7 +121,7 @@ class DatasetRegistry:
                 return dataset
         return None
 
-    def list_all(self) -> List[Dataset]:
+    def list_all(self) -> list[Dataset]:
         """List all registered datasets.
 
         Returns:
@@ -132,7 +132,7 @@ class DatasetRegistry:
         """
         return list(self._datasets.values())
 
-    def list_by_type(self, dataset_type: str) -> List[Dataset]:
+    def list_by_type(self, dataset_type: str) -> list[Dataset]:
         """List datasets by type.
 
         Args:
@@ -201,7 +201,7 @@ class DatasetRegistry:
         """
         self._datasets.clear()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert registry to dictionary.
 
         Returns:
@@ -212,7 +212,7 @@ class DatasetRegistry:
         """
         return {
             "dataset_count": len(self._datasets),
-            "dataset_ids": [str(did) for did in self._datasets.keys()],
+            "dataset_ids": [str(did) for did in self._datasets],
             "metadata": self._metadata,
         }
 

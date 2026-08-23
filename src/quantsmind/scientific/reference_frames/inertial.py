@@ -25,7 +25,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.interfaces import IReferenceFrame
 from quantsmind.scientific.reference_frames.reference_frame import ReferenceFrame
@@ -54,8 +54,8 @@ class InertialFrame(ReferenceFrame):
         frame_id: FrameID,
         name: str,
         description: str = "",
-        velocity: Optional[tuple[float, float, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        velocity: tuple[float, float, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an InertialFrame.
 
@@ -127,7 +127,7 @@ class InertialFrame(ReferenceFrame):
             "velocity": self._velocity,
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

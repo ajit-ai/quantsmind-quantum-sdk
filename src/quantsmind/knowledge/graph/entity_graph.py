@@ -25,15 +25,13 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import GraphType
 from quantsmind.knowledge.exceptions import GraphError
 from quantsmind.knowledge.graph.knowledge_graph import KnowledgeGraph
 from quantsmind.knowledge.types import (
-    EdgeData,
     GraphID,
-    NodeData,
     ValidationResult,
 )
 
@@ -55,7 +53,7 @@ class EntityGraph(KnowledgeGraph):
     def __init__(
         self,
         graph_id: GraphID,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an EntityGraph.
 
@@ -67,11 +65,11 @@ class EntityGraph(KnowledgeGraph):
             >>> graph = EntityGraph("entity_graph_001")
         """
         super().__init__(graph_id, GraphType.ENTITY, metadata)
-        self._entity_types: Dict[str, str] = {}
-        self._entity_attributes: Dict[str, Dict[str, Any]] = {}
+        self._entity_types: dict[str, str] = {}
+        self._entity_attributes: dict[str, dict[str, Any]] = {}
 
     @property
-    def entity_types(self) -> Dict[str, str]:
+    def entity_types(self) -> dict[str, str]:
         """Get the entity types.
 
         Returns:
@@ -83,7 +81,7 @@ class EntityGraph(KnowledgeGraph):
         return self._entity_types.copy()
 
     @property
-    def entity_attributes(self) -> Dict[str, Dict[str, Any]]:
+    def entity_attributes(self) -> dict[str, dict[str, Any]]:
         """Get the entity attributes.
 
         Returns:
@@ -94,7 +92,7 @@ class EntityGraph(KnowledgeGraph):
         """
         return self._entity_attributes.copy()
 
-    def add_entity(self, entity_id: str, entity_type: str, attributes: Optional[Dict[str, Any]] = None) -> None:
+    def add_entity(self, entity_id: str, entity_type: str, attributes: dict[str, Any] | None = None) -> None:
         """Add an entity to the graph.
 
         Args:
@@ -133,7 +131,7 @@ class EntityGraph(KnowledgeGraph):
             return self.remove_node(entity_id)
         return False
 
-    def get_entity_type(self, entity_id: str) -> Optional[str]:
+    def get_entity_type(self, entity_id: str) -> str | None:
         """Get the type of an entity.
 
         Args:
@@ -147,7 +145,7 @@ class EntityGraph(KnowledgeGraph):
         """
         return self._entity_types.get(entity_id)
 
-    def get_entity_attributes(self, entity_id: str) -> Optional[Dict[str, Any]]:
+    def get_entity_attributes(self, entity_id: str) -> dict[str, Any] | None:
         """Get the attributes of an entity.
 
         Args:
@@ -161,7 +159,7 @@ class EntityGraph(KnowledgeGraph):
         """
         return self._entity_attributes.get(entity_id)
 
-    def get_entities_by_type(self, entity_type: str) -> List[str]:
+    def get_entities_by_type(self, entity_type: str) -> list[str]:
         """Get entities by type.
 
         Args:
@@ -175,7 +173,7 @@ class EntityGraph(KnowledgeGraph):
         """
         return [eid for eid, etype in self._entity_types.items() if etype == entity_type]
 
-    def add_relationship(self, source: str, target: str, relationship_type: str, attributes: Optional[Dict[str, Any]] = None) -> None:
+    def add_relationship(self, source: str, target: str, relationship_type: str, attributes: dict[str, Any] | None = None) -> None:
         """Add a relationship between entities.
 
         Args:
@@ -196,7 +194,7 @@ class EntityGraph(KnowledgeGraph):
         edge_data = {"relationship_type": relationship_type, **(attributes or {})}
         self.add_edge(source, target, edge_data)
 
-    def get_relationships(self, entity_id: str) -> List[tuple[str, str, Dict[str, Any]]]:
+    def get_relationships(self, entity_id: str) -> list[tuple[str, str, dict[str, Any]]]:
         """Get relationships for an entity.
 
         Args:
@@ -216,7 +214,7 @@ class EntityGraph(KnowledgeGraph):
                 relationships.append((neighbor, relationship_type, edge_data))
         return relationships
 
-    def get_relationships_by_type(self, relationship_type: str) -> List[tuple[str, str]]:
+    def get_relationships_by_type(self, relationship_type: str) -> list[tuple[str, str]]:
         """Get relationships by type.
 
         Args:
@@ -250,18 +248,18 @@ class EntityGraph(KnowledgeGraph):
         errors.extend(base_errors)
 
         # Validate entity types
-        for entity_id, entity_type in self._entity_types.items():
+        for entity_id, _entity_type in self._entity_types.items():
             if entity_id not in self._nodes:
                 errors.append(f"Entity type references non-existent node: {entity_id}")
 
         # Validate entity attributes
-        for entity_id, attributes in self._entity_attributes.items():
+        for entity_id, _attributes in self._entity_attributes.items():
             if entity_id not in self._nodes:
                 errors.append(f"Entity attributes reference non-existent node: {entity_id}")
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

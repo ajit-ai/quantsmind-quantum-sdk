@@ -32,13 +32,13 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
 from quantsmind.runtime.context import ExecutionContext
 from quantsmind.runtime.enums import ExecutionState
 from quantsmind.runtime.exceptions import ValidationError
-from quantsmind.runtime.types import ConfigDict, SessionID, TaskID
+from quantsmind.runtime.types import SessionID
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class RuntimeSession:
         >>> session.initialize()
     """
 
-    def __init__(self, session_id: Optional[SessionID] = None) -> None:
+    def __init__(self, session_id: SessionID | None = None) -> None:
         """Initialize a RuntimeSession.
 
         Args:
@@ -74,8 +74,8 @@ class RuntimeSession:
         self._context = ExecutionContext(self._session_id)
         self._state = ExecutionState.CREATED
         self._created_at = datetime.utcnow()
-        self._closed_at: Optional[datetime] = None
-        self._metadata: Dict[str, Any] = {
+        self._closed_at: datetime | None = None
+        self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }
         logger.debug(f"Created runtime session: {self._session_id}")
@@ -129,7 +129,7 @@ class RuntimeSession:
         return self._created_at
 
     @property
-    def closed_at(self) -> Optional[datetime]:
+    def closed_at(self) -> datetime | None:
         """Get the close timestamp.
 
         Returns:
@@ -141,7 +141,7 @@ class RuntimeSession:
         return self._closed_at
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the session metadata.
 
         Returns:
@@ -271,7 +271,7 @@ class RuntimeSession:
         """
         return self._metadata.get(key, default)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert session to dictionary.
 
         Returns:

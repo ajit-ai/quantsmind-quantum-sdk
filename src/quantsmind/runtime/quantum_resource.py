@@ -28,7 +28,7 @@ quantsmind.runtime.resource (resource)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.enums import ResourceType
 from quantsmind.runtime.resource import Resource
@@ -57,8 +57,8 @@ class QuantumResource(Resource):
         num_qubits: int = 128,
         quantum_type: str = "superconducting",
         fidelity: float = 0.99,
-        capacity: Optional[ResourceCapacity] = None,
-        resource_id: Optional[ResourceID] = None,
+        capacity: ResourceCapacity | None = None,
+        resource_id: ResourceID | None = None,
     ) -> None:
         """Initialize a QuantumResource.
 
@@ -115,7 +115,7 @@ class QuantumResource(Resource):
         """
         return self._fidelity
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert quantum resource to dictionary.
 
         Returns:

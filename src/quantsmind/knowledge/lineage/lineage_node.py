@@ -26,9 +26,8 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from quantsmind.knowledge.enums import ProvenanceType
 from quantsmind.knowledge.exceptions import LineageError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -56,8 +55,8 @@ class LineageNode:
         node_id: str,
         node_type: str,
         entity_id: str,
-        transformation: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        transformation: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LineageNode.
 
@@ -124,7 +123,7 @@ class LineageNode:
         return self._entity_id
 
     @property
-    def transformation(self) -> Optional[str]:
+    def transformation(self) -> str | None:
         """Get the transformation.
 
         Returns:
@@ -148,7 +147,7 @@ class LineageNode:
         return self._timestamp
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the node metadata.
 
         Returns:
@@ -204,7 +203,7 @@ class LineageNode:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

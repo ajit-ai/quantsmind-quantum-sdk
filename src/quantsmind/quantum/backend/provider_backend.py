@@ -25,7 +25,7 @@ quantsmind.quantum.backend.backend (backend module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.enums import BackendType, ProviderType
 from quantsmind.quantum.algorithms.exceptions import BackendError
@@ -59,8 +59,8 @@ class ProviderBackend(QuantumBackend):
         provider_type: ProviderType,
         provider_name: str,
         num_qubits: int,
-        configuration: Optional[BackendConfig] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        configuration: BackendConfig | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ProviderBackend.
 
@@ -125,7 +125,7 @@ class ProviderBackend(QuantumBackend):
         """
         self._provider_name = provider_name
 
-    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> Dict[str, Any]:
+    def run(self, circuit: QuantumCircuit, shots: int = 1024) -> dict[str, Any]:
         """Run a circuit on the provider backend.
 
         Args:
@@ -172,7 +172,7 @@ class ProviderBackend(QuantumBackend):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

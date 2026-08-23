@@ -23,7 +23,8 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.scientific.interfaces import IMeasurement, IObservable
 from quantsmind.scientific.types import ObservableID
@@ -51,7 +52,7 @@ class Observable(IObservable):
         observable_id: ObservableID,
         name: str,
         description: str = "",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an Observable.
 
@@ -67,7 +68,7 @@ class Observable(IObservable):
         self._observable_id = observable_id
         self._name = name
         self._description = description
-        self._observers: List[Callable] = []
+        self._observers: list[Callable] = []
         self._metadata = metadata or {}
 
     @property
@@ -107,7 +108,7 @@ class Observable(IObservable):
         return self._description
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the observable metadata.
 
         Returns:
@@ -176,7 +177,7 @@ class Observable(IObservable):
         """
         raise NotImplementedError("Subclasses must implement observe()")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

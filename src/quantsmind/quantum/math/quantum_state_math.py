@@ -26,8 +26,8 @@ quantsmind.algebra.linear_algebra (Vector)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 from quantsmind.algebra.linear_algebra import Vector
 
@@ -51,8 +51,8 @@ class QuantumStateMath:
     def __init__(
         self,
         name: str,
-        amplitudes: List[complex],
-        metadata: Optional[Dict[str, Any]] = None,
+        amplitudes: list[complex],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QuantumStateMath.
 
@@ -81,7 +81,7 @@ class QuantumStateMath:
         return self._name
 
     @property
-    def amplitudes(self) -> List[complex]:
+    def amplitudes(self) -> list[complex]:
         """Get the state amplitudes.
 
         Returns:
@@ -116,7 +116,7 @@ class QuantumStateMath:
         real_data = [complex(amp).real for amp in self._amplitudes]
         return Vector(f"{self._name}_classical", real_data)
 
-    def normalize(self) -> "QuantumStateMath":
+    def normalize(self) -> QuantumStateMath:
         """Normalize the state.
 
         Returns:
@@ -147,7 +147,7 @@ class QuantumStateMath:
         norm_squared = sum(abs(amp) ** 2 for amp in self._amplitudes)
         return abs(norm_squared - 1.0) < tolerance
 
-    def inner_product(self, other: "QuantumStateMath") -> complex:
+    def inner_product(self, other: QuantumStateMath) -> complex:
         """Compute inner product with another state.
 
         Args:
@@ -164,7 +164,7 @@ class QuantumStateMath:
 
         return sum(self._amplitudes[i].conjugate() * other.amplitudes[i] for i in range(self.dimension))
 
-    def overlap(self, other: "QuantumStateMath") -> float:
+    def overlap(self, other: QuantumStateMath) -> float:
         """Compute overlap (absolute value of inner product).
 
         Args:
@@ -178,7 +178,7 @@ class QuantumStateMath:
         """
         return abs(self.inner_product(other))
 
-    def fidelity(self, other: "QuantumStateMath") -> float:
+    def fidelity(self, other: QuantumStateMath) -> float:
         """Compute fidelity with another state.
 
         Args:
@@ -193,7 +193,7 @@ class QuantumStateMath:
         overlap = self.inner_product(other)
         return abs(overlap) ** 2
 
-    def tensor_product(self, other: "QuantumStateMath") -> "QuantumStateMath":
+    def tensor_product(self, other: QuantumStateMath) -> QuantumStateMath:
         """Compute tensor product with another state.
 
         Args:
@@ -212,7 +212,7 @@ class QuantumStateMath:
 
         return QuantumStateMath(f"{self._name}_tensor_{other._name}", product_amplitudes)
 
-    def density_matrix(self) -> List[List[complex]]:
+    def density_matrix(self) -> list[list[complex]]:
         """Compute the density matrix.
 
         Returns:
@@ -227,7 +227,7 @@ class QuantumStateMath:
                 rho[i][j] = self._amplitudes[i] * self._amplitudes[j].conjugate()
         return rho
 
-    def expectation_value(self, observable: List[List[complex]]) -> complex:
+    def expectation_value(self, observable: list[list[complex]]) -> complex:
         """Compute expectation value of an observable.
 
         Args:
@@ -250,7 +250,7 @@ class QuantumStateMath:
 
         return result
 
-    def partial_trace(self, subsystem_dimensions: List[int], trace_over: List[int]) -> "QuantumStateMath":
+    def partial_trace(self, subsystem_dimensions: list[int], trace_over: list[int]) -> QuantumStateMath:
         """Compute partial trace over specified subsystems.
 
         Args:

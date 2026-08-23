@@ -43,14 +43,11 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.foundation.constants import ERROR_INVALID_STATE
 from quantsmind.foundation.exceptions import (
-    IncompatibleStateError,
     InvalidStateError,
-    StateError,
-    StateTransitionError,
 )
 from quantsmind.foundation.interfaces import (
     Cloneable,
@@ -62,7 +59,6 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     ComparisonResult,
     MetadataDict,
-    SerializedData,
     ValidationResult,
 )
 
@@ -94,9 +90,9 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
 
     def __init__(
         self,
-        data: Dict[str, Any],
-        timestamp: Optional[datetime] = None,
-        metadata: Optional[MetadataDict] = None,
+        data: dict[str, Any],
+        timestamp: datetime | None = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a State.
 
@@ -111,7 +107,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         Example:
             >>> state = State(data={"position": [1.0, 2.0], "velocity": [0.5, 0.3]})
         """
-        self._data: Dict[str, Any] = data or {}
+        self._data: dict[str, Any] = data or {}
         self._timestamp: datetime = timestamp or datetime.utcnow()
         self._version: int = 1
         self._metadata: MetadataDict = metadata or {}
@@ -132,7 +128,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
             )
 
     @property
-    def data(self) -> Dict[str, Any]:
+    def data(self) -> dict[str, Any]:
         """Get the state data.
 
         Returns:
@@ -223,7 +219,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         self._version += 1
         logger.debug(f"Updated state {key}: {old_value} -> {value}")
 
-    def update(self, data: Dict[str, Any]) -> None:
+    def update(self, data: dict[str, Any]) -> None:
         """Update the state data with a dictionary.
 
         Args:
@@ -253,7 +249,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         logger.debug(f"Removed state key: {key}")
 
     # Cloneable interface implementation
-    def clone(self, deep: bool = True) -> "State":
+    def clone(self, deep: bool = True) -> State:
         """Clone the state.
 
         Args:
@@ -327,7 +323,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         are_equal = self._data == other._data
         similarity = 1.0 if are_equal else 0.0
 
-        differences: Dict[str, Any] = {}
+        differences: dict[str, Any] = {}
         if not are_equal:
             for key in set(self._data.keys()) | set(other._data.keys()):
                 if self._data.get(key) != other._data.get(key):
@@ -428,7 +424,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "State":
+    def deserialize(cls, data: bytes, format: str = "json") -> State:
         """Deserialize the state from bytes.
 
         Args:

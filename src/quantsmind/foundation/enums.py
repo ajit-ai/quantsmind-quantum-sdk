@@ -39,7 +39,6 @@ Future Extensions
 from __future__ import annotations
 
 from enum import Enum, auto
-from typing import Literal
 
 
 class LifecycleStage(Enum):
@@ -73,7 +72,7 @@ class LifecycleStage(Enum):
     ARCHIVED = auto()
     DESTROYED = auto()
 
-    def can_transition_to(self, target: "LifecycleStage") -> bool:
+    def can_transition_to(self, target: LifecycleStage) -> bool:
         """Check if transition to target stage is valid.
 
         Args:

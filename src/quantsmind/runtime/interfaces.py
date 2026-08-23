@@ -24,7 +24,8 @@ quantsmind.runtime.types (runtime types)
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from quantsmind.runtime.types import ExecutionResult, ResourceAmount
 
@@ -41,7 +42,7 @@ class IExecutor(ABC):
     """
 
     @abstractmethod
-    def execute(self, task: Any, callback: Optional[Callable] = None) -> ExecutionResult:
+    def execute(self, task: Any, callback: Callable | None = None) -> ExecutionResult:
         """Execute a task.
 
         Args:
@@ -194,7 +195,7 @@ class ICache(ABC):
         pass
 
     @abstractmethod
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """Get a cache entry.
 
         Args:
@@ -218,7 +219,7 @@ class IValidator(ABC):
     """
 
     @abstractmethod
-    def validate(self, obj: Any) -> tuple[bool, List[str]]:
+    def validate(self, obj: Any) -> tuple[bool, list[str]]:
         """Validate an object.
 
         Args:

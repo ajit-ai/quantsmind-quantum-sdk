@@ -25,7 +25,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.scientific.enums import ScaleType
 from quantsmind.scientific.scales.scale import Scale
@@ -48,8 +48,8 @@ class LinearScale(Scale):
 
     def __init__(
         self,
-        range: Optional[ScaleRange] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        range: ScaleRange | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a LinearScale.
 
@@ -97,7 +97,7 @@ class LinearScale(Scale):
         
         return min_val + scaled_value * (max_val - min_val)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

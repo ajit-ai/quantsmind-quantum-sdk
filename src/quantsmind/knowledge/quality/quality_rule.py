@@ -24,9 +24,9 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.knowledge.enums import QualityType
 from quantsmind.knowledge.exceptions import QualityError
 from quantsmind.knowledge.types import ValidationResult
 
@@ -55,10 +55,10 @@ class QualityRule:
         rule_id: str,
         name: str,
         rule_type: str,
-        description: Optional[str] = None,
-        check_function: Optional[Callable[[Any], bool]] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        description: str | None = None,
+        check_function: Callable[[Any], bool] | None = None,
+        parameters: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a QualityRule.
 
@@ -128,7 +128,7 @@ class QualityRule:
         return self._rule_type
 
     @property
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Get the rule description.
 
         Returns:
@@ -140,7 +140,7 @@ class QualityRule:
         return self._description
 
     @property
-    def parameters(self) -> Dict[str, Any]:
+    def parameters(self) -> dict[str, Any]:
         """Get the rule parameters.
 
         Returns:
@@ -152,7 +152,7 @@ class QualityRule:
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the rule metadata.
 
         Returns:
@@ -229,7 +229,7 @@ class QualityRule:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

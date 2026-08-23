@@ -41,16 +41,15 @@ Future Extensions
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from datetime import datetime, timedelta
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 from quantsmind.foundation.enums import SerializationFormat
 from quantsmind.foundation.types import (
-    AttributeValue,
     ComparisonResult,
     ConstraintResult,
     EntityID,
-    EventID,
     MetadataDict,
     SerializedData,
     ValidationResult,
@@ -273,7 +272,7 @@ class Serializable(ABC):
 
     @classmethod
     @abstractmethod
-    def deserialize(cls, data: SerializedData, format: SerializationFormat = SerializationFormat.JSON) -> "Serializable":
+    def deserialize(cls, data: SerializedData, format: SerializationFormat = SerializationFormat.JSON) -> Serializable:
         """Deserialize the object from bytes.
 
         Args:
@@ -311,7 +310,7 @@ class Serializable(ABC):
 
     @classmethod
     @abstractmethod
-    def get_supported_formats(cls) -> List[SerializationFormat]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get the list of supported serialization formats.
 
         Returns:
@@ -383,7 +382,7 @@ class Validatable(ABC):
 
     @property
     @abstractmethod
-    def validation_errors(self) -> List[str]:
+    def validation_errors(self) -> list[str]:
         """Get the list of validation errors.
 
         Returns:
@@ -398,7 +397,7 @@ class Validatable(ABC):
 
     @property
     @abstractmethod
-    def validation_warnings(self) -> List[str]:
+    def validation_warnings(self) -> list[str]:
         """Get the list of validation warnings.
 
         Returns:
@@ -439,7 +438,7 @@ class Cloneable(ABC):
     """
 
     @abstractmethod
-    def clone(self, deep: bool = True) -> "Cloneable":
+    def clone(self, deep: bool = True) -> Cloneable:
         """Clone the object.
 
         Args:
@@ -743,7 +742,7 @@ class Constrainable(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def evaluate_constraints(self, context: Dict[str, Any]) -> List[ConstraintResult]:
+    def evaluate_constraints(self, context: dict[str, Any]) -> list[ConstraintResult]:
         """Evaluate all constraints.
 
         Args:
@@ -763,7 +762,7 @@ class Constrainable(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_constraint_violations(self) -> List[str]:
+    def get_constraint_violations(self) -> list[str]:
         """Get current constraint violations.
 
         Returns:
@@ -803,7 +802,7 @@ class Describable(ABC):
     """
 
     @abstractmethod
-    def describe(self) -> Dict[str, Any]:
+    def describe(self) -> dict[str, Any]:
         """Get a structured description of this object.
 
         Returns:

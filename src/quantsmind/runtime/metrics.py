@@ -28,9 +28,8 @@ from __future__ import annotations
 import logging
 import threading
 from datetime import datetime
-from typing import Any, Dict, List, Optional
 
-from quantsmind.runtime.constants import DEFAULT_METRICS_INTERVAL, DEFAULT_METRICS_RETENTION
+from quantsmind.runtime.constants import DEFAULT_METRICS_RETENTION
 from quantsmind.runtime.types import MetricDict, MetricValue
 
 logger = logging.getLogger(__name__)
@@ -64,10 +63,10 @@ class MetricsCollector:
         Example:
             >>> collector = MetricsCollector()
         """
-        self._metrics: Dict[str, List[tuple]] = {}
-        self._counters: Dict[str, int] = {}
-        self._gauges: Dict[str, float] = {}
-        self._histograms: Dict[str, List[float]] = {}
+        self._metrics: dict[str, list[tuple]] = {}
+        self._counters: dict[str, int] = {}
+        self._gauges: dict[str, float] = {}
+        self._histograms: dict[str, list[float]] = {}
         self._retention = retention
         self._lock = threading.Lock()
         logger.debug("Created metrics collector")
@@ -143,7 +142,7 @@ class MetricsCollector:
             self._histograms[name].append(value)
             self._record_metric(name, value)
 
-    def get_counter(self, name: str) -> Optional[int]:
+    def get_counter(self, name: str) -> int | None:
         """Get a counter metric.
 
         Args:
@@ -158,7 +157,7 @@ class MetricsCollector:
         with self._lock:
             return self._counters.get(name)
 
-    def get_gauge(self, name: str) -> Optional[float]:
+    def get_gauge(self, name: str) -> float | None:
         """Get a gauge metric.
 
         Args:
@@ -173,7 +172,7 @@ class MetricsCollector:
         with self._lock:
             return self._gauges.get(name)
 
-    def get_histogram(self, name: str) -> Optional[List[float]]:
+    def get_histogram(self, name: str) -> list[float] | None:
         """Get a histogram metric.
 
         Args:
@@ -188,7 +187,7 @@ class MetricsCollector:
         with self._lock:
             return self._histograms.get(name)
 
-    def get_histogram_stats(self, name: str) -> Dict[str, float]:
+    def get_histogram_stats(self, name: str) -> dict[str, float]:
         """Get histogram statistics.
 
         Args:

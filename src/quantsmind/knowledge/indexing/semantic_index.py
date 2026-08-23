@@ -24,7 +24,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.knowledge.enums import IndexType
 from quantsmind.knowledge.exceptions import IndexError
@@ -54,7 +54,7 @@ class SemanticIndex:
         name: str,
         index_type: IndexType,
         dimension: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a SemanticIndex.
 
@@ -81,7 +81,7 @@ class SemanticIndex:
         self._name = name
         self._index_type = index_type
         self._dimension = dimension
-        self._embeddings: Dict[str, List[float]] = {}
+        self._embeddings: dict[str, list[float]] = {}
         self._metadata = metadata or {}
 
     @property
@@ -133,7 +133,7 @@ class SemanticIndex:
         return self._dimension
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the index metadata.
 
         Returns:
@@ -144,7 +144,7 @@ class SemanticIndex:
         """
         return self._metadata.copy()
 
-    def add(self, entity_id: str, embedding: List[float]) -> None:
+    def add(self, entity_id: str, embedding: list[float]) -> None:
         """Add an entity embedding to the index.
 
         Args:
@@ -176,7 +176,7 @@ class SemanticIndex:
             return True
         return False
 
-    def get(self, entity_id: str) -> Optional[List[float]]:
+    def get(self, entity_id: str) -> list[float] | None:
         """Get an entity embedding.
 
         Args:
@@ -190,7 +190,7 @@ class SemanticIndex:
         """
         return self._embeddings.get(entity_id)
 
-    def cosine_similarity(self, embedding1: List[float], embedding2: List[float]) -> float:
+    def cosine_similarity(self, embedding1: list[float], embedding2: list[float]) -> float:
         """Calculate cosine similarity between two embeddings.
 
         Args:
@@ -206,7 +206,7 @@ class SemanticIndex:
         if len(embedding1) != len(embedding2):
             return 0.0
 
-        dot_product = sum(a * b for a, b in zip(embedding1, embedding2))
+        dot_product = sum(a * b for a, b in zip(embedding1, embedding2, strict=False))
         magnitude1 = sum(a * a for a in embedding1) ** 0.5
         magnitude2 = sum(b * b for b in embedding2) ** 0.5
 
@@ -215,7 +215,7 @@ class SemanticIndex:
 
         return dot_product / (magnitude1 * magnitude2)
 
-    def search(self, query_embedding: List[float], top_k: int = 10) -> List[tuple[str, float]]:
+    def search(self, query_embedding: list[float], top_k: int = 10) -> list[tuple[str, float]]:
         """Search for similar entities.
 
         Args:
@@ -278,7 +278,7 @@ class SemanticIndex:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

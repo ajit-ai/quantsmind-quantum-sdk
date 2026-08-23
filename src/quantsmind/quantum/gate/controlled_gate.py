@@ -26,11 +26,10 @@ quantsmind.quantum.gate.gate (gate module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.constants import GATE_CCX, GATE_CX, GATE_CY, GATE_CZ
 from quantsmind.quantum.algorithms.enums import GateType
-from quantsmind.quantum.algorithms.exceptions import GateError
 from quantsmind.quantum.algorithms.types import ValidationResult
 from quantsmind.quantum.gate.gate import QuantumGate
 
@@ -59,9 +58,9 @@ class ControlledGate(QuantumGate):
         name: str,
         num_qubits: int,
         num_controls: int,
-        target_gate: Optional[QuantumGate] = None,
-        parameters: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        target_gate: QuantumGate | None = None,
+        parameters: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a ControlledGate.
 
@@ -94,7 +93,7 @@ class ControlledGate(QuantumGate):
         return self._num_controls
 
     @property
-    def target_gate(self) -> Optional[QuantumGate]:
+    def target_gate(self) -> QuantumGate | None:
         """Get the target gate.
 
         Returns:
@@ -189,7 +188,7 @@ class ControlledGate(QuantumGate):
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:
@@ -215,7 +214,7 @@ class CNOTGate(ControlledGate):
         >>> gate = CNOTGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a CNOTGate.
 
         Args:
@@ -236,7 +235,7 @@ class CYGate(ControlledGate):
         >>> gate = CYGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a CYGate.
 
         Args:
@@ -257,7 +256,7 @@ class CZGate(ControlledGate):
         >>> gate = CZGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a CZGate.
 
         Args:
@@ -278,7 +277,7 @@ class CCXGate(ControlledGate):
         >>> gate = CCXGate()
     """
 
-    def __init__(self, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, metadata: dict[str, Any] | None = None) -> None:
         """Initialize a CCXGate.
 
         Args:

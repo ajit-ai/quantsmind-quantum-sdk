@@ -28,7 +28,7 @@ quantsmind.runtime.resource (resource)
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import DEFAULT_STORAGE_LIMIT
 from quantsmind.runtime.enums import ResourceType
@@ -58,8 +58,8 @@ class StorageResource(Resource):
         storage_type: str = "NVMe",
         iops: int = 100000,
         latency: float = 0.1,
-        capacity: Optional[ResourceCapacity] = None,
-        resource_id: Optional[ResourceID] = None,
+        capacity: ResourceCapacity | None = None,
+        resource_id: ResourceID | None = None,
     ) -> None:
         """Initialize a StorageResource.
 
@@ -116,7 +116,7 @@ class StorageResource(Resource):
         """
         return self._latency
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert storage resource to dictionary.
 
         Returns:

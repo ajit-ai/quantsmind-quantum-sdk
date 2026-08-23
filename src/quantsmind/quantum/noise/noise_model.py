@@ -23,7 +23,7 @@ quantsmind.quantum.algorithms.types (quantum types)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import NoiseError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -48,8 +48,8 @@ class NoiseModel:
         self,
         name: str,
         noise_type: str,
-        parameters: Optional[Dict[str, float]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        parameters: dict[str, float] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a NoiseModel.
 
@@ -95,7 +95,7 @@ class NoiseModel:
         return self._noise_type
 
     @property
-    def parameters(self) -> Dict[str, float]:
+    def parameters(self) -> dict[str, float]:
         """Get the noise parameters.
 
         Returns:
@@ -107,7 +107,7 @@ class NoiseModel:
         return self._parameters.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the noise model metadata.
 
         Returns:
@@ -130,7 +130,7 @@ class NoiseModel:
         """
         self._parameters[key] = value
 
-    def get_parameter(self, key: str, default: Optional[float] = None) -> Optional[float]:
+    def get_parameter(self, key: str, default: float | None = None) -> float | None:
         """Get a noise parameter.
 
         Args:
@@ -170,7 +170,7 @@ class NoiseModel:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

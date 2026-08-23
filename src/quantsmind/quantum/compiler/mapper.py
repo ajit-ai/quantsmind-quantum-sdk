@@ -25,7 +25,7 @@ quantsmind.quantum.circuit.circuit (circuit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import CompilerError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -53,9 +53,9 @@ class Mapper:
     def __init__(
         self,
         name: str,
-        coupling_map: Optional[List[List[int]]] = None,
-        layout: Optional[Dict[int, int]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        coupling_map: list[list[int]] | None = None,
+        layout: dict[int, int] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a Mapper.
 
@@ -89,7 +89,7 @@ class Mapper:
         return self._name
 
     @property
-    def coupling_map(self) -> List[List[int]]:
+    def coupling_map(self) -> list[list[int]]:
         """Get the coupling map.
 
         Returns:
@@ -101,7 +101,7 @@ class Mapper:
         return self._coupling_map.copy()
 
     @property
-    def layout(self) -> Dict[int, int]:
+    def layout(self) -> dict[int, int]:
         """Get the qubit layout.
 
         Returns:
@@ -113,7 +113,7 @@ class Mapper:
         return self._layout.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the mapper metadata.
 
         Returns:
@@ -124,7 +124,7 @@ class Mapper:
         """
         return self._metadata.copy()
 
-    def set_coupling_map(self, coupling_map: List[List[int]]) -> None:
+    def set_coupling_map(self, coupling_map: list[list[int]]) -> None:
         """Set the coupling map.
 
         Args:
@@ -135,7 +135,7 @@ class Mapper:
         """
         self._coupling_map = coupling_map
 
-    def set_layout(self, layout: Dict[int, int]) -> None:
+    def set_layout(self, layout: dict[int, int]) -> None:
         """Set the qubit layout.
 
         Args:
@@ -146,7 +146,7 @@ class Mapper:
         """
         self._layout = layout
 
-    def map(self, circuit: QuantumCircuit, backend: Optional[QuantumBackend] = None) -> QuantumCircuit:
+    def map(self, circuit: QuantumCircuit, backend: QuantumBackend | None = None) -> QuantumCircuit:
         """Map a circuit to physical qubits.
 
         Args:
@@ -163,7 +163,7 @@ class Mapper:
         mapped = QuantumCircuit(f"{circuit.name}_mapped", circuit.num_qubits, circuit.metadata.copy())
         
         # Copy gates (placeholder - actual mapping would adjust qubit indices)
-        for gate, qubits in zip(circuit.gates, circuit._qubit_indices):
+        for gate, qubits in zip(circuit.gates, circuit._qubit_indices, strict=False):
             mapped.add_gate(gate, qubits)
         
         return mapped
@@ -194,7 +194,7 @@ class Mapper:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

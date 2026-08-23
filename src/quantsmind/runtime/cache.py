@@ -30,7 +30,7 @@ from __future__ import annotations
 import logging
 import threading
 import time
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.runtime.constants import DEFAULT_CACHE_SIZE, DEFAULT_CACHE_TTL
 from quantsmind.runtime.enums import CachePolicy
@@ -75,12 +75,12 @@ class Cache:
         Example:
             >>> cache = Cache(policy=CachePolicy.LRU)
         """
-        self._cache: Dict[CacheKey, CacheEntry] = {}
+        self._cache: dict[CacheKey, CacheEntry] = {}
         self._policy = policy
         self._max_size = max_size
         self._ttl = ttl
-        self._access_times: Dict[CacheKey, float] = {}
-        self._access_counts: Dict[CacheKey, int] = {}
+        self._access_times: dict[CacheKey, float] = {}
+        self._access_counts: dict[CacheKey, int] = {}
         self._lock = threading.Lock()
         logger.debug(f"Created cache with policy={policy.value}, max_size={max_size}")
 
@@ -109,7 +109,7 @@ class Cache:
         """
         return self._policy
 
-    def set(self, key: CacheKey, value: CacheValue, ttl: Optional[int] = None) -> None:
+    def set(self, key: CacheKey, value: CacheValue, ttl: int | None = None) -> None:
         """Set a cache entry.
 
         Args:
@@ -130,7 +130,7 @@ class Cache:
             if len(self._cache) > self._max_size:
                 self._evict()
 
-    def get(self, key: CacheKey) -> Optional[CacheValue]:
+    def get(self, key: CacheKey) -> CacheValue | None:
         """Get a cache entry.
 
         Args:
@@ -278,7 +278,7 @@ class Cache:
         for key in expired_keys:
             self.delete(key)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics.
 
         Returns:

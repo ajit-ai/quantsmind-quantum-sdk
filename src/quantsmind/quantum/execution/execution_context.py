@@ -25,7 +25,7 @@ quantsmind.quantum.circuit.circuit (circuit module)
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from quantsmind.quantum.algorithms.exceptions import ExecutionError
 from quantsmind.quantum.algorithms.types import ValidationResult
@@ -56,8 +56,8 @@ class ExecutionContext:
         circuit: QuantumCircuit,
         backend: QuantumBackend,
         shots: int = 1024,
-        configuration: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        configuration: dict[str, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize an ExecutionContext.
 
@@ -140,7 +140,7 @@ class ExecutionContext:
         return self._shots
 
     @property
-    def configuration(self) -> Dict[str, Any]:
+    def configuration(self) -> dict[str, Any]:
         """Get the execution configuration.
 
         Returns:
@@ -152,7 +152,7 @@ class ExecutionContext:
         return self._configuration.copy()
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the context metadata.
 
         Returns:
@@ -240,7 +240,7 @@ class ExecutionContext:
 
         return (len(errors) == 0, errors)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

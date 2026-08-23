@@ -29,8 +29,8 @@ typing (standard library)
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
 import math
+from typing import Any
 
 
 class FeatureTransformer:
@@ -51,7 +51,7 @@ class FeatureTransformer:
     def __init__(
         self,
         name: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a FeatureTransformer.
 
@@ -90,7 +90,7 @@ class FeatureTransformer:
         """
         return self._fitted
 
-    def fit(self, data: List[List[float]]) -> "FeatureTransformer":
+    def fit(self, data: list[list[float]]) -> FeatureTransformer:
         """Fit the transformer to data.
 
         Args:
@@ -104,7 +104,7 @@ class FeatureTransformer:
         """
         raise NotImplementedError("Subclasses must implement fit")
 
-    def transform(self, data: List[List[float]]) -> List[List[float]]:
+    def transform(self, data: list[list[float]]) -> list[list[float]]:
         """Transform the data.
 
         Args:
@@ -118,7 +118,7 @@ class FeatureTransformer:
         """
         raise NotImplementedError("Subclasses must implement transform")
 
-    def fit_transform(self, data: List[List[float]]) -> List[List[float]]:
+    def fit_transform(self, data: list[list[float]]) -> list[list[float]]:
         """Fit and transform in one step.
 
         Args:
@@ -133,7 +133,7 @@ class FeatureTransformer:
         self.fit(data)
         return self.transform(data)
 
-    def inverse_transform(self, data: List[List[float]]) -> List[List[float]]:
+    def inverse_transform(self, data: list[list[float]]) -> list[list[float]]:
         """Inverse transform the data.
 
         Args:
@@ -173,7 +173,7 @@ class Normalization(FeatureTransformer):
         >>> transformed = transformer.fit_transform([[1, 2], [3, 4]])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a Normalization.
 
         Args:
@@ -182,11 +182,11 @@ class Normalization(FeatureTransformer):
         Example:
             >>> transformer = Normalization()
         """
-        super().__init__("normalization", metadata)
-        self._min: List[float] = []
-        self._max: List[float] = []
+        super().__init__("normalization", self)
+        self._min: list[float] = []
+        self._max: list[float] = []
 
-    def fit(self, data: List[List[float]]) -> "Normalization":
+    def fit(self, data: list[list[float]]) -> Normalization:
         """Fit the normalizer to data.
 
         Args:
@@ -207,7 +207,7 @@ class Normalization(FeatureTransformer):
         self._fitted = True
         return self
 
-    def transform(self, data: List[List[float]]) -> List[List[float]]:
+    def transform(self, data: list[list[float]]) -> list[list[float]]:
         """Transform the data.
 
         Args:
@@ -233,7 +233,7 @@ class Normalization(FeatureTransformer):
             transformed.append(transformed_row)
         return transformed
 
-    def inverse_transform(self, data: List[List[float]]) -> List[List[float]]:
+    def inverse_transform(self, data: list[list[float]]) -> list[list[float]]:
         """Inverse transform the data.
 
         Args:
@@ -271,7 +271,7 @@ class Standardization(FeatureTransformer):
         >>> transformed = transformer.fit_transform([[1, 2], [3, 4]])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a Standardization.
 
         Args:
@@ -280,11 +280,11 @@ class Standardization(FeatureTransformer):
         Example:
             >>> transformer = Standardization()
         """
-        super().__init__("standardization", metadata)
-        self._mean: List[float] = []
-        self._std: List[float] = []
+        super().__init__("standardization", self)
+        self._mean: list[float] = []
+        self._std: list[float] = []
 
-    def fit(self, data: List[List[float]]) -> "Standardization":
+    def fit(self, data: list[list[float]]) -> Standardization:
         """Fit the standardizer to data.
 
         Args:
@@ -308,7 +308,7 @@ class Standardization(FeatureTransformer):
         self._fitted = True
         return self
 
-    def transform(self, data: List[List[float]]) -> List[List[float]]:
+    def transform(self, data: list[list[float]]) -> list[list[float]]:
         """Transform the data.
 
         Args:
@@ -334,7 +334,7 @@ class Standardization(FeatureTransformer):
             transformed.append(transformed_row)
         return transformed
 
-    def inverse_transform(self, data: List[List[float]]) -> List[List[float]]:
+    def inverse_transform(self, data: list[list[float]]) -> list[list[float]]:
         """Inverse transform the data.
 
         Args:
@@ -372,7 +372,7 @@ class OneHotEncoder(FeatureTransformer):
         >>> transformed = transformer.fit_transform([[0], [1], [2]])
     """
 
-    def __init__(metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self: dict[str, Any] | None = None) -> None:
         """Initialize a OneHotEncoder.
 
         Args:
@@ -381,11 +381,11 @@ class OneHotEncoder(FeatureTransformer):
         Example:
             >>> transformer = OneHotEncoder()
         """
-        super().__init__("one_hot_encoder", metadata)
-        self._categories: List[List[Any]] = []
+        super().__init__("one_hot_encoder", self)
+        self._categories: list[list[Any]] = []
         self._n_features: int = 0
 
-    def fit(self, data: List[List[Any]]) -> "OneHotEncoder":
+    def fit(self, data: list[list[Any]]) -> OneHotEncoder:
         """Fit the encoder to data.
 
         Args:
@@ -410,7 +410,7 @@ class OneHotEncoder(FeatureTransformer):
         self._fitted = True
         return self
 
-    def transform(self, data: List[List[Any]]) -> List[List[float]]:
+    def transform(self, data: list[list[Any]]) -> list[list[float]]:
         """Transform the data.
 
         Args:
@@ -437,7 +437,7 @@ class OneHotEncoder(FeatureTransformer):
             transformed.append(encoded_row)
         return transformed
 
-    def inverse_transform(self, data: List[List[float]]) -> List[List[Any]]:
+    def inverse_transform(self, data: list[list[float]]) -> list[list[Any]]:
         """Inverse transform the data.
 
         Args:
@@ -480,9 +480,9 @@ class PolynomialFeatures(FeatureTransformer):
     """
 
     def __init__(
-        degree: int = 2,
+        self: int = 2,
         include_bias: bool = True,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a PolynomialFeatures.
 
@@ -495,7 +495,7 @@ class PolynomialFeatures(FeatureTransformer):
             >>> transformer = PolynomialFeatures(degree=2)
         """
         super().__init__("polynomial_features", metadata)
-        self._degree = degree
+        self._degree = self
         self._include_bias = include_bias
 
     @property
@@ -510,7 +510,7 @@ class PolynomialFeatures(FeatureTransformer):
         """
         return self._degree
 
-    def fit(self, data: List[List[float]]) -> "PolynomialFeatures":
+    def fit(self, data: list[list[float]]) -> PolynomialFeatures:
         """Fit the transformer to data.
 
         Args:
@@ -525,7 +525,7 @@ class PolynomialFeatures(FeatureTransformer):
         self._fitted = True
         return self
 
-    def transform(self, data: List[List[float]]) -> List[List[float]]:
+    def transform(self, data: list[list[float]]) -> list[list[float]]:
         """Transform the data.
 
         Args:
@@ -561,7 +561,7 @@ class PolynomialFeatures(FeatureTransformer):
             transformed.append(poly_row)
         return transformed
 
-    def inverse_transform(self, data: List[List[float]]) -> List[List[float]]:
+    def inverse_transform(self, data: list[list[float]]) -> list[list[float]]:
         """Inverse transform is not supported for polynomial features.
 
         Args:
