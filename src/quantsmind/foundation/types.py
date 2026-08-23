@@ -35,19 +35,12 @@ Future Extensions
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime, timedelta
 from typing import (
     Any,
-    Callable,
-    Dict,
-    Iterable,
-    List,
     Literal,
-    Mapping,
-    Optional,
     Protocol,
-    Sequence,
-    Tuple,
     TypeVar,
     Union,
 )
@@ -70,37 +63,37 @@ LifecycleID = str
 
 # Value Types
 ScalarValue = Union[int, float, complex]
-VectorValue = List[ScalarValue]
-TensorValue = List[List[ScalarValue]]
+VectorValue = list[ScalarValue]
+TensorValue = list[list[ScalarValue]]
 AttributeValue = Union[ScalarValue, VectorValue, TensorValue, str, bool, datetime]
 
 # Data Structures
-PropertyDict = Dict[str, "Property"]
-AttributeDict = Dict[str, "Attribute"]
-RelationshipDict = Dict[str, List["Relationship"]]
-ConstraintList = List["Constraint"]
-StateHistory = List["State"]
-MetadataDict = Dict[str, Any]
-EntityDict = Dict[EntityID, "Entity"]
+PropertyDict = dict[str, "Property"]
+AttributeDict = dict[str, "Attribute"]
+RelationshipDict = dict[str, list["Relationship"]]
+ConstraintList = list["Constraint"]
+StateHistory = list["State"]
+MetadataDict = dict[str, Any]
+EntityDict = dict[EntityID, "Entity"]
 
 # Function Types
 ValidatorFunc = Callable[[Any], bool]
 TransformerFunc = Callable[[Any], Any]
 ObserverFunc = Callable[["Event"], None]
-ConstraintRule = Union[str, Callable[[Dict[str, Any]], bool]]
+ConstraintRule = Union[str, Callable[[dict[str, Any]], bool]]
 
 # Result Types
-ValidationResult = Tuple[bool, List[str]]
-ComparisonResult = Tuple[bool, float, Dict[str, Any]]
-InteractionResult = Tuple[bool, Dict[EntityID, "State"], List[str]]
-BehaviourResult = Tuple[bool, Any, List[str]]
-ConstraintResult = Tuple[bool, Optional[str], "ConstraintSeverity"]
-KnowledgeResult = Tuple[bool, Any, List[str]]
+ValidationResult = tuple[bool, list[str]]
+ComparisonResult = tuple[bool, float, dict[str, Any]]
+InteractionResult = tuple[bool, dict[EntityID, "State"], list[str]]
+BehaviourResult = tuple[bool, Any, list[str]]
+ConstraintResult = tuple[bool, str | None, "ConstraintSeverity"]
+KnowledgeResult = tuple[bool, Any, list[str]]
 
 # Serialization Types
 SerializationFormat = Literal["json", "yaml", "toml", "msgpack", "binary", "protobuf"]
 SerializedData = bytes
-DeserializedData = Dict[str, Any]
+DeserializedData = dict[str, Any]
 
 # Time Types
 Timestamp = datetime
@@ -108,8 +101,8 @@ TimeInterval = timedelta
 TimeValue = Union[int, float, datetime]
 
 # Space Types
-Coordinate = List[float]
-BasisVector = List[float]
+Coordinate = list[float]
+BasisVector = list[float]
 SpaceDimension = int
 
 # Lifecycle Types
@@ -186,7 +179,7 @@ ObservationQuality = Literal["high", "medium", "low", "unknown"]
 KnowledgeType = Literal["pattern", "model", "rule", "fact", "heuristic"]
 
 # Transformation Types
-TransformationType = Literal["linear", "nonlinear", "stochastic", "custom"]
+TransformationType = Literal["linear", "nonlinear", "stochastic", "custom", "COMPOSED"]
 
 # Space Types
 SpaceType = Literal["euclidean", "hilbert", "configuration", "topological", "custom"]
@@ -232,7 +225,7 @@ class Serializable(Protocol):
     @classmethod
     def deserialize(
         cls, data: SerializedData, format: SerializationFormat = "json"
-    ) -> "Serializable":
+    ) -> Serializable:
         """Deserialize the object from bytes."""
         ...
 
@@ -248,7 +241,7 @@ class Validatable(Protocol):
 class Cloneable(Protocol):
     """Protocol for objects that can be cloned."""
 
-    def clone(self, deep: bool = True) -> "Cloneable":
+    def clone(self, deep: bool = True) -> Cloneable:
         """Clone the object."""
         ...
 
@@ -369,10 +362,10 @@ if __name__ == "__main__":
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
+        from quantsmind.foundation.attribute import Attribute
+        from quantsmind.foundation.constraint import Constraint
         from quantsmind.foundation.entity import Entity
-        from quantsmind.foundation.state import State
         from quantsmind.foundation.event import Event
         from quantsmind.foundation.property import Property
-        from quantsmind.foundation.attribute import Attribute
         from quantsmind.foundation.relationship import Relationship
-        from quantsmind.foundation.constraint import Constraint
+        from quantsmind.foundation.state import State

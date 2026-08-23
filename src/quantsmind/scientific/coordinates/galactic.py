@@ -26,7 +26,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 from quantsmind.scientific.exceptions import CoordinateError
 from quantsmind.scientific.interfaces import ICoordinate
@@ -54,7 +54,7 @@ class GalacticCoordinate(ICoordinate):
         l: CoordinateValue,
         b: CoordinateValue,
         distance: CoordinateValue = 8.5,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         """Initialize a GalacticCoordinate.
 
@@ -109,7 +109,7 @@ class GalacticCoordinate(ICoordinate):
         return self._distance
 
     @property
-    def metadata(self) -> Dict[str, Any]:
+    def metadata(self) -> dict[str, Any]:
         """Get the coordinate metadata.
 
         Returns:
@@ -153,7 +153,7 @@ class GalacticCoordinate(ICoordinate):
         """
         return self._distance
 
-    def to_equatorial(self) -> Tuple[float, float]:
+    def to_equatorial(self) -> tuple[float, float]:
         """Convert to equatorial coordinates (RA, Dec).
 
         Returns:
@@ -200,7 +200,7 @@ class GalacticCoordinate(ICoordinate):
         else:
             raise CoordinateError(f"Transformation to {target_system} not supported")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
 
         Returns:

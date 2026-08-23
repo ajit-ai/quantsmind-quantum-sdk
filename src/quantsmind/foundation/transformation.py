@@ -44,22 +44,23 @@ from __future__ import annotations
 
 import logging
 import uuid
-from typing import Any, Callable, Dict, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
-from quantsmind.foundation.constants import DEFAULT_TRANSFORMATION_TYPE
 from quantsmind.foundation.enums import TransformationType
 from quantsmind.foundation.exceptions import (
-    CompositionError,
     ExecutionError as TransformationExecutionError,
+)
+from quantsmind.foundation.exceptions import (
     InvalidTransformationError,
-    TransformationError,
 )
 from quantsmind.foundation.interfaces import (
     Serializable,
     Validatable,
 )
-from quantsmind.foundation/types import (
+from quantsmind.foundation.types import (
     MetadataDict,
+    SerializationFormat,
     SerializedData,
     ValidationResult,
 )
@@ -96,9 +97,9 @@ class Transformation(Serializable, Validatable):
     def __init__(
         self,
         name: str,
-        rule: Callable[[Dict[str, Any]], Tuple[bool, Any, list[str]]],
+        rule: Callable[[dict[str, Any]], tuple[bool, Any, list[str]]],
         transformation_type: TransformationType = TransformationType.CUSTOM,
-        metadata: Optional[MetadataDict] = None,
+        metadata: MetadataDict | None = None,
     ) -> None:
         """Initialize a Transformation.
 
@@ -118,7 +119,7 @@ class Transformation(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._name: str = name
-        self._rule: Callable[[Dict[str, Any]], tuple[bool, Any, list[str]]] = rule
+        self._rule: Callable[[dict[str, Any]], tuple[bool, Any, list[str]]] = rule
         self._transformation_type: TransformationType = transformation_type
         self._metadata: MetadataDict = metadata or {}
 
@@ -159,7 +160,7 @@ class Transformation(Serializable, Validatable):
         return self._name
 
     @property
-    def rule(self) -> Callable[[Dict[str, Any]], Tuple[bool, Any, list[str]]]:
+    def rule(self) -> Callable[[dict[str, Any]], tuple[bool, Any, list[str]]]:
         """Get the transformation rule.
 
         Returns:
@@ -194,7 +195,7 @@ class Transformation(Serializable, Validatable):
         """
         return self._metadata.copy()
 
-    def apply(self, context: Dict[str, Any]) -> Tuple[bool, Any, list[str]]:
+    def apply(self, context: dict[str, Any]) -> tuple[bool, Any, list[str]]:
         """Apply the transformation.
 
         Args:
@@ -215,7 +216,7 @@ class Transformation(Serializable, Validatable):
         except Exception as e:
             raise TransformationExecutionError(f"Transformation execution failed: {e}") from e
 
-    def compose(self, other: "Transformation") -> "Transformation":
+    def compose(self, other: Transformation) -> Transformation:
         """Compose this transformation with another.
 
         Args:
@@ -230,7 +231,7 @@ class Transformation(Serializable, Validatable):
         Example:
             >>> composed = transform1.compose(transform2)
         """
-        def composed_rule(context: Dict[str, Any]) -> Tuple[bool, Any, list[str]]:
+        def composed_rule(context: dict[str, Any]) -> tuple[bool, Any, list[str]]:
             success1, result1, messages1 = self._rule(context)
             if not success1:
                 return (False, result1, messages1)
@@ -240,11 +241,11 @@ class Transformation(Serializable, Validatable):
         return Transformation(
             name=f"{self._name}_then_{other._name}",
             rule=composed_rule,
-            transformation_type=TransformationType.COMPOSED,
+            transformation_type=TransformationType.COMPOSED,  # type: ignore[attr-defined]
         )
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(self, format: SerializationFormat = "json") -> SerializedData:  # type: ignore[override]
         """Serialize the transformation to bytes.
 
         Args:
@@ -274,7 +275,9 @@ class Transformation(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> "Transformation":
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat = "json"
+    ) -> Transformation:  # type: ignore[override]
         """Deserialize the transformation from bytes.
 
         Args:
@@ -300,7 +303,7 @@ class Transformation(Serializable, Validatable):
         try:
             obj = json.loads(data.decode("utf-8"))
             # Create a placeholder rule
-            def placeholder_rule(context: Dict[str, Any]) -> Tuple[bool, Any, list[str]]:
+            def placeholder_rule(context: dict[str, Any]) -> tuple[bool, Any, list[str]]:
                 return (True, None, ["Placeholder rule executed"])
 
             return cls(
@@ -325,7 +328,7 @@ class Transformation(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:  # type: ignore[override]
         """Get supported serialization formats.
 
         Returns:
