@@ -45,10 +45,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/quantsmind/quantsmind-sdk"
-Documentation = "https://github.com/quantsmind/quantsmind-sdk/tree/main/docs"
-Changelog = "https://github.com/quantsmind/quantsmind-sdk/blob/main/CHANGELOG.md"
-Roadmap = "https://github.com/quantsmind/quantsmind-sdk/blob/main/ROADMAP.md"
+Homepage = "https://github.com/ajit-ai/quantsmind-quantum-sdk"
+Documentation = "https://ajit-ai.github.io/quantsmind-quantum-sdk/"
+Changelog = "https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/CHANGELOG.md"
+Roadmap = "https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/ROADMAP.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/quantsmind"]
