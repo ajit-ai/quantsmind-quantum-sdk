@@ -1,0 +1,85 @@
+site_name: QuantsMind SDK
+site_description: A Universal Scientific Computing SDK
+site_url: https://ajit-ai.github.io/quantsmind-quantum-sdk/
+repo_url: https://github.com/ajit-ai/quantsmind-quantum-sdk
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.expand
+    - navigation.top
+    - toc.integrate
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - src
+          options:
+            show_root_heading: true
+            show_root_full_path: false
+            show_source: false
+            show_submodules: true
+            docstring_style: google
+            members_order: source
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+
+nav:
+  - Home: index.md
+  - Guides:
+      - Architecture Overview: architecture-overview.md
+      - Developer Guide: developer-guide.md
+      - Contribution Guide: contribution-guide.md
+      - Coding Standards: coding-standards.md
+      - Naming Standards: naming-standards.md
+      - Versioning Policy: versioning-policy.md
+      - Release Strategy: release-strategy.md
+      - Package Dependency Rules: package-dependency-rules.md
+      - API Design Principles: api-design-principles.md
+      - Documentation Standards: documentation-standards.md
+      - Foundation Package Specification: foundation-specification/README.md
+      - "Foundation Specification Deep-Dive":
+          - Module Descriptions: foundation-specification/01-module-descriptions.md
+          - Supporting Classes: foundation-specification/03-supporting-classes.md
+          - Interfaces & Protocols: foundation-specification/04-interfaces-protocols.md
+          - Enums, Types & Constants: foundation-specification/05-enums-types-constants.md
+          - Exceptions & Utilities: foundation-specification/06-exceptions-and-utilities.md
+          - Events: foundation-specification/07-events.md
+          - Validation & Serialization: foundation-specification/08-validation-and-serialization-strategy.md
+          - UML: foundation-specification/09-uml.md
+          - Testing Strategy: foundation-specification/10-testing-strategy.md
+          - Documentation Structure: foundation-specification/11-documentation-structure.md
+          - Roadmap: foundation-specification/12-roadmap.md
+          - Entity: foundation-specification/classes/entity.md
+          - Interaction: foundation-specification/classes/interaction.md
+          - State: foundation-specification/classes/state.md
+          - System: foundation-specification/classes/system.md
+  - Quantum SDK:
+      - Quantum Guide: quantum.md
+      - API Reference: reference/quantum.md
+  - Roadmap: https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/ROADMAP.md
+  - Changelog: https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/CHANGELOG.md
+  - Repository: https://github.com/ajit-ai/quantsmind-quantum-sdk

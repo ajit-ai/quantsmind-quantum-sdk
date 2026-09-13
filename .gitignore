@@ -43,6 +43,7 @@ Thumbs.db
 # Build artifacts
 *.log
 .cache/
+site/
 
 # Dependency / build trees (never track)
 node_modules/
