@@ -148,7 +148,7 @@ QuantsMind SDK is a universal scientific computing framework built on a single f
 
 Each domain package specializes the foundation ontology:
 
-- **quantum**: Qubit, Circuit, Gate, Operator, Hamiltonian, Measurement, Noise, Statevector
+- **quantum**: Thin integration layer over MicroQuantum (QuantumProgram, QuantumExperiment, QuantumResult, algorithm delegation); engine concepts (Qubit, Circuit, Gate, Operator, Hamiltonian, Measurement, Noise, Statevector) are owned by MicroQuantum
 - **physics**: Physical systems domain model
 - **chemistry**: Molecular/chemical systems domain model (depends on physics)
 - **biology**: Biological systems domain model (depends on chemistry)

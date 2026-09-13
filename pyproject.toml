@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "quantsmind"
-version = "0.1.0"
-description = "QuantsMind SDK — a universal, vendor-independent scientific computing SDK."
+version = "1.0.0"
+description = "QuantsMind SDK - a universal, vendor-independent scientific computing SDK."
 readme = "README.md"
 requires-python = ">=3.13"
 license = { text = "Apache-2.0" }
@@ -18,7 +18,7 @@ keywords = [
     "simulation", "optimization",
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3.13",
@@ -32,6 +32,9 @@ dependencies = []
 [project.optional-dependencies]
 api = [
     "pydantic>=2",
+]
+quantum = [
+    "microquantum>=0.4.0,<0.5.0",
 ]
 dev = [
     "ruff>=0.6",
@@ -49,6 +52,34 @@ Roadmap = "https://github.com/quantsmind/quantsmind-sdk/blob/main/ROADMAP.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/quantsmind"]
+
+[tool.hatch.build.targets.sdist]
+# The sdist is the source distribution for QuantsMind Quantum 1.0.0.
+# Exclude local-only/dev-only trees so the published artifact matches the
+# source tree that produces the wheel.
+exclude = [
+    "venv",
+    ".venv",
+    "dist",
+    "build",
+    "*.egg-info",
+    "quantsmind-db",
+    "docs",
+    "research",
+    "tutorials",
+    "benchmarks",
+    "scripts",
+    "tools",
+    "configs",
+    "assets",
+    "archives",
+    ".github",
+    "icon.ico",
+    "icon.png",
+    "mypy_*.txt",
+    "ruff_*.txt",
+    "test_*.txt",
+]
 
 [tool.ruff]
 line-length = 100

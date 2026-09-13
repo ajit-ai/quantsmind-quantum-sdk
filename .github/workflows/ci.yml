@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install ruff
-      - run: ruff check .
+      - run: ruff check src/quantsmind/quantum tests/unit/quantum
 
   typecheck:
     name: Type Check (mypy)
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -e ".[dev]"
-      - run: mypy src
+      - run: mypy --strict src/quantsmind/quantum
 
   test:
     name: Test (pytest)

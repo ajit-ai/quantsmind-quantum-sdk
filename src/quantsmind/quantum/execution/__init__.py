@@ -1,27 +1,61 @@
-"""
-Execution Package
+"""Execution layer of QuantsMind Quantum (QMQ-04).
 
-This package provides execution management for the Quantum package.
-
-Purpose
--------
-Provide comprehensive execution definitions and operations.
-
-Modules
--------
-- execution_context: Execution context management
-- quantum_job: Quantum job management
-- quantum_result: Quantum result management
+Classical, quantum and hybrid executors turn a :class:`ExecutorContext`
+(problem + computation plan + mapped payloads + options) into normalized,
+comparable execution results with an explicit failure taxonomy.
 """
 
 from __future__ import annotations
 
-from quantsmind.quantum.execution.execution_context import ExecutionContext
-from quantsmind.quantum.execution.quantum_job import QuantumJob
-from quantsmind.quantum.execution.quantum_result import QuantumResult
+from quantsmind.quantum.execution.classical import (
+    ClassicalExecutionResult,
+    ClassicalExecutor,
+)
+from quantsmind.quantum.execution.comparison import (
+    ExecutionComparison,
+    ExecutionComparisonEntry,
+)
+from quantsmind.quantum.execution.errors import (
+    ClassicalExecutionError,
+    ExecutionError,
+    HybridExecutionError,
+    InvalidExecutionOptionError,
+    InvalidQuantumResultError,
+    MicroQuantumUnavailableError,
+    QuantumExecutionError,
+    UnsupportedStrategyError,
+    WorkflowError,
+)
+from quantsmind.quantum.execution.executor import Executor, ExecutorContext
+from quantsmind.quantum.execution.hybrid import (
+    HybridExecutionResult,
+    HybridExecutor,
+)
+from quantsmind.quantum.execution.options import ExecutionOptions
+from quantsmind.quantum.execution.quantum import (
+    QuantumExecutionResult,
+    QuantumExecutor,
+)
 
 __all__ = [
-    "ExecutionContext",
-    "QuantumJob",
-    "QuantumResult",
+    "Executor",
+    "ExecutorContext",
+    "ExecutionOptions",
+    "ClassicalExecutor",
+    "ClassicalExecutionResult",
+    "QuantumExecutor",
+    "QuantumExecutionResult",
+    "HybridExecutor",
+    "HybridExecutionResult",
+    "ExecutionComparison",
+    "ExecutionComparisonEntry",
+    "ExecutionError",
+    "ClassicalExecutionError",
+    "QuantumExecutionError",
+    "HybridExecutionError",
+    "InvalidQuantumResultError",
+    "MicroQuantumUnavailableError",
+    "UnsupportedStrategyError",
+    "InvalidExecutionOptionError",
+    "WorkflowError",
 ]

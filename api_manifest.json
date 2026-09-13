@@ -1,0 +1,912 @@
+{
+  "api": "quantsmind.quantum",
+  "generated_by": "scripts/generate_api_manifest.py",
+  "modules": {
+    "quantsmind.quantum.benchmark": [
+      "BaselineConfig",
+      "Benchmark",
+      "BenchmarkComparison",
+      "BenchmarkMetrics",
+      "BenchmarkResult",
+      "BenchmarkRunSummary",
+      "BenchmarkRunner",
+      "BenchmarkSuite",
+      "BenchmarkWinner",
+      "approximation_ratio",
+      "b1_knapsack",
+      "b2_linear_max",
+      "b3_qubo_min",
+      "b4_maxcut_triangle",
+      "b5_geq_max",
+      "constraint_violations",
+      "default_suite",
+      "default_suite_examples",
+      "is_better",
+      "metrics_rank_key",
+      "normalized_score",
+      "objective_sense",
+      "optimality_gap",
+      "sense_label"
+    ],
+    "quantsmind.quantum.benchmark.metrics": [
+      "approximation_ratio",
+      "constraint_violations",
+      "is_better",
+      "normalized_score",
+      "objective_sense",
+      "optimality_gap",
+      "sense_label"
+    ],
+    "quantsmind.quantum.benchmark.models": [
+      "BaselineConfig",
+      "Benchmark",
+      "BenchmarkComparison",
+      "BenchmarkMetrics",
+      "BenchmarkResult",
+      "BenchmarkRunSummary",
+      "BenchmarkSuite",
+      "BenchmarkWinner",
+      "metrics_rank_key"
+    ],
+    "quantsmind.quantum.benchmark.runner": [
+      "BenchmarkRunner"
+    ],
+    "quantsmind.quantum.benchmark.suite": [
+      "b1_knapsack",
+      "b2_linear_max",
+      "b3_qubo_min",
+      "b4_maxcut_triangle",
+      "b5_geq_max",
+      "default_suite",
+      "default_suite_examples"
+    ],
+    "quantsmind.quantum.bridge": [
+      "GateParamError",
+      "UnknownGateError",
+      "build_circuit",
+      "validate_program"
+    ],
+    "quantsmind.quantum.circuit_result": [
+      "QuantumResult",
+      "to_microquantum_result"
+    ],
+    "quantsmind.quantum.core": [
+      "Constraint",
+      "ConstraintOperator",
+      "ConstraintPriority",
+      "ConstraintStatus",
+      "DomainContext",
+      "Objective",
+      "ObjectiveSense",
+      "ProblemSolution",
+      "QuantumProblem",
+      "Variable",
+      "VariableType"
+    ],
+    "quantsmind.quantum.core.constraint": [
+      "Constraint",
+      "ConstraintOperator",
+      "ConstraintPriority",
+      "ConstraintStatus"
+    ],
+    "quantsmind.quantum.core.domain_context": [
+      "DomainContext"
+    ],
+    "quantsmind.quantum.core.objective": [
+      "Expression",
+      "Objective",
+      "ObjectiveSense"
+    ],
+    "quantsmind.quantum.core.problem": [
+      "QuantumProblem"
+    ],
+    "quantsmind.quantum.core.solution": [
+      "ProblemSolution"
+    ],
+    "quantsmind.quantum.core.variable": [
+      "Variable",
+      "VariableType"
+    ],
+    "quantsmind.quantum.data": [
+      "AssignmentConstraint",
+      "ClusterCountConstraint",
+      "ClusteringDistanceObjective",
+      "DataConstraint",
+      "DataContext",
+      "DataError",
+      "DataFeature",
+      "DataFormulationAdapter",
+      "DataMapper",
+      "DataMapping",
+      "DataMetrics",
+      "DataObjective",
+      "DataOptimizationConfiguration",
+      "DataOptimizationResult",
+      "DataOptimizer",
+      "DataProblem",
+      "DataProblemType",
+      "DataQualityReport",
+      "DataRecord",
+      "DataRelationship",
+      "DataSet",
+      "DataSolution",
+      "DataValidationError",
+      "DecodedClusterAssignment",
+      "DecodedDataFeature",
+      "FeatureCountConstraint",
+      "FeatureGroupConstraint",
+      "FeatureSelectionObjective",
+      "FeatureUtilityObjective",
+      "FeatureVector",
+      "SelectionCostObjective",
+      "all_examples",
+      "assess_data_quality",
+      "clustering_example",
+      "constraint_from_dict",
+      "data_context_example",
+      "dataset_example",
+      "euclidean_distance",
+      "feature_selection_example",
+      "grouped_feature_selection_example",
+      "objective_from_dict",
+      "pairwise_relationship",
+      "quality_example",
+      "selection_cost_example",
+      "serialization_example",
+      "similarity_example",
+      "similarity_from_distance",
+      "squared_euclidean_distance",
+      "weighted_squared_euclidean_distance"
+    ],
+    "quantsmind.quantum.data.constraints": [
+      "AssignmentConstraint",
+      "ClusterCountConstraint",
+      "DataConstraint",
+      "FeatureCountConstraint",
+      "FeatureGroupConstraint",
+      "constraint_from_dict"
+    ],
+    "quantsmind.quantum.data.context": [
+      "DISTANCE_METRICS",
+      "DataContext"
+    ],
+    "quantsmind.quantum.data.errors": [
+      "DataError",
+      "DataValidationError"
+    ],
+    "quantsmind.quantum.data.examples": [
+      "all_examples",
+      "clustering_example",
+      "data_context_example",
+      "dataset_example",
+      "feature_selection_example",
+      "grouped_feature_selection_example",
+      "quality_example",
+      "selection_cost_example",
+      "serialization_example",
+      "similarity_example"
+    ],
+    "quantsmind.quantum.data.formulation": [
+      "DataFormulationAdapter"
+    ],
+    "quantsmind.quantum.data.mapping": [
+      "DataMapper",
+      "DataMapping",
+      "DecodedClusterAssignment",
+      "DecodedDataFeature"
+    ],
+    "quantsmind.quantum.data.metrics": [
+      "DataMetrics"
+    ],
+    "quantsmind.quantum.data.models": [
+      "DataFeature",
+      "DataRecord",
+      "DataSet",
+      "FeatureVector"
+    ],
+    "quantsmind.quantum.data.numerics": [
+      "euclidean_distance",
+      "similarity_from_distance",
+      "squared_euclidean_distance",
+      "weighted_squared_euclidean_distance"
+    ],
+    "quantsmind.quantum.data.objectives": [
+      "ClusteringDistanceObjective",
+      "DataObjective",
+      "FeatureSelectionObjective",
+      "FeatureUtilityObjective",
+      "SelectionCostObjective",
+      "objective_from_dict"
+    ],
+    "quantsmind.quantum.data.optimizer": [
+      "DataOptimizationConfiguration",
+      "DataOptimizer"
+    ],
+    "quantsmind.quantum.data.problem": [
+      "DataProblem",
+      "DataProblemType"
+    ],
+    "quantsmind.quantum.data.quality": [
+      "DataQualityReport",
+      "assess_data_quality"
+    ],
+    "quantsmind.quantum.data.relationship": [
+      "DataRelationship",
+      "RELATIONSHIP_KINDS",
+      "pairwise_relationship"
+    ],
+    "quantsmind.quantum.data.solution": [
+      "DataOptimizationResult",
+      "DataSolution"
+    ],
+    "quantsmind.quantum.domain": [
+      "DomainBinding",
+      "DomainDispatchError",
+      "DomainError",
+      "DomainIntelligence",
+      "DomainKind",
+      "DomainRegistry",
+      "DomainRunResult",
+      "DomainValidationError",
+      "ExecutionPlan",
+      "ProblemAssessment",
+      "QuantumSuitability",
+      "QuantumSuitabilityAssessor",
+      "SuitabilityAssessment",
+      "UnsupportedDomainError",
+      "assess_problem",
+      "domain_data_example",
+      "domain_finance_example",
+      "domain_ml_example",
+      "domain_pipeline_example"
+    ],
+    "quantsmind.quantum.domain.adapters": [
+      "data_binding",
+      "default_bindings",
+      "finance_binding",
+      "ml_binding",
+      "portfolio_binding"
+    ],
+    "quantsmind.quantum.domain.assessment": [
+      "ProblemAssessment",
+      "assess_problem"
+    ],
+    "quantsmind.quantum.domain.errors": [
+      "DomainDispatchError",
+      "DomainError",
+      "DomainValidationError",
+      "UnsupportedDomainError"
+    ],
+    "quantsmind.quantum.domain.examples": [
+      "domain_data_example",
+      "domain_finance_example",
+      "domain_ml_example",
+      "domain_pipeline_example"
+    ],
+    "quantsmind.quantum.domain.intelligence": [
+      "DomainIntelligence"
+    ],
+    "quantsmind.quantum.domain.plan": [
+      "ExecutionPlan"
+    ],
+    "quantsmind.quantum.domain.registry": [
+      "DomainBinding",
+      "DomainKind",
+      "DomainRegistry"
+    ],
+    "quantsmind.quantum.domain.result": [
+      "DomainRunResult"
+    ],
+    "quantsmind.quantum.domain.suitability": [
+      "QuantumSuitability",
+      "QuantumSuitabilityAssessor",
+      "SuitabilityAssessment"
+    ],
+    "quantsmind.quantum.execution": [
+      "ClassicalExecutionError",
+      "ClassicalExecutionResult",
+      "ClassicalExecutor",
+      "ExecutionComparison",
+      "ExecutionComparisonEntry",
+      "ExecutionError",
+      "ExecutionOptions",
+      "Executor",
+      "ExecutorContext",
+      "HybridExecutionError",
+      "HybridExecutionResult",
+      "HybridExecutor",
+      "InvalidExecutionOptionError",
+      "InvalidQuantumResultError",
+      "MicroQuantumUnavailableError",
+      "QuantumExecutionError",
+      "QuantumExecutionResult",
+      "QuantumExecutor",
+      "UnsupportedStrategyError",
+      "WorkflowError"
+    ],
+    "quantsmind.quantum.execution.classical": [
+      "ClassicalExecutionResult",
+      "ClassicalExecutor"
+    ],
+    "quantsmind.quantum.execution.comparison": [
+      "ExecutionComparison",
+      "ExecutionComparisonEntry"
+    ],
+    "quantsmind.quantum.execution.errors": [
+      "ClassicalExecutionError",
+      "ExecutionError",
+      "HybridExecutionError",
+      "InvalidExecutionOptionError",
+      "InvalidQuantumResultError",
+      "MicroQuantumUnavailableError",
+      "QuantumExecutionError",
+      "UnsupportedStrategyError",
+      "WorkflowError"
+    ],
+    "quantsmind.quantum.execution.evaluation": [
+      "feasibility_predicate",
+      "is_feasible_assignment",
+      "objective_evaluator",
+      "objective_value",
+      "objective_values"
+    ],
+    "quantsmind.quantum.execution.executor": [
+      "ExecutionOptions",
+      "Executor",
+      "ExecutorContext"
+    ],
+    "quantsmind.quantum.execution.hybrid": [
+      "HybridExecutionResult",
+      "HybridExecutor"
+    ],
+    "quantsmind.quantum.execution.options": [
+      "ExecutionOptions"
+    ],
+    "quantsmind.quantum.execution.quantum": [
+      "QuantumExecutionResult",
+      "QuantumExecutor"
+    ],
+    "quantsmind.quantum.experiment": [
+      "QuantumExperiment",
+      "available_algorithms",
+      "resolve_algorithm",
+      "run_algorithm"
+    ],
+    "quantsmind.quantum.finance": [
+      "Allocation",
+      "AllocationKind",
+      "Asset",
+      "AssetMapping",
+      "AssetUniverse",
+      "Budget",
+      "BudgetConstraint",
+      "CardinalityConstraint",
+      "DecodedAsset",
+      "ExpectedReturnObjective",
+      "FinanceAssetMapper",
+      "FinanceError",
+      "FinanceFormulationAdapter",
+      "FinanceOptimizationResult",
+      "FinanceOptimizer",
+      "FinanceValidationError",
+      "FinancialConstraint",
+      "FinancialContext",
+      "FinancialInstrument",
+      "FinancialObjective",
+      "FinancialProblem",
+      "FinancialSolution",
+      "GroupAllocationConstraint",
+      "OptimizationConfiguration",
+      "PortfolioAssetMapper",
+      "PortfolioComponent",
+      "PortfolioFormulationAdapter",
+      "PortfolioMetrics",
+      "PortfolioOptimizationProblem",
+      "PortfolioOptimizationResult",
+      "PortfolioOptimizer",
+      "PortfolioSolution",
+      "PositionLimitConstraint",
+      "RiskAdjustedObjective",
+      "RiskMatrix",
+      "RiskObjective",
+      "WeightBoundsConstraint",
+      "compute_portfolio_metrics",
+      "constraint_from_dict",
+      "example_asset_universe",
+      "example_budget",
+      "example_budget_portfolio",
+      "example_combined_problem",
+      "example_financial_problem",
+      "example_group_constraints_portfolio",
+      "example_maximize_return_portfolio",
+      "example_minimize_risk_portfolio",
+      "example_portfolio_problem",
+      "example_portfolio_risk_matrix",
+      "example_portfolio_universe",
+      "example_return_problem",
+      "example_risk_adjusted_portfolio",
+      "example_risk_matrix",
+      "example_risk_problem",
+      "expected_return_of",
+      "objective_from_dict",
+      "portfolio_variance",
+      "portfolio_volatility",
+      "risk_contributions",
+      "synthetic_asset"
+    ],
+    "quantsmind.quantum.finance.budget": [
+      "Budget"
+    ],
+    "quantsmind.quantum.finance.constraints": [
+      "BudgetConstraint",
+      "CardinalityConstraint",
+      "FinancialConstraint",
+      "GroupAllocationConstraint",
+      "PositionLimitConstraint",
+      "WeightBoundsConstraint",
+      "constraint_from_dict"
+    ],
+    "quantsmind.quantum.finance.context": [
+      "FinancialContext"
+    ],
+    "quantsmind.quantum.finance.errors": [
+      "FinanceError",
+      "FinanceValidationError"
+    ],
+    "quantsmind.quantum.finance.examples": [
+      "example_asset_universe",
+      "example_budget",
+      "example_combined_problem",
+      "example_financial_problem",
+      "example_return_problem",
+      "example_risk_matrix",
+      "example_risk_problem",
+      "synthetic_asset"
+    ],
+    "quantsmind.quantum.finance.formulation": [
+      "FinanceFormulationAdapter"
+    ],
+    "quantsmind.quantum.finance.mapping": [
+      "AssetMapping",
+      "DecodedAsset",
+      "FinanceAssetMapper"
+    ],
+    "quantsmind.quantum.finance.models": [
+      "Asset",
+      "AssetUniverse",
+      "FinancialInstrument",
+      "FinancialProblem"
+    ],
+    "quantsmind.quantum.finance.objectives": [
+      "ExpectedReturnObjective",
+      "FinancialObjective",
+      "RiskAdjustedObjective",
+      "RiskObjective",
+      "objective_from_dict"
+    ],
+    "quantsmind.quantum.finance.optimizer": [
+      "FinanceOptimizationResult",
+      "FinanceOptimizer",
+      "FinancialSolution"
+    ],
+    "quantsmind.quantum.finance.portfolio": [
+      "OptimizationConfiguration",
+      "PortfolioAssetMapper",
+      "PortfolioFormulationAdapter",
+      "PortfolioOptimizationProblem",
+      "PortfolioOptimizer"
+    ],
+    "quantsmind.quantum.finance.portfolio_examples": [
+      "example_budget_portfolio",
+      "example_group_constraints_portfolio",
+      "example_maximize_return_portfolio",
+      "example_minimize_risk_portfolio",
+      "example_portfolio_problem",
+      "example_portfolio_risk_matrix",
+      "example_portfolio_universe",
+      "example_risk_adjusted_portfolio"
+    ],
+    "quantsmind.quantum.finance.portfolio_metrics": [
+      "PortfolioMetrics",
+      "compute_portfolio_metrics",
+      "expected_return_of",
+      "portfolio_variance",
+      "portfolio_volatility",
+      "risk_contributions"
+    ],
+    "quantsmind.quantum.finance.portfolio_solution": [
+      "PortfolioComponent",
+      "PortfolioOptimizationResult",
+      "PortfolioSolution"
+    ],
+    "quantsmind.quantum.finance.risk": [
+      "RiskMatrix"
+    ],
+    "quantsmind.quantum.finance.weights": [
+      "Allocation",
+      "AllocationKind"
+    ],
+    "quantsmind.quantum.formulation": [
+      "GraphModel",
+      "MLModel",
+      "MathematicalModel",
+      "OptimizationModel",
+      "SimulationModel",
+      "StatisticalModel",
+      "formulate",
+      "model_from_dict"
+    ],
+    "quantsmind.quantum.formulation.graph_model": [
+      "GraphModel"
+    ],
+    "quantsmind.quantum.formulation.mathematical_model": [
+      "MathematicalModel"
+    ],
+    "quantsmind.quantum.formulation.ml_model": [
+      "MLModel"
+    ],
+    "quantsmind.quantum.formulation.optimization_model": [
+      "OptimizationModel"
+    ],
+    "quantsmind.quantum.formulation.simulation_model": [
+      "SimulationModel"
+    ],
+    "quantsmind.quantum.formulation.statistical_model": [
+      "StatisticalModel"
+    ],
+    "quantsmind.quantum.integration": [
+      "microquantum_available",
+      "require_microquantum",
+      "resolve_backend"
+    ],
+    "quantsmind.quantum.integration.microquantum": [
+      "QaoaExecutionResult",
+      "QuantumIntegrationError",
+      "ising_to_optimization_problem",
+      "ising_to_pauli_sum",
+      "microquantum_available",
+      "qaoa_available",
+      "require_microquantum",
+      "resolve_backend",
+      "run_qaoa"
+    ],
+    "quantsmind.quantum.intelligence": [
+      "AlgorithmAvailability",
+      "AlgorithmCategory",
+      "AlgorithmDescriptor",
+      "AlgorithmRecommendation",
+      "AlgorithmRegistry",
+      "AlgorithmSelectionError",
+      "AlgorithmSelector",
+      "CapabilityModel",
+      "ClassificationResult",
+      "ComputationPlan",
+      "DuplicateAlgorithmError",
+      "FormulationAlternative",
+      "FormulationRecommendation",
+      "FormulationRecommender",
+      "ProblemClass",
+      "ProblemClassifier",
+      "UnknownAlgorithmError"
+    ],
+    "quantsmind.quantum.intelligence.algorithms": [
+      "AlgorithmAvailability",
+      "AlgorithmCategory",
+      "AlgorithmDescriptor",
+      "AlgorithmRecommendation"
+    ],
+    "quantsmind.quantum.intelligence.capabilities": [
+      "CapabilityModel",
+      "_ALGORITHM_PROBES"
+    ],
+    "quantsmind.quantum.intelligence.classification": [
+      "ClassificationResult",
+      "ProblemClass",
+      "ProblemClassifier"
+    ],
+    "quantsmind.quantum.intelligence.plan": [
+      "ComputationPlan"
+    ],
+    "quantsmind.quantum.intelligence.recommender": [
+      "AlgorithmSelectionError",
+      "AlgorithmSelector",
+      "FormulationAlternative",
+      "FormulationRecommendation",
+      "FormulationRecommender"
+    ],
+    "quantsmind.quantum.intelligence.registry": [
+      "AlgorithmAvailability",
+      "AlgorithmRegistry",
+      "DuplicateAlgorithmError",
+      "UnknownAlgorithmError"
+    ],
+    "quantsmind.quantum.mapping": [
+      "DomainMapper",
+      "IsingMapper",
+      "MappingError",
+      "MappingResult",
+      "ProblemMapper",
+      "QUBOMapper",
+      "QuantumCircuitMapper"
+    ],
+    "quantsmind.quantum.mapping.ising": [
+      "IsingMapper"
+    ],
+    "quantsmind.quantum.mapping.mapper": [
+      "DomainMapper",
+      "MappingError",
+      "MappingResult",
+      "QuantumCircuitMapper"
+    ],
+    "quantsmind.quantum.mapping.qubo": [
+      "ProblemMapper",
+      "QUBOMapper"
+    ],
+    "quantsmind.quantum.ml": [
+      "ClassificationLossObjective",
+      "ClassificationSolution",
+      "DecodedHyperparameterChoice",
+      "DecodedMLCoefficient",
+      "DecodedModelSelection",
+      "HyperparameterObjective",
+      "HyperparameterOnePerParameterConstraint",
+      "HyperparameterSolution",
+      "MLAssignmentConstraint",
+      "MLBaseSolution",
+      "MLClusterCountConstraint",
+      "MLClusteringDistanceObjective",
+      "MLCoefficientCountConstraint",
+      "MLConstraint",
+      "MLContext",
+      "MLDataSet",
+      "MLError",
+      "MLFeature",
+      "MLFeatureCountConstraint",
+      "MLFeatureSelectionObjective",
+      "MLFeatureSelectionSolution",
+      "MLFormulationAdapter",
+      "MLHyperparameter",
+      "MLHyperparameterChoice",
+      "MLMapper",
+      "MLMapping",
+      "MLMetrics",
+      "MLModelCandidate",
+      "MLObjective",
+      "MLOptimizationConfiguration",
+      "MLOptimizationResult",
+      "MLOptimizer",
+      "MLProblem",
+      "MLProblemType",
+      "MLRecord",
+      "MLValidationError",
+      "ModelSelectionObjective",
+      "ModelSelectionOneHotConstraint",
+      "ModelSelectionSolution",
+      "RegressionLossObjective",
+      "RegressionSolution",
+      "ml_all_examples",
+      "ml_classification_example",
+      "ml_clustering_example",
+      "ml_dataset_example",
+      "ml_feature_selection_example",
+      "ml_hyperparameter_example",
+      "ml_model_selection_example",
+      "ml_regression_example"
+    ],
+    "quantsmind.quantum.ml.constraints": [
+      "HyperparameterOnePerParameterConstraint",
+      "MLAssignmentConstraint",
+      "MLClusterCountConstraint",
+      "MLCoefficientCountConstraint",
+      "MLConstraint",
+      "MLFeatureCountConstraint",
+      "ModelSelectionOneHotConstraint",
+      "constraint_from_dict"
+    ],
+    "quantsmind.quantum.ml.context": [
+      "MLContext"
+    ],
+    "quantsmind.quantum.ml.errors": [
+      "MLError",
+      "MLValidationError"
+    ],
+    "quantsmind.quantum.ml.examples": [
+      "ml_all_examples",
+      "ml_classification_example",
+      "ml_clustering_example",
+      "ml_dataset_example",
+      "ml_feature_selection_example",
+      "ml_hyperparameter_example",
+      "ml_model_selection_example",
+      "ml_regression_example"
+    ],
+    "quantsmind.quantum.ml.formulation": [
+      "MLFormulationAdapter"
+    ],
+    "quantsmind.quantum.ml.mapping": [
+      "DecodedHyperparameterChoice",
+      "DecodedMLCoefficient",
+      "DecodedModelSelection",
+      "MLMapper",
+      "MLMapping"
+    ],
+    "quantsmind.quantum.ml.metrics": [
+      "MLMetrics"
+    ],
+    "quantsmind.quantum.ml.models": [
+      "MLDataSet",
+      "MLFeature",
+      "MLHyperparameter",
+      "MLHyperparameterChoice",
+      "MLModelCandidate",
+      "MLRecord"
+    ],
+    "quantsmind.quantum.ml.objectives": [
+      "ClassificationLossObjective",
+      "HyperparameterObjective",
+      "MLClusteringDistanceObjective",
+      "MLFeatureSelectionObjective",
+      "MLObjective",
+      "ModelSelectionObjective",
+      "RegressionLossObjective",
+      "objective_from_dict"
+    ],
+    "quantsmind.quantum.ml.optimizer": [
+      "MLOptimizationConfiguration",
+      "MLOptimizer"
+    ],
+    "quantsmind.quantum.ml.problem": [
+      "MLProblem",
+      "MLProblemType"
+    ],
+    "quantsmind.quantum.ml.solution": [
+      "ClassificationSolution",
+      "HyperparameterSolution",
+      "MLBaseSolution",
+      "MLFeatureSelectionSolution",
+      "MLOptimizationResult",
+      "ModelSelectionSolution",
+      "RegressionSolution",
+      "ml_solution_from_report"
+    ],
+    "quantsmind.quantum.optimization": [
+      "ClassicalSolverResult",
+      "Constant",
+      "ConstraintPenalizer",
+      "ExhaustiveLimitError",
+      "ExhaustiveSolver",
+      "Expression",
+      "ExpressionError",
+      "ExpressionParseError",
+      "IsingError",
+      "IsingModel",
+      "NoFeasibleSolutionError",
+      "PenaltyTerm",
+      "Product",
+      "QUBOError",
+      "QUBOModel",
+      "Scale",
+      "Sum",
+      "UnsupportedConstraintError",
+      "VariableExpression",
+      "coerce_expression",
+      "const",
+      "evaluate_expression",
+      "parse_expression",
+      "qubo_from_expression",
+      "var"
+    ],
+    "quantsmind.quantum.optimization.classical": [
+      "ClassicalSolverResult",
+      "ExhaustiveLimitError",
+      "ExhaustiveSolver",
+      "NoFeasibleSolutionError"
+    ],
+    "quantsmind.quantum.optimization.expression": [
+      "Constant",
+      "Expression",
+      "ExpressionError",
+      "ExpressionParseError",
+      "Product",
+      "Scale",
+      "Sum",
+      "VariableExpression",
+      "coefficient",
+      "coerce_expression",
+      "const",
+      "evaluate_expression",
+      "parse_expression",
+      "var"
+    ],
+    "quantsmind.quantum.optimization.ising": [
+      "IsingError",
+      "IsingModel"
+    ],
+    "quantsmind.quantum.optimization.penalties": [
+      "ConstraintPenalizer",
+      "PenaltyTerm",
+      "UnsupportedConstraintError"
+    ],
+    "quantsmind.quantum.optimization.qubo": [
+      "QUBOError",
+      "QUBOModel",
+      "qubo_from_expression"
+    ],
+    "quantsmind.quantum.program": [
+      "GateSpec",
+      "QuantumProgram"
+    ],
+    "quantsmind.quantum.result": [
+      "AlgorithmInterpretation",
+      "BenchmarkInterpretation",
+      "ExecutionInterpretation",
+      "FeasibilityInterpretation",
+      "FeasibilityStatus",
+      "Interpretation",
+      "InterpretationQuality",
+      "InterpretationStatus",
+      "Limitation",
+      "ObjectiveInterpretation",
+      "Provenance",
+      "ProvenanceOverview",
+      "Qualification",
+      "ResultInterpretation",
+      "ResultInterpreter",
+      "SolutionInterpreter",
+      "SolutionQuality",
+      "SolutionReport",
+      "StrategyInterpretation"
+    ],
+    "quantsmind.quantum.result.interpretation": [
+      "Interpretation",
+      "InterpretationQuality",
+      "SolutionInterpreter"
+    ],
+    "quantsmind.quantum.result.provenance": [
+      "Provenance"
+    ],
+    "quantsmind.quantum.result.result": [
+      "SolutionReport"
+    ],
+    "quantsmind.quantum.result.result_interpretation": [
+      "AlgorithmInterpretation",
+      "BenchmarkInterpretation",
+      "ExecutionInterpretation",
+      "FeasibilityInterpretation",
+      "FeasibilityStatus",
+      "InterpretationStatus",
+      "Limitation",
+      "ObjectiveInterpretation",
+      "ProvenanceOverview",
+      "Qualification",
+      "ResultInterpretation",
+      "ResultInterpreter",
+      "SolutionQuality",
+      "StrategyInterpretation"
+    ],
+    "quantsmind.quantum.strategy": [
+      "ComputationStrategy",
+      "StrategySelector"
+    ],
+    "quantsmind.quantum.strategy.selector": [
+      "StrategyDecision",
+      "StrategySelector"
+    ],
+    "quantsmind.quantum.strategy.strategy": [
+      "ComputationStrategy"
+    ],
+    "quantsmind.quantum.workflow": [
+      "QuantumWorkflow",
+      "WorkflowError",
+      "WorkflowState"
+    ],
+    "quantsmind.quantum.workflow.workflow": [
+      "QuantumWorkflow",
+      "WorkflowError",
+      "WorkflowState"
+    ]
+  },
+  "package": "quantsmind",
+  "scope": "public modules of quantsmind.quantum and its subpackages",
+  "version": "1.0.0"
+}

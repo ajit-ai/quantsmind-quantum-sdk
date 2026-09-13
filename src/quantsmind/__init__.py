@@ -5,7 +5,7 @@ A comprehensive mathematical intelligence SDK for scientific computing, optimiza
 statistics, machine learning mathematics, financial mathematics, quantum mathematics,
 AI-assisted reasoning, and simulation.
 
-Version: R0.1.0
+Version: 1.0.0
 
 This package uses lazy attribute access (PEP 562): no subpackage is imported until
 one of its public names is first accessed. This keeps ``import quantsmind`` fast
@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 if TYPE_CHECKING:  # pragma: no cover - static-analysis surface only
     from quantsmind.ai_reasoning import (
@@ -93,7 +93,17 @@ if TYPE_CHECKING:  # pragma: no cover - static-analysis surface only
         ParticleSwarmOptimizer,
         SimulatedAnnealing,
     )
-    from quantsmind.quantum.math import QuantumMatrix, QuantumOperatorMath, QuantumStateMath
+
+    # Quantum integration layer
+    from quantsmind.quantum import (
+        GateSpec,
+        QuantumExperiment,
+        QuantumProgram,
+        QuantumResult,
+        available_algorithms,
+        build_circuit,
+        run_algorithm,
+    )
     from quantsmind.simulation import Experiment, SimulationEngine, SimulationResult, Simulator
     from quantsmind.statistics import (
         BetaDistribution,
@@ -180,10 +190,11 @@ _LAZY_ATTRS: dict[str, tuple[str, str]] = {
     "RiskEngine": ("quantsmind.finance.math", "RiskEngine"),
     "OptionPricer": ("quantsmind.finance.math", "OptionPricer"),
     "MonteCarloFinanceSimulator": ("quantsmind.finance.math", "MonteCarloFinanceSimulator"),
-    # Quantum math
-    "QuantumMatrix": ("quantsmind.quantum.math", "QuantumMatrix"),
-    "QuantumStateMath": ("quantsmind.quantum.math", "QuantumStateMath"),
-    "QuantumOperatorMath": ("quantsmind.quantum.math", "QuantumOperatorMath"),
+    # Quantum integration layer
+    "GateSpec": ("quantsmind.quantum", "GateSpec"),
+    "QuantumProgram": ("quantsmind.quantum", "QuantumProgram"),
+    "QuantumResult": ("quantsmind.quantum", "QuantumResult"),
+    "QuantumExperiment": ("quantsmind.quantum", "QuantumExperiment"),
     # AI reasoning
     "MathReasoningAgent": ("quantsmind.ai_reasoning", "MathReasoningAgent"),
     "FormulaGenerator": ("quantsmind.ai_reasoning", "FormulaGenerator"),
