@@ -42,6 +42,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev,quantum]"
       - run: pytest tests/unit --cov=quantsmind --cov-report=xml
+      - name: Quantum coverage gate (>=80% on the stable surface)
+        run: pytest tests/unit/quantum --cov=quantsmind.quantum --cov-report=term --cov-fail-under=80 -q
       - uses: actions/upload-artifact@v4
         with:
           name: coverage-report
