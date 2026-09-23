@@ -81,6 +81,7 @@ nav:
           - System: foundation-specification/classes/system.md
   - Quantum SDK:
       - Quantum Guide: quantum.md
+      - Bell-State Example: bell-state-example.md
       - API Reference: reference/quantum.md
   - Roadmap: https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/ROADMAP.md
   - Changelog: https://github.com/ajit-ai/quantsmind-quantum-sdk/blob/main/CHANGELOG.md
