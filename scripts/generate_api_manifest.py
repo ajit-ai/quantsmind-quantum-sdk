@@ -53,6 +53,8 @@ def collect_modules() -> list[str]:
 def build_manifest() -> dict[str, object]:
     if str(_SRC) not in sys.path:
         sys.path.insert(0, str(_SRC))
+    import quantsmind
+
     modules = collect_modules()
     surface: dict[str, list[str]] = {}
     for module_name in modules:
@@ -67,7 +69,7 @@ def build_manifest() -> dict[str, object]:
         if missing:
             raise SystemExit(f"module {module_name} has unresolved __all__ entries: {missing}")
         surface[module_name] = sorted(all_names)
-    return {**_MANIFEST_HEADER, "modules": surface}
+    return {**_MANIFEST_HEADER, "version": quantsmind.__version__, "modules": surface}
 
 
 def main() -> int:
