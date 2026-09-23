@@ -227,7 +227,7 @@ class ObservationRecord:
         Example:
             >>> record = ObservationRecord()
         """
-        self._observations: List[Observation] = []
+        self._observations: list[Observation] = []
         self._metadata = metadata or {}
 
     @property
@@ -253,7 +253,7 @@ class ObservationRecord:
         """
         self._observations.append(observation)
 
-    def get_observations(self, observable_id: ObservableID | None = None) -> List[Observation]:
+    def get_observations(self, observable_id: ObservableID | None = None) -> list[Observation]:
         """Get observations, optionally filtered by observable.
 
         Args:

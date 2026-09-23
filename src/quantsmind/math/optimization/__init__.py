@@ -40,7 +40,7 @@ from collections.abc import Callable
 from typing import List, Optional, Tuple, Union
 
 from quantsmind.math.exceptions import ConvergenceError, OptimizationError
-from quantsmind.math.types import ObjectiveFunction, Scalar, Vector
+from quantsmind.math.types import Scalar, Vector
 
 logger = logging.getLogger(__name__)
 

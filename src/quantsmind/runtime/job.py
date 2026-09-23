@@ -240,7 +240,7 @@ class Job:
         """
         return list(self._tasks.values())
 
-    def validate(self) -> Tuple[bool, list[str]]:
+    def validate(self) -> tuple[bool, list[str]]:
         """Validate the job.
 
         Returns:

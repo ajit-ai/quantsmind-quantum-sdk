@@ -28,7 +28,6 @@ from __future__ import annotations
 from typing import Any
 
 from quantsmind.knowledge.exceptions import MetadataError
-from quantsmind.knowledge.types import Property
 
 
 class Property:

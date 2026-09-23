@@ -36,7 +36,7 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from typing import Any, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, List, Optional, Set, Tuple, Union
 
 from quantsmind.math.exceptions import GeometryError
 from quantsmind.math.types import Scalar

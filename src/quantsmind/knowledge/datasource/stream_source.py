@@ -179,7 +179,7 @@ class StreamSource(DataSource):
         # Placeholder implementation
         yield {"data": "sample", "source_id": self._source_id}
 
-    def read_batch(self) -> List[dict[str, Any]]:
+    def read_batch(self) -> list[dict[str, Any]]:
         """Read a batch of data from the stream.
 
         Returns:

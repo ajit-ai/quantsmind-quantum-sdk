@@ -147,7 +147,7 @@ class PhysicalConstants:
             "Vacuum permeability"
         )
 
-    def get_constant(self, name: ConstantName) -> Optional[ConstantDefinition]:
+    def get_constant(self, name: ConstantName) -> ConstantDefinition | None:
         """Get a constant by name.
 
         Args:

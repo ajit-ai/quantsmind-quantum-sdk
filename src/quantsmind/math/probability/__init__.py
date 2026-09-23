@@ -41,7 +41,7 @@ from collections.abc import Callable
 from typing import Any, Dict, List, Optional, Union
 
 from quantsmind.math.exceptions import ProbabilityError
-from quantsmind.math.types import Probability, Scalar
+from quantsmind.math.types import Scalar
 from quantsmind.math.validation import validate_probability
 
 logger = logging.getLogger(__name__)

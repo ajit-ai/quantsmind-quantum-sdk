@@ -344,7 +344,7 @@ class ConverterRegistry:
                 return converter
         return None
 
-    def list_all(self) -> List[Converter]:
+    def list_all(self) -> list[Converter]:
         """List all registered converters.
 
         Returns:
