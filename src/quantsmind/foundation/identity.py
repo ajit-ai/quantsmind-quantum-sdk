@@ -45,7 +45,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.foundation.constants import (
@@ -54,6 +54,7 @@ from quantsmind.foundation.constants import (
     METADATA_CREATED_AT_KEY,
     METADATA_SOURCE_KEY,
 )
+from quantsmind.foundation.enums import SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidIdentityError,
 )
@@ -63,7 +64,13 @@ from quantsmind.foundation.interfaces import (
     Serializable,
     Validatable,
 )
-from quantsmind.foundation.types import EntityID, MetadataDict, ValidationResult
+from quantsmind.foundation.types import (
+    ComparisonResult,
+    EntityID,
+    MetadataDict,
+    SerializedData,
+    ValidationResult,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +123,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         self._id: EntityID = identity_id or str(uuid.uuid4())
         self._namespace: str | None = namespace
         self._metadata: MetadataDict = metadata or {}
-        self._created_at: datetime = datetime.utcnow()
+        self._created_at: datetime = datetime.now(UTC).replace(tzinfo=None)
 
         self._validate_id()
         self._validate_namespace()
@@ -403,11 +410,14 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return self._id
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the identity to bytes.
 
         Args:
-            format: Serialization format (currently only "json" supported)
+            format: Serialization format (currently only JSON supported;
+                plain ``"json"`` string accepted for backward compatibility)
 
         Returns:
             Serialized data as bytes
@@ -416,9 +426,12 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = identity.serialize(format="json")
+            >>> data = identity.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -432,12 +445,15 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Identity:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Identity:
         """Deserialize the identity from bytes.
 
         Args:
             data: Serialized data as bytes
-            format: Serialization format (currently only "json" supported)
+            format: Serialization format (currently only JSON supported;
+                plain ``"json"`` string accepted for backward compatibility)
 
         Returns:
             Deserialized Identity instance
@@ -447,9 +463,12 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
             InvalidIdentityError: If data is invalid
 
         Example:
-            >>> identity = Identity.deserialize(data, format="json")
+            >>> identity = Identity.deserialize(data, format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -480,7 +499,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -489,7 +508,7 @@ class Identity(Identifiable, Comparable, Serializable, Validatable):
         Example:
             >>> formats = Identity.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

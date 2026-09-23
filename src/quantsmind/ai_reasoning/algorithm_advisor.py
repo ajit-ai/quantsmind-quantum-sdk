@@ -233,7 +233,8 @@ class AlgorithmAdvisor:
             Comparison result
 
         Example:
-            >>> comparison = advisor.compare_algorithms(["Gaussian Elimination", "LU Decomposition"], "solve_linear_system")
+            >>> algos = ["Gaussian Elimination", "LU Decomposition"]
+            >>> comparison = advisor.compare_algorithms(algos, "solve_linear_system")
         """
         comparison = {
             "algorithms": algorithms,
@@ -337,7 +338,8 @@ class AlgorithmAdvisor:
         Example:
             >>> repr(advisor)
         """
-        return f"AlgorithmAdvisor(name={self._name}, history_entries={len(self._recommendation_history)})"
+        count = len(self._recommendation_history)
+        return f"AlgorithmAdvisor(name={self._name}, history_entries={count})"
 
 
 __all__ = [

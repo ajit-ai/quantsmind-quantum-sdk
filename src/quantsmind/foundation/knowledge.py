@@ -46,7 +46,7 @@ import logging
 import uuid
 from typing import Any
 
-from quantsmind.foundation.enums import KnowledgeType
+from quantsmind.foundation.enums import KnowledgeType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidKnowledgeError,
 )
@@ -56,6 +56,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -262,7 +263,9 @@ class Knowledge(Serializable, Validatable):
             raise
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the knowledge to bytes.
 
         Args:
@@ -277,7 +280,10 @@ class Knowledge(Serializable, Validatable):
         Example:
             >>> data = knowledge.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -293,7 +299,9 @@ class Knowledge(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Knowledge:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Knowledge:
         """Deserialize the knowledge from bytes.
 
         Args:
@@ -310,7 +318,10 @@ class Knowledge(Serializable, Validatable):
         Example:
             >>> knowledge = Knowledge.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -340,7 +351,7 @@ class Knowledge(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -349,7 +360,7 @@ class Knowledge(Serializable, Validatable):
         Example:
             >>> formats = Knowledge.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

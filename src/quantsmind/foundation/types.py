@@ -42,7 +42,6 @@ from typing import (
     Literal,
     Protocol,
     TypeVar,
-    Union,
 )
 
 # Basic Type Aliases
@@ -62,10 +61,10 @@ TimeID = str
 LifecycleID = str
 
 # Value Types
-ScalarValue = Union[int, float, complex]
+ScalarValue = int | float | complex
 VectorValue = list[ScalarValue]
 TensorValue = list[list[ScalarValue]]
-AttributeValue = Union[ScalarValue, VectorValue, TensorValue, str, bool, datetime]
+AttributeValue = ScalarValue | VectorValue | TensorValue | str | bool | datetime
 
 # Data Structures
 PropertyDict = dict[str, "Property"]
@@ -80,7 +79,7 @@ EntityDict = dict[EntityID, "Entity"]
 ValidatorFunc = Callable[[Any], bool]
 TransformerFunc = Callable[[Any], Any]
 ObserverFunc = Callable[["Event"], None]
-ConstraintRule = Union[str, Callable[[dict[str, Any]], bool]]
+ConstraintRule = str | Callable[[dict[str, Any]], bool]
 
 # Result Types
 ValidationResult = tuple[bool, list[str]]
@@ -98,7 +97,7 @@ DeserializedData = dict[str, Any]
 # Time Types
 Timestamp = datetime
 TimeInterval = timedelta
-TimeValue = Union[int, float, datetime]
+TimeValue = int | float | datetime
 
 # Space Types
 Coordinate = list[float]

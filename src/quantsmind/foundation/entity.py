@@ -49,7 +49,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from quantsmind.foundation.enums import EntityType
+from quantsmind.foundation.enums import EntityType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidEntityError,
 )
@@ -63,6 +63,7 @@ from quantsmind.foundation.property import Property
 from quantsmind.foundation.state import State
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -252,7 +253,9 @@ class Entity(Serializable, Validatable):
         logger.debug(f"Updated state for entity {self._identity.id}")
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the entity to bytes.
 
         Args:
@@ -265,9 +268,12 @@ class Entity(Serializable, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = entity.serialize(format="json")
+            >>> data = entity.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -287,7 +293,9 @@ class Entity(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Entity:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Entity:
         """Deserialize the entity from bytes.
 
         Args:
@@ -302,9 +310,12 @@ class Entity(Serializable, Validatable):
             InvalidEntityError: If data is invalid
 
         Example:
-            >>> entity = Entity.deserialize(data, format="json")
+            >>> entity = Entity.deserialize(data, format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -343,7 +354,7 @@ class Entity(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -352,7 +363,7 @@ class Entity(Serializable, Validatable):
         Example:
             >>> formats = Entity.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

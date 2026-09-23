@@ -44,10 +44,10 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
-from quantsmind.foundation.enums import EventType
+from quantsmind.foundation.enums import EventType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidEventError,
 )
@@ -57,6 +57,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -107,7 +108,9 @@ class Event(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._event_type: EventType = event_type
-        self._timestamp: datetime = timestamp or datetime.utcnow()
+        self._timestamp: datetime = timestamp or datetime.now(UTC).replace(
+            tzinfo=None
+        )
         self._data: dict[str, Any] = data or {}
         self._metadata: MetadataDict = metadata or {}
 
@@ -202,7 +205,9 @@ class Event(Serializable, Validatable):
         return self._data.get(key, default)
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the event to bytes.
 
         Args:
@@ -217,7 +222,10 @@ class Event(Serializable, Validatable):
         Example:
             >>> data = event.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -232,7 +240,9 @@ class Event(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Event:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Event:
         """Deserialize the event from bytes.
 
         Args:
@@ -249,7 +259,10 @@ class Event(Serializable, Validatable):
         Example:
             >>> event = Event.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -278,7 +291,7 @@ class Event(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -287,7 +300,7 @@ class Event(Serializable, Validatable):
         Example:
             >>> formats = Event.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

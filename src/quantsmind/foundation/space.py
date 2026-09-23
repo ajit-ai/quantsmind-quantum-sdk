@@ -49,7 +49,7 @@ from quantsmind.foundation.constants import (
     MAX_DIMENSION,
     MIN_DIMENSION,
 )
-from quantsmind.foundation.enums import SpaceType
+from quantsmind.foundation.enums import SerializationFormat, SpaceType
 from quantsmind.foundation.exceptions import (
     CoordinateError,
     InvalidSpaceError,
@@ -61,6 +61,7 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     Coordinate,
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -263,7 +264,9 @@ class Space(Serializable, Validatable):
         return isinstance(coordinate, list) and len(coordinate) == self._dimension
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the space to bytes.
 
         Args:
@@ -278,7 +281,10 @@ class Space(Serializable, Validatable):
         Example:
             >>> data = space.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -293,7 +299,9 @@ class Space(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Space:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Space:
         """Deserialize the space from bytes.
 
         Args:
@@ -310,7 +318,10 @@ class Space(Serializable, Validatable):
         Example:
             >>> space = Space.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -340,7 +351,7 @@ class Space(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -349,7 +360,7 @@ class Space(Serializable, Validatable):
         Example:
             >>> formats = Space.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

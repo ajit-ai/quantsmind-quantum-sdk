@@ -42,10 +42,11 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.foundation.constants import ERROR_INVALID_STATE
+from quantsmind.foundation.enums import SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidStateError,
 )
@@ -59,6 +60,7 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     ComparisonResult,
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -108,7 +110,9 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
             >>> state = State(data={"position": [1.0, 2.0], "velocity": [0.5, 0.3]})
         """
         self._data: dict[str, Any] = data or {}
-        self._timestamp: datetime = timestamp or datetime.utcnow()
+        self._timestamp: datetime = timestamp or datetime.now(UTC).replace(
+            tzinfo=None
+        )
         self._version: int = 1
         self._metadata: MetadataDict = metadata or {}
 
@@ -175,7 +179,6 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         """
         return self._metadata.copy()
 
-    @property
     def is_valid(self) -> bool:
         """Check if the state is valid.
 
@@ -183,7 +186,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
             True if valid, False otherwise
 
         Example:
-            >>> if state.is_valid:
+            >>> if state.is_valid():
             ...     print("State is valid")
         """
         is_valid, _ = self.validate()
@@ -395,7 +398,9 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         return self._version
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the state to bytes.
 
         Args:
@@ -408,9 +413,12 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = state.serialize(format="json")
+            >>> data = state.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -424,7 +432,9 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> State:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> State:
         """Deserialize the state from bytes.
 
         Args:
@@ -439,9 +449,12 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
             InvalidStateError: If data is invalid
 
         Example:
-            >>> state = State.deserialize(data, format="json")
+            >>> state = State.deserialize(data, format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -474,7 +487,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -483,7 +496,7 @@ class State(Cloneable, Comparable, Serializable, Timestamped, Validatable):
         Example:
             >>> formats = State.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Timestamped interface implementation
     def get_timestamp(self) -> datetime:

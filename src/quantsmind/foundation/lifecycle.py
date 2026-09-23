@@ -43,10 +43,10 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
-from quantsmind.foundation.enums import LifecycleStage
+from quantsmind.foundation.enums import LifecycleStage, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidLifecycleError,
     TransitionError,
@@ -57,6 +57,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -102,8 +103,11 @@ class Lifecycle(Serializable, Validatable):
             >>> lifecycle = Lifecycle(current_stage=LifecycleStage.CREATED)
         """
         self._current_stage: LifecycleStage = current_stage
-        self._stage_history: list[tuple[LifecycleStage, datetime]] = [(current_stage, datetime.utcnow())]
-        self._created_at: datetime = datetime.utcnow()
+        # Naive-preserving utcnow replacement (deprecated in 3.12+):
+        # timezone-aware now with tzinfo stripped keeps naive semantics.
+        now = datetime.now(UTC).replace(tzinfo=None)
+        self._stage_history: list[tuple[LifecycleStage, datetime]] = [(current_stage, now)]
+        self._created_at: datetime = now
         self._metadata: MetadataDict = metadata or {}
 
         logger.debug(f"Created lifecycle at stage: {current_stage.value}")
@@ -201,7 +205,9 @@ class Lifecycle(Serializable, Validatable):
 
         old_stage = self._current_stage
         self._current_stage = new_stage
-        self._stage_history.append((new_stage, datetime.utcnow()))
+        self._stage_history.append(
+            (new_stage, datetime.now(UTC).replace(tzinfo=None))
+        )
         logger.debug(f"Transitioned lifecycle: {old_stage.value} -> {new_stage.value}")
 
     def _is_valid_transition(self, new_stage: LifecycleStage) -> bool:
@@ -228,7 +234,9 @@ class Lifecycle(Serializable, Validatable):
         return new_stage in valid_transitions.get(self._current_stage, [])
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the lifecycle to bytes.
 
         Args:
@@ -243,7 +251,10 @@ class Lifecycle(Serializable, Validatable):
         Example:
             >>> data = lifecycle.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -259,7 +270,9 @@ class Lifecycle(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Lifecycle:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Lifecycle:
         """Deserialize the lifecycle from bytes.
 
         Args:
@@ -276,7 +289,10 @@ class Lifecycle(Serializable, Validatable):
         Example:
             >>> lifecycle = Lifecycle.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -309,7 +325,7 @@ class Lifecycle(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -318,7 +334,7 @@ class Lifecycle(Serializable, Validatable):
         Example:
             >>> formats = Lifecycle.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:
@@ -383,7 +399,7 @@ class Lifecycle(Serializable, Validatable):
         Example:
             >>> str(lifecycle)
         """
-        return self._current_stage.value
+        return str(self._current_stage.value)
 
     def __eq__(self, other: Any) -> bool:
         """Check equality.

@@ -241,7 +241,7 @@ class StateFactory:
         Example:
             >>> state = factory.create_state({"position": [1.0, 2.0]})
         """
-        return State(data=data)
+        return State(data=data or {})
 
     def create_empty_state(self) -> State:
         """Create an empty State instance.

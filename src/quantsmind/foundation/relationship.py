@@ -45,7 +45,7 @@ import logging
 import uuid
 from typing import Any
 
-from quantsmind.foundation.enums import RelationshipType
+from quantsmind.foundation.enums import RelationshipType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidRelationshipError,
 )
@@ -56,6 +56,7 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     EntityID,
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -134,11 +135,10 @@ class Relationship(Serializable, Validatable):
         Raises:
             InvalidRelationshipError: If endpoints are invalid
         """
-        if self._relationship_type.has_direction():
-            if not self._source or not self._target:
-                raise InvalidRelationshipError(
-                    "Directed relationship requires both source and target"
-                )
+        if self._relationship_type.has_direction() and (not self._source or not self._target):
+            raise InvalidRelationshipError(
+                "Directed relationship requires both source and target"
+            )
 
     @property
     def id(self) -> str:
@@ -266,7 +266,9 @@ class Relationship(Serializable, Validatable):
         return self._source == entity_id or self._target == entity_id
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the relationship to bytes.
 
         Args:
@@ -281,7 +283,10 @@ class Relationship(Serializable, Validatable):
         Example:
             >>> data = relationship.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -297,7 +302,9 @@ class Relationship(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Relationship:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Relationship:
         """Deserialize the relationship from bytes.
 
         Args:
@@ -314,7 +321,10 @@ class Relationship(Serializable, Validatable):
         Example:
             >>> relationship = Relationship.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -344,7 +354,7 @@ class Relationship(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -353,7 +363,7 @@ class Relationship(Serializable, Validatable):
         Example:
             >>> formats = Relationship.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

@@ -44,9 +44,9 @@ from __future__ import annotations
 
 import logging
 import uuid
-from typing import Any
+from typing import Any, Literal
 
-from quantsmind.foundation.enums import ConstraintSeverity, ConstraintType
+from quantsmind.foundation.enums import ConstraintSeverity, ConstraintType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     EvaluationError,
     InvalidConstraintError,
@@ -59,6 +59,7 @@ from quantsmind.foundation.types import (
     ConstraintResult,
     ConstraintRule,
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -237,20 +238,27 @@ class Constraint(Serializable, Validatable):
             >>> result = constraint.evaluate({"mass": 5})
         """
         try:
+            severity: Literal["error", "warning", "info"] = (
+                "error"
+                if self._severity is ConstraintSeverity.ERROR
+                else ("warning" if self._severity is ConstraintSeverity.WARNING else "info")
+            )
             if callable(self._rule):
                 result = self._rule(context)
                 if isinstance(result, tuple) and len(result) == 3:
                     return result
                 else:
-                    return (bool(result), "Constraint evaluated", self._severity)
+                    return (bool(result), "Constraint evaluated", severity)
             else:
                 # String rule - assume simple validation
-                return (True, self._rule, self._severity)
+                return (True, self._rule, severity)
         except Exception as e:
             raise EvaluationError(f"Constraint evaluation failed: {e}") from e
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the constraint to bytes.
 
         Args:
@@ -265,7 +273,10 @@ class Constraint(Serializable, Validatable):
         Example:
             >>> data = constraint.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -283,7 +294,9 @@ class Constraint(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Constraint:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Constraint:
         """Deserialize the constraint from bytes.
 
         Args:
@@ -301,7 +314,10 @@ class Constraint(Serializable, Validatable):
             Callable rules cannot be fully serialized. This method creates
             a placeholder constraint that must be configured with actual rules.
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -335,7 +351,7 @@ class Constraint(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -344,7 +360,7 @@ class Constraint(Serializable, Validatable):
         Example:
             >>> formats = Constraint.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

@@ -173,7 +173,12 @@ class MathReasoningAgent:
             return "integration"
         elif "differentiate" in problem_lower:
             return "differentiation"
-        elif "optimize" in problem_lower or "minimize" in problem_lower or "maximize" in problem_lower:
+        is_opt = (
+            "optimize" in problem_lower
+            or "minimize" in problem_lower
+            or "maximize" in problem_lower
+        )
+        if is_opt:
             return "optimization"
 
         return "general"
@@ -339,7 +344,8 @@ class MathReasoningAgent:
         Example:
             >>> repr(agent)
         """
-        return f"MathReasoningAgent(name={self._name}, history_entries={len(self._reasoning_history)})"
+        count = len(self._reasoning_history)
+        return f"MathReasoningAgent(name={self._name}, history_entries={count})"
 
 
 __all__ = [

@@ -149,7 +149,8 @@ class ProofAssistant:
             List of proof steps
 
         Example:
-            >>> steps = assistant._generate_proof_steps("proof_by_contradiction", "Prove that sqrt(2) is irrational", None)
+            >>> stmt = "Prove that sqrt(2) is irrational"
+            >>> steps = assistant._generate_proof_steps("proof_by_contradiction", stmt, None)
         """
         steps = []
 
