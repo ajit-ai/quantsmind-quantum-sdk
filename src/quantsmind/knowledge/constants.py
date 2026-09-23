@@ -179,6 +179,11 @@ DEFAULT_NETWORK_TIMEOUT_SECONDS = 30
 MAX_NETWORK_RETRIES = 5
 NETWORK_RETRY_BACKOFF_MULTIPLIER = 2
 
+# SDK / generic constants (short aliases used by the package surface)
+DEFAULT_TIMEOUT = 30
+MAX_BATCH_SIZE = 10000
+SDK_VERSION = "1.0.1"
+
 # Export
 __all__ = [
     # Dataset constants
@@ -292,4 +297,8 @@ __all__ = [
     "DEFAULT_NETWORK_TIMEOUT_SECONDS",
     "MAX_NETWORK_RETRIES",
     "NETWORK_RETRY_BACKOFF_MULTIPLIER",
+    # SDK / generic constants
+    "DEFAULT_TIMEOUT",
+    "MAX_BATCH_SIZE",
+    "SDK_VERSION",
 ]

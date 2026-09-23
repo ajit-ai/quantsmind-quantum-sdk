@@ -30,6 +30,7 @@ uuid (standard library)
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Union
 from uuid import UUID
@@ -82,12 +83,14 @@ WorkflowID = Union[str, UUID]
 HistoryID = Union[str, UUID]
 AuditID = Union[str, UUID]
 ProvenanceChain = list[dict[str, Any]]
+ProvenanceData = dict[str, Any]
 
 # Lineage types
 LineageID = Union[str, UUID]
 LineageNodeID = Union[str, UUID]
 LineageEdgeID = Union[str, UUID]
 LineageGraph = dict[LineageNodeID, list[LineageNodeID]]
+LineageData = dict[str, Any]
 
 # Observation types
 ObservationID = Union[str, UUID]
@@ -123,6 +126,15 @@ SearchQuery = str
 SearchResults = list[dict[str, Any]]
 SearchScore = float
 SearchFilter = dict[str, Any]
+
+
+@dataclass
+class SearchResult:
+    """Single search hit with its relevance score."""
+
+    doc_id: str
+    score: float
+    document: dict[str, Any]
 
 # Repository types
 RepositoryID = Union[str, UUID]
@@ -264,11 +276,13 @@ __all__ = [
     "HistoryID",
     "AuditID",
     "ProvenanceChain",
+    "ProvenanceData",
     # Lineage types
     "LineageID",
     "LineageNodeID",
     "LineageEdgeID",
     "LineageGraph",
+    "LineageData",
     # Observation types
     "ObservationID",
     "ObservationSessionID",
@@ -295,6 +309,7 @@ __all__ = [
     "IndexData",
     # Search types
     "SearchQuery",
+    "SearchResult",
     "SearchResults",
     "SearchScore",
     "SearchFilter",

@@ -51,7 +51,7 @@ from quantsmind.knowledge.datasource.api_source import APISource
 from quantsmind.knowledge.datasource.database_source import DatabaseSource
 
 # Datasource modules
-from quantsmind.knowledge.datasource.datasource import Datasource
+from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.datasource.file_source import FileSource
 from quantsmind.knowledge.datasource.stream_source import StreamSource
 
@@ -64,12 +64,12 @@ from quantsmind.knowledge.evidence.rule import Rule as EvidenceRule
 from quantsmind.knowledge.evidence.theory import Theory
 
 # Foundational modules
-from quantsmind.knowledge.foundational.constants import (
+from quantsmind.knowledge.constants import (
     DEFAULT_TIMEOUT,
     MAX_BATCH_SIZE,
     SDK_VERSION,
 )
-from quantsmind.knowledge.foundational.enums import (
+from quantsmind.knowledge.enums import (
     DataType,
     EvidenceType,
     IndexType,
@@ -85,7 +85,7 @@ from quantsmind.knowledge.foundational.enums import (
     ValidationType,
     VersionType,
 )
-from quantsmind.knowledge.foundational.exceptions import (
+from quantsmind.knowledge.exceptions import (
     DatasetError,
     DatasourceError,
     EvidenceError,
@@ -133,7 +133,7 @@ from quantsmind.knowledge.metadata.attribute import Attribute
 from quantsmind.knowledge.metadata.label import Label
 
 # Metadata modules
-from quantsmind.knowledge.metadata.metadata import Metadata
+from quantsmind.knowledge.metadata.metadata import KnowledgeMetadata as Metadata
 from quantsmind.knowledge.metadata.property import Property
 from quantsmind.knowledge.metadata.tag import Tag
 
@@ -259,7 +259,7 @@ __all__ = [
     "SimulationDataset",
     "DatasetRegistry",
     # Datasource
-    "Datasource",
+    "DataSource",
     "FileSource",
     "DatabaseSource",
     "StreamSource",

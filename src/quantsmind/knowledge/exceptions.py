@@ -401,6 +401,116 @@ class VersionError(KnowledgeError):
         super().__init__(message, context)
 
 
+class DatasourceError(KnowledgeError):
+    """Exception for datasource-related errors.
+
+    Raised when datasource operations fail.
+
+    Example:
+        >>> raise DatasourceError("Datasource unavailable")
+    """
+
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
+        """Initialize a DatasourceError.
+
+        Args:
+            message: Error message
+            context: Additional context information
+
+        Example:
+            >>> raise DatasourceError("Datasource unavailable")
+        """
+        super().__init__(message, context)
+
+
+class IndexError(KnowledgeError):
+    """Exception for index-related errors.
+
+    Raised when indexing operations fail.
+
+    Example:
+        >>> raise IndexError("Index corrupted")
+    """
+
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
+        """Initialize an IndexError.
+
+        Args:
+            message: Error message
+            context: Additional context information
+
+        Example:
+            >>> raise IndexError("Index corrupted")
+        """
+        super().__init__(message, context)
+
+
+class MeasurementError(KnowledgeError):
+    """Exception for measurement-related errors.
+
+    Raised when measurement operations fail.
+
+    Example:
+        >>> raise MeasurementError("Measurement out of range")
+    """
+
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
+        """Initialize a MeasurementError.
+
+        Args:
+            message: Error message
+            context: Additional context information
+
+        Example:
+            >>> raise MeasurementError("Measurement out of range")
+        """
+        super().__init__(message, context)
+
+
+class ObservationError(KnowledgeError):
+    """Exception for observation-related errors.
+
+    Raised when observation operations fail.
+
+    Example:
+        >>> raise ObservationError("Observation invalid")
+    """
+
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
+        """Initialize an ObservationError.
+
+        Args:
+            message: Error message
+            context: Additional context information
+
+        Example:
+            >>> raise ObservationError("Observation invalid")
+        """
+        super().__init__(message, context)
+
+
+class SchemaError(KnowledgeError):
+    """Exception for schema-related errors.
+
+    Raised when schema operations fail.
+
+    Example:
+        >>> raise SchemaError("Schema validation failed")
+    """
+
+    def __init__(self, message: str, context: dict[str, Any] | None = None) -> None:
+        """Initialize a SchemaError.
+
+        Args:
+            message: Error message
+            context: Additional context information
+
+        Example:
+            >>> raise SchemaError("Schema validation failed")
+        """
+        super().__init__(message, context)
+
+
 # Export
 __all__ = [
     "KnowledgeError",
@@ -419,4 +529,9 @@ __all__ = [
     "LineageError",
     "QualityError",
     "VersionError",
+    "DatasourceError",
+    "IndexError",
+    "MeasurementError",
+    "ObservationError",
+    "SchemaError",
 ]
