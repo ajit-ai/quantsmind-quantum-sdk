@@ -58,6 +58,7 @@ nav:
       - Versioning Policy: versioning-policy.md
       - Release Strategy: release-strategy.md
       - Package Dependency Rules: package-dependency-rules.md
+      - Runtime Guide: runtime-guide.md
       - API Design Principles: api-design-principles.md
       - Documentation Standards: documentation-standards.md
       - Known Limitations: known-limitations.md
