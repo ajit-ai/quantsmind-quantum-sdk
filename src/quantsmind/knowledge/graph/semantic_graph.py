@@ -304,7 +304,7 @@ class SemanticGraph(KnowledgeGraph):
         errors.extend(base_errors)
 
         # Validate semantic types
-        for (source, target), edge_data in self._edges.items():
+        for (_source, _target), edge_data in self._edges.items():
             sem_type = edge_data.get("semantic_type")
             if sem_type and sem_type not in self._semantic_types:
                 errors.append(f"Unknown semantic type: {sem_type}")

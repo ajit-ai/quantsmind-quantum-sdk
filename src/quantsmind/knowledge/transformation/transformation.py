@@ -184,7 +184,9 @@ class Transformation:
             try:
                 return self._transform_function(data)
             except Exception as e:
-                raise TransformationError(f"Transformation failed: {str(e)}", {"transformation_id": self._id})
+                raise TransformationError(
+                    f"Transformation failed: {str(e)}", {"transformation_id": self._id}
+                ) from e
 
         return data
 

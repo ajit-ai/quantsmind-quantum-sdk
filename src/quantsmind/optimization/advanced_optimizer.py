@@ -255,15 +255,15 @@ class BayesianOptimizer:
         lower, upper = bounds
 
         # Initial random sampling
-        X = [random.uniform(lower, upper) for _ in range(self._n_init)]
-        y = [func(x) for x in X]
+        samples = [random.uniform(lower, upper) for _ in range(self._n_init)]
+        y = [func(x) for x in samples]
 
-        history = [X[y.index(min(y))]]
+        history = [samples[y.index(min(y))]]
 
         for _ in range(self._n_iter):
             # Find best current point
             best_idx = y.index(min(y))
-            best_x = X[best_idx]
+            best_x = samples[best_idx]
 
             # Simple acquisition: sample around best point
             # Real implementation would use Gaussian Process and proper acquisition
@@ -274,16 +274,16 @@ class BayesianOptimizer:
             candidate_y = func(candidate_x)
 
             # Add to dataset
-            X.append(candidate_x)
+            samples.append(candidate_x)
             y.append(candidate_y)
 
             # Track best
             best_idx = y.index(min(y))
-            best_x = X[best_idx]
+            best_x = samples[best_idx]
             history.append(best_x)
 
         best_idx = y.index(min(y))
-        return (X[best_idx], history)
+        return (samples[best_idx], history)
 
     def __repr__(self) -> str:
         """Return string representation.

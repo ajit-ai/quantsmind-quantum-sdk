@@ -24,6 +24,7 @@ quantsmind.scientific.types (scientific types)
 from __future__ import annotations
 
 from collections.abc import Callable
+from contextlib import suppress
 from typing import Any
 
 from quantsmind.scientific.interfaces import IMeasurement, IObservable
@@ -158,10 +159,8 @@ class Observable(IObservable):
             >>> observable.notify_observers(measurement)
         """
         for observer in self._observers:
-            try:
+            with suppress(Exception):  # Handle observer errors gracefully
                 observer(measurement)
-            except Exception:
-                pass  # Handle observer errors gracefully
 
     def observe(self) -> IMeasurement:
         """Perform an observation.

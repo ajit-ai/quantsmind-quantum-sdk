@@ -205,7 +205,10 @@ class Mapper:
                     try:
                         value = transform(value)
                     except Exception as e:
-                        raise TransformationError(f"Transform failed for field '{source_field}': {str(e)}", {"mapper_id": self._id})
+                        raise TransformationError(
+                            f"Transform failed for field '{source_field}': {str(e)}",
+                            {"mapper_id": self._id},
+                        ) from e
                 result[target_field] = value
 
         return result

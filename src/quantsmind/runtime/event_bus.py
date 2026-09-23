@@ -155,7 +155,7 @@ class EventBus:
             self._event_queue.put(event, timeout=DEFAULT_EVENT_TIMEOUT)
             logger.debug(f"Published event: {event.event_id}")
         except queue.Full:
-            raise EventError("Event queue is full", event_id=event.event_id)
+            raise EventError("Event queue is full", event_id=event.event_id) from None
 
     def publish_sync(self, event: Event) -> None:
         """Publish an event synchronously.

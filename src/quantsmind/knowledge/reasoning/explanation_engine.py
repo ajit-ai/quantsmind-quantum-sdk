@@ -191,7 +191,9 @@ class ExplanationEngine(IReasoner):
             try:
                 return self._explanation_function(reasoning_result)
             except Exception as e:
-                raise ReasoningError(f"Explanation generation failed: {str(e)}", {"engine_id": self._id})
+                raise ReasoningError(
+                    f"Explanation generation failed: {str(e)}", {"engine_id": self._id}
+                ) from e
 
         # Placeholder implementation
         return {

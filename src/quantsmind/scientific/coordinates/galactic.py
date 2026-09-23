@@ -39,7 +39,7 @@ class GalacticCoordinate(ICoordinate):
     This class provides galactic coordinate functionality.
 
     Attributes:
-        _l: Galactic longitude (degrees)
+        _lon: Galactic longitude (degrees)
         _b: Galactic latitude (degrees)
         _distance: Distance from galactic center
         _metadata: Coordinate metadata
@@ -51,7 +51,7 @@ class GalacticCoordinate(ICoordinate):
 
     def __init__(
         self,
-        l: CoordinateValue,
+        lon: CoordinateValue,
         b: CoordinateValue,
         distance: CoordinateValue = 8.5,
         metadata: dict[str, Any] | None = None,
@@ -59,7 +59,7 @@ class GalacticCoordinate(ICoordinate):
         """Initialize a GalacticCoordinate.
 
         Args:
-            l: Galactic longitude (degrees)
+            lon: Galactic longitude (degrees)
             b: Galactic latitude (degrees)
             distance: Distance from galactic center (kpc)
             metadata: Coordinate metadata
@@ -67,22 +67,22 @@ class GalacticCoordinate(ICoordinate):
         Example:
             >>> coord = GalacticCoordinate(45.0, 30.0, 8.5)
         """
-        self._l = l
+        self._lon = lon
         self._b = b
         self._distance = distance
         self._metadata = metadata or {}
 
     @property
-    def l(self) -> CoordinateValue:
+    def lon(self) -> CoordinateValue:
         """Get the galactic longitude.
 
         Returns:
             Galactic longitude (degrees)
 
         Example:
-            >>> print(f"L: {coord.l}")
+            >>> print(f"Lon: {coord.lon}")
         """
-        return self._l
+        return self._lon
 
     @property
     def b(self) -> CoordinateValue:
@@ -124,12 +124,12 @@ class GalacticCoordinate(ICoordinate):
         """Get the coordinate values.
 
         Returns:
-            Coordinate values (l, b, distance)
+            Coordinate values (lon, b, distance)
 
         Example:
             >>> coords = coord.coordinates()
         """
-        return (self._l, self._b, self._distance)
+        return (self._lon, self._b, self._distance)
 
     def system(self) -> str:
         """Get the coordinate system.
@@ -167,11 +167,11 @@ class GalacticCoordinate(ICoordinate):
             >>> ra, dec = coord.to_equatorial()
         """
         # Simplified transformation (real implementation would use proper astronomical formulas)
-        l_rad = math.radians(self._l)
+        lon_rad = math.radians(self._lon)
         b_rad = math.radians(self._b)
         
         # Approximate transformation
-        ra = (l_rad + math.pi) * 180 / math.pi
+        ra = (lon_rad + math.pi) * 180 / math.pi
         dec = b_rad * 180 / math.pi
         
         return (ra % 360, dec)
@@ -211,7 +211,7 @@ class GalacticCoordinate(ICoordinate):
         """
         return {
             "system": self.system(),
-            "l": self._l,
+            "lon": self._lon,
             "b": self._b,
             "distance": self._distance,
             "metadata": self._metadata.copy(),
@@ -226,7 +226,7 @@ class GalacticCoordinate(ICoordinate):
         Example:
             >>> repr(coord)
         """
-        return f"GalacticCoordinate(l={self._l}, b={self._b}, distance={self._distance})"
+        return f"GalacticCoordinate(lon={self._lon}, b={self._b}, distance={self._distance})"
 
 
 # Export

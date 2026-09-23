@@ -154,17 +154,17 @@ class EquatorialCoordinate(ICoordinate):
         return self._distance
 
     def to_galactic(self) -> tuple[float, float]:
-        """Convert to galactic coordinates (l, b).
+        """Convert to galactic coordinates (lon, b).
 
         Returns:
-            Galactic coordinates (l, b) in degrees
+            Galactic coordinates (lon, b) in degrees
 
         Note:
             This is a simplified transformation. Real astronomical transformations
             require more complex calculations.
 
         Example:
-            >>> l, b = coord.to_galactic()
+            >>> lon, b = coord.to_galactic()
         """
         # Simplified transformation (real implementation would use proper astronomical formulas)
         ra_rad = math.radians(self._ra)

@@ -466,10 +466,10 @@ class PoissonDistribution(DistributionEngine):
         """
         samples = []
         for _ in range(n):
-            L = math.exp(-self._lambda)
+            limit = math.exp(-self._lambda)
             k = 0
             p = 1.0
-            while p > L:
+            while p > limit:
                 k += 1
                 p *= random.random()
             samples.append(k - 1)

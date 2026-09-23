@@ -235,7 +235,9 @@ class DataType:
             else:
                 return value
         except (ValueError, TypeError) as e:
-            raise ValidationError(f"Failed to convert value to {self._name}: {e}")
+            raise ValidationError(
+                f"Failed to convert value to {self._name}: {e}"
+            ) from e
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.
