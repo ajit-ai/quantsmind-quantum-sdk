@@ -38,7 +38,8 @@ frozen at the `api_manifest.json` baseline.
 
 The R0.1.0 architecture-only foundation below is **historical** — the initial
 package layout, public interface contracts, and documentation standards that
-the current release builds on.  See `ROADMAP.md` for the broader SDK.
+the current release builds on.  See `ROADMAP.md` for the broader SDK and
+`docs/known-limitations.md` for the honest gap list.
 
 ## Repository Layout
 

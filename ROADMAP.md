@@ -4,68 +4,67 @@ QuantsMind is designed for at least twenty years of evolution. The
 roadmap below reflects the architecture-first philosophy: each release
 implements one layer at a time, on a stable foundation.
 
-## R0.1.0 — Architecture Foundation (this release)
-- Complete repository structure
-- All package skeletons (`__init__.py`, `README.md`) for 34 packages
-- Foundation ontology interfaces (Entity, System, State, Interaction, ...)
-- Quantum domain interface skeletons
-- Math sub-package skeletons
-- Documentation standards, ADR process, dependency rules
-- DevOps scaffolding (CI, lint, type-check, pre-commit)
-- **No algorithms implemented anywhere**
+## Where we are: 1.0.1 (current)
 
-## R0.2.0 — Core & Exceptions Implementation
-- Implement `exceptions` hierarchy
-- Implement `core` registries/contexts
-- Implement `foundation` concrete dataclasses/protocols
-- Unit tests for foundation + core
+**QuantsMind Quantum 1.0.1** is the current stable release: a
+domain-oriented quantum intelligence SDK (finance / portfolio, data, ML)
+executing through classical, quantum, or hybrid strategies via the
+optional MicroQuantum engine (`pip install "quantsmind[quantum]"`,
+pinned to the tested `microquantum>=0.4,<0.5` series). The quantum public
+API is frozen at the `api_manifest.json` baseline (117 modules,
+669 symbols) and gated in CI (ruff, `mypy --strict`, full unit suite plus
+a >=80% coverage gate on `quantsmind.quantum`, currently ~89%).
 
-## R0.3.0 — Math Foundation
-- Implement `math.linear_algebra`, `math.tensor_algebra` on a
-  pluggable numeric backend (NumPy first)
-- Implement `math.complex_numbers`, `math.numerical_methods`
+Beyond quantum, package maturity varies honestly:
 
-## R0.4.0 — Runtime, Compiler, Providers
-- Implement local in-process `runtime` executor
-- Implement minimal IR in `compiler`
-- Implement a reference `providers` backend (local simulator only)
+| Status | Packages |
+|---|---|
+| Stable, tested | `quantum`, `foundation` (mypy-strict clean, importable, unit-tested) |
+| Implemented, tested paths | `runtime` (job/task/pipeline/workflow), `calculus` (differentiation), `math` (geometry, topology, numerical), `scientific` (metadata, coordinates, time), `optimization` (gradient/Adam), `knowledge` (importable, value objects tested), `ai_reasoning` helpers |
+| Contracts / skeletons | `physics`, `chemistry`, `biology`, `astronomy`, `cosmology`, `finance` (top level), `ai`, `compiler`, `providers`, `simulation`, `visualization`, `datasets`, `plugins`, `telemetry`, plus cross-cutting `config`, `io`, `logging`, `security`, `utils` |
 
-## R0.5.0 — First Domain: Quantum
-- Implement `quantum` on top of R0.2–R0.4
-- Local statevector simulator provider (reference only, not
-  performance-optimized)
-- End-to-end example: build and run a Bell-state circuit
+See `docs/known-limitations.md` for the honest gap list and
+`CHANGELOG.md` for per-release history.
 
-## R0.6.0 — Simulation & Physics
-- Implement `simulation` engine contracts concretely
-- Implement first `physics` sub-domain (classical mechanics)
+## How we got here
 
-## R0.7.0 — AI & Optimization
-- Implement `optimization` solver contracts (gradient-free first)
-- Implement `ai` model/training contracts
+- **R0.1.0 — Architecture Foundation (historical):** repository structure,
+  34 package skeletons, foundation ontology interfaces, quantum skeletons,
+  docs standards, ADR process, dependency rules, DevOps scaffolding. No
+  algorithms implemented anywhere.
+- **1.0.0 (2026-09-13) — QuantsMind Quantum, stable:** domain-oriented
+  quantum intelligence SDK over MicroQuantum (QMQ-01..QMQ-12), frozen API
+  manifest, release-hardening tests. Note: the quantum path went through
+  MicroQuantum integration rather than the originally sketched local
+  statevector provider.
+- **1.0.1 (2026-09-23) — Correctness patch, API unchanged:** foundation
+  `Serializable` conformance, `utcnow()` deprecation removal repo-wide,
+  undefined-name andadowing fixes, two real `NameError` crashes fixed
+  (galactic conversion, Newton-Raphson), `knowledge` made importable,
+  regression + helper tests, quantum coverage gate in CI.
 
-## R0.8.0 — Finance, Visualization, Datasets
-- Implement `finance` on top of `math`, `optimization`, `ai`
-- Implement `visualization` with a first static-rendering adapter
-- Implement `datasets` with a local file-based catalog
+## What remains (epics, each planned separately before work starts)
 
-## R0.9.0 — Chemistry, Biology, Astronomy, Cosmology
-- Implement domain packages building on `physics`
+- **Math backend:** `math` linear/tensor algebra on a pluggable numeric
+  backend (NumPy first); complex numbers, numerical methods.
+- **Runtime & providers:** local in-process executor end-to-end example
+  (Bell-state style); reference local-simulator provider backend;
+  minimal compiler IR.
+- **Domains:** simulation engine concretely; physics (classical mechanics
+  first); then chemistry, biology, astronomy, cosmology building on it;
+  finance on top of `math`/`optimization`/`ai`; AI/optimization contracts.
+- **Platform:** plugin discovery, telemetry exporters, visualization and
+  datasets adapters, security review of credential handling.
+- **Beyond:** real quantum hardware / cloud HPC providers, distributed
+  runtime, GPU/TPU-backed math, expanded domain coverage.
 
-## R0.10.0 — Plugins, Telemetry, Security Hardening
-- Implement third-party plugin discovery
-- Implement telemetry exporters
-- Security review of credential/secret handling
+## Working agreements
 
-## 1.0.0 — Stable Public API
-- Foundation, core, runtime, compiler, providers, math, and quantum
-  reach API stability
-- Full backward-compatibility policy takes effect (see
-  `docs/versioning-policy.md`)
-
-## Beyond 1.0
-- Additional provider integrations (real quantum hardware, cloud HPC)
-- Distributed runtime execution
-- GPU/TPU-backed math implementations
-- Expanded domain coverage as new scientific fields are prioritized by
-  the community
+- `main` is always releasable: CI (lint, type-check, tests, quantum
+  coverage gate) and docs deployment must be green before merge.
+- Changes land via `develop` → `main` merges; releases are `v*` tags
+  built by the release workflow. See `docs/release-strategy.md` and
+  `docs/versioning-policy.md`.
+- Design intent lives in `architecture/` (ADRs) and
+  `docs/foundation-specification/`; what may depend on what is fixed in
+  `docs/package-dependency-rules.md`.
