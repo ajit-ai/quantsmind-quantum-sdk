@@ -58,6 +58,7 @@ nav:
       - Versioning Policy: versioning-policy.md
       - Release Strategy: release-strategy.md
       - Package Dependency Rules: package-dependency-rules.md
+      - Core Primitives: core.md
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
       - Physics Foundations: physics.md
