@@ -469,9 +469,9 @@ class AlgorithmSelector:
             executable fallback chain.
 
         Raises:
-            AlgorithmSelectionError: When the request is impossible
-            (unknown requested algorithm, or - without ``allow_fallback`` -
-            an unavailable requested algorithm).
+            AlgorithmSelectionError: When the request is impossible (unknown
+                requested algorithm, or - without ``allow_fallback`` - an
+                unavailable requested algorithm).
         """
         model = formulation or problem.formulation
         classified = _coerce_classification(classification, problem, model)
