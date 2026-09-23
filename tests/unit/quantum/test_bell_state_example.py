@@ -8,6 +8,8 @@ MicroQuantum patch releases while still catching engine drift.
 
 from __future__ import annotations
 
+import pytest
+
 from quantsmind.quantum import QuantumExperiment, QuantumProgram
 from quantsmind.quantum.bridge import build_circuit, validate_program
 
@@ -20,10 +22,12 @@ class TestBellStateExample:
         assert validate_program(program) == []
 
     def test_circuit_builds(self) -> None:
+        pytest.importorskip("microquantum")
         circuit = build_circuit(QuantumProgram.bell_state())
         assert type(circuit).__name__ == "QuantumCircuit"
 
     def test_seeded_execution_shows_entanglement(self) -> None:
+        pytest.importorskip("microquantum")
         experiment = QuantumExperiment(
             QuantumProgram.bell_state(),
             backend="statevector",
@@ -38,3 +42,6 @@ class TestBellStateExample:
         assert sum(result.counts.values()) == 1024
         assert result.provenance["backend_requested"] == "statevector"
         assert result.num_qubits == 2
+        statevector = result.statevector
+        assert statevector is not None
+        assert abs(sum(abs(a) ** 2 for a in statevector) - 1.0) < 1e-9
