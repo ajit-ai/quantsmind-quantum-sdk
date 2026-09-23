@@ -6,11 +6,13 @@ import pytest
 
 from quantsmind.chemistry import (
     element,
+    limiting_reactant,
     mass_from_moles,
     molar_mass,
     molarity,
     moles_from_mass,
     parse_formula,
+    theoretical_yield_moles,
 )
 
 
@@ -54,3 +56,20 @@ class TestConversions:
             moles_from_mass(-1.0, 18.015)
         with pytest.raises(ValueError):
             molarity(1.0, 0.0)
+
+
+class TestStoichiometry:
+    def test_limiting_reactant(self) -> None:
+        species, extent = limiting_reactant({"H2": 2.0, "O2": 1.0}, {"H2": 5.0, "O2": 2.0})
+        assert species == "O2"
+        assert extent == pytest.approx(2.0)
+
+    def test_theoretical_yield(self) -> None:
+        assert (
+            theoretical_yield_moles({"H2": 2.0, "O2": 1.0}, {"H2": 5.0, "O2": 2.0}, 2.0)
+            == pytest.approx(4.0)
+        )
+
+    def test_missing_species(self) -> None:
+        with pytest.raises(ValueError):
+            limiting_reactant({"H2": 2.0}, {})

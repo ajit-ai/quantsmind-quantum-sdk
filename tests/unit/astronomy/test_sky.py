@@ -5,9 +5,11 @@ from __future__ import annotations
 import pytest
 
 from quantsmind.astronomy import (
+    absolute_magnitude,
     angular_separation,
     au_to_m,
     circular_orbital_velocity,
+    distance_modulus,
     kepler_period,
     light_year_to_m,
     m_to_au,
@@ -51,3 +53,13 @@ class TestOrbits:
     def test_circular_velocity(self) -> None:
         velocity = circular_orbital_velocity(1.495978707e11, 1.98847e30)
         assert velocity == pytest.approx(29785.0, rel=1e-3)
+
+
+class TestMagnitudes:
+    def test_ten_parsecs(self) -> None:
+        assert distance_modulus(10.0) == pytest.approx(0.0)
+        assert absolute_magnitude(5.0, 10.0) == pytest.approx(5.0)
+
+    def test_invalid_distance(self) -> None:
+        with pytest.raises(ValueError):
+            distance_modulus(0.0)

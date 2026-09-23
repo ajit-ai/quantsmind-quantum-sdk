@@ -10,6 +10,7 @@ from quantsmind.cosmology import (
     hubble_distance_mpc,
     hubble_time_gyr,
     hubble_velocity,
+    lookback_time_gyr,
     luminosity_distance_linear_mpc,
     redshift_from_scale,
     scale_factor,
@@ -46,3 +47,15 @@ class TestExpansion:
     def test_negative_redshift(self) -> None:
         with pytest.raises(ValueError):
             scale_factor(-0.5)
+
+
+class TestLookback:
+    def test_zero_redshift(self) -> None:
+        assert lookback_time_gyr(0.0) == pytest.approx(0.0)
+
+    def test_z1(self) -> None:
+        assert lookback_time_gyr(1.0) == pytest.approx(7.72, rel=1e-2)
+
+    def test_out_of_range(self) -> None:
+        with pytest.raises(ValueError):
+            lookback_time_gyr(11.0)

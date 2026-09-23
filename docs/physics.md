@@ -20,8 +20,9 @@ checked (finite, non-negative, angles within [0, 90]); violations raise
 
 `projectile_range`, `projectile_max_height`, `flight_time`,
 `kinetic_energy`, `potential_energy`, `momentum`, `newton_second_law`,
-`wave_speed`, `wave_energy`, `mass_energy`, `heat_conduction`, plus exact
-constants `STANDARD_GRAVITY`, `SPEED_OF_LIGHT`, `PLANCK_CONSTANT`.
+`wave_speed`, `wave_energy`, `mass_energy`, `heat_conduction`,
+`centripetal_acceleration`, `shm_period`, plus exact constants
+`STANDARD_GRAVITY`, `SPEED_OF_LIGHT`, `PLANCK_CONSTANT`.
 
 ## Input / Processing / Output
 

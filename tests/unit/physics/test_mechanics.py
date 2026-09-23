@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from quantsmind.physics import (
+    centripetal_acceleration,
     flight_time,
     heat_conduction,
     kinetic_energy,
@@ -14,6 +15,7 @@ from quantsmind.physics import (
     potential_energy,
     projectile_max_height,
     projectile_range,
+    shm_period,
     wave_energy,
     wave_speed,
 )
@@ -67,3 +69,9 @@ class TestEnergy:
         assert heat_conduction(0.04, 10.0, 20.0, 0.20) == pytest.approx(40.0)
         with pytest.raises(ValueError):
             heat_conduction(0.04, 10.0, 20.0, 0.0)
+
+    def test_rotation_and_oscillation(self) -> None:
+        assert centripetal_acceleration(2.0, 3.0) == pytest.approx(12.0)
+        assert shm_period(1.0, 4.0) == pytest.approx(3.14159265)
+        with pytest.raises(ValueError):
+            shm_period(0.0, 4.0)

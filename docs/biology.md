@@ -21,7 +21,8 @@ ignoring a trailing partial codon.
 
 `validate_dna()`, `validate_rna()`, `complement()`,
 `reverse_complement()`, `transcribe()`, `translate_rna()`,
-`translate_dna()`, `gc_content()`, `CODON_TABLE`, alphabets.
+`translate_dna()`, `gc_content()`, `hamming_distance()`,
+`point_mutation()`, `CODON_TABLE`, alphabets.
 
 ## Input / Processing / Output
 

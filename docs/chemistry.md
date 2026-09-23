@@ -20,6 +20,7 @@ atomic masses; conversions follow `n = m/M` and `C = n/V`.
 
 `Element`, `ELEMENTS`, `element()`, `molar_mass()`, `parse_formula()`,
 `moles_from_mass()`, `mass_from_moles()`, `molarity()`,
+`limiting_reactant()`, `theoretical_yield_moles()`,
 `AVOGADRO_CONSTANT`.
 
 ## Input / Processing / Output

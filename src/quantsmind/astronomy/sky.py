@@ -24,6 +24,8 @@ __all__ = [
     "parallax_distance_pc",
     "kepler_period",
     "circular_orbital_velocity",
+    "distance_modulus",
+    "absolute_magnitude",
 ]
 
 #: Astronomical unit, exact by IAU 2012 definition (m).
@@ -110,3 +112,15 @@ def circular_orbital_velocity(
     if central_mass_kg <= 0.0:
         raise ValueError(f"central mass must be positive, got {central_mass_kg!r}")
     return math.sqrt(g_newton * central_mass_kg / radius_m)
+
+
+def distance_modulus(distance_pc: float) -> float:
+    """Distance modulus ``m - M = 5*log10(d) - 5`` (magnitudes)."""
+    if distance_pc <= 0.0:
+        raise ValueError(f"distance must be positive, got {distance_pc!r}")
+    return 5.0 * math.log10(distance_pc) - 5.0
+
+
+def absolute_magnitude(apparent_magnitude: float, distance_pc: float) -> float:
+    """Absolute magnitude from apparent magnitude and distance (parsecs)."""
+    return float(apparent_magnitude) - distance_modulus(distance_pc)

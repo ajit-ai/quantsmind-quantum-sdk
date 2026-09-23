@@ -20,7 +20,8 @@ parallax; conversions off the exact AU.
 
 `angular_separation()`, `au_to_m()`, `m_to_au()`,
 `light_year_to_m()`, `parsec_to_m()`, `parallax_distance_pc()`,
-`kepler_period()`, `circular_orbital_velocity()`, plus exact constants.
+`kepler_period()`, `circular_orbital_velocity()`, `distance_modulus()`,
+`absolute_magnitude()`, plus exact constants.
 
 ## Input / Processing / Output
 

@@ -20,6 +20,8 @@ __all__ = [
     "translate_rna",
     "translate_dna",
     "gc_content",
+    "hamming_distance",
+    "point_mutation",
 ]
 
 #: Valid DNA bases.
@@ -124,3 +126,33 @@ def gc_content(sequence: str) -> float:
     sequence = validate_dna(sequence)
     gc = sum(1 for base in sequence if base in {"G", "C"})
     return gc / len(sequence)
+
+
+def hamming_distance(first: str, second: str) -> int:
+    """Number of differing positions between two equal-length DNA sequences.
+
+    Raises:
+        ValueError: For invalid bases or unequal lengths.
+    """
+    first, second = validate_dna(first), validate_dna(second)
+    if len(first) != len(second):
+        raise ValueError(
+            f"sequences must have equal length, got {len(first)} vs {len(second)}"
+        )
+    return sum(1 for a, b in zip(first, second, strict=True) if a != b)
+
+
+def point_mutation(sequence: str, index: int, base: str) -> str:
+    """Return a copy of a DNA sequence with one base replaced.
+
+    Raises:
+        ValueError: For invalid sequences, out-of-range indices, or
+            invalid replacement bases.
+    """
+    sequence = validate_dna(sequence)
+    base = base.upper()
+    if base not in DNA_ALPHABET:
+        raise ValueError(f"invalid DNA base: {base!r}")
+    if not 0 <= index < len(sequence):
+        raise ValueError(f"index {index!r} out of range for length {len(sequence)}")
+    return sequence[:index] + base + sequence[index + 1 :]

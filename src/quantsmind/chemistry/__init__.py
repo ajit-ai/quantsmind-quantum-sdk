@@ -18,6 +18,10 @@ from quantsmind.chemistry.elements import (
     moles_from_mass,
     parse_formula,
 )
+from quantsmind.chemistry.stoichiometry import (
+    limiting_reactant,
+    theoretical_yield_moles,
+)
 
 __all__: list[str] = [
     "AVOGADRO_CONSTANT",
@@ -29,4 +33,6 @@ __all__: list[str] = [
     "moles_from_mass",
     "mass_from_moles",
     "molarity",
+    "limiting_reactant",
+    "theoretical_yield_moles",
 ]

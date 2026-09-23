@@ -21,7 +21,8 @@ distance is explicitly a low-z approximation.
 
 `hubble_velocity()`, `scale_factor()`, `redshift_from_scale()`,
 `hubble_distance_mpc()`, `hubble_time_gyr()`, `doppler_redshift()`,
-`density_scaling()`, `luminosity_distance_linear_mpc()`.
+`density_scaling()`, `lookback_time_gyr()`,
+`luminosity_distance_linear_mpc()`.
 
 ## Input / Processing / Output
 

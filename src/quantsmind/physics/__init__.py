@@ -12,6 +12,7 @@ from quantsmind.physics.mechanics import (
     PLANCK_CONSTANT,
     SPEED_OF_LIGHT,
     STANDARD_GRAVITY,
+    centripetal_acceleration,
     flight_time,
     heat_conduction,
     kinetic_energy,
@@ -21,6 +22,7 @@ from quantsmind.physics.mechanics import (
     potential_energy,
     projectile_max_height,
     projectile_range,
+    shm_period,
     wave_energy,
     wave_speed,
 )
@@ -31,6 +33,7 @@ __all__: list[str] = [
     "PLANCK_CONSTANT",
     "projectile_range",
     "projectile_max_height",
+    "centripetal_acceleration",
     "flight_time",
     "heat_conduction",
     "kinetic_energy",
@@ -40,4 +43,5 @@ __all__: list[str] = [
     "wave_speed",
     "wave_energy",
     "mass_energy",
+    "shm_period",
 ]

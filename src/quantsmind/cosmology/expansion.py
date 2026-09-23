@@ -22,6 +22,7 @@ __all__ = [
     "hubble_time_gyr",
     "doppler_redshift",
     "density_scaling",
+    "lookback_time_gyr",
     "luminosity_distance_linear_mpc",
 ]
 
@@ -100,6 +101,39 @@ def density_scaling(component: str, redshift: float) -> float:
     if component == "lambda":
         return 1.0
     raise ValueError(f"unknown component: {component!r}")
+
+
+def lookback_time_gyr(
+    redshift: float,
+    h0: float = HUBBLE_CONSTANT_DEFAULT,
+    omega_matter: float = 0.3,
+) -> float:
+    """Lookback time to ``redshift`` (Gyr) for flat LambdaCDM.
+
+    Simpson-rule integration of ``1/((1+z)*E(z))`` with 1000 intervals;
+    accurate to ~1e-6 relative for smooth histories. Values beyond the
+    validated range (``z > 10``) raise.
+    """
+    if redshift < 0.0:
+        raise ValueError(f"redshift must be non-negative, got {redshift!r}")
+    if redshift > 10.0:
+        raise ValueError(f"lookback validated for z <= 10, got {redshift!r}")
+    if omega_matter <= 0.0 or omega_matter >= 1.0:
+        raise ValueError(f"omega_matter must be within (0, 1), got {omega_matter!r}")
+    omega_lambda = 1.0 - omega_matter
+
+    def integrand(z: float) -> float:
+        expansion = math.sqrt(omega_matter * (1.0 + z) ** 3 + omega_lambda)
+        return 1.0 / ((1.0 + z) * expansion)
+
+    intervals = 1000
+    width = redshift / intervals
+    total = integrand(0.0) + integrand(redshift)
+    for step in range(1, intervals):
+        weight = 4.0 if step % 2 == 1 else 2.0
+        total += weight * integrand(step * width)
+    seconds = total * width / 3.0 / _h0_per_second(h0)
+    return seconds / SECONDS_PER_GYR
 
 
 def luminosity_distance_linear_mpc(

@@ -25,6 +25,8 @@ __all__ = [
     "wave_energy",
     "mass_energy",
     "heat_conduction",
+    "centripetal_acceleration",
+    "shm_period",
 ]
 
 #: Standard gravity on Earth, exact by definition (m/s^2).
@@ -126,3 +128,19 @@ def heat_conduction(
     if thickness <= 0.0:
         raise ValueError(f"thickness must be positive, got {thickness!r}")
     return conductivity * area * float(delta_t) / thickness
+
+
+def centripetal_acceleration(angular_velocity: float, radius: float) -> float:
+    """Centripetal acceleration ``a = w^2 * r`` (m/s^2)."""
+    if radius < 0.0:
+        raise ValueError(f"radius must be non-negative, got {radius!r}")
+    return float(angular_velocity) ** 2 * radius
+
+
+def shm_period(mass: float, spring_constant: float) -> float:
+    """Period of a mass-spring oscillator ``T = 2*pi*sqrt(m/k)`` (s)."""
+    if mass <= 0.0:
+        raise ValueError(f"mass must be positive, got {mass!r}")
+    if spring_constant <= 0.0:
+        raise ValueError(f"spring constant must be positive, got {spring_constant!r}")
+    return 2.0 * math.pi * math.sqrt(mass / spring_constant)

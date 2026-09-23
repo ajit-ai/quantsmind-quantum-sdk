@@ -7,6 +7,8 @@ import pytest
 from quantsmind.biology import (
     complement,
     gc_content,
+    hamming_distance,
+    point_mutation,
     reverse_complement,
     transcribe,
     translate_dna,
@@ -53,3 +55,16 @@ class TestTranslation:
     def test_invalid_rna(self) -> None:
         with pytest.raises(ValueError):
             translate_rna("AUGX")
+
+
+class TestVariation:
+    def test_hamming(self) -> None:
+        assert hamming_distance("ATGC", "ATGG") == 1
+        assert hamming_distance("ATGC", "ATGC") == 0
+        with pytest.raises(ValueError):
+            hamming_distance("ATG", "ATGC")
+
+    def test_point_mutation(self) -> None:
+        assert point_mutation("ATGC", 0, "G") == "GTGC"
+        with pytest.raises(ValueError):
+            point_mutation("ATGC", 9, "G")
