@@ -61,6 +61,7 @@ nav:
       - Core Primitives: core.md
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
+      - Mathematics Foundations: mathematics.md
       - Physics Foundations: physics.md
       - Chemistry Foundations: chemistry.md
       - Biology Foundations: biology.md
