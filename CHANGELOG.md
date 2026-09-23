@@ -5,6 +5,33 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-09-23
+
+### Fixed
+- Foundation `Serializable` conformance: all 17 concrete classes now accept
+  the `SerializationFormat` enum (plain `"json"` still accepted) and report
+  enum formats; `Constraint.evaluate` maps the `ConstraintSeverity` enum to
+  the `ConstraintResult` wire literal; stale `type: ignore` comments removed.
+  `mypy --strict src/quantsmind/foundation` (27 files) is clean.
+- Two runtime `NameError` crashes: equatorial galactic conversion used an
+  undefined `l` instead of `lon`; Newton-Raphson derivative called undefined
+  `f()` instead of `func()`. Both covered by new regression tests.
+- 18 undefined-name annotations (`List`/`Tuple`/`Optional`/`Callable`/`Any`),
+  10 import-then-class `F811` shadows, 2 loop-variable closures (B023) in
+  calculus Jacobian/Hessian. Repo-wide F821/F811/B023 now clean.
+- `datetime.utcnow()` (deprecated) replaced repo-wide with naive-preserving
+  `datetime.now(UTC).replace(tzinfo=None)`; `ruff UP017` applied.
+- `ai_reasoning` lint (`E501`/`E741`) fixed.
+- Docs: `foundation-package-specification.md` linked in mkdocs nav;
+  recommender `Raises` docstring fixed for griffe.
+
+### Changed
+- Version raised to **1.0.1** (`pyproject.toml`, `quantsmind.__version__`,
+  READMEs, release gate, `api_manifest.json` regenerated — same 117 modules,
+  669 symbols, public API unchanged).
+- `scripts/generate_api_manifest.py` now stamps the manifest version from
+  `quantsmind.__version__` instead of a hardcoded string.
+
 ## [1.0.0] - 2026-09-13
 
 ### Added
