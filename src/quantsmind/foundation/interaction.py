@@ -47,7 +47,7 @@ import logging
 import uuid
 from typing import Any
 
-from quantsmind.foundation.enums import InteractionType
+from quantsmind.foundation.enums import InteractionType, SerializationFormat
 from quantsmind.foundation.event import Event
 from quantsmind.foundation.exceptions import (
     InvalidInteractionError,
@@ -59,6 +59,7 @@ from quantsmind.foundation.interfaces import (
 from quantsmind.foundation.types import (
     EntityID,
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -261,7 +262,9 @@ class Interaction(Serializable, Validatable):
         logger.debug(f"Set effect {key} for interaction {self._id}")
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the interaction to bytes.
 
         Args:
@@ -274,9 +277,12 @@ class Interaction(Serializable, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = interaction.serialize(format="json")
+            >>> data = interaction.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -294,7 +300,9 @@ class Interaction(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Interaction:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Interaction:
         """Deserialize the interaction from bytes.
 
         Args:
@@ -309,9 +317,12 @@ class Interaction(Serializable, Validatable):
             InvalidInteractionError: If data is invalid
 
         Example:
-            >>> interaction = Interaction.deserialize(data, format="json")
+            >>> interaction = Interaction.deserialize(data, format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -343,7 +354,7 @@ class Interaction(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -352,7 +363,7 @@ class Interaction(Serializable, Validatable):
         Example:
             >>> formats = Interaction.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

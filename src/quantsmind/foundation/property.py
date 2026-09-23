@@ -51,6 +51,7 @@ from quantsmind.foundation.constants import (
     MAX_NAME_LENGTH,
     RESERVED_PROPERTY_NAMES,
 )
+from quantsmind.foundation.enums import SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidPropertyError,
 )
@@ -60,6 +61,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -288,7 +290,9 @@ class Property(Serializable, Validatable):
         logger.debug(f"Updated property {self._name} metadata")
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the property to bytes.
 
         Args:
@@ -301,9 +305,12 @@ class Property(Serializable, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = property.serialize(format="json")
+            >>> data = property.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -319,7 +326,9 @@ class Property(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Property:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Property:
         """Deserialize the property from bytes.
 
         Args:
@@ -334,9 +343,12 @@ class Property(Serializable, Validatable):
             InvalidPropertyError: If data is invalid
 
         Example:
-            >>> property = Property.deserialize(data, format="json")
+            >>> property = Property.deserialize(data, format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -373,7 +385,7 @@ class Property(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -382,7 +394,7 @@ class Property(Serializable, Validatable):
         Example:
             >>> formats = Property.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

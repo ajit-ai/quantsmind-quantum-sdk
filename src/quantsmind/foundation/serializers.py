@@ -41,6 +41,7 @@ import json
 import logging
 from typing import Any
 
+from quantsmind.foundation.enums import SerializationFormat
 from quantsmind.foundation.exceptions import SerializationError
 from quantsmind.foundation.interfaces import Serializable
 
@@ -106,13 +107,14 @@ def serialize_to_dict(obj: Serializable) -> dict[str, Any]:
         >>> data_dict = serialize_to_dict(serializable_obj)
     """
     try:
-        data = obj.serialize(format="json")
-        return from_json(data.decode("utf-8"))
+        data = obj.serialize(format=SerializationFormat.JSON)
+        result: dict[str, Any] = from_json(data.decode("utf-8"))
+        return result
     except Exception as e:
         raise SerializationError(f"Failed to serialize to dict: {e}") from e
 
 
-def deserialize_from_dict(cls: type, data: dict[str, Any]) -> Any:
+def deserialize_from_dict(cls: type[Serializable], data: dict[str, Any]) -> Any:
     """Deserialize an object from a dictionary.
 
     Args:
@@ -130,12 +132,16 @@ def deserialize_from_dict(cls: type, data: dict[str, Any]) -> Any:
     """
     try:
         json_str = to_json(data)
-        return cls.deserialize(json_str.encode("utf-8"), format="json")
+        return cls.deserialize(json_str.encode("utf-8"), format=SerializationFormat.JSON)
     except Exception as e:
         raise SerializationError(f"Failed to deserialize from dict: {e}") from e
 
 
-def serialize_to_file(obj: Serializable, filepath: str, format: str = "json") -> None:
+def serialize_to_file(
+    obj: Serializable,
+    filepath: str,
+    format: SerializationFormat = SerializationFormat.JSON,
+) -> None:
     """Serialize a Serializable object to a file.
 
     Args:
@@ -158,7 +164,11 @@ def serialize_to_file(obj: Serializable, filepath: str, format: str = "json") ->
         raise SerializationError(f"Failed to serialize to file: {e}") from e
 
 
-def deserialize_from_file(cls: type, filepath: str, format: str = "json") -> Any:
+def deserialize_from_file(
+    cls: type[Serializable],
+    filepath: str,
+    format: SerializationFormat = SerializationFormat.JSON,
+) -> Any:
     """Deserialize an object from a file.
 
     Args:

@@ -43,10 +43,10 @@ Future Extensions
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
-from quantsmind.foundation.enums import TimeType
+from quantsmind.foundation.enums import SerializationFormat, TimeType
 from quantsmind.foundation.exceptions import (
     InvalidTimeError,
     TimeReferenceError,
@@ -57,6 +57,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -113,7 +114,7 @@ class Time(Serializable, Validatable):
 
         if value is None:
             if time_type == TimeType.CONTINUOUS:
-                self._value: Any = datetime.utcnow()
+                self._value: Any = datetime.now(UTC).replace(tzinfo=None)
             else:
                 self._value = 0
         else:
@@ -128,16 +129,16 @@ class Time(Serializable, Validatable):
         Raises:
             InvalidTimeError: If value is invalid
         """
-        if self._time_type == TimeType.CONTINUOUS:
-            if not isinstance(self._value, datetime):
-                raise InvalidTimeError(
-                    f"Continuous time must be datetime, got {type(self._value)}"
-                )
-        elif self._time_type == TimeType.DISCRETE:
-            if not isinstance(self._value, int) or self._value < 0:
-                raise InvalidTimeError(
-                    f"Discrete time must be non-negative integer, got {self._value}"
-                )
+        if self._time_type == TimeType.CONTINUOUS and not isinstance(self._value, datetime):
+            raise InvalidTimeError(
+                f"Continuous time must be datetime, got {type(self._value)}"
+            )
+        elif self._time_type == TimeType.DISCRETE and (
+            not isinstance(self._value, int) or self._value < 0
+        ):
+            raise InvalidTimeError(
+                f"Discrete time must be non-negative integer, got {self._value}"
+            )
 
     @property
     def value(self) -> Any:
@@ -266,7 +267,7 @@ class Time(Serializable, Validatable):
             raise TimeReferenceError("Reference time required for conversion")
 
         # Convert discrete steps to datetime
-        delta = timedelta(seconds=self._value)  # type: ignore
+        delta = timedelta(seconds=self._value)
         new_value = self._reference + delta
         return Time(value=new_value, time_type=TimeType.CONTINUOUS, reference=self._reference)
 
@@ -292,12 +293,14 @@ class Time(Serializable, Validatable):
             raise TimeReferenceError("Reference time required for conversion")
 
         # Convert datetime to discrete steps
-        delta = self._value - self._reference  # type: ignore
+        delta = self._value - self._reference
         new_value = int(delta.total_seconds() / step_size)
         return Time(value=new_value, time_type=TimeType.DISCRETE, reference=self._reference)
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the time to bytes.
 
         Args:
@@ -312,7 +315,10 @@ class Time(Serializable, Validatable):
         Example:
             >>> data = time.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -329,7 +335,9 @@ class Time(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Time:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Time:
         """Deserialize the time from bytes.
 
         Args:
@@ -346,7 +354,10 @@ class Time(Serializable, Validatable):
         Example:
             >>> time = Time.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -355,6 +366,7 @@ class Time(Serializable, Validatable):
             obj = json.loads(data.decode("utf-8"))
             time_type = TimeType(obj["time_type"])
 
+            value: Any
             if time_type == TimeType.CONTINUOUS:
                 value = datetime.fromisoformat(obj["value"])
             else:
@@ -384,7 +396,7 @@ class Time(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -393,7 +405,7 @@ class Time(Serializable, Validatable):
         Example:
             >>> formats = Time.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

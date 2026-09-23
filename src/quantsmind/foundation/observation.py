@@ -44,10 +44,10 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
-from quantsmind.foundation.enums import ObservationType
+from quantsmind.foundation.enums import ObservationType, SerializationFormat
 from quantsmind.foundation.exceptions import (
     InvalidObservationError,
 )
@@ -57,6 +57,7 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
+    SerializedData,
     ValidationResult,
 )
 
@@ -110,7 +111,9 @@ class Observation(Serializable, Validatable):
         """
         self._id: str = str(uuid.uuid4())
         self._observation_type: ObservationType = observation_type
-        self._timestamp: datetime = timestamp or datetime.utcnow()
+        self._timestamp: datetime = timestamp or datetime.now(UTC).replace(
+            tzinfo=None
+        )
         self._value: Any | None = value
         self._uncertainty: float | None = uncertainty
         self._metadata: MetadataDict = metadata or {}
@@ -227,7 +230,9 @@ class Observation(Serializable, Validatable):
         logger.debug(f"Updated observation uncertainty: {uncertainty}")
 
     # Serializable interface implementation
-    def serialize(self, format: str = "json") -> bytes:
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the observation to bytes.
 
         Args:
@@ -242,7 +247,10 @@ class Observation(Serializable, Validatable):
         Example:
             >>> data = observation.serialize(format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -258,7 +266,9 @@ class Observation(Serializable, Validatable):
         return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def deserialize(cls, data: bytes, format: str = "json") -> Observation:
+    def deserialize(
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Observation:
         """Deserialize the observation from bytes.
 
         Args:
@@ -275,7 +285,10 @@ class Observation(Serializable, Validatable):
         Example:
             >>> observation = Observation.deserialize(data, format="json")
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -305,7 +318,7 @@ class Observation(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[str]:
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -314,7 +327,7 @@ class Observation(Serializable, Validatable):
         Example:
             >>> formats = Observation.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:

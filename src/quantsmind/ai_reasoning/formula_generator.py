@@ -197,10 +197,10 @@ class FormulaGenerator:
         """
         h = params.get("h", 0)
         k = params.get("k", 0)
-        l = params.get("l", 0)
+        ell = params.get("l", 0)  # `l` avoids ambiguous-name lint (E741)
         r = params.get("r", 1)
 
-        return f"(x - {h})^2 + (y - {k})^2 + (z - {l})^2 = {r}^2"
+        return f"(x - {h})^2 + (y - {k})^2 + (z - {ell})^2 = {r}^2"
 
     def _gaussian_formula(self, params: dict[str, Any]) -> str:
         """Build Gaussian formula.
@@ -325,7 +325,8 @@ class FormulaGenerator:
         Example:
             >>> repr(generator)
         """
-        return f"FormulaGenerator(name={self._name}, history_entries={len(self._generation_history)})"
+        count = len(self._generation_history)
+        return f"FormulaGenerator(name={self._name}, history_entries={count})"
 
 
 __all__ = [

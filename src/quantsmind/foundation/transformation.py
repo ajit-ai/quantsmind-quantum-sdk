@@ -2,7 +2,8 @@
 Transformation Module
 
 This module provides transformation mappings within the QuantsMind SDK.
-Transformation represents mappings that convert entities, states, or systems from one representation to another.
+Transformation represents mappings that convert entities, states, or systems
+from one representation to another.
 
 Purpose
 -------
@@ -47,7 +48,7 @@ import uuid
 from collections.abc import Callable
 from typing import Any
 
-from quantsmind.foundation.enums import TransformationType
+from quantsmind.foundation.enums import SerializationFormat, TransformationType
 from quantsmind.foundation.exceptions import (
     ExecutionError as TransformationExecutionError,
 )
@@ -60,7 +61,6 @@ from quantsmind.foundation.interfaces import (
 )
 from quantsmind.foundation.types import (
     MetadataDict,
-    SerializationFormat,
     SerializedData,
     ValidationResult,
 )
@@ -245,11 +245,14 @@ class Transformation(Serializable, Validatable):
         )
 
     # Serializable interface implementation
-    def serialize(self, format: SerializationFormat = "json") -> SerializedData:  # type: ignore[override]
+    def serialize(
+        self, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> SerializedData:
         """Serialize the transformation to bytes.
 
         Args:
-            format: Serialization format (currently only "json" supported)
+            format: Serialization format (currently only JSON supported;
+                plain ``"json"`` string accepted for backward compatibility)
 
         Returns:
             Serialized data as bytes
@@ -258,9 +261,12 @@ class Transformation(Serializable, Validatable):
             NotImplementedError: If format is not supported
 
         Example:
-            >>> data = transformation.serialize(format="json")
+            >>> data = transformation.serialize(format=SerializationFormat.JSON)
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -276,13 +282,14 @@ class Transformation(Serializable, Validatable):
 
     @classmethod
     def deserialize(
-        cls, data: SerializedData, format: SerializationFormat = "json"
-    ) -> Transformation:  # type: ignore[override]
+        cls, data: SerializedData, format: SerializationFormat | str = SerializationFormat.JSON
+    ) -> Transformation:
         """Deserialize the transformation from bytes.
 
         Args:
             data: Serialized data as bytes
-            format: Serialization format (currently only "json" supported)
+            format: Serialization format (currently only JSON supported;
+                plain ``"json"`` string accepted for backward compatibility)
 
         Returns:
             Deserialized Transformation instance
@@ -295,7 +302,10 @@ class Transformation(Serializable, Validatable):
             Callable rules cannot be fully serialized. This method creates
             a placeholder transformation that must be configured with actual rules.
         """
-        if format != "json":
+        is_json = format is SerializationFormat.JSON or (
+            isinstance(format, str) and format.lower() == "json"
+        )
+        if not is_json:
             raise NotImplementedError(f"Serialization format '{format}' not yet implemented")
 
         import json
@@ -328,7 +338,7 @@ class Transformation(Serializable, Validatable):
         return True
 
     @classmethod
-    def get_supported_formats(cls) -> list[SerializationFormat]:  # type: ignore[override]
+    def get_supported_formats(cls) -> list[SerializationFormat]:
         """Get supported serialization formats.
 
         Returns:
@@ -337,7 +347,7 @@ class Transformation(Serializable, Validatable):
         Example:
             >>> formats = Transformation.get_supported_formats()
         """
-        return ["json"]
+        return [SerializationFormat.JSON]
 
     # Validatable interface implementation
     def validate(self) -> ValidationResult:
