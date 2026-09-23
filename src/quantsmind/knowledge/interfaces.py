@@ -76,8 +76,8 @@ class IDataset(ABC):
         ...     pass
     """
 
-    @abstractmethod
     @property
+    @abstractmethod
     def id(self) -> DatasetID:
         """Get the dataset ID.
 
@@ -89,8 +89,8 @@ class IDataset(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def name(self) -> str:
         """Get the dataset name.
 
@@ -102,8 +102,8 @@ class IDataset(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def schema(self) -> DatasetSchema:
         """Get the dataset schema.
 
@@ -115,8 +115,8 @@ class IDataset(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def data(self) -> DatasetData:
         """Get the dataset data.
 
@@ -128,8 +128,8 @@ class IDataset(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def size(self) -> int:
         """Get the dataset size.
 
@@ -465,8 +465,8 @@ class IGraph(ABC):
         ...     pass
     """
 
-    @abstractmethod
     @property
+    @abstractmethod
     def id(self) -> GraphID:
         """Get the graph ID.
 

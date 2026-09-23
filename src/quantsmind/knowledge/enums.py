@@ -185,6 +185,7 @@ class ProvenanceType(Enum):
     AUDIT = "audit"
     TRANSFORMATION = "transformation"
     DERIVATION = "derivation"
+    DATASET = "dataset"
 
 
 class ReasoningType(Enum):
@@ -218,6 +219,8 @@ class ReasoningType(Enum):
     CAUSAL = "causal"
     PROBABILISTIC = "probabilistic"
     HYBRID = "hybrid"
+    EXPLANATION = "explanation"
+    PREDICTION = "prediction"
 
 
 class QualityType(Enum):
@@ -402,6 +405,121 @@ class SerializationFormat(Enum):
     JSON_LD = "json_ld"
 
 
+class DataType(Enum):
+    """Data type enumeration.
+
+    Defines the generic data kinds handled across knowledge workflows.
+
+    Example:
+        >>> dtype = DataType.STRUCTURED
+    """
+
+    STRUCTURED = "structured"
+    UNSTRUCTURED = "unstructured"
+    TIME_SERIES = "time_series"
+    STREAM = "stream"
+    CUSTOM = "custom"
+
+
+class IndexType(Enum):
+    """Index type enumeration.
+
+    Defines the index backends supported for knowledge retrieval.
+
+    Example:
+        >>> itype = IndexType.SEMANTIC
+    """
+
+    SEMANTIC = "semantic"
+    GRAPH = "graph"
+    VECTOR = "vector"
+    FULL_TEXT = "full_text"
+    CUSTOM = "custom"
+
+
+class RepositoryType(Enum):
+    """Repository type enumeration.
+
+    Defines the repository kinds supported for knowledge storage.
+
+    Example:
+        >>> rtype = RepositoryType.KNOWLEDGE
+    """
+
+    KNOWLEDGE = "knowledge"
+    DATASET = "dataset"
+    MODEL = "model"
+    DOCUMENT = "document"
+    MEMORY = "memory"
+    CUSTOM = "custom"
+
+
+class SchemaType(Enum):
+    """Schema type enumeration.
+
+    Defines the schema kinds supported for knowledge validation.
+
+    Example:
+        >>> stype = SchemaType.JSON
+    """
+
+    JSON = "json"
+    AVRO = "avro"
+    PARQUET = "parquet"
+    OWL = "owl"
+    CUSTOM = "custom"
+
+
+class SerializationType(Enum):
+    """Serialization type enumeration.
+
+    Defines the high-level serialization families (see SerializationFormat
+    for concrete wire formats).
+
+    Example:
+        >>> stype = SerializationType.JSON
+    """
+
+    JSON = "json"
+    BINARY = "binary"
+    TEXT = "text"
+    CUSTOM = "custom"
+
+
+class ValidationType(Enum):
+    """Validation type enumeration.
+
+    Defines the validation modes supported.
+
+    Example:
+        >>> vtype = ValidationType.STRICT
+    """
+
+    STRICT = "strict"
+    MODERATE = "moderate"
+    LENIENT = "lenient"
+    TYPE = "type"
+    SCHEMA = "schema"
+    RANGE = "range"
+    FORMAT = "format"
+    CUSTOM = "custom"
+
+
+class VersionType(Enum):
+    """Version type enumeration.
+
+    Defines the versioning schemes supported.
+
+    Example:
+        >>> vtype = VersionType.SEMANTIC
+    """
+
+    SEMANTIC = "semantic"
+    TIMESTAMP = "timestamp"
+    SEQUENTIAL = "sequential"
+    CUSTOM = "custom"
+
+
 # Export
 __all__ = [
     "DatasetType",
@@ -416,4 +534,11 @@ __all__ = [
     "EvidenceType",
     "DataSourceType",
     "SerializationFormat",
+    "DataType",
+    "IndexType",
+    "RepositoryType",
+    "SchemaType",
+    "SerializationType",
+    "ValidationType",
+    "VersionType",
 ]

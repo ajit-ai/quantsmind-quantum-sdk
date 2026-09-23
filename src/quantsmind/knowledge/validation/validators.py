@@ -379,8 +379,48 @@ class ValidatorRegistry:
         return f"ValidatorRegistry(validators={len(self._validators)})"
 
 
+class KnowledgeValidator(Validator):
+    """Convenience validator constructed from a strictness level.
+
+    Maps the ``strictness`` string onto a :class:`ValidationType` and
+    delegates everything else to :class:`Validator`.
+
+    Example:
+        >>> validator = KnowledgeValidator(strictness="strict")
+    """
+
+    _STRICTNESS_MAP = {
+        "strict": ValidationType.STRICT,
+        "moderate": ValidationType.MODERATE,
+        "lenient": ValidationType.LENIENT,
+    }
+
+    def __init__(
+        self,
+        strictness: str = "strict",
+        metadata: dict[str, Any] | None = None,
+    ) -> None:
+        """Initialize a KnowledgeValidator.
+
+        Args:
+            strictness: Validation strictness
+            metadata: Validator metadata
+
+        Example:
+            >>> validator = KnowledgeValidator(strictness="strict")
+        """
+        level = self._STRICTNESS_MAP.get(strictness.lower(), ValidationType.STRICT)
+        super().__init__(
+            validator_id=f"knowledge_validator_{strictness}",
+            name="Knowledge Validator",
+            validation_type=level,
+            metadata=metadata,
+        )
+
+
 # Export
 __all__ = [
     "Validator",
     "ValidatorRegistry",
+    "KnowledgeValidator",
 ]
