@@ -60,7 +60,8 @@ nav:
       - Package Dependency Rules: package-dependency-rules.md
       - API Design Principles: api-design-principles.md
       - Documentation Standards: documentation-standards.md
-      - Foundation Package Specification: foundation-specification/README.md
+      - Foundation Package Specification: foundation-package-specification.md
+      - Foundation Full Specification: foundation-specification/README.md
       - "Foundation Specification Deep-Dive":
           - Module Descriptions: foundation-specification/01-module-descriptions.md
           - Supporting Classes: foundation-specification/03-supporting-classes.md
