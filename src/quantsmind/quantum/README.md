@@ -65,6 +65,10 @@ print(solve.interpretation.status.value)  # "executed"
 print(round(solve.objective_value, 3))  # 0.038
 ```
 
+New to quantum execution? Start smaller: `python examples/bell_state.py`
+runs a declarative H + CNOT program on the local statevector backend
+(see `docs/bell-state-example.md`).
+
 Supported domains (all classical by default; quantum/hybrid enabled when the
 quantum extra is installed): **finance** (incl. portfolio optimization),
 **data** (feature selection, clustering), **ml** (classification, regression,
