@@ -86,7 +86,9 @@ class JsonSerializer:
         try:
             return json.loads(data)
         except json.JSONDecodeError as e:
-            raise MeasurementError(f"Failed to deserialize JSON: {e}", measurement="serialization")
+            raise MeasurementError(
+                f"Failed to deserialize JSON: {e}", measurement="serialization"
+            ) from e
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.

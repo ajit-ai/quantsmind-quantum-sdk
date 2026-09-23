@@ -296,10 +296,8 @@ class AdamOptimizer(GradientOptimizer):
 
         m = 0.0  # First moment
         v = 0.0  # Second moment
-        t = 0  # Time step
 
-        for _ in range(self._max_iterations):
-            t += 1
+        for t in range(1, self._max_iterations + 1):
             grad = gradient(x)
 
             m = self._beta1 * m + (1 - self._beta1) * grad

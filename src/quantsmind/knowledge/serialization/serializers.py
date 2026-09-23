@@ -201,13 +201,17 @@ class Serializer:
             try:
                 return self._serialize_function(data)
             except Exception as e:
-                raise SerializationError(f"Serialization failed: {str(e)}", {"serializer_id": self._id})
+                raise SerializationError(
+                    f"Serialization failed: {str(e)}", {"serializer_id": self._id}
+                ) from e
 
         # Default JSON serialization
         try:
             return json.dumps(data, **self._parameters)
         except Exception as e:
-            raise SerializationError(f"JSON serialization failed: {str(e)}", {"serializer_id": self._id})
+            raise SerializationError(
+                f"JSON serialization failed: {str(e)}", {"serializer_id": self._id}
+            ) from e
 
     def deserialize(self, serialized: str) -> Any:
         """Deserialize data.
@@ -225,13 +229,17 @@ class Serializer:
             try:
                 return self._deserialize_function(serialized)
             except Exception as e:
-                raise SerializationError(f"Deserialization failed: {str(e)}", {"serializer_id": self._id})
+                raise SerializationError(
+                    f"Deserialization failed: {str(e)}", {"serializer_id": self._id}
+                ) from e
 
         # Default JSON deserialization
         try:
             return json.loads(serialized)
         except Exception as e:
-            raise SerializationError(f"JSON deserialization failed: {str(e)}", {"serializer_id": self._id})
+            raise SerializationError(
+                f"JSON deserialization failed: {str(e)}", {"serializer_id": self._id}
+            ) from e
 
     def serialize_all(self, data_list: list[Any]) -> list[str]:
         """Serialize multiple data items.

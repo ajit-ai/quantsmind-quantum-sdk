@@ -261,7 +261,9 @@ class InferenceEngine(IReasoner):
             try:
                 return self._inference_function(query, self._rules)
             except Exception as e:
-                raise ReasoningError(f"Inference failed: {str(e)}", {"engine_id": self._id})
+                raise ReasoningError(
+                    f"Inference failed: {str(e)}", {"engine_id": self._id}
+                ) from e
 
         # Placeholder implementation
         return {

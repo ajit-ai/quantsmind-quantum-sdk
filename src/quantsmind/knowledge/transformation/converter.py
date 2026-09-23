@@ -177,7 +177,9 @@ class Converter:
             try:
                 return self._convert_function(data)
             except Exception as e:
-                raise TransformationError(f"Conversion failed: {str(e)}", {"converter_id": self._id})
+                raise TransformationError(
+                    f"Conversion failed: {str(e)}", {"converter_id": self._id}
+                ) from e
 
         # Default conversion attempts
         if self._target_type == "string":

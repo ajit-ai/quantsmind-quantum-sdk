@@ -234,7 +234,9 @@ class PredictionEngine(IReasoner):
                 self._record_prediction(query, prediction)
                 return prediction
             except Exception as e:
-                raise ReasoningError(f"Prediction failed: {str(e)}", {"engine_id": self._id})
+                raise ReasoningError(
+                    f"Prediction failed: {str(e)}", {"engine_id": self._id}
+                ) from e
 
         # Placeholder implementation
         prediction = {

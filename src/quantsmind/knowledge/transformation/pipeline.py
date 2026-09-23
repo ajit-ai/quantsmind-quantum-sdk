@@ -184,7 +184,9 @@ class Pipeline:
             try:
                 result = transformation.apply(result)
             except Exception as e:
-                raise TransformationError(f"Pipeline step failed: {str(e)}", {"pipeline_id": self._id})
+                raise TransformationError(
+                    f"Pipeline step failed: {str(e)}", {"pipeline_id": self._id}
+                ) from e
 
         return result
 

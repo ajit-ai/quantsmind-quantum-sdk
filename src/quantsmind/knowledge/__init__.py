@@ -38,6 +38,13 @@ Modules
 
 from __future__ import annotations
 
+# Foundational modules
+from quantsmind.knowledge.constants import (
+    DEFAULT_TIMEOUT,
+    MAX_BATCH_SIZE,
+    SDK_VERSION,
+)
+
 # Dataset modules
 from quantsmind.knowledge.dataset.dataset import Dataset
 from quantsmind.knowledge.dataset.dataset_registry import DatasetRegistry
@@ -54,21 +61,6 @@ from quantsmind.knowledge.datasource.database_source import DatabaseSource
 from quantsmind.knowledge.datasource.datasource import DataSource
 from quantsmind.knowledge.datasource.file_source import FileSource
 from quantsmind.knowledge.datasource.stream_source import StreamSource
-
-# Evidence modules
-from quantsmind.knowledge.evidence.evidence import Evidence
-from quantsmind.knowledge.evidence.fact import Fact
-from quantsmind.knowledge.evidence.hypothesis import Hypothesis
-from quantsmind.knowledge.evidence.law import Law
-from quantsmind.knowledge.evidence.rule import Rule as EvidenceRule
-from quantsmind.knowledge.evidence.theory import Theory
-
-# Foundational modules
-from quantsmind.knowledge.constants import (
-    DEFAULT_TIMEOUT,
-    MAX_BATCH_SIZE,
-    SDK_VERSION,
-)
 from quantsmind.knowledge.enums import (
     DataType,
     EvidenceType,
@@ -85,6 +77,14 @@ from quantsmind.knowledge.enums import (
     ValidationType,
     VersionType,
 )
+
+# Evidence modules
+from quantsmind.knowledge.evidence.evidence import Evidence
+from quantsmind.knowledge.evidence.fact import Fact
+from quantsmind.knowledge.evidence.hypothesis import Hypothesis
+from quantsmind.knowledge.evidence.law import Law
+from quantsmind.knowledge.evidence.rule import Rule as EvidenceRule
+from quantsmind.knowledge.evidence.theory import Theory
 from quantsmind.knowledge.exceptions import (
     DatasetError,
     DatasourceError,
