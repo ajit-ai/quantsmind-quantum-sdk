@@ -256,7 +256,7 @@ class Workflow:
         """
         return list(self._jobs.values())
 
-    def validate(self) -> Tuple[bool, list[str]]:
+    def validate(self) -> tuple[bool, list[str]]:
         """Validate the workflow.
 
         Returns:

@@ -33,7 +33,7 @@ from typing import Any
 from quantsmind.runtime.constants import DEFAULT_MEMORY_LIMIT
 from quantsmind.runtime.enums import ResourceType
 from quantsmind.runtime.resource import Resource
-from quantsmind.runtime.types import MemoryResource, ResourceCapacity, ResourceID
+from quantsmind.runtime.types import ResourceCapacity, ResourceID
 
 logger = logging.getLogger(__name__)
 

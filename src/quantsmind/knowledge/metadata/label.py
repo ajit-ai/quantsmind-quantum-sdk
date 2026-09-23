@@ -29,7 +29,6 @@ from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import MetadataError
-from quantsmind.knowledge.types import Label
 
 
 class Label:

@@ -236,7 +236,7 @@ class Pipeline:
         """
         return self._stages.copy()
 
-    def validate(self) -> Tuple[bool, list[str]]:
+    def validate(self) -> tuple[bool, list[str]]:
         """Validate the pipeline.
 
         Returns:

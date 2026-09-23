@@ -218,7 +218,7 @@ class Differentiator:
         jacobian = []
         for i in range(output_dim):
             # Compute gradient of i-th component function
-            def component_func(x_vals: list[float]) -> float:
+            def component_func(x_vals: list[float], i: int = i) -> float:
                 return func(x_vals)[i]
 
             grad = self.gradient(component_func, x)
@@ -249,7 +249,7 @@ class Differentiator:
         for i in range(n):
             for j in range(n):
                 # Compute second partial derivative
-                def partial_func(x_vals: list[float]) -> float:
+                def partial_func(x_vals: list[float], i: int = i) -> float:
                     return self.partial_derivative(func, x_vals, i)
 
                 hessian[i][j] = self.partial_derivative(partial_func, x, j)

@@ -39,7 +39,7 @@ from __future__ import annotations
 
 import logging
 import math
-from typing import List, Optional, Tuple, Union
+from typing import Any, List, Optional, Tuple, Union
 
 from quantsmind.math.exceptions import GeometryError
 from quantsmind.math.exceptions import ValueError as MathValueError

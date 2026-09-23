@@ -28,8 +28,6 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from typing import Any
 
-from quantsmind.knowledge.types import Annotation
-
 
 class Annotation:
     """Concrete implementation of an annotation.

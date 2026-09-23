@@ -39,7 +39,6 @@ import logging
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from quantsmind.math.exceptions import GraphError
-from quantsmind.math.types import Edge, Node
 
 logger = logging.getLogger(__name__)
 

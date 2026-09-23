@@ -174,7 +174,7 @@ class EquatorialCoordinate(ICoordinate):
         lon = (ra_rad - math.pi) * 180 / math.pi
         b = dec_rad * 180 / math.pi
         
-        return (l % 360, b)
+        return (lon % 360, b)
 
     def to_cartesian(self) -> tuple[float, float, float]:
         """Convert to Cartesian coordinates.
@@ -214,7 +214,7 @@ class EquatorialCoordinate(ICoordinate):
         elif target_system == "galactic":
             from quantsmind.scientific.coordinates.galactic import GalacticCoordinate
             lon, b = self.to_galactic()
-            return GalacticCoordinate(l, b, self._distance)
+            return GalacticCoordinate(lon, b, self._distance)
         elif target_system == "cartesian":
             from quantsmind.scientific.coordinates.cartesian import CartesianCoordinate
             x, y, z = self.to_cartesian()

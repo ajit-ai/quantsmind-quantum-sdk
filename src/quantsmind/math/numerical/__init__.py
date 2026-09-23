@@ -125,7 +125,7 @@ class NumericalSolver:
 
             # Numerical derivative
             h = 1e-6
-            f_prime = (func(x + h) - f(x)) / h
+            f_prime = (func(x + h) - func(x)) / h
 
             if abs(f_prime) < self._tolerance:
                 raise ConvergenceError("Derivative too small, cannot continue")

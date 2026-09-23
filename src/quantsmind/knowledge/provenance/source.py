@@ -270,7 +270,7 @@ class SourceRegistry:
         """
         return self._sources.get(source_id)
 
-    def get_by_type(self, source_type: str) -> List[Source]:
+    def get_by_type(self, source_type: str) -> list[Source]:
         """Get sources by type.
 
         Args:
@@ -284,7 +284,7 @@ class SourceRegistry:
         """
         return [source for source in self._sources.values() if source.source_type == source_type]
 
-    def list_all(self) -> List[Source]:
+    def list_all(self) -> list[Source]:
         """List all registered sources.
 
         Returns:

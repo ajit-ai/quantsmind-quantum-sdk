@@ -303,7 +303,7 @@ class CreatorRegistry:
                 return creator
         return None
 
-    def get_by_type(self, creator_type: str) -> List[Creator]:
+    def get_by_type(self, creator_type: str) -> list[Creator]:
         """Get creators by type.
 
         Args:
@@ -317,7 +317,7 @@ class CreatorRegistry:
         """
         return [creator for creator in self._creators.values() if creator.creator_type == creator_type]
 
-    def list_all(self) -> List[Creator]:
+    def list_all(self) -> list[Creator]:
         """List all registered creators.
 
         Returns:
