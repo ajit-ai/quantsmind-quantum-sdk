@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -92,7 +92,7 @@ class Job:
         self._priority = priority
         self._dependencies = dependencies or []
         self._results: dict[TaskID, ExecutionResult] = {}
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._started_at: datetime | None = None
         self._completed_at: datetime | None = None
         self._metadata: dict[str, Any] = {
@@ -280,7 +280,7 @@ class Job:
             raise JobError(f"Cannot execute job in state: {self._state}", job_id=self._job_id)
 
         self._state = ExecutionState.RUNNING
-        self._started_at = datetime.utcnow()
+        self._started_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Executing job: {self._job_id}")
 
         try:
@@ -290,12 +290,12 @@ class Job:
                 self._results[task.task_id] = result
 
             self._state = ExecutionState.COMPLETED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.info(f"Job completed: {self._job_id}")
             return self._results
         except Exception as e:
             self._state = ExecutionState.FAILED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.error(f"Job failed: {self._job_id}", exc_info=True)
             raise JobError(f"Job execution failed: {str(e)}", job_id=self._job_id) from e
 
@@ -312,7 +312,7 @@ class Job:
             task.cancel()
         
         self._state = ExecutionState.CANCELLED
-        self._completed_at = datetime.utcnow()
+        self._completed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Cancelled job: {self._job_id}")
 
     def set_metadata(self, key: str, value: Any) -> None:

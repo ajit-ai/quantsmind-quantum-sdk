@@ -25,6 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
@@ -234,7 +235,7 @@ class RuleEngine(IReasoner):
                         # Record execution
                         self._rule_executions.append({
                             "rule_id": rule.get("id", "unknown"),
-                            "timestamp": str(__import__("datetime").datetime.utcnow()),
+                            "timestamp": str(datetime.now(UTC).replace(tzinfo=None)),
                             "input": query,
                             "output": result,
                         })

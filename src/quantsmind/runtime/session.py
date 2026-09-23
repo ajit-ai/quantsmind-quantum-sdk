@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -73,7 +73,7 @@ class RuntimeSession:
         self._session_id = session_id or str(uuid.uuid4())
         self._context = ExecutionContext(self._session_id)
         self._state = ExecutionState.CREATED
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._closed_at: datetime | None = None
         self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
@@ -230,7 +230,7 @@ class RuntimeSession:
         if self._state not in [ExecutionState.RUNNING, ExecutionState.PAUSED]:
             logger.warning(f"Closing session in state: {self._state}")
         self._state = ExecutionState.COMPLETED
-        self._closed_at = datetime.utcnow()
+        self._closed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Closed session: {self._session_id}")
 
     def cancel(self) -> None:
@@ -240,7 +240,7 @@ class RuntimeSession:
             >>> session.cancel()
         """
         self._state = ExecutionState.CANCELLED
-        self._closed_at = datetime.utcnow()
+        self._closed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Cancelled session: {self._session_id}")
 
     def set_metadata(self, key: str, value: Any) -> None:

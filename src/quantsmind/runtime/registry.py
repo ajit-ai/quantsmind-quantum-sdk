@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.exceptions import ValidationError
@@ -104,7 +104,7 @@ class RuntimeRegistry:
             self._components[name] = component
             self._metadata[name] = {
                 "version": version,
-                "registered_at": datetime.utcnow().isoformat(),
+                "registered_at": datetime.now(UTC).replace(tzinfo=None).isoformat(),
                 "metadata": metadata or {},
             }
             logger.debug(f"Registered component: {name}")

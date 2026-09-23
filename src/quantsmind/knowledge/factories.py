@@ -347,8 +347,9 @@ class KnowledgeFactory:
             Observation object
 
         Example:
-            >>> from datetime import datetime
-            >>> observation = factory.create_observation("obs_001", {"value": 42}, datetime.utcnow())
+            >>> from datetime import UTC, datetime
+            >>> obs_time = datetime.now(UTC).replace(tzinfo=None)
+            >>> observation = factory.create_observation("obs_001", {"value": 42}, obs_time)
         """
         from quantsmind.knowledge.observation.observation import Observation
 

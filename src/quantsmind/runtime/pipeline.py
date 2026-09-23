@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -92,7 +92,7 @@ class Pipeline:
         self._priority = priority
         self._dependencies = dependencies or []
         self._results: dict[str, ExecutionResult] = {}
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._started_at: datetime | None = None
         self._completed_at: datetime | None = None
         self._metadata: dict[str, Any] = {
@@ -276,7 +276,7 @@ class Pipeline:
             raise PipelineError(f"Cannot execute pipeline in state: {self._state}", pipeline_id=self._pipeline_id)
 
         self._state = ExecutionState.RUNNING
-        self._started_at = datetime.utcnow()
+        self._started_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Executing pipeline: {self._pipeline_id}")
 
         try:
@@ -286,12 +286,12 @@ class Pipeline:
                 self._results[f"stage_{i}"] = results
 
             self._state = ExecutionState.COMPLETED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.info(f"Pipeline completed: {self._pipeline_id}")
             return self._results
         except Exception as e:
             self._state = ExecutionState.FAILED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.error(f"Pipeline failed: {self._pipeline_id}", exc_info=True)
             raise PipelineError(f"Pipeline execution failed: {str(e)}", pipeline_id=self._pipeline_id) from e
 
@@ -308,7 +308,7 @@ class Pipeline:
             stage.cancel()
         
         self._state = ExecutionState.CANCELLED
-        self._completed_at = datetime.utcnow()
+        self._completed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Cancelled pipeline: {self._pipeline_id}")
 
     def set_metadata(self, key: str, value: Any) -> None:

@@ -28,7 +28,7 @@ quantsmind.knowledge.metadata (metadata)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
@@ -90,8 +90,8 @@ class Dataset(IDataset):
         self._schema = schema or {}
         self._data: DatasetData = data if data is not None else []
         self._metadata = KnowledgeMetadata(metadata or {})
-        self._created_at = datetime.utcnow()
-        self._updated_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     @property
     def id(self) -> DatasetID:
@@ -224,7 +224,7 @@ class Dataset(IDataset):
             record_id = record.get("id", str(uuid4()))
             self._data[record_id] = record
 
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def add_records(self, records: list[dict[str, Any]]) -> None:
         """Add multiple records to the dataset.

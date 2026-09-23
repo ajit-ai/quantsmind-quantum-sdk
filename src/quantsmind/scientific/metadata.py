@@ -23,7 +23,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.scientific.types import MetadataDict, MetadataKey, MetadataValue
@@ -54,8 +54,8 @@ class ScientificMetadata:
             >>> metadata = ScientificMetadata()
         """
         self._data: MetadataDict = data or {}
-        self._created_at = datetime.utcnow()
-        self._updated_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     @property
     def data(self) -> MetadataDict:
@@ -119,7 +119,7 @@ class ScientificMetadata:
             >>> metadata.set("author", "John Doe")
         """
         self._data[key] = value
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def update(self, data: MetadataDict) -> None:
         """Update metadata with new data.
@@ -131,7 +131,7 @@ class ScientificMetadata:
             >>> metadata.update({"author": "John Doe", "date": "2024-01-01"})
         """
         self._data.update(data)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def delete(self, key: MetadataKey) -> bool:
         """Delete a metadata key.
@@ -147,7 +147,7 @@ class ScientificMetadata:
         """
         if key in self._data:
             del self._data[key]
-            self._updated_at = datetime.utcnow()
+            self._updated_at = datetime.now(UTC).replace(tzinfo=None)
             return True
         return False
 
@@ -206,7 +206,7 @@ class ScientificMetadata:
             >>> metadata.clear()
         """
         self._data.clear()
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary.

@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import EvidenceError
@@ -93,7 +93,7 @@ class Theory:
         self._hypotheses: list[str] = []
         self._evidence: list[str] = []
         self._status = status
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

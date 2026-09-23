@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from datetime import datetime
+from datetime import UTC, datetime
 
 from quantsmind.runtime.constants import DEFAULT_METRICS_RETENTION
 from quantsmind.runtime.types import TelemetryData, TelemetryPoint
@@ -87,7 +87,7 @@ class TelemetryCollector:
             >>> collector.record({"cpu_usage": 0.5})
         """
         with self._lock:
-            point = (datetime.utcnow(), data)
+            point = (datetime.now(UTC).replace(tzinfo=None), data)
             self._telemetry_points.append(point)
             self._cleanup_old_points()
 
@@ -102,7 +102,7 @@ class TelemetryCollector:
         """
         with self._lock:
             for data in data_points:
-                point = (datetime.utcnow(), data)
+                point = (datetime.now(UTC).replace(tzinfo=None), data)
                 self._telemetry_points.append(point)
             self._cleanup_old_points()
 
@@ -131,7 +131,7 @@ class TelemetryCollector:
             List of telemetry points
 
         Example:
-            >>> points = collector.get_points_since(datetime.utcnow())
+            >>> points = collector.get_points_since(datetime.now(UTC).replace(tzinfo=None))
         """
         with self._lock:
             return [
@@ -175,7 +175,7 @@ class TelemetryCollector:
         Example:
             >>> collector._cleanup_old_points()
         """
-        cutoff = datetime.utcnow().timestamp() - self._retention
+        cutoff = datetime.now(UTC).replace(tzinfo=None).timestamp() - self._retention
         self._telemetry_points = [
             point for point in self._telemetry_points
             if point[0].timestamp() >= cutoff

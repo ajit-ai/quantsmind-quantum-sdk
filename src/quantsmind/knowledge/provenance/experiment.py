@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ProvenanceError
@@ -189,7 +189,7 @@ class Experiment:
         Example:
             >>> experiment.start()
         """
-        self._start_time = datetime.utcnow()
+        self._start_time = datetime.now(UTC).replace(tzinfo=None)
 
     def end(self) -> None:
         """End the experiment.
@@ -197,7 +197,7 @@ class Experiment:
         Example:
             >>> experiment.end()
         """
-        self._end_time = datetime.utcnow()
+        self._end_time = datetime.now(UTC).replace(tzinfo=None)
 
     def set_parameter(self, key: str, value: Any) -> None:
         """Set an experiment parameter.

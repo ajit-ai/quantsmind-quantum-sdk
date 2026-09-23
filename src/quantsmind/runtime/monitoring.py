@@ -29,7 +29,7 @@ from __future__ import annotations
 import logging
 import threading
 from collections.abc import Callable
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ class HealthCheck:
         try:
             result = self._check_func()
             self._last_result = result
-            self._last_check = datetime.utcnow()
+            self._last_check = datetime.now(UTC).replace(tzinfo=None)
             return result
         except Exception as e:
             logger.error(f"Health check failed: {self._name}", exc_info=True)
@@ -255,7 +255,7 @@ class MonitoringService:
                 "level": level,
                 "message": message,
                 "metadata": metadata or {},
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(UTC).replace(tzinfo=None).isoformat(),
             })
         logger.warning(f"Alert created: {level} - {message}")
 

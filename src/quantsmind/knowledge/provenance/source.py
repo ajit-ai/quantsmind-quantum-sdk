@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ProvenanceError
@@ -76,7 +76,7 @@ class Source:
         self._id = source_id
         self._source_type = source_type
         self._location = location
-        self._accessed_at = datetime.utcnow()
+        self._accessed_at = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property
@@ -145,7 +145,7 @@ class Source:
         Example:
             >>> source.update_access_time()
         """
-        self._accessed_at = datetime.utcnow()
+        self._accessed_at = datetime.now(UTC).replace(tzinfo=None)
 
     def add_metadata(self, key: str, value: Any) -> None:
         """Add metadata to the source.

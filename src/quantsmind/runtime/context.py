@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -67,10 +67,10 @@ class ExecutionContext:
         self._data: dict[str, Any] = {}
         self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(UTC).replace(tzinfo=None).isoformat(),
         }
-        self._created_at = datetime.utcnow()
-        self._updated_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
         logger.debug(f"Created execution context: {self._session_id}")
 
     @property
@@ -144,7 +144,7 @@ class ExecutionContext:
             >>> context.set("user_id", "user_123")
         """
         self._data[key] = value
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
         logger.debug(f"Set context value: {key}")
 
     def get(self, key: str, default: Any = None) -> Any:
@@ -188,7 +188,7 @@ class ExecutionContext:
         """
         if key in self._data:
             del self._data[key]
-            self._updated_at = datetime.utcnow()
+            self._updated_at = datetime.now(UTC).replace(tzinfo=None)
             logger.debug(f"Deleted context value: {key}")
 
     def clear(self) -> None:
@@ -198,7 +198,7 @@ class ExecutionContext:
             >>> context.clear()
         """
         self._data.clear()
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
         logger.debug("Cleared context data")
 
     def update(self, data: dict[str, Any]) -> None:
@@ -211,7 +211,7 @@ class ExecutionContext:
             >>> context.update({"user_id": "user_123", "role": "admin"})
         """
         self._data.update(data)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
         logger.debug(f"Updated context with {len(data)} keys")
 
     def to_dict(self) -> dict[str, Any]:

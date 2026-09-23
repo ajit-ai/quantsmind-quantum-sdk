@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import QualityError
@@ -183,7 +183,7 @@ class Freshness:
             return (False, errors)
 
         # Check age
-        age = (datetime.utcnow() - timestamp).total_seconds()
+        age = (datetime.now(UTC).replace(tzinfo=None) - timestamp).total_seconds()
         if age > self._max_age:
             errors.append(f"Data is too old: {age} seconds (max: {self._max_age})")
 
@@ -214,7 +214,7 @@ class Freshness:
             else:
                 return None
 
-            return (datetime.utcnow() - timestamp).total_seconds()
+            return (datetime.now(UTC).replace(tzinfo=None) - timestamp).total_seconds()
         except Exception:
             return None
 

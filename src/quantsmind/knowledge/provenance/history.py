@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ProvenanceError
@@ -80,7 +80,7 @@ class HistoryEntry:
             raise ProvenanceError("Actor cannot be empty", {"actor": actor})
 
         self._id = entry_id
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._action = action
         self._actor = actor
         self._changes = changes or {}

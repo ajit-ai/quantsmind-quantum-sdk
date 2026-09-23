@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -76,7 +76,7 @@ class Event:
         self._event_id = event_id or str(uuid.uuid4())
         self._event_type = event_type
         self._payload = payload or {}
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata: dict[str, Any] = {
             "runtime_version": RUNTIME_VERSION,
         }

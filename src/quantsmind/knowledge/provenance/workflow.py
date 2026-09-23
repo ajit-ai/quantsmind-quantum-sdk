@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ProvenanceError
@@ -233,7 +233,7 @@ class Workflow:
         for step in self._steps:
             if step.get("step_id") == step_id:
                 step["status"] = "running"
-                step["start_time"] = datetime.utcnow()
+                step["start_time"] = datetime.now(UTC).replace(tzinfo=None)
                 break
 
     def complete_step(self, step_id: str, results: dict[str, Any] | None = None) -> None:
@@ -249,7 +249,7 @@ class Workflow:
         for step in self._steps:
             if step.get("step_id") == step_id:
                 step["status"] = "completed"
-                step["end_time"] = datetime.utcnow()
+                step["end_time"] = datetime.now(UTC).replace(tzinfo=None)
                 if results:
                     step["results"] = results
                 break
@@ -267,7 +267,7 @@ class Workflow:
         for step in self._steps:
             if step.get("step_id") == step_id:
                 step["status"] = "failed"
-                step["end_time"] = datetime.utcnow()
+                step["end_time"] = datetime.now(UTC).replace(tzinfo=None)
                 if error:
                     step["error"] = error
                 break
@@ -279,7 +279,7 @@ class Workflow:
             >>> workflow.start()
         """
         self._status = "running"
-        self._start_time = datetime.utcnow()
+        self._start_time = datetime.now(UTC).replace(tzinfo=None)
 
     def complete(self) -> None:
         """Complete the workflow.
@@ -288,7 +288,7 @@ class Workflow:
             >>> workflow.complete()
         """
         self._status = "completed"
-        self._end_time = datetime.utcnow()
+        self._end_time = datetime.now(UTC).replace(tzinfo=None)
 
     def fail(self, error: str | None = None) -> None:
         """Fail the workflow.
@@ -300,7 +300,7 @@ class Workflow:
             >>> workflow.fail("Step failed")
         """
         self._status = "failed"
-        self._end_time = datetime.utcnow()
+        self._end_time = datetime.now(UTC).replace(tzinfo=None)
         if error:
             self._metadata["error"] = error
 

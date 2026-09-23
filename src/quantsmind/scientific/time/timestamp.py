@@ -43,7 +43,7 @@ class Timestamp(ITime):
         _metadata: Timestamp metadata
 
     Example:
-        >>> ts = Timestamp(datetime.utcnow())
+        >>> ts = Timestamp(datetime.now(UTC).replace(tzinfo=None))
         >>> ts.value()
     """
 
@@ -61,7 +61,7 @@ class Timestamp(ITime):
             metadata: Timestamp metadata
 
         Example:
-            >>> ts = Timestamp(datetime.utcnow())
+            >>> ts = Timestamp(datetime.now(UTC).replace(tzinfo=None))
         """
         self._value = value
         self._timezone = tz or UTC

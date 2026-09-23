@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.enums import MetadataType
@@ -70,8 +70,8 @@ class KnowledgeMetadata(IMetadata):
         """
         self._data: MetadataDict = data or {}
         self._metadata_type = metadata_type
-        self._created_at = datetime.utcnow()
-        self._updated_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     @property
     def metadata_type(self) -> MetadataType:
@@ -135,7 +135,7 @@ class KnowledgeMetadata(IMetadata):
             >>> metadata.set("key", "value")
         """
         self._data[key] = value
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def update(self, data: MetadataDict) -> None:
         """Update metadata.
@@ -147,7 +147,7 @@ class KnowledgeMetadata(IMetadata):
             >>> metadata.update({"key": "value"})
         """
         self._data.update(data)
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def delete(self, key: MetadataKey) -> bool:
         """Delete a metadata value.
@@ -163,7 +163,7 @@ class KnowledgeMetadata(IMetadata):
         """
         if key in self._data:
             del self._data[key]
-            self._updated_at = datetime.utcnow()
+            self._updated_at = datetime.now(UTC).replace(tzinfo=None)
             return True
         return False
 
@@ -222,7 +222,7 @@ class KnowledgeMetadata(IMetadata):
             >>> metadata.clear()
         """
         self._data.clear()
-        self._updated_at = datetime.utcnow()
+        self._updated_at = datetime.now(UTC).replace(tzinfo=None)
 
     def merge(self, other: IMetadata) -> None:
         """Merge with another metadata.

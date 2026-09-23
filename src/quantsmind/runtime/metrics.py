@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from datetime import datetime
+from datetime import UTC, datetime
 
 from quantsmind.runtime.constants import DEFAULT_METRICS_RETENTION
 from quantsmind.runtime.types import MetricDict, MetricValue
@@ -221,7 +221,7 @@ class MetricsCollector:
         """
         if name not in self._metrics:
             self._metrics[name] = []
-        self._metrics[name].append((datetime.utcnow(), value))
+        self._metrics[name].append((datetime.now(UTC).replace(tzinfo=None), value))
         self._cleanup_old_metrics(name)
 
     def _cleanup_old_metrics(self, name: str) -> None:
@@ -230,7 +230,7 @@ class MetricsCollector:
         Args:
             name: Metric name
         """
-        cutoff = datetime.utcnow().timestamp() - self._retention
+        cutoff = datetime.now(UTC).replace(tzinfo=None).timestamp() - self._retention
         self._metrics[name] = [
             point for point in self._metrics[name]
             if point[0].timestamp() >= cutoff

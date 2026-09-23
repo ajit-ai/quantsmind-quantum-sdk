@@ -179,8 +179,9 @@ class ScientificDataset(Dataset):
             DatasetError: If observation is invalid
 
         Example:
-            >>> from datetime import datetime
-            >>> dataset.add_observation({"timestamp": datetime.utcnow(), "data": {"value": 42}})
+            >>> from datetime import UTC, datetime
+            >>> ts = datetime.now(UTC).replace(tzinfo=None)
+            >>> dataset.add_observation({"timestamp": ts, "data": {"value": 42}})
         """
         if not isinstance(observation, dict):
             raise DatasetError("Observation must be a dictionary", {"observation": observation})
