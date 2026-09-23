@@ -5,13 +5,13 @@ from __future__ import annotations
 import importlib
 import pkgutil
 
-import quantsmind
+import pytest
 
+import quantsmind
 
 TOP_LEVEL_PACKAGES = [
     "quantsmind.ai_reasoning",
     "quantsmind.algebra",
-    "quantsmind.api",
     "quantsmind.calculus",
     "quantsmind.core",
     "quantsmind.finance",
@@ -33,6 +33,12 @@ TOP_LEVEL_PACKAGES = [
     "quantsmind.visualization",
 ]
 
+# Packages behind optional extras (e.g. quantsmind.api needs fastapi):
+# imported only when their third-party dependency is installed.
+OPTIONAL_PACKAGES = [
+    "quantsmind.api",
+]
+
 
 class TestPackageImports:
     def test_top_level_packages_import(self) -> None:
@@ -52,6 +58,15 @@ class TestPackageImports:
                 if ".foundational." in info.name:
                     continue
                 importlib.import_module(info.name)
+
+    def test_optional_packages_import_when_available(self) -> None:
+        for package in OPTIONAL_PACKAGES:
+            try:
+                module = importlib.import_module(package)
+            except ModuleNotFoundError:
+                pytest.skip(f"optional extra not installed for {package}")
+            for name in getattr(module, "__all__", []):
+                assert hasattr(module, name), f"{package}.__all__ lists missing {name!r}"
 
     def test_version_available(self) -> None:
         assert quantsmind.__version__
