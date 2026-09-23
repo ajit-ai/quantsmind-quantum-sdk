@@ -17,11 +17,7 @@ from quantsmind.quantum.data._validation import (
     check_unique_names,
 )
 from quantsmind.quantum.data.errors import DataValidationError
-from quantsmind.quantum.data.numerics import (
-    euclidean_distance,
-    squared_euclidean_distance,
-    weighted_squared_euclidean_distance,
-)
+from quantsmind.quantum.data.numerics import pairwise_distance_matrix
 
 if TYPE_CHECKING:
     from quantsmind.quantum.data.models import DataSet
@@ -191,19 +187,11 @@ def pairwise_relationship(
             )
         weight_vector = [used_weights.get(name, 0.0) for name in feature_names]
 
-    values: list[list[float]] = []
-    for left in matrix:
-        row: list[float] = []
-        for right in matrix:
-            if metric == "euclidean":
-                distance = euclidean_distance(left, right)
-            elif metric == "squared_euclidean":
-                distance = squared_euclidean_distance(left, right)
-            else:
-                assert weight_vector is not None
-                distance = weighted_squared_euclidean_distance(left, right, weight_vector)
-            row.append(distance if kind == "distance" else similarity_from_sigma(distance))
-        values.append(row)
+    distances = pairwise_distance_matrix(matrix, metric=metric, weights=weight_vector)
+    values: list[list[float]] = [
+        [distance if kind == "distance" else similarity_from_sigma(distance) for distance in row]
+        for row in distances
+    ]
     return DataRelationship(
         record_order=list(dataset.record_ids),
         kind=kind,
