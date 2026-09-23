@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import RUNTIME_VERSION
@@ -96,7 +96,7 @@ class Workflow:
         self._dependencies = dependencies or []
         self._execution_mode = execution_mode
         self._results: dict[JobID, ExecutionResult] = {}
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._started_at: datetime | None = None
         self._completed_at: datetime | None = None
         self._metadata: dict[str, Any] = {
@@ -299,7 +299,7 @@ class Workflow:
             raise WorkflowError(f"Cannot execute workflow in state: {self._state}", workflow_id=self._workflow_id)
 
         self._state = ExecutionState.RUNNING
-        self._started_at = datetime.utcnow()
+        self._started_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Executing workflow: {self._workflow_id}")
 
         try:
@@ -309,12 +309,12 @@ class Workflow:
                 self._execute_parallel()
 
             self._state = ExecutionState.COMPLETED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.info(f"Workflow completed: {self._workflow_id}")
             return self._results
         except Exception as e:
             self._state = ExecutionState.FAILED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.error(f"Workflow failed: {self._workflow_id}", exc_info=True)
             raise WorkflowError(f"Workflow execution failed: {str(e)}", workflow_id=self._workflow_id) from e
 
@@ -355,7 +355,7 @@ class Workflow:
             job.cancel()
         
         self._state = ExecutionState.CANCELLED
-        self._completed_at = datetime.utcnow()
+        self._completed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Cancelled workflow: {self._workflow_id}")
 
     def set_metadata(self, key: str, value: Any) -> None:

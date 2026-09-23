@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.enums import VersionType
@@ -93,7 +93,7 @@ class Version:
         self._version_number = version_number
         self._version_type = version_type
         self._data = data or {}
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._author = author
         self._description = description
         self._metadata = metadata or {}

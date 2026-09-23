@@ -25,7 +25,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.scientific.exceptions import TimeError
@@ -177,7 +177,7 @@ class Epoch(ITime):
             Time difference in seconds
 
         Example:
-            >>> delta = epoch.time_since(datetime.utcnow())
+            >>> delta = epoch.time_since(datetime.now(UTC).replace(tzinfo=None))
         """
         return (timestamp - self._reference_time).total_seconds()
 

@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ObservationError
@@ -84,7 +84,7 @@ class Observation:
             raise ObservationError("Target cannot be empty", {"target": target})
 
         self._id = observation_id
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._observer = observer
         self._target = target
         self._data = data or {}

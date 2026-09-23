@@ -31,7 +31,7 @@ from __future__ import annotations
 import logging
 import uuid
 from collections.abc import Callable
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.constants import (
@@ -123,7 +123,7 @@ class Task:
         self._dependencies = dependencies or []
         self._result: ExecutionResult | None = None
         self._error: Exception | None = None
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._started_at: datetime | None = None
         self._completed_at: datetime | None = None
         self._metadata: dict[str, Any] = {
@@ -284,19 +284,19 @@ class Task:
             raise TaskError(f"Cannot execute task in state: {self._state}", task_id=self._task_id)
 
         self._state = ExecutionState.RUNNING
-        self._started_at = datetime.utcnow()
+        self._started_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Executing task: {self._task_id}")
 
         try:
             self._result = self._func(*self._args, **self._kwargs)
             self._state = ExecutionState.COMPLETED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.info(f"Task completed: {self._task_id}")
             return self._result
         except Exception as e:
             self._error = e
             self._state = ExecutionState.FAILED
-            self._completed_at = datetime.utcnow()
+            self._completed_at = datetime.now(UTC).replace(tzinfo=None)
             logger.error(f"Task failed: {self._task_id}", exc_info=True)
             raise TaskError(f"Task execution failed: {str(e)}", task_id=self._task_id) from e
 
@@ -309,7 +309,7 @@ class Task:
         if self._state not in [ExecutionState.CREATED, ExecutionState.QUEUED, ExecutionState.RUNNING]:
             logger.warning(f"Cancelling task in state: {self._state}")
         self._state = ExecutionState.CANCELLED
-        self._completed_at = datetime.utcnow()
+        self._completed_at = datetime.now(UTC).replace(tzinfo=None)
         logger.info(f"Cancelled task: {self._task_id}")
 
     def set_metadata(self, key: str, value: Any) -> None:

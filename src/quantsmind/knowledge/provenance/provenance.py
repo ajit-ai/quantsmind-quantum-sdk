@@ -26,7 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.enums import ProvenanceType
@@ -76,7 +76,7 @@ class Provenance(IProvenance):
         self._provenance_type = provenance_type
         self._source: dict[str, Any] | None = None
         self._creator: dict[str, Any] | None = None
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ObservationError
@@ -76,7 +76,7 @@ class ObservationRecord:
 
         self._id = record_id
         self._observation_id = observation_id
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._data = data or {}
         self._status = "pending"
         self._metadata = metadata or {}

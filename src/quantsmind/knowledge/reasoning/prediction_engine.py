@@ -26,6 +26,7 @@ quantsmind.knowledge.types (knowledge types)
 from __future__ import annotations
 
 from collections.abc import Callable
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.enums import ReasoningType
@@ -240,7 +241,7 @@ class PredictionEngine(IReasoner):
             "prediction": "predicted_value",
             "confidence": 0.85,
             "model_used": "default",
-            "timestamp": str(__import__("datetime").datetime.utcnow()),
+            "timestamp": str(datetime.now(UTC).replace(tzinfo=None)),
         }
         self._record_prediction(query, prediction)
         return prediction
@@ -284,7 +285,7 @@ class PredictionEngine(IReasoner):
         self._predictions.append({
             "query": query,
             "prediction": prediction,
-            "timestamp": str(__import__("datetime").datetime.utcnow()),
+            "timestamp": str(datetime.now(UTC).replace(tzinfo=None)),
         })
 
     def get_prediction_history(self) -> list[dict[str, Any]]:

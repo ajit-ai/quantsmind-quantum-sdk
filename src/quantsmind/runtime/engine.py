@@ -35,7 +35,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.dispatcher import Dispatcher
@@ -215,7 +215,7 @@ class ExecutionEngine:
                 "name": task.name,
                 "state": task.state.value,
                 "result": result,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(UTC).replace(tzinfo=None).isoformat(),
             })
 
     def get_execution_history(self, limit: int = 100) -> list[dict[str, Any]]:

@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import MetadataError
@@ -73,7 +73,7 @@ class Tag:
         self._name = name
         self._value = value
         self._category = category
-        self._created_at = datetime.utcnow()
+        self._created_at = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

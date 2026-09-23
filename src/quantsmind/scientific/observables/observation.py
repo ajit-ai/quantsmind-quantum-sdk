@@ -24,7 +24,7 @@ quantsmind.scientific.types (scientific types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.scientific.interfaces import IMeasurement
@@ -75,7 +75,7 @@ class Observation:
         self._observable_id = observable_id
         self._observer_id = observer_id
         self._measurement = measurement
-        self._timestamp = timestamp or datetime.utcnow()
+        self._timestamp = timestamp or datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

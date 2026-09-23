@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import ObservationError
@@ -176,7 +176,7 @@ class ObservationSession:
         Example:
             >>> session.start()
         """
-        self._start_time = datetime.utcnow()
+        self._start_time = datetime.now(UTC).replace(tzinfo=None)
 
     def end(self) -> None:
         """End the observation session.
@@ -184,7 +184,7 @@ class ObservationSession:
         Example:
             >>> session.end()
         """
-        self._end_time = datetime.utcnow()
+        self._end_time = datetime.now(UTC).replace(tzinfo=None)
 
     def add_observation(self, observation_id: str) -> None:
         """Add an observation to the session.

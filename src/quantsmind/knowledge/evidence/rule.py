@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import EvidenceError
@@ -98,7 +98,7 @@ class Rule:
         self._consequences = consequences
         self._priority = priority
         self._evidence: list[str] = []
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

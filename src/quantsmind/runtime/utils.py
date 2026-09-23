@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.runtime.types import SessionID, TaskID
@@ -84,7 +84,7 @@ def format_timestamp(timestamp: datetime) -> str:
         Formatted timestamp string
 
     Example:
-        >>> formatted = format_timestamp(datetime.utcnow())
+        >>> formatted = format_timestamp(datetime.now(UTC).replace(tzinfo=None))
     """
     return timestamp.isoformat()
 

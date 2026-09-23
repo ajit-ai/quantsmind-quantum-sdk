@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.exceptions import LineageError
@@ -83,7 +83,7 @@ class LineageNode:
         self._node_type = node_type
         self._entity_id = entity_id
         self._transformation = transformation
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

@@ -25,7 +25,7 @@ quantsmind.knowledge.types (knowledge types)
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from quantsmind.knowledge.types import Annotation
@@ -66,10 +66,10 @@ class Annotation:
         Example:
             >>> annotation = Annotation("This is a note", "user_001")
         """
-        self._id = annotation_id or f"annotation_{datetime.utcnow().timestamp()}"
+        self._id = annotation_id or f"annotation_{datetime.now(UTC).replace(tzinfo=None).timestamp()}"
         self._text = text
         self._annotator = annotator
-        self._timestamp = datetime.utcnow()
+        self._timestamp = datetime.now(UTC).replace(tzinfo=None)
         self._metadata = metadata or {}
 
     @property

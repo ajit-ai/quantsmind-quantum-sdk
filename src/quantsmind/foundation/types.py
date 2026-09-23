@@ -82,6 +82,14 @@ ObserverFunc = Callable[["Event"], None]
 ConstraintRule = str | Callable[[dict[str, Any]], bool]
 
 # Result Types
+#
+# NOTE (type-unification policy): the canonical domain vocabulary lives in
+# quantsmind.foundation.enums (Enum classes). The Literal aliases below exist
+# for wire/serialization payloads (e.g. ConstraintResult carries the severity
+# as a plain "error" | "warning" | "info" string). Concrete classes MUST use
+# the Enum internally and map to the Literal at the serialization boundary
+# (see Constraint.evaluate). Do NOT import the Literal aliases below when an
+# Enum of the same name exists in enums.py.
 ValidationResult = tuple[bool, list[str]]
 ComparisonResult = tuple[bool, float, dict[str, Any]]
 InteractionResult = tuple[bool, dict[EntityID, "State"], list[str]]
