@@ -60,6 +60,11 @@ nav:
       - Package Dependency Rules: package-dependency-rules.md
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
+      - Physics Foundations: physics.md
+      - Chemistry Foundations: chemistry.md
+      - Biology Foundations: biology.md
+      - Astronomy Foundations: astronomy.md
+      - Cosmology Foundations: cosmology.md
       - API Design Principles: api-design-principles.md
       - Documentation Standards: documentation-standards.md
       - Known Limitations: known-limitations.md

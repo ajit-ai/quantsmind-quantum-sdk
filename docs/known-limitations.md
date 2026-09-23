@@ -17,10 +17,11 @@ item is headed and `CHANGELOG.md` for what already changed.
 ## Package maturity
 
 - Only `quantum` has a frozen public API (`api_manifest.json`). The
-  `physics`, `chemistry`, `biology`, `astronomy`, `cosmology`,
-  `finance` (top level), `ai`, `compiler`, `providers`, `simulation`,
-  `visualization`, `datasets`, and `plugins` packages are contracts or
-  skeletons with varying completeness.
+  `physics`, `chemistry`, `biology`, `astronomy`, and `cosmology`
+  packages now ship small tested foundations (mechanics, elements,
+  sequences, sky calculations, expansion); the `finance` (top level),
+  `ai`, `compiler`, `datasets`, and `plugins` packages remain contracts
+  or skeletons with varying completeness.
 - `knowledge` imports cleanly and its value objects are unit-tested, but
   deeper engine behaviors (reasoning, search, provenance flows) have no
   test coverage yet.
