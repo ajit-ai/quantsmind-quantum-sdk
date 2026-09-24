@@ -1,9 +1,40 @@
-"""
-Biology Package — Defines the domain model for biological systems (molecules to populations),
-building on chemistry for molecular-scale interactions.
+"""Biology Package — Defines the biological systems domain model.
 
 This package is part of the QuantsMind SDK (R0.1.0).
-Architecture-only: no implementations, only public interface surface.
+Foundational sequence implementation (Phase 11): DNA/RNA validation,
+complement, transcription, translation, and GC statistics.
 """
 
-__all__: list[str] = []
+from __future__ import annotations
+
+from quantsmind.biology.sequences import (
+    CODON_TABLE,
+    DNA_ALPHABET,
+    RNA_ALPHABET,
+    complement,
+    gc_content,
+    hamming_distance,
+    point_mutation,
+    reverse_complement,
+    transcribe,
+    translate_dna,
+    translate_rna,
+    validate_dna,
+    validate_rna,
+)
+
+__all__: list[str] = [
+    "CODON_TABLE",
+    "DNA_ALPHABET",
+    "RNA_ALPHABET",
+    "complement",
+    "gc_content",
+    "hamming_distance",
+    "point_mutation",
+    "reverse_complement",
+    "transcribe",
+    "translate_dna",
+    "translate_rna",
+    "validate_dna",
+    "validate_rna",
+]

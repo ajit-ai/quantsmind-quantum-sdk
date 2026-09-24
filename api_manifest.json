@@ -908,5 +908,5 @@
   },
   "package": "quantsmind",
   "scope": "public modules of quantsmind.quantum and its subpackages",
-  "version": "1.0.1"
+  "version": "1.1.0"
 }

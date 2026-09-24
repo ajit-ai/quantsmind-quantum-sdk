@@ -64,7 +64,7 @@ class SimulationEngine:
             >>> engine = SimulationEngine()
         """
         self._name = name
-        self._simulators: dict[str, Callable] = {}
+        self._simulators: dict[str, Callable[..., Any]] = {}
         self._simulation_history: list[dict[str, Any]] = []
         self._metadata = metadata or {}
 
@@ -83,7 +83,7 @@ class SimulationEngine:
     def register_simulator(
         self,
         simulator_name: str,
-        simulator: Callable,
+        simulator: Callable[..., Any],
     ) -> None:
         """Register a simulator.
 
@@ -547,7 +547,7 @@ class Experiment:
             return [{}]
 
         # Generate Cartesian product of parameter values
-        combinations = [{}]
+        combinations: list[dict[str, Any]] = [{}]
 
         for param, values in self._parameter_sweeps.items():
             new_combinations = []

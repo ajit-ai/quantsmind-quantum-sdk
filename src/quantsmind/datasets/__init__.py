@@ -1,9 +1,17 @@
-"""
-Datasets Package — Defines contracts for discovering, loading, and versioning scientific
-datasets used across domains.
+"""Datasets Package — Defines dataset discovery/loading contracts.
 
 This package is part of the QuantsMind SDK (R0.1.0).
-Architecture-only: no implementations, only public interface surface.
+Foundational implementation (Phase 11): schema-validated in-memory
+datasets with deterministic split/batch/transform and statistics.
 """
 
-__all__: list[str] = []
+from __future__ import annotations
+
+from quantsmind.datasets.dataset import Dataset, Schema, SchemaError, describe_numeric
+
+__all__: list[str] = [
+    "Dataset",
+    "Schema",
+    "SchemaError",
+    "describe_numeric",
+]

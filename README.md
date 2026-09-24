@@ -3,7 +3,7 @@
 **A Universal Scientific Computing SDK — hardware-independent,
 vendor-independent, and built to evolve for decades.**
 
-[![Version](https://img.shields.io/badge/version-1.0.1-blue)]()
+[![Version](https://img.shields.io/badge/version-1.1.0-blue)]()
 [![Python](https://img.shields.io/badge/python-3.13%2B-blue)]()
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)]()
 [![Status](https://img.shields.io/badge/status-stable-green)]()
@@ -25,9 +25,9 @@ finance, and simulation — all built on one first-principle model:
 Every package in this SDK — from `quantum` to `finance` to `biology` —
 specializes this same ontology instead of reinventing its own.
 
-## Release: QuantsMind Quantum 1.0.1 — Stable
+## Release: QuantsMind Quantum 1.1.0 — Stable
 
-The current stable release is **QuantsMind Quantum 1.0.1**: a domain-oriented
+The current stable release is **QuantsMind Quantum 1.1.0**: a domain-oriented
 quantum intelligence SDK that transforms supported real-world optimization
 problems (finance / portfolio, data, ML) into mathematical computational
 workflows and executes them through **classical, quantum, or hybrid**

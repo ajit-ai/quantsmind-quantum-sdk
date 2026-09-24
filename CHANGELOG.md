@@ -5,6 +5,43 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-09-24
+
+### Added
+- Core expression foundations: variables, parameters, expressions,
+  formulas, equations, and a parsing/evaluating engine, with tests and
+  a runnable example.
+- Mathematics: linear-algebra, polynomial, optimizer, and loss-function
+  tests plus runnable math/calculus/statistics/optimization examples.
+- Scientific/domain foundations: classical mechanics, element and
+  composition chemistry, DNA/RNA sequences, sky calculations, and
+  cosmological expansion — each tested, exemplified, and documented.
+- AI abstractions: provider-independent messages, model-backend
+  interface, conversation memory, tools, evaluation metrics,
+  structured-output helpers, and an agent loop (no model weights).
+- Reasoning/knowledge: agent tests, knowledge-graph traversal tests,
+  and a fixed `KnowledgeGraph.remove_node` dict-mutation crash.
+- Datasets and IO: schema-validated datasets and stdlib JSON/CSV/stream
+  interchange with SDK-object boundaries.
+- Simulation/API: engine tests, request-model tests, example-execution
+  harness, and provider registry demo.
+- Compiler: expression lexer/parser/AST/folding/evaluation front-end.
+- Infrastructure: layered config, contextual logging, plugin registry,
+  stdlib security primitives, and local-first telemetry.
+- Finance: time-value/cash-flow/bond mathematics re-exported publicly.
+- Examples: 23 runnable domain and cross-domain examples, all covered
+  by an example-execution test suite.
+- Documentation: domain guide pages, an honest roadmap, known
+  limitations, and a consolidated walkthrough notebook.
+
+### Fixed
+- `KnowledgeGraph.remove_node` dictionary-mutation crash.
+- `api` extra now declares `fastapi`, matching the endpoint imports.
+
+### Notes
+- No new third-party dependencies. The quantum public API
+  (`api_manifest.json`: 117 modules, 669 symbols) is unchanged.
+
 ## [1.0.1] - 2026-09-23
 
 ### Fixed

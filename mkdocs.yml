@@ -58,8 +58,24 @@ nav:
       - Versioning Policy: versioning-policy.md
       - Release Strategy: release-strategy.md
       - Package Dependency Rules: package-dependency-rules.md
+      - Core Primitives: core.md
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
+      - Mathematics Foundations: mathematics.md
+      - Finance Foundations: finance.md
+      - Infrastructure Foundations: infrastructure.md
+      - Compiler Foundations: compiler.md
+      - Simulation Foundations: simulation.md
+      - API Foundations: api.md
+      - Datasets Foundations: datasets.md
+      - IO Foundations: io.md
+      - AI Foundations: ai.md
+      - Knowledge Foundations: knowledge.md
+      - Physics Foundations: physics.md
+      - Chemistry Foundations: chemistry.md
+      - Biology Foundations: biology.md
+      - Astronomy Foundations: astronomy.md
+      - Cosmology Foundations: cosmology.md
       - API Design Principles: api-design-principles.md
       - Documentation Standards: documentation-standards.md
       - Known Limitations: known-limitations.md

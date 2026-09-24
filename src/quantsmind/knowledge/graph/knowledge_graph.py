@@ -229,8 +229,10 @@ class KnowledgeGraph(IGraph):
             if node_id in self._adjacency:
                 del self._adjacency[node_id]
             # Remove from other nodes' adjacency lists
-            for adj_list in self._adjacency.values():
-                self._adjacency[node_id] = [(t, d) for t, d in adj_list if t != node_id]
+            for other_id in list(self._adjacency):
+                self._adjacency[other_id] = [
+                    (t, d) for t, d in self._adjacency[other_id] if t != node_id
+                ]
             return True
         return False
 

@@ -1247,10 +1247,10 @@ integration over MicroQuantum, not as a parallel engine.
 
 ## Status
 
-**QuantsMind Quantum 1.0.1 — Stable** (patch: foundation correctness and
-deprecation fixes; public API unchanged since 1.0.0).
+**QuantsMind Quantum 1.1.0 — Stable** (minor: OSS program additions across
+the SDK; quantum public API unchanged since 1.0.0).
 
-QuantsMind Quantum 1.0.1 is a stable, domain-oriented quantum intelligence
+QuantsMind Quantum 1.1.0 is a stable, domain-oriented quantum intelligence
 SDK. It transforms supported real-world optimization problems into
 mathematical computational workflows and executes them through **classical,
 quantum, or hybrid** strategies, with benchmarking, interpretation, and
