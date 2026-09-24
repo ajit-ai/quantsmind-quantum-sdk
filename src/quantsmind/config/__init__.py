@@ -1,9 +1,15 @@
-"""
-Configuration Package — Defines contracts for loading, validating, and resolving SDK and
-application configuration from multiple sources.
+"""Config Package — Defines configuration loading/resolution contracts.
 
 This package is part of the QuantsMind SDK (R0.1.0).
-Architecture-only: no implementations, only public interface surface.
+Foundational implementation (Phase 11): layered defaults/environment/
+overrides configuration with schema casting and validation.
 """
 
-__all__: list[str] = []
+from __future__ import annotations
+
+from quantsmind.config.config import Config, ConfigError
+
+__all__: list[str] = [
+    "Config",
+    "ConfigError",
+]
