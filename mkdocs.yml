@@ -62,6 +62,7 @@ nav:
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
       - Mathematics Foundations: mathematics.md
+      - Compiler Foundations: compiler.md
       - Simulation Foundations: simulation.md
       - API Foundations: api.md
       - Datasets Foundations: datasets.md
