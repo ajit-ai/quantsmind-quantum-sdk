@@ -62,6 +62,7 @@ nav:
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
       - Mathematics Foundations: mathematics.md
+      - Finance Foundations: finance.md
       - Infrastructure Foundations: infrastructure.md
       - Compiler Foundations: compiler.md
       - Simulation Foundations: simulation.md
