@@ -1,6 +1,6 @@
 """QMQ-12 release-hardening regression tests (release properties only).
 
-These tests verify release properties of QuantsMind Quantum 1.0.1:
+These tests verify release properties of QuantsMind Quantum 1.1.0:
 
 - single authoritative version (``quantsmind.__version__`` == pyproject ``version``)
 - package metadata (classifier, declared dependencies)
@@ -53,12 +53,12 @@ def _load_generator() -> object:
 
 
 class TestVersionAndMetadata:
-    def test_version_is_101_everywhere(self) -> None:
+    def test_version_is_110_everywhere(self) -> None:
         import quantsmind
 
         pyproject = _load_pyproject()
-        assert pyproject["project"]["version"] == "1.0.1"
-        assert quantsmind.__version__ == "1.0.1"
+        assert pyproject["project"]["version"] == "1.1.0"
+        assert quantsmind.__version__ == "1.1.0"
         assert quantsmind.__version__ == pyproject["project"]["version"]
 
     def test_production_classifier(self) -> None:
@@ -96,7 +96,7 @@ class TestPublicExports:
 class TestApiManifest:
     def test_manifest_is_valid_json(self) -> None:
         data = json.loads(_MANIFEST_PATH.read_text(encoding="utf-8"))
-        assert data["version"] == "1.0.1"
+        assert data["version"] == "1.1.0"
         assert data["package"] == "quantsmind"
         assert isinstance(data["modules"], dict)
         assert data["modules"]
@@ -105,7 +105,7 @@ class TestApiManifest:
         generator = _load_generator()
         committed = json.loads(_MANIFEST_PATH.read_text(encoding="utf-8"))
         recomputed = generator.build_manifest()
-        assert recomputed["version"] == "1.0.1"
+        assert recomputed["version"] == "1.1.0"
         assert recomputed["modules"] == committed["modules"], (
             "the committed API manifest (api_manifest.json) no longer matches "
             "the import surface; re-run scripts/generate_api_manifest.py"
@@ -232,7 +232,7 @@ class TestDocumentationLanguage:
         readme = (_REPO / "src" / "quantsmind" / "quantum" / "README.md").read_text(
             encoding="utf-8"
         )
-        assert "QuantsMind Quantum 1.0.1" in readme
+        assert "QuantsMind Quantum 1.1.0" in readme
         assert "Stable" in readme
         assert "Developer Preview" not in readme
         assert "Pre-Alpha" not in readme

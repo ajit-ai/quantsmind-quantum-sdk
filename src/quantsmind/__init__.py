@@ -5,7 +5,7 @@ A comprehensive mathematical intelligence SDK for scientific computing, optimiza
 statistics, machine learning mathematics, financial mathematics, quantum mathematics,
 AI-assisted reasoning, and simulation.
 
-Version: 1.0.1
+Version: 1.1.0
 
 This package uses lazy attribute access (PEP 562): no subpackage is imported until
 one of its public names is first accessed. This keeps ``import quantsmind`` fast
@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 if TYPE_CHECKING:  # pragma: no cover - static-analysis surface only
     from quantsmind.ai_reasoning import (

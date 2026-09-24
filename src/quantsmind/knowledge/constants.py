@@ -182,7 +182,7 @@ NETWORK_RETRY_BACKOFF_MULTIPLIER = 2
 # SDK / generic constants (short aliases used by the package surface)
 DEFAULT_TIMEOUT = 30
 MAX_BATCH_SIZE = 10000
-SDK_VERSION = "1.0.1"
+SDK_VERSION = "1.1.0"
 
 # Export
 __all__ = [
