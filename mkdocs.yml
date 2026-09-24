@@ -62,6 +62,8 @@ nav:
       - Runtime Guide: runtime-guide.md
       - Providers Guide: providers-guide.md
       - Mathematics Foundations: mathematics.md
+      - Datasets Foundations: datasets.md
+      - IO Foundations: io.md
       - AI Foundations: ai.md
       - Knowledge Foundations: knowledge.md
       - Physics Foundations: physics.md
